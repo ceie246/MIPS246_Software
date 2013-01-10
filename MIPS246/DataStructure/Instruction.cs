@@ -8,6 +8,6 @@ namespace MIPS246.Core.DataStructure
 {
     public class Instruction
     {
-
+        private Mnemonic mnemonic;
     }
 }
