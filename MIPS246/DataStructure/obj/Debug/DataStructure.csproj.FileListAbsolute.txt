@@ -1,0 +1,5 @@
+D:\project\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.csprojResolveAssemblyReference.cache
+D:\project\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.dll
+D:\project\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.pdb
+D:\project\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.dll
+D:\project\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.pdb

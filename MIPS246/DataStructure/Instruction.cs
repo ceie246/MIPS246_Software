@@ -56,6 +56,7 @@ namespace MIPS246.Core.DataStructure
             }
             else
             {
+                
                 return true;
             }
         }
@@ -95,24 +96,24 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.JR, InitBoolArray("00000000000000000000000000001000"));
             AssemblerTable.Add(Mnemonic.JALR, InitBoolArray("00000000000000001111100000001001"));
 
-            AssemblerTable.Add(Mnemonic.ADDI, InitBoolArray("001000"));
-            AssemblerTable.Add(Mnemonic.ADDIU, InitBoolArray("001001"));
-            AssemblerTable.Add(Mnemonic.ANDI, InitBoolArray("001100"));
-            AssemblerTable.Add(Mnemonic.ORI, InitBoolArray("001101"));
-            AssemblerTable.Add(Mnemonic.XORI, InitBoolArray("001110"));
-            AssemblerTable.Add(Mnemonic.LUI, InitBoolArray("00111100000"));
-            AssemblerTable.Add(Mnemonic.SLTI, InitBoolArray("001010"));
-            AssemblerTable.Add(Mnemonic.SLTIU, InitBoolArray("001011"));
-            AssemblerTable.Add(Mnemonic.LW, InitBoolArray("100011"));
-            AssemblerTable.Add(Mnemonic.SW, InitBoolArray("101011"));
-            AssemblerTable.Add(Mnemonic.LB, InitBoolArray("100000"));
-            AssemblerTable.Add(Mnemonic.LBU, InitBoolArray("100100"));
-            AssemblerTable.Add(Mnemonic.LH, InitBoolArray("100001"));
-            AssemblerTable.Add(Mnemonic.LHU, InitBoolArray("100101"));
-            AssemblerTable.Add(Mnemonic.SB, InitBoolArray("101000"));
-            AssemblerTable.Add(Mnemonic.SH, InitBoolArray("101001"));
-            AssemblerTable.Add(Mnemonic.BEQ, InitBoolArray("000100"));
-            AssemblerTable.Add(Mnemonic.BNE, InitBoolArray("000101"));
+            AssemblerTable.Add(Mnemonic.ADDI, InitBoolArray("00100000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.ADDIU, InitBoolArray("00100100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.ANDI, InitBoolArray("00110000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.ORI, InitBoolArray("00110100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.XORI, InitBoolArray("00111000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LUI, InitBoolArray("00111100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.SLTI, InitBoolArray("00101000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.SLTIU, InitBoolArray("00101100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LW, InitBoolArray("10001100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.SW, InitBoolArray("10101100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LB, InitBoolArray("10000000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LBU, InitBoolArray("10010000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LH, InitBoolArray("10000100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.LHU, InitBoolArray("10010100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.SB, InitBoolArray("10100000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.SH, InitBoolArray("10100100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.BEQ, InitBoolArray("00010000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.BNE, InitBoolArray("00010100000000000000000000000000"));
             AssemblerTable.Add(Mnemonic.BGEZ, InitBoolArray("0000010000000001"));
             AssemblerTable.Add(Mnemonic.BGEZAL, InitBoolArray("0000010000010001"));
             AssemblerTable.Add(Mnemonic.BGTZ, InitBoolArray("000111000000000"));
@@ -120,8 +121,8 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.BLTZ, InitBoolArray("0000010000000000"));
             AssemblerTable.Add(Mnemonic.BLTZAL, InitBoolArray("0000010000010000"));
 
-            AssemblerTable.Add(Mnemonic.J, InitBoolArray("000010"));
-            AssemblerTable.Add(Mnemonic.JAL, InitBoolArray("000011"));
+            AssemblerTable.Add(Mnemonic.J, InitBoolArray("00001000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.JAL, InitBoolArray("00001100000000000000000000000000"));
 
             //AssemblerTable.Add(Mnemonic.SUBI, InitBoolArray(""));
             //AssemblerTable.Add(Mnemonic.MOVE, InitBoolArray(""));
@@ -130,6 +131,210 @@ namespace MIPS246.Core.DataStructure
             //AssemblerTable.Add(Mnemonic.LA, InitBoolArray(""));
             //AssemblerTable.Add(Mnemonic.SYSCALL, InitBoolArray(""));
         }
+
+        private void ToMachineCode()
+        {
+            switch (this.mnemonic)
+            {
+                case Mnemonic.ADD:
+                    break;
+                case Mnemonic.ADDU:
+                    break;
+                case Mnemonic.SUB:
+                    break;
+                case Mnemonic.SUBU:
+                    break;
+                case Mnemonic.AND:
+                    break;
+                case Mnemonic.OR:
+                    break;
+                case Mnemonic.XOR:
+                    break;
+                case Mnemonic.NOR:
+                    break;
+                case Mnemonic.SLT:
+                    break;
+                case Mnemonic.SLTU:
+                    break;
+                case Mnemonic.SLL:
+                    break;
+                case Mnemonic.SRL:
+                    break;
+                case Mnemonic.SRA:
+                    break;
+                case Mnemonic.SLLV:
+                    break;
+                case Mnemonic.SRLV:
+                    break;
+                case Mnemonic.SRAV:
+                    break;
+                case Mnemonic.JR:
+                    break;
+                case Mnemonic.JALR:
+                    break;
+                case Mnemonic.ADDI:
+                    break;
+                case Mnemonic.ADDIU:
+                    break;
+                case Mnemonic.ANDI:
+                    break;
+                case Mnemonic.ORI:
+                    break;
+                case Mnemonic.XORI:
+                    break;
+                case Mnemonic.LUI:
+                    break;
+                case Mnemonic.SLTI:
+                    break;
+                case Mnemonic.SLTIU:
+                    break;
+                case Mnemonic.LW:
+                    break;
+                case Mnemonic.SW:
+                    break;
+                case Mnemonic.LB:
+                    break;
+                case Mnemonic.LBU:
+                    break;
+                case Mnemonic.LH:
+                    break;
+                case Mnemonic.LHU:
+                    break;
+                case Mnemonic.SB:
+                    break;
+                case Mnemonic.SH:
+                    break;
+                case Mnemonic.BEQ:
+                    break;
+                case Mnemonic.BNE:
+                    break;
+                case Mnemonic.BGEZ:
+                    break;
+                case Mnemonic.BGEZAL:
+                    break;
+                case Mnemonic.BGTZ:
+                    break;
+                case Mnemonic.BLEZ:
+                    break;
+                case Mnemonic.BLTZAL:
+                    break;
+                case Mnemonic.J:
+                    break;
+                case Mnemonic.JAL:
+                    break;
+                /*
+                case Mnemonic.SUBI:
+                    break;
+                case Mnemonic.MOVE:
+                    break;
+                 case Mnemonic.NOP:
+                    break;
+                 case Mnemonic.LI:
+                    break;
+                 case Mnemonic.LA:
+                    break;
+                 case Mnemonic.SYSCALL:
+                    break;
+                 */
+                default:
+                    return;
+
+            }
+        }
+
+        private static bool[] HEXtoBin16(string HexString)
+        {
+            bool[] BinArray = new bool[16];
+            for (int i = 0; i < 4; i++)
+            {
+                bool[] Bin4 = HextoBin(HexString[i]);
+                for (int j = 0; j < 4; j++)
+                {
+                    BinArray[i * 4 + j] = Bin4[j];
+                }
+            }
+            return BinArray;
+        }
+
+        private static bool[] HEXtoAddress(string HexString)
+        {
+            bool[] BinArray = new bool[32];
+            for (int i = 0; i < 8; i++)
+            {
+                bool[] Bin4 = HextoBin(HexString[i]);
+                for (int j = 0; j < 4; j++)
+                {
+                    BinArray[i * 4 + j] = Bin4[j];
+                }
+            }
+            return BinArray;
+        }
+
+        private static bool[] HextoBin(char c)
+        {
+            bool[] BinArray;
+             switch (c)
+             {
+                case '0':
+                    BinArray = new bool[4] { false, false, false, false };
+                    return BinArray;
+                case '1':
+                    BinArray = new bool[4] { false, false, false, true };
+                    return BinArray;
+                case '2':
+                     BinArray = new bool[4] { false, false, true, false };
+                     return BinArray;
+                case '3':
+                     BinArray = new bool[4] { false, false, true, true };
+                     return BinArray;
+                case '4':
+                     BinArray = new bool[4] { false, true, false, false };
+                     return BinArray;
+                case '5':
+                     BinArray = new bool[4] { false, true, false, true };
+                     return BinArray;
+                case '6':
+                     BinArray = new bool[4] { false, true, true, false };
+                     return BinArray;
+                case '7':
+                     BinArray = new bool[4] { false, true, true, true };
+                     return BinArray;
+                case '8':
+                     BinArray = new bool[4] { true, false, false, false };
+                     return BinArray;
+                case '9':
+                     BinArray = new bool[4] { true, false, false, true };
+                     return BinArray;
+                case 'A':
+                case 'a':
+                     BinArray = new bool[4] { true, false, true, false };
+                     return BinArray;
+                case 'B':
+                case 'b':
+                     BinArray = new bool[4] { true, false, true, true };
+                     return BinArray;
+                case 'C':
+                case 'c':
+                     BinArray = new bool[4] { true, true, false, false };
+                     return BinArray;
+                case 'D':
+                case 'd':
+                     BinArray = new bool[4] { true, true, false, true };
+                     return BinArray;
+                case 'E':
+                case 'e':
+                     BinArray = new bool[4] { true, true, true, false };
+                     return BinArray;
+                case 'F':
+                case 'f':
+                     BinArray = new bool[4] { true, true, true, true };
+                     return BinArray;
+                 default:
+                     BinArray = new bool[4] { true, true, true, true };
+                     return BinArray;
+             }
+        }
+
         #endregion
     }
 }
