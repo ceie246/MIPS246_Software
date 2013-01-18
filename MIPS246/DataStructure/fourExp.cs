@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assembler
+namespace MIPS246.Core.DataStructure
 {
-    enum quaternion_action
+    public enum quaternion_action
     {
         jmp,  //无条件跳转
         je,   //条件跳转：=
@@ -24,18 +24,18 @@ namespace Assembler
         or,   //或
         not  //非
     }
-    class fourExp
+    public class FourExp
     {
         #region public fields
         public static int id = 0;     //四元式的编号，静态变量
         #endregion
 
         #region private fields
-        private quaternion_action action = quaternion_action.jmp;
-        private string left = "";
-        private string right = "";
-        private int next = -1;
-        private string result = "";
+        public quaternion_action action = quaternion_action.jmp;
+        public string left = "";
+        public string right = "";
+        public int next = -1;
+        public string result = "";
         #endregion
 
         #region constructor
@@ -46,7 +46,7 @@ namespace Assembler
         /// <param name="l">left</param>
         /// <param name="r">right</param>
         /// <param name="n">next</param>
-        public fourExp(quaternion_action act, string l, string r, int n) //跳转
+        public FourExp(quaternion_action act, string l, string r, int n) //跳转
         {
             this.action = act;
             this.left = l;
@@ -61,7 +61,7 @@ namespace Assembler
         /// <param name="l">left value</param>
         /// <param name="r">right value</param>
         /// <param name="res">result</param>
-        public fourExp(quaternion_action act, string l, string r, string res) //赋值、取反、四则元算、逻辑运算
+        public FourExp(quaternion_action act, string l, string r, string res) //赋值、取反、四则元算、逻辑运算
         {
             if (act < quaternion_action.mov)
             {
