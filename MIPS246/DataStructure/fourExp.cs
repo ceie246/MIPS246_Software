@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MIPS246.Core.DataStructure
 {
-    public enum quaternion_action
+    enum quaternion_action
     {
         jmp,  //无条件跳转
         je,   //条件跳转：=
@@ -26,16 +26,13 @@ namespace MIPS246.Core.DataStructure
     }
     public class FourExp
     {
-        #region public fields
+        #region fields
         public static int id = 0;     //四元式的编号，静态变量
-        #endregion
-
-        #region private fields
-        public quaternion_action action = quaternion_action.jmp;
-        public string left = "";
-        public string right = "";
-        public int next = -1;
-        public string result = "";
+        private quaternion_action action = quaternion_action.jmp;
+        private string left = "";
+        private string right = "";
+        private int next = -1;
+        private string result = "";
         #endregion
 
         #region constructor
@@ -46,13 +43,12 @@ namespace MIPS246.Core.DataStructure
         /// <param name="l">left</param>
         /// <param name="r">right</param>
         /// <param name="n">next</param>
-        public FourExp(quaternion_action act, string l, string r, int n) //跳转
+        FourExp(quaternion_action act, string l, string r, int n) //跳转
         {
             this.action = act;
             this.left = l;
             this.right = r;
             this.next = n;
-            //this.id = analyze_condition.next_quaternion_line_no++;   //四元式编号
         }
         /// <summary>
         /// generate a quaternion
@@ -61,7 +57,7 @@ namespace MIPS246.Core.DataStructure
         /// <param name="l">left value</param>
         /// <param name="r">right value</param>
         /// <param name="res">result</param>
-        public FourExp(quaternion_action act, string l, string r, string res) //赋值、取反、四则元算、逻辑运算
+        FourExp(quaternion_action act, string l, string r, string res) //赋值、取反、四则元算、逻辑运算
         {
             if (act < quaternion_action.mov)
             {
@@ -71,7 +67,6 @@ namespace MIPS246.Core.DataStructure
             this.left = l;
             this.right = r;
             this.result = res;
-            //this.id = analyze_condition.next_quaternion_line_no++;   //四元式编号
         }
         #endregion
 

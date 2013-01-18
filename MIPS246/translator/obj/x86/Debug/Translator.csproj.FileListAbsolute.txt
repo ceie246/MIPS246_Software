@@ -1,5 +1,0 @@
-E:\MIPS\MIPS246\translator\bin\Debug\translator.exe
-E:\MIPS\MIPS246\translator\bin\Debug\translator.pdb
-E:\MIPS\MIPS246\translator\obj\x86\Debug\ResolveAssemblyReference.cache
-E:\MIPS\MIPS246\translator\obj\x86\Debug\translator.exe
-E:\MIPS\MIPS246\translator\obj\x86\Debug\translator.pdb
