@@ -1,0 +1,5 @@
+E:\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.exe
+E:\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.pdb
+E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.exe
+E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.pdb

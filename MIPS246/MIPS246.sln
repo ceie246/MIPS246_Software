@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.CLI", "Assembler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disassembler.CLI", "Disassembler.CLI\Disassembler.CLI.csproj", "{231B528A-4D90-44D2-8D72-D5B3A6589528}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translator", "translator\Translator.csproj", "{84834E5D-E7AF-462B-937B-580084908A08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,16 @@ Global
 		{231B528A-4D90-44D2-8D72-D5B3A6589528}.Release|Mixed Platforms.Build.0 = Release|x86
 		{231B528A-4D90-44D2-8D72-D5B3A6589528}.Release|x86.ActiveCfg = Release|x86
 		{231B528A-4D90-44D2-8D72-D5B3A6589528}.Release|x86.Build.0 = Release|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Debug|x86.ActiveCfg = Debug|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Debug|x86.Build.0 = Debug|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Release|Any CPU.ActiveCfg = Release|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Release|Mixed Platforms.Build.0 = Release|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Release|x86.ActiveCfg = Release|x86
+		{84834E5D-E7AF-462B-937B-580084908A08}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

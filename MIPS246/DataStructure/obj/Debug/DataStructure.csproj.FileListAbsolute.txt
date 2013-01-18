@@ -3,3 +3,8 @@ D:\project\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.dll
 D:\project\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.pdb
 D:\project\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.dll
 D:\project\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.pdb
+E:\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.dll
+E:\MIPS\MIPS246\DataStructure\bin\Debug\DataStructure.pdb
+E:\MIPS\MIPS246\DataStructure\obj\Debug\ResolveAssemblyReference.cache
+E:\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.dll
+E:\MIPS\MIPS246\DataStructure\obj\Debug\DataStructure.pdb
