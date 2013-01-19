@@ -114,12 +114,12 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.SH, InitBoolArray("10100100000000000000000000000000"));
             AssemblerTable.Add(Mnemonic.BEQ, InitBoolArray("00010000000000000000000000000000"));
             AssemblerTable.Add(Mnemonic.BNE, InitBoolArray("00010100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BGEZ, InitBoolArray("0000010000000001"));
-            AssemblerTable.Add(Mnemonic.BGEZAL, InitBoolArray("0000010000010001"));
-            AssemblerTable.Add(Mnemonic.BGTZ, InitBoolArray("000111000000000"));
-            AssemblerTable.Add(Mnemonic.BLEZ, InitBoolArray("0001100000000000"));
-            AssemblerTable.Add(Mnemonic.BLTZ, InitBoolArray("0000010000000000"));
-            AssemblerTable.Add(Mnemonic.BLTZAL, InitBoolArray("0000010000010000"));
+            AssemblerTable.Add(Mnemonic.BGEZ, InitBoolArray("00000100000000010000000000000000"));
+            AssemblerTable.Add(Mnemonic.BGEZAL, InitBoolArray("00000100000100010000000000000000"));
+            AssemblerTable.Add(Mnemonic.BGTZ, InitBoolArray("00011100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.BLEZ, InitBoolArray("00011000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.BLTZ, InitBoolArray("00000000000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.BLTZAL, InitBoolArray("00000100000100000000000000000000"));
 
             AssemblerTable.Add(Mnemonic.J, InitBoolArray("00001000000000000000000000000000"));
             AssemblerTable.Add(Mnemonic.JAL, InitBoolArray("00001100000000000000000000000000"));
