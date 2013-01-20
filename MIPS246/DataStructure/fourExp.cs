@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MIPS246.Core.DataStructure
 {
-    enum quaternion_action
+    public enum FourExpOperation
     {
         jmp,  //无条件跳转
         je,   //条件跳转：=
@@ -24,74 +24,64 @@ namespace MIPS246.Core.DataStructure
         or,   //或
         not  //非
     }
+
     public class FourExp
     {
         #region fields
-        public static int id = 0;     //四元式的编号，静态变量
-        private quaternion_action action = quaternion_action.jmp;
-        private string left = "";
-        private string right = "";
-        private int next = -1;
+        private FourExpOperation op = FourExpOperation.jmp;
+        private string arg1 = "";
+        private string arg2 = "";
+        private int nextFourExp = -1;
         private string result = "";
         #endregion
 
-        #region constructor
-        /// <summary>
-        /// generate a quaternion
-        /// </summary>
-        /// <param name="act">action</param>
-        /// <param name="l">left</param>
-        /// <param name="r">right</param>
-        /// <param name="n">next</param>
-        FourExp(quaternion_action act, string l, string r, int n) //跳转
+        #region Constructor
+        FourExp(FourExpOperation op, string arg1, string arg2, int nextFourExp) //跳转
         {
-            this.action = act;
-            this.left = l;
-            this.right = r;
-            this.next = n;
+            this.op = op;
+            this.arg1 = arg1;
+            this.arg2 = arg2;
+            this.nextFourExp = nextFourExp;
         }
-        /// <summary>
-        /// generate a quaternion
-        /// </summary>
-        /// <param name="act">action(should not be jump type)</param>
-        /// <param name="l">left value</param>
-        /// <param name="r">right value</param>
-        /// <param name="res">result</param>
-        FourExp(quaternion_action act, string l, string r, string res) //赋值、取反、四则元算、逻辑运算
+
+        FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算
         {
-            if (act < quaternion_action.mov)
+            if (op < FourExpOperation.mov)
             {
                 //错误处理
             }
-            this.action = act;
-            this.left = l;
-            this.right = r;
-            this.result = res;
+            else
+            {
+                this.op = op;
+                this.arg1 = arg1;
+                this.arg2 = arg2;
+                this.result = result;
+            }
         }
         #endregion
 
-        #region public method
+        #region Public Method
         public override string ToString()
         {
-            StringBuilder sb_result = new StringBuilder(id.ToString("D3")); //三位十进制数
-            //StringBuilder sb_result = new StringBuilder();
-            sb_result.Append(": (");
-            sb_result.Append(this.action.ToString("G"));
-            sb_result.Append(", ");
-            sb_result.Append(this.left);
-            sb_result.Append(", ");
-            sb_result.Append(this.right);
-            sb_result.Append(", ");
-            if (this.next != -1)
+            StringBuilder strTemp = new StringBuilder();
+            strTemp.Append("( ")
+                    .Append(this.op)
+                    .Append(", ")
+                    .Append(this.arg1)
+                    .Append(", ")
+                    .Append(this.arg2)
+                    .Append(", ");
+            if (this.nextFourExp == -1)
             {
-                sb_result.Append(this.next);
+                strTemp.Append(this.result)
+                    .Append(" )");
             }
             else
             {
-                sb_result.Append(this.result);
+                strTemp.Append(this.nextFourExp)
+                    .Append(" )");
             }
-            sb_result.Append(")");
-            return sb_result.ToString();
+            return strTemp.ToString();
         }
         #endregion
     }

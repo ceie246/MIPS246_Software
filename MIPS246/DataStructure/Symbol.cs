@@ -24,6 +24,7 @@ namespace DataStructure
     //变量的定义：变量名-变量类型-变量值-行号
     public class Symbol
     {
+        #region Fields
         private string symName;
 
         //变量名不能长于128
@@ -64,8 +65,9 @@ namespace DataStructure
             get { return symlineNo; }
             set { symlineNo = value; }
         }
+        #endregion
 
-
+        #region Contructor
         public Symbol(string symName, SymbolType symType, int symValue, int symlineNo)
         {
             this.symName = symName;
@@ -73,8 +75,10 @@ namespace DataStructure
             this.symValue = symValue;
             this.symlineNo = symlineNo; 
         }
+        #endregion
 
-        override public string ToString()
+        #region Public Method
+        public override string ToString()
         {
             StringBuilder strTemp = new StringBuilder();
             strTemp.Append("变量名称：");
@@ -90,5 +94,6 @@ namespace DataStructure
             strTemp.Append(this.symlineNo);
             return strTemp.ToString();
         }
+        #endregion
     }
 }

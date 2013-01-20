@@ -5,9 +5,7 @@ using System.Text;
 
 namespace Compiler
 {
-    public class GlobalVariable
+    class ErrorReporter
     {
-        public static int LineNo = 0;
-        public static int FourExpNo = 0;
     }
 }

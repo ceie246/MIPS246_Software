@@ -8,13 +8,18 @@ namespace DataStructure
 {
     class SymbolTable
     {
+        #region Fields
         private Hashtable symtable;
+        #endregion
 
+        #region Constructor
         public SymbolTable()
         {
             symtable = new Hashtable();
         }
+        #endregion
 
+        #region Public Method
         public bool IsContains(string name)
         {
             return symtable.ContainsKey(name);
@@ -51,7 +56,7 @@ namespace DataStructure
             return ((Symbol)symtable[name]).SymLineNo;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             StringBuilder strTemp = new StringBuilder();
             foreach (string name in symtable.Keys)
@@ -63,5 +68,6 @@ namespace DataStructure
             }
             return strTemp.ToString();
         }
+        #endregion
     }
 }
