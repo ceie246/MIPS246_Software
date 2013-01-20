@@ -1,4 +1,2 @@
-MIPS
-====
-
-It is the MIPS246 software repository of CEIE246.(https://github.com/ceie246/MIPS).
+#TJCompile for C language
+This is a C language compiler for MIPS I Instruction set. It is designed just for teaching purpose not for business purpose.
