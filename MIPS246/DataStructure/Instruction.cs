@@ -20,6 +20,7 @@ namespace MIPS246.Core.DataStructure
         private Mnemonic mnemonic;
         private bool[] machine_code;
         private string arg1, arg2, arg3;
+        private bool[] addr;
         private static Hashtable AssemblerTable;
         private static Hashtable DisassemblerTable;
         #endregion
@@ -30,12 +31,13 @@ namespace MIPS246.Core.DataStructure
             InitAssemblerTable();
         }
 
-        Instruction(Mnemonic mnemonic, string arg1, string arg2, string arg3)
+        Instruction(Mnemonic mnemonic, string arg1, string arg2, string arg3, string addr)
         {
             this.mnemonic = mnemonic;
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.arg3 = arg3;
+            this.addr = HEXtoAddress(addr);
         }
 
         Instruction(bool[] machine_code)
@@ -133,90 +135,152 @@ namespace MIPS246.Core.DataStructure
         }
 
         private void ToMachineCode()
-        {
+        {           
             switch (this.mnemonic)
             {
                 case Mnemonic.ADD:
-                    break;
                 case Mnemonic.ADDU:
-                    break;
                 case Mnemonic.SUB:
-                    break;
                 case Mnemonic.SUBU:
-                    break;
                 case Mnemonic.AND:
-                    break;
                 case Mnemonic.OR:
-                    break;
                 case Mnemonic.XOR:
-                    break;
                 case Mnemonic.NOR:
-                    break;
                 case Mnemonic.SLT:
-                    break;
-                case Mnemonic.SLTU:
+                case Mnemonic.SLTU:            
+                    bool[] rs = new bool[5];
+                    bool[] rt = RegtoBin(this.arg2);
+                    bool[] rd = RegtoBin(this.arg3);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 16] = rd[i];
+                    }
                     break;
                 case Mnemonic.SLL:
-                    break;
                 case Mnemonic.SRL:
-                    break;
                 case Mnemonic.SRA:
+                    rs = RegtoBin(this.arg1);
+                    rt = RegtoBin(this.arg2);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
                     break;
                 case Mnemonic.SLLV:
-                    break;
                 case Mnemonic.SRLV:
-                    break;
                 case Mnemonic.SRAV:
+                    rs = RegtoBin(this.arg1);
+                    rt = RegtoBin(this.arg2);
+                    rd = RegtoBin(this.arg3);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 16] = rd[i];
+                    }
                     break;
                 case Mnemonic.JR:
-                    break;
                 case Mnemonic.JALR:
+                    rs = RegtoBin(this.arg1);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
                     break;
                 case Mnemonic.ADDI:
-                    break;
                 case Mnemonic.ADDIU:
-                    break;
                 case Mnemonic.ANDI:
-                    break;
                 case Mnemonic.ORI:
-                    break;
                 case Mnemonic.XORI:
+                    rs = RegtoBin(this.arg1);
+                    rt = RegtoBin(this.arg2);
+                    bool[] immediate = HEXtoBin16(this.arg3);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        this.machine_code[i + 16] = immediate[i];
+                    }
                     break;
                 case Mnemonic.LUI:
+                    rt = RegtoBin(this.arg1);
+                    immediate = HEXtoBin16(this.arg2);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        this.machine_code[i + 16] = immediate[i];
+                    }
                     break;
                 case Mnemonic.SLTI:
-                    break;
                 case Mnemonic.SLTIU:
-                    break;
                 case Mnemonic.LW:
-                    break;
                 case Mnemonic.SW:
-                    break;
                 case Mnemonic.LB:
-                    break;
                 case Mnemonic.LBU:
-                    break;
                 case Mnemonic.LH:
-                    break;
                 case Mnemonic.LHU:
-                    break;
                 case Mnemonic.SB:
-                    break;
                 case Mnemonic.SH:
-                    break;
                 case Mnemonic.BEQ:
-                    break;
                 case Mnemonic.BNE:
+                    rs = RegtoBin(this.arg1);
+                    rt = RegtoBin(this.arg2);
+                    bool[] offset = HEXtoBin16(this.arg3);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 11] = rt[i];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        this.machine_code[i + 16] = offset[i];
+                    }
                     break;
                 case Mnemonic.BGEZ:
-                    break;
                 case Mnemonic.BGEZAL:
-                    break;
                 case Mnemonic.BGTZ:
-                    break;
                 case Mnemonic.BLEZ:
-                    break;
                 case Mnemonic.BLTZAL:
+                    rs = RegtoBin(this.arg1);
+                    offset = HEXtoBin16(this.arg2);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        this.machine_code[i + 6] = rs[i];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        this.machine_code[i + 16] = offset[i];
+                    }
                     break;
                 case Mnemonic.J:
                     break;
