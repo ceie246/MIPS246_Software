@@ -335,6 +335,111 @@ namespace MIPS246.Core.DataStructure
              }
         }
 
+        private static bool[] RegtoBin(string reg)
+        {
+            switch (reg)
+            {
+                case "$0":
+                case "$zero":
+                    return new bool[5] { false, false, false, false, false };
+                case "$1":
+                case "$at":
+                    return new bool[5] { false, false, false, false, true };
+                case "$2":
+                case "$v0":
+                    return new bool[5] { false, false, false, true, false };
+                case "$3":
+                case "$v1":
+                    return new bool[5] { false, false, false, true, true };
+                case "$4":
+                case "$a0":
+                    return new bool[5] { false, false, true, false, false };
+                case "$5":
+                case "$a1":
+                    return new bool[5] { false, false, true, false, true };
+                case "$6":
+                case "$a2":
+                    return new bool[5] { false, false, true, true, false };
+                case "$7":
+                case "$a3":
+                    return new bool[5] { false, false, true, true, true };
+                case "$8":
+                case "$t0":
+                    return new bool[5] { false, true, false, false, false };
+                case "$9":
+                case "$t1":
+                    return new bool[5] { false, true, false, false, true };
+                case "$10":
+                case "$t2":
+                    return new bool[5] { false, true, false, true, false };
+                case "$11":
+                case "$t3":
+                    return new bool[5] { false, true, false, true, true };
+                case "$12":
+                case "$t4":
+                    return new bool[5] { false, true, true, false, false };
+                case "$13":
+                case "$t5":
+                    return new bool[5] { false, true, true, false, true };
+                case "$14":
+                case "$t6":
+                    return new bool[5] { false, true, true, true, false };
+                case "$15":
+                case "$t7":
+                    return new bool[5] { false, true, true, true, true };
+                case "$16":
+                case "$s0":
+                    return new bool[5] { true, false, false, false, false };
+                case "$17":
+                case "$s1":
+                    return new bool[5] { true, false, false, false, true };
+                case "$18":
+                case "$s2":
+                    return new bool[5] { true, false, false, true, false };
+                case "$19":
+                case "$s3":
+                    return new bool[5] { true, false, false, true, true };
+                case "$20":
+                case "$s4":
+                    return new bool[5] { true, false, true, false, false };
+                case "$21":
+                case "$s5":
+                    return new bool[5] { true, false, true, false, true };
+                case "$22":
+                case "$s6":
+                    return new bool[5] { true, false, true, true, false };
+                case "$23":
+                case "$s7":
+                    return new bool[5] { true, false, true, true, true };
+                case "$24":
+                case "$t8":
+                    return new bool[5] { true, true, false, false, false };
+                case "$25":
+                case "$t9":
+                    return new bool[5] { true, true, false, false, true };
+                case "$26":
+                case "$k0":
+                    return new bool[5] { true, true, false, true, false };
+                case "$27":
+                case "$k1":
+                    return new bool[5] { true, true, false, true, true };
+                case "$28":
+                case "$gp":
+                    return new bool[5] { true, true, true, false, false };
+                case "$29":
+                case "$sp":
+                    return new bool[5] { true, true, true, false, true };
+                case "$30":
+                case "$fp":
+                    return new bool[5] { true, true, true, true, false };
+                case "$31":
+                case "$ra":
+                    return new bool[5] { true, true, true, true, true };
+                default:
+                    return new bool[5] { false, false, false, false, false };
+            }
+        }
+
         #endregion
     }
 }
