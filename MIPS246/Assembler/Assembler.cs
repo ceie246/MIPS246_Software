@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
+using System.IO;
 using MIPS246.Core.DataStructure;
+
 
 namespace MIPS246.Core.Assembler
 {
@@ -11,18 +14,22 @@ namespace MIPS246.Core.Assembler
     {
         #region Fields
         private List<Instruction> codelist;
-        private List<AssemblerError> errorlist;
+        private List<AssemblerErrorInfo> errorlist;
         private string sourcepath;
-        private bool Display;
-        private bool outputFile;
+        private uint address;
+        private uint line;
+        private Hashtable addresstable;        
         #endregion
 
         #region Constructors
-        Assembler(string sourcepath, bool Display, bool outputFile)
+        public Assembler(string sourcepath)
         {
             this.sourcepath = sourcepath;
-            this.Display = Display;
-            this.outputFile = outputFile;
+            codelist = new List<Instruction>();
+            errorlist = new List<AssemblerErrorInfo>();
+
+            address = 0;
+            line = 0;
         }
         #endregion
 
@@ -30,20 +37,19 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Public Methods
-        public void doAssemble()
+        public bool doAssemble()
         {
-
+            if (!File.Exists(sourcepath))
+            {
+                this.errorlist.Add(new AssemblerErrorInfo(0, AssemblerError.NOFILE));
+                return false;
+            }
+            return true;
         }
         #endregion
 
         #region Internal Methods
         #endregion
-
-
-    }
-
-    public class AssemblerError
-    {
 
     }
 }
