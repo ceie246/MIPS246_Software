@@ -1,0 +1,7 @@
+E:\project\MIPS\MIPS246\Assembler\bin\Debug\Assembler.dll
+E:\project\MIPS\MIPS246\Assembler\bin\Debug\Assembler.pdb
+E:\project\MIPS\MIPS246\Assembler\bin\Debug\DataStructure.dll
+E:\project\MIPS\MIPS246\Assembler\bin\Debug\DataStructure.pdb
+E:\project\MIPS\MIPS246\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+E:\project\MIPS\MIPS246\Assembler\obj\Debug\Assembler.dll
+E:\project\MIPS\MIPS246\Assembler\obj\Debug\Assembler.pdb
