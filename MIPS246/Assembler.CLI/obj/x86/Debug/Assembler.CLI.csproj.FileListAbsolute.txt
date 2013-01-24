@@ -3,3 +3,12 @@ E:\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.pdb
 E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\ResolveAssemblyReference.cache
 E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.exe
 E:\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.pdb
+E:\project\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.exe
+E:\project\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.pdb
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.exe
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.pdb
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.dll
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\DataStructure.dll
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\Assembler.pdb
+E:\project\MIPS\MIPS246\Assembler.CLI\bin\Debug\DataStructure.pdb
+E:\project\MIPS\MIPS246\Assembler.CLI\obj\x86\Debug\Assembler.CLI.csprojResolveAssemblyReference.cache

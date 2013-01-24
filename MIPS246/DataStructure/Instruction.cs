@@ -11,7 +11,8 @@ namespace MIPS246.Core.DataStructure
     {
         ADD,ADDU,SUB,SUBU,AND,OR,XOR,NOR,SLT,SLTU,SLL,SRL,SRA,SLLV,SRLV,SRAV,JR,JALR,
         ADDI,ADDIU,ANDI,ORI,XORI,LUI,SLTI,SLTIU,LW,SW,LB,LBU,LH,LHU,SB,SH,BEQ,BNE,BGEZ,
-        BGEZAL,BGTZ,BLEZ,BLTZ,BLTZAL,J,JAL,SUBI,MOVE,NOP,LI,LA,SYSCALL
+        BGEZAL,BGTZ,BLEZ,BLTZ,BLTZAL,J,JAL,SUBI,MOVE,NOP,LI,LA,SYSCALL,
+        NULL
     }
 
     public class Instruction
@@ -50,16 +51,16 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Public Methods
-        public bool Validate()
+        public void Validate()
         {
-            if (this.mnemonic == null)
+            if (this.mnemonic == Mnemonic.NULL)
             {
-                return true;
+                ToMachineCode();                
             }
             else
             {
                 
-                return true;
+                
             }
         }
         #endregion
