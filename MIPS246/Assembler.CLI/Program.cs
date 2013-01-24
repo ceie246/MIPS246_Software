@@ -20,6 +20,7 @@ namespace CEIE246.Core.Assembler.CLI
                 switch (args[i])
                 {
                     case "-h":
+                    case "--help":
                         ShowHelp();
                         break;
                     case "-o":
@@ -35,6 +36,10 @@ namespace CEIE246.Core.Assembler.CLI
         static void ShowHelp()
         {
             Console.WriteLine("246-MIPS-Assembler:");
+            Console.WriteLine("Options and arguments (and corresponding environment variables):");
+            Console.WriteLine("-h\t:\tprint this help message and exit (also --help)");
+            Console.WriteLine("-o\t:\tcustom output file name");
+            Console.WriteLine("-d\t:\tdisplay in console without output a bin file");
         }
 
         
