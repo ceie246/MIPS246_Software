@@ -29,7 +29,7 @@ namespace CEIE246.Core.Assembler.CLI
                 }
                 else
                     sourcepath = args[args.Length - 1] + ".bin";
-                outputpath = sourcepath + "bin";
+                outputpath = sourcepath + ".bin";
                 
                 Console.WriteLine(outputpath);
                 for (int i = 0; i < args.Length; i++)

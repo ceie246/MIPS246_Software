@@ -14,14 +14,16 @@ namespace MIPS246.Core.Assembler
     {
         #region Fields
         int line;
-        AssemblerError assemblererror;        
+        AssemblerError assemblererror;
+        string description;
         #endregion
 
         #region Constructors
-        public AssemblerErrorInfo(int line, AssemblerError assemblererror)
+        public AssemblerErrorInfo(int line, AssemblerError assemblererror, string description)
         {
             this.line = line;
             this.assemblererror = assemblererror;
+            this.description = description;
         }
         #endregion
 
@@ -39,6 +41,14 @@ namespace MIPS246.Core.Assembler
             get
             {
                 return this.assemblererror;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return this.description;
             }
         }
         #endregion
