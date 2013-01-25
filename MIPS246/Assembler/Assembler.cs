@@ -18,7 +18,8 @@ namespace MIPS246.Core.Assembler
         private string sourcepath;
         private uint address;
         private uint line;
-        private Hashtable addresstable;        
+        private Hashtable addresstable;
+        private bool foundadd0;
         #endregion
 
         #region Constructors
@@ -30,6 +31,7 @@ namespace MIPS246.Core.Assembler
 
             address = 0;
             line = 0;
+            foundadd0 = false;
         }
         #endregion
 
@@ -49,59 +51,91 @@ namespace MIPS246.Core.Assembler
             while ((linetext = sr.ReadLine()) != null) 
             {
                 string[] split = linetext.Split(new Char[] { ' ', '\t', ',' });
-                switch (split.Length)
-                {
-                    case 1: 
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-                /*if (linetext.StartsWith("."))
-                {
-                    if (linetext.StartsWith(".text")) 
-                    {
-                    }
-                    else if(linetext.StartsWith(".globl"))
-                    {
-                        address = 0;
-                        
-                        continue;
-                    }
-                }
-                if (linetext.EndsWith(":"))
-                {
-                    addAddresstable(linetext.Substring(0, linetext.Length - 1), address);
-                }
-                Console.WriteLine(linetext);
-                line++;*/
+                CheckWord(split);
             }
             return true;
         }
         #endregion
 
         #region Internal Methods
-        private bool checktext()
-        {
-            return true;
-        }
+        
 
         private void addAddresstable(string addressname, uint address)
         {
             addresstable.Add(addressname, address);
         }
 
-        private void CheckOneWord()
-        { 
+        private void CheckWord(string [] split)
+        {
+            switch (split.Length)
+            {
+                case 1:
+                    CheckOneWord(split);
+                    break;
+                case 2:
+                    CheckTwoWord(split);
+                    break;
+                case 3:
+                    CheckThreeWord(split);
+                    break;
+                default:
+                    if (split[0].StartsWith("#") == true)
+                    {
+                    }
+                    else
+                    {
+                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, split[0] + " " + split[1] + " " + split[2] + " " + split[3]));
+                    }
+                    line++;
+                    break;
+            }
         }
 
-        private void CheckTwoWord()
+        private void CheckOneWord(string[] split)
         {
+            switch (split[0])
+            {
+                case ".text":
+                    line++;
+                    break;
+                default:
+                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, split[0]));
+                    line++;
+                    break;
+
+            }
         }
 
-        private void CheckThreeWord()
+        private void CheckTwoWord(string [] split)
         {
+            switch (split[0])
+            {
+                case ".globl":
+                    if (foundadd0 == false)
+                    {
+                        address = 0;
+                        addAddresstable(split[1], address);
+                        line++;
+                        foundadd0 = true;
+                        break;
+                    }
+                    else
+                    {
+                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, null));
+                        line++;
+                        break;
+                    }
+                    
+                default:
+                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, split[0] + " " + split[1]));
+                    line++;
+                    break;
+            }
+        }
+
+        private void CheckThreeWord(string[] split)
+        {
+
         }
         #endregion
 

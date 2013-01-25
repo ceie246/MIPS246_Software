@@ -7,19 +7,19 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE
+        NOFILE,UNKNOWNCMD,TWOADD0
     }
 
     class AssemblerErrorInfo
     {
         #region Fields
-        int line;
+        uint line;
         AssemblerError assemblererror;
         string description;
         #endregion
 
         #region Constructors
-        public AssemblerErrorInfo(int line, AssemblerError assemblererror, string description)
+        public AssemblerErrorInfo(uint line, AssemblerError assemblererror, string description)
         {
             this.line = line;
             this.assemblererror = assemblererror;
@@ -28,7 +28,7 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Properties
-        public int Line
+        public uint Line
         {
             get
             {
