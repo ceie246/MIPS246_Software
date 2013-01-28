@@ -1,0 +1,5 @@
+E:\MIPS\MIPS246\Disassembler.CLI\bin\Debug\Disassembler.CLI.exe
+E:\MIPS\MIPS246\Disassembler.CLI\bin\Debug\Disassembler.CLI.pdb
+E:\MIPS\MIPS246\Disassembler.CLI\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\MIPS\MIPS246\Disassembler.CLI\obj\x86\Debug\Disassembler.CLI.exe
+E:\MIPS\MIPS246\Disassembler.CLI\obj\x86\Debug\Disassembler.CLI.pdb
