@@ -7,7 +7,7 @@ namespace Compiler
 {
     public class GlobalVariable
     {
-        public static int LineNo = 0;
-        public static int FourExpNo = 0;
+        public static int LineNo = 1;
+        public static int FourExpNo = 1;
     }
 }

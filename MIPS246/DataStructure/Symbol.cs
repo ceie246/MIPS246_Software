@@ -68,12 +68,12 @@ namespace DataStructure
         #endregion
 
         #region Contructor
-        public Symbol(string symName, SymbolType symType, int symValue, int symlineNo)
+        public Symbol(string symName, SymbolType symType, int symValue, int symLineNo)
         {
             this.symName = symName;
             this.symType = symType;
             this.symValue = symValue;
-            this.symlineNo = symlineNo; 
+            this.symlineNo = symLineNo; 
         }
         #endregion
 

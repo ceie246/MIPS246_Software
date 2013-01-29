@@ -20,16 +20,28 @@ namespace DataStructure
         #endregion
 
         #region Public Method
-        public bool IsContains(string name)
+        public bool Contains(string name)
         {
             return symtable.ContainsKey(name);
         }
 
         public bool Add(string name, Symbol sym)
         {
-            if (!this.IsContains(name))
+            if (!this.Contains(name))
             {
                 symtable.Add(name, sym);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool Add(string symName, SymbolType symType, int symValue, int symLineNo) 
+        {
+            if (!this.Contains(symName))
+            {
+                Symbol sym = new Symbol(symName, symType, symValue, symLineNo);
+                this.Add(symName, sym);
                 return true;
             }
             else
@@ -41,17 +53,17 @@ namespace DataStructure
             return (Symbol)symtable[name];
         }
 
-        public SymbolType getSymType(string name)
+        public SymbolType GetSymType(string name)
         {
             return ((Symbol)symtable[name]).SymType;
         }
 
-        public int getSymValue(string name)
+        public int GetSymValue(string name)
         {
             return ((Symbol)symtable[name]).SymValue;
         }
-
-        public int getSymLineNo(string name)
+            
+        public int GetSymLineNo(string name)
         {
             return ((Symbol)symtable[name]).SymLineNo;
         }
@@ -67,6 +79,11 @@ namespace DataStructure
                     .Append("\n");
             }
             return strTemp.ToString();
+        }
+
+        public void remove(string name)
+        { 
+            this.symtable.Remove(name);
         }
         #endregion
     }

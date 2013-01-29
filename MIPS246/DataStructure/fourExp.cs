@@ -36,7 +36,7 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Constructor
-        FourExp(FourExpOperation op, string arg1, string arg2, int nextFourExp) //跳转
+        public FourExp(FourExpOperation op, string arg1, string arg2, int nextFourExp) //跳转
         {
             this.op = op;
             this.arg1 = arg1;
@@ -44,7 +44,7 @@ namespace MIPS246.Core.DataStructure
             this.nextFourExp = nextFourExp;
         }
 
-        FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算
+        public FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算
         {
             if (op < FourExpOperation.mov)
             {

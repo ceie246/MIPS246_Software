@@ -25,7 +25,19 @@ namespace MIPS246.Core.DataStructure
             fourExpTable.Add(index, fourExp);
         }
 
-        public bool IsContains(int index)
+        public void Push(int index, FourExpOperation op, string arg1, string arg2, int nextFourExp)
+        {
+            FourExp fourExp = new FourExp(op, arg1, arg2, nextFourExp);
+            this.Push(index, fourExp);
+        }
+
+        public void Push(int index, FourExpOperation op, string arg1, string arg2, string result)
+        {
+            FourExp fourExp = new FourExp(op, arg1, arg2, result);
+            this.Push(index, fourExp);
+        }
+
+        public bool Contains(int index)
         {
             return fourExpTable.ContainsKey(index);
         }
@@ -58,6 +70,12 @@ namespace MIPS246.Core.DataStructure
                 fourExpList.Add(fourExpTable[index]);
             }
             return fourExpList;
+        }
+
+        public FourExp Pop()
+        {
+            int maxIndex = this.fourExpTable.Count;
+            return (FourExp)fourExpTable[maxIndex];
         }
         #endregion
     }
