@@ -7,7 +7,7 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE,UNKNOWNCMD,TWOADD0
+        NOFILE,UNKNOWNCMD,TWOADD0,WRONGREGNAME,UNKNOWNADDLABEL
     }
 
     class AssemblerErrorInfo

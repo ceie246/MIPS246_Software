@@ -60,6 +60,8 @@ namespace CEIE246.Core.Assembler.CLI
 
                 }
             }
+
+            Console.ReadLine();
             
         }
 
@@ -72,6 +74,13 @@ namespace CEIE246.Core.Assembler.CLI
             Console.WriteLine("-d : display in console without output a bin file (also --display)");
         }
 
+        private void Display(MIPS246.Core.Assembler.Assembler assembler)
+        {
+            for (int i = 0; i <= assembler.CodeList.Count; i++)
+            {
+                Console.WriteLine(assembler.CodeList[i]);
+            }
+        }
         
     }
 }

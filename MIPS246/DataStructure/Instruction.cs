@@ -32,16 +32,16 @@ namespace MIPS246.Core.DataStructure
             InitAssemblerTable();
         }
 
-        Instruction(Mnemonic mnemonic, string arg1, string arg2, string arg3, string addr)
+        public Instruction(string mnemonic, string arg1, string arg2, string arg3, string addr)
         {
-            this.mnemonic = mnemonic;
+            this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic),mnemonic);
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.arg3 = arg3;
             this.addr = HEXtoAddress(addr);
         }
 
-        Instruction(bool[] machine_code)
+        public Instruction(bool[] machine_code)
         {
             this.machine_code = machine_code;
         }
@@ -53,7 +53,7 @@ namespace MIPS246.Core.DataStructure
         #region Public Methods
         public void Validate()
         {
-            if (this.mnemonic == Mnemonic.NULL)
+            if (this.mnemonic != Mnemonic.NULL)
             {
                 ToMachineCode();                
             }
@@ -284,8 +284,12 @@ namespace MIPS246.Core.DataStructure
                     }
                     break;
                 case Mnemonic.J:
-                    break;
                 case Mnemonic.JAL:
+                    bool[] AddressArray = INTtoAddress(arg1);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        machine_code[i + 6] = AddressArray[i + 4];
+                    }
                     break;
                 /*
                 case Mnemonic.SUBI:
@@ -305,6 +309,21 @@ namespace MIPS246.Core.DataStructure
                     return;
 
             }
+        }
+
+        private static bool[] INTtoAddress(string uintstring)
+        {
+            uint uintaddress = uint.Parse(uintstring);
+            bool[] BinArray = new bool[32];
+            string addressstring = Convert.ToString(uintaddress, 2);
+            for (int i = 0; i < 32; i++)
+            {
+                if (addressstring[i] == '0')
+                    BinArray[i] = false;
+                else
+                    BinArray[i] = true;
+            }
+            return BinArray;
         }
 
         private static bool[] HEXtoBin16(string HexString)
