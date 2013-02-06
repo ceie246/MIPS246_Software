@@ -51,7 +51,7 @@ namespace MIPS246.Core.Assembler
         {
             if (!File.Exists(sourcepath))
             {
-                this.errorlist.Add(new AssemblerErrorInfo(0, AssemblerError.NOFILE, sourcepath));
+                this.errorlist.Add(new AssemblerErrorInfo(0, AssemblerError.NOFILE, "Line " + line + ": " + "Could not found the file."));
                 return false;
             }
             StreamReader sr = new StreamReader(sourcepath);
@@ -60,16 +60,19 @@ namespace MIPS246.Core.Assembler
             {
                 string[] split = RemoveComment(linetext).Split(new Char[] { ' ', '\t', ',' });
 
-                Console.WriteLine(RemoveComment(linetext));
-
                 CheckWord(split);
             }
             return true;
         }
+
+        public string Display(Instruction instruction)
+        {
+            return "0x"+String.Format("{0:X8}", instruction.Address)+":\t";
+        }
+
         #endregion
 
-        #region Internal Methods
-        
+        #region Internal Methods        
 
         private void addAddresstable(string addressname, uint address)
         {
@@ -82,12 +85,15 @@ namespace MIPS246.Core.Assembler
             {
                 case 1:
                     CheckOneWord(split);
+                    line++;
                     break;
                 case 2:
                     CheckTwoWord(split);
+                    line++;
                     break;
                 case 3:
                     CheckThreeWord(split);
+                    line++;
                     break;
                 default:
                     this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
@@ -103,13 +109,10 @@ namespace MIPS246.Core.Assembler
                 case ".text":
                 case ".data":
                 case ".memory":
-                    line++;
                     break;
                 default:
                     this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
-                    line++;
                     break;
-
             }
         }
 
@@ -122,42 +125,38 @@ namespace MIPS246.Core.Assembler
                     {
                         address = 0;
                         addAddresstable(split[1], address);
-                        line++;
                         foundadd0 = true;
                         break;
                     }
                     else
                     {
-                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, null));
-                        line++;
+                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, "Line " + line + ": " + "Address 0 has been defined."));
                         break;
                     }
                 case "JR":
                 case "JALR":                
                     if (CheckRegister(split[1]) == true)
                     {
-                        Instruction instruction = new Instruction(split[0], split[1], string.Empty, string.Empty, string.Empty);
-                        instruction.Validate();
-                        codelist.Add(instruction);
                         address += 4;
-                        line++;
+                        Instruction instruction = new Instruction(split[0], split[1], string.Empty, string.Empty, address);                        
+                        instruction.Validate();                        
+                        codelist.Add(instruction);                        
                         break;
                     }
                     else
                     {
-                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.WRONGREGNAME, "Line " + line + ": " + "Wrong register name:"));
-                        line++;
+                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.WRONGREGNAME, "Line " + line + ": " + "Wrong register name:"+split[1]));
                         break;
                     }
                 case "J":
                 case "JAL":
                     if (CheckAddress(split[1]))
                     {
-                        Instruction instruction = new Instruction(split[0], this.ConvertAddress(split[1]), string.Empty, string.Empty, string.Empty);
-                        instruction.Validate();
-                        codelist.Add(instruction);
                         address += 4;
-                        line++;
+                        Instruction instruction = new Instruction(split[0], ConvertAddress(split[1]), string.Empty, string.Empty, address);
+                        instruction.Validate();                        
+                        codelist.Add(instruction);
+                        
                         break;
                     }
                     else
@@ -167,7 +166,7 @@ namespace MIPS246.Core.Assembler
                         break;
                     }
                 default:
-                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, split[0] + " " + split[1]));
+                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
                     line++;
                     break;
             }

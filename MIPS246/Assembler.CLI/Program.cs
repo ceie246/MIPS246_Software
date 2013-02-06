@@ -53,7 +53,10 @@ namespace CEIE246.Core.Assembler.CLI
                 MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(args[args.Length - 1]);
                 if (assembler.doAssemble() == true)
                 {
-
+                    if (isDisplay == true)
+                    {
+                        Display(assembler);
+                    }
                 }
                 else
                 {
@@ -74,13 +77,12 @@ namespace CEIE246.Core.Assembler.CLI
             Console.WriteLine("-d : display in console without output a bin file (also --display)");
         }
 
-        private void Display(MIPS246.Core.Assembler.Assembler assembler)
+        static void Display(MIPS246.Core.Assembler.Assembler assembler)
         {
-            for (int i = 0; i <= assembler.CodeList.Count; i++)
+            foreach (Instruction i in assembler.CodeList)
             {
-                Console.WriteLine(assembler.CodeList[i]);
+                Console.WriteLine(assembler.Display(i));
             }
         }
-        
     }
 }

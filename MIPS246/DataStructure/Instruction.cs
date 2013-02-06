@@ -21,7 +21,7 @@ namespace MIPS246.Core.DataStructure
         private Mnemonic mnemonic;
         private bool[] machine_code;
         private string arg1, arg2, arg3;
-        private bool[] addr;
+        private uint address;
         private static Hashtable AssemblerTable;
         private static Hashtable DisassemblerTable;
         #endregion
@@ -32,13 +32,13 @@ namespace MIPS246.Core.DataStructure
             InitAssemblerTable();
         }
 
-        public Instruction(string mnemonic, string arg1, string arg2, string arg3, string addr)
+        public Instruction(string mnemonic, string arg1, string arg2, string arg3, uint address)
         {
             this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic),mnemonic);
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.arg3 = arg3;
-            this.addr = HEXtoAddress(addr);
+            this.address = address;
         }
 
         public Instruction(bool[] machine_code)
@@ -48,11 +48,19 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Properties
+        public uint Address
+        {
+            get
+            {
+                return this.address;
+            }
+        }
         #endregion
 
         #region Public Methods
         public void Validate()
         {
+            
             if (this.mnemonic != Mnemonic.NULL)
             {
                 ToMachineCode();                
@@ -63,6 +71,8 @@ namespace MIPS246.Core.DataStructure
                 
             }
         }
+
+        
         #endregion
 
         #region Internal Methods
@@ -80,52 +90,52 @@ namespace MIPS246.Core.DataStructure
         private static void InitAssemblerTable()
         {
             AssemblerTable = new Hashtable();
-            AssemblerTable.Add(Mnemonic.ADD, InitBoolArray("00000000000000000000000000100000"));
-            AssemblerTable.Add(Mnemonic.ADDU, InitBoolArray("00000000000000000000000000100001"));
-            AssemblerTable.Add(Mnemonic.SUB, InitBoolArray("00000000000000000000000000100010"));
-            AssemblerTable.Add(Mnemonic.SUBU, InitBoolArray("00000000000000000000000000100011"));
-            AssemblerTable.Add(Mnemonic.AND, InitBoolArray("00000000000000000000000000100100"));
-            AssemblerTable.Add(Mnemonic.OR, InitBoolArray("00000000000000000000000000100101"));
-            AssemblerTable.Add(Mnemonic.XOR, InitBoolArray("00000000000000000000000000100110"));
-            AssemblerTable.Add(Mnemonic.NOR, InitBoolArray("00000000000000000000000000100111"));
-            AssemblerTable.Add(Mnemonic.SLT, InitBoolArray("00000000000000000000000000101010"));
-            AssemblerTable.Add(Mnemonic.SLTU, InitBoolArray("00000000000000000000000000101011"));
-            AssemblerTable.Add(Mnemonic.SLL, InitBoolArray("00000000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SRL, InitBoolArray("00000000000000000000000000000010"));
-            AssemblerTable.Add(Mnemonic.SRA, InitBoolArray("00000000000000000000000000000011"));
-            AssemblerTable.Add(Mnemonic.SLLV, InitBoolArray("00000000000000000000000000000100"));
-            AssemblerTable.Add(Mnemonic.SRLV, InitBoolArray("00000000000000000000000000000110"));
-            AssemblerTable.Add(Mnemonic.SRAV, InitBoolArray("00000000000000000000000000000111"));
-            AssemblerTable.Add(Mnemonic.JR, InitBoolArray("00000000000000000000000000001000"));
-            AssemblerTable.Add(Mnemonic.JALR, InitBoolArray("00000000000000001111100000001001"));
+            AssemblerTable.Add(Mnemonic.ADD, "00000000000000000000000000100000");
+            AssemblerTable.Add(Mnemonic.ADDU, "00000000000000000000000000100001");
+            AssemblerTable.Add(Mnemonic.SUB, "00000000000000000000000000100010");
+            AssemblerTable.Add(Mnemonic.SUBU, "00000000000000000000000000100011");
+            AssemblerTable.Add(Mnemonic.AND, "00000000000000000000000000100100");
+            AssemblerTable.Add(Mnemonic.OR, "00000000000000000000000000100101");
+            AssemblerTable.Add(Mnemonic.XOR, "00000000000000000000000000100110");
+            AssemblerTable.Add(Mnemonic.NOR, "00000000000000000000000000100111");
+            AssemblerTable.Add(Mnemonic.SLT, "00000000000000000000000000101010");
+            AssemblerTable.Add(Mnemonic.SLTU, "00000000000000000000000000101011");
+            AssemblerTable.Add(Mnemonic.SLL, "00000000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SRL, "00000000000000000000000000000010");
+            AssemblerTable.Add(Mnemonic.SRA, "00000000000000000000000000000011");
+            AssemblerTable.Add(Mnemonic.SLLV, "00000000000000000000000000000100");
+            AssemblerTable.Add(Mnemonic.SRLV, "00000000000000000000000000000110");
+            AssemblerTable.Add(Mnemonic.SRAV, "00000000000000000000000000000111");
+            AssemblerTable.Add(Mnemonic.JR, "00000000000000000000000000001000");
+            AssemblerTable.Add(Mnemonic.JALR,"00000000000000001111100000001001");
 
-            AssemblerTable.Add(Mnemonic.ADDI, InitBoolArray("00100000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.ADDIU, InitBoolArray("00100100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.ANDI, InitBoolArray("00110000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.ORI, InitBoolArray("00110100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.XORI, InitBoolArray("00111000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LUI, InitBoolArray("00111100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SLTI, InitBoolArray("00101000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SLTIU, InitBoolArray("00101100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LW, InitBoolArray("10001100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SW, InitBoolArray("10101100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LB, InitBoolArray("10000000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LBU, InitBoolArray("10010000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LH, InitBoolArray("10000100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.LHU, InitBoolArray("10010100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SB, InitBoolArray("10100000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.SH, InitBoolArray("10100100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BEQ, InitBoolArray("00010000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BNE, InitBoolArray("00010100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BGEZ, InitBoolArray("00000100000000010000000000000000"));
-            AssemblerTable.Add(Mnemonic.BGEZAL, InitBoolArray("00000100000100010000000000000000"));
-            AssemblerTable.Add(Mnemonic.BGTZ, InitBoolArray("00011100000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BLEZ, InitBoolArray("00011000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BLTZ, InitBoolArray("00000000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.BLTZAL, InitBoolArray("00000100000100000000000000000000"));
+            AssemblerTable.Add(Mnemonic.ADDI, "00100000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.ADDIU, "00100100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.ANDI, "00110000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.ORI, "00110100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.XORI, "00111000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LUI, "00111100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SLTI, "00101000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SLTIU, "00101100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LW, "10001100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SW, "10101100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LB, "10000000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LBU, "10010000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LH, "10000100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.LHU, "10010100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SB, "10100000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.SH, "10100100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BEQ, "00010000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BNE, "00010100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BGEZ, "00000100000000010000000000000000");
+            AssemblerTable.Add(Mnemonic.BGEZAL, "00000100000100010000000000000000");
+            AssemblerTable.Add(Mnemonic.BGTZ,"00011100000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BLEZ, "00011000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BLTZ, "00000000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BLTZAL, "00000100000100000000000000000000");
 
-            AssemblerTable.Add(Mnemonic.J, InitBoolArray("00001000000000000000000000000000"));
-            AssemblerTable.Add(Mnemonic.JAL, InitBoolArray("00001100000000000000000000000000"));
+            AssemblerTable.Add(Mnemonic.J, "00001000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.JAL, "00001100000000000000000000000000");
 
             //AssemblerTable.Add(Mnemonic.SUBI, InitBoolArray(""));
             //AssemblerTable.Add(Mnemonic.MOVE, InitBoolArray(""));
@@ -136,7 +146,8 @@ namespace MIPS246.Core.DataStructure
         }
 
         private void ToMachineCode()
-        {           
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[this.mnemonic].ToString());
             switch (this.mnemonic)
             {
                 case Mnemonic.ADD:
