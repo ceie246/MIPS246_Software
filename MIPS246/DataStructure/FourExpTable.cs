@@ -6,16 +6,16 @@ using System.Collections;
 
 namespace MIPS246.Core.DataStructure
 {
-    class FourExpStack
+    public class FourExpTable
     {
         #region Fields
-        private Hashtable fourExpTable;
+        private Dictionary<int, FourExp> fourExpTable;
         #endregion
 
         #region Constructor
-        public FourExpStack()
+        public FourExpTable()
         {
-            fourExpTable = new Hashtable();
+            fourExpTable = new Dictionary<int, FourExp>();
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace MIPS246.Core.DataStructure
         public FourExp Pop()
         {
             int maxIndex = this.fourExpTable.Count;
-            return (FourExp)fourExpTable[maxIndex];
+            return fourExpTable[maxIndex];
         }
         #endregion
     }

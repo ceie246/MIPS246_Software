@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace DataStructure
 {
-    class SymbolTable
+    public class SymbolTable
     {
         #region Fields
         private Hashtable symtable;
