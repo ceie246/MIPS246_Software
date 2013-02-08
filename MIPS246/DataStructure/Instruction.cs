@@ -55,6 +55,14 @@ namespace MIPS246.Core.DataStructure
                 return this.address;
             }
         }
+
+        public bool[] Machine_Code
+        {
+            get
+            {
+                return this.machine_code;
+            }
+        }
         #endregion
 
         #region Public Methods
