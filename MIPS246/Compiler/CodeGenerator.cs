@@ -12,6 +12,7 @@ namespace Compiler
         private List<FourExp> fourExpList;
         private List<Instruction> insList;
         private Dictionary<int, string> lableDic;
+        private int lableNo;
         #endregion
 
         #region Constructor
@@ -19,7 +20,8 @@ namespace Compiler
         {
             this.fourExpList = fourExpList;
             this.insList = insList;
-            lableDic = new Dictionary<int, string>();
+            this.lableDic = new Dictionary<int, string>();
+            this.lableNo = 0;
         }
         #endregion
 
@@ -28,7 +30,7 @@ namespace Compiler
         {
             foreach (FourExp f in fourExpList)
             {
-                genLabel();
+                genLabel(f);
                 convert(f);
                 optimize();
             }
@@ -41,11 +43,16 @@ namespace Compiler
             return null;
         }
 
-        private void genLabel()
-        { 
-        
+        private void genLabel(FourExp f)
+        {
+            int fourExpNo = f.NextFourExp;
+            if (fourExpNo != -1)
+            {
+                lableDic.Add(fourExpNo, "L" + lableNo.ToString("D3"));
+                lableNo++;
+            }
         }
-
+     
         private void convert(FourExp f)
         { 
         

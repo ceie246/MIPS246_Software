@@ -29,10 +29,40 @@ namespace MIPS246.Core.DataStructure
     {
         #region fields
         private FourExpOperation op = FourExpOperation.jmp;
+
+        public FourExpOperation Op
+        {
+            get { return op; }
+            set { op = value; }
+        }
         private string arg1 = "";
+
+        public string Arg1
+        {
+            get { return arg1; }
+            set { arg1 = value; }
+        }
         private string arg2 = "";
+
+        public string Arg2
+        {
+            get { return arg2; }
+            set { arg2 = value; }
+        }
         private int nextFourExp = -1;
+
+        public int NextFourExp
+        {
+            get { return nextFourExp; }
+            set { nextFourExp = value; }
+        }
         private string result = "";
+
+        public string Result
+        {
+            get { return result; }
+            set { result = value; }
+        }
         #endregion
 
         #region Constructor
