@@ -9,24 +9,29 @@ namespace Compiler
     public class CodeGenerator
     {
         #region Fields
-        private FourExpTable fourExpTable;
+        private List<FourExp> fourExpList;
         private List<Instruction> insList;
+        private Dictionary<int, string> lableDic;
         #endregion
 
         #region Constructor
-        public CodeGenerator(FourExpTable fourExpTable, List<Instruction> insList)
+        public CodeGenerator(List<FourExp> fourExpList, List<Instruction> insList)
         {
-            this.fourExpTable = fourExpTable;
+            this.fourExpList = fourExpList;
             this.insList = insList;
+            lableDic = new Dictionary<int, string>();
         }
         #endregion
 
         #region Public Method
-        public void Generate() 
+        public void Generate()
         {
-            genLabel();
-            convert();
-            optimize();
+            foreach (FourExp f in fourExpList)
+            {
+                genLabel();
+                convert(f);
+                optimize();
+            }
         }
         #endregion
 
@@ -41,7 +46,7 @@ namespace Compiler
         
         }
 
-        private void convert()
+        private void convert(FourExp f)
         { 
         
         }
