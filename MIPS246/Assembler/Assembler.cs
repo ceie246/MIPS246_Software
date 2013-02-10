@@ -14,24 +14,28 @@ namespace MIPS246.Core.Assembler
     {
         #region Fields
         private List<Instruction> codelist;
-        private List<AssemblerErrorInfo> errorlist;
+        private List<string> sourceList;
+        private AssemblerErrorInfo error;
         private string sourcepath;
         private uint address;
         private uint line;
         private Hashtable addresstable;
         private bool foundadd0;
+
+        //config
+        private static const uint startAddress = 0;
         #endregion
 
         #region Constructors
         public Assembler(string sourcepath)
         {
             this.sourcepath = sourcepath;
+            sourceList = new List<string>();
             codelist = new List<Instruction>();
-            errorlist = new List<AssemblerErrorInfo>();
             addresstable = new Hashtable();
 
             address = 0;
-            line = 0;
+            line = 1;
             foundadd0 = false;
         }
         #endregion
@@ -44,24 +48,34 @@ namespace MIPS246.Core.Assembler
                 return this.codelist;
             }
         }
+
+        public AssemblerErrorInfo Error
+        {
+            get
+            {
+                return this.error;
+            }
+
+        }
         #endregion
 
         #region Public Methods
-        public bool doAssemble()
+        public bool DoAssemble()
         {
-            if (!File.Exists(sourcepath))
+            if (this.LoadFile() == false)
             {
-                this.errorlist.Add(new AssemblerErrorInfo(0, AssemblerError.NOFILE, "Line " + line + ": " + "Could not found the file."));
+                this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
                 return false;
             }
-            StreamReader sr = new StreamReader(sourcepath);
+            RemoveComment();
+            /*StreamReader sr = new StreamReader(sourcepath);
             string linetext;
             while ((linetext = sr.ReadLine()) != null) 
             {
                 string[] split = RemoveComment(linetext).Split(new Char[] { ' ', '\t', ',' });
 
                 CheckWord(split);
-            }
+            }*/
             return true;
         }
 
@@ -129,7 +143,25 @@ namespace MIPS246.Core.Assembler
         }
         #endregion
 
-        #region Internal Methods        
+        #region Internal Methods      
+        private bool LoadFile()
+        {
+            if (File.Exists(sourcepath) == false)
+            {
+                this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
+                return false;
+            }
+            else
+            {
+                StreamReader sr = new StreamReader(sourcepath);
+                string linetext;
+                while ((linetext = sr.ReadLine()) != null)
+                {
+                    sourceList.Add(linetext);
+                }
+                return true;
+            }
+        }
 
         private void addAddresstable(string addressname, uint address)
         {
@@ -153,7 +185,7 @@ namespace MIPS246.Core.Assembler
                     line++;
                     break;
                 default:
-                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
+                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
                     line++;
                     break;
             }
@@ -168,7 +200,7 @@ namespace MIPS246.Core.Assembler
                 case ".memory":
                     break;
                 default:
-                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
+                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
                     break;
             }
         }
@@ -187,7 +219,7 @@ namespace MIPS246.Core.Assembler
                     }
                     else
                     {
-                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, "Line " + line + ": " + "Address 0 has been defined."));
+                        //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, "Line " + line + ": " + "Address 0 has been defined."));
                         break;
                     }
                 case "JR":
@@ -202,7 +234,7 @@ namespace MIPS246.Core.Assembler
                     }
                     else
                     {
-                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.WRONGREGNAME, "Line " + line + ": " + "Wrong register name:"+split[1]));
+                       // this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.WRONGREGNAME, "Line " + line + ": " + "Wrong register name:"+split[1]));
                         break;
                     }
                 case "J":
@@ -218,12 +250,12 @@ namespace MIPS246.Core.Assembler
                     }
                     else
                     {
-                        this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNADDLABEL, "Line " + line + ": " + "The address label is not define: " + split[1]));
+                        //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNADDLABEL, "Line " + line + ": " + "The address label is not define: " + split[1]));
                         line++;
                         break;
                     }
                 default:
-                    this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
+                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
                     line++;
                     break;
             }
@@ -318,20 +350,22 @@ namespace MIPS246.Core.Assembler
             return this.addresstable[addressname].ToString();
         }
 
-        private string RemoveComment(string text)
+        private void RemoveComment()
         {
-            if (text.Contains('#'))
+            for (int i = 0; i < this.sourceList.Count; i++)
             {
-                if (text.IndexOf('#') != 0)
+                if (sourceList[i].Contains('#'))
                 {
-                    text = text.Substring(0, text.IndexOf("#") - 1);
-                }
-                else
-                {
-                    text = string.Empty;
+                    if (sourceList[i].IndexOf('#') != 0)
+                    {
+                        sourceList[i] = sourceList[i].Substring(0, sourceList[i].IndexOf("#") - 1);
+                    }
+                    else
+                    {
+                        sourceList[i] = string.Empty;
+                    }
                 }
             }
-            return text;
         }
         #endregion
 

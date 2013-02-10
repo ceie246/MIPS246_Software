@@ -51,7 +51,7 @@ namespace CEIE246.Core.Assembler.CLI
                     }
                 }
                 MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(args[args.Length - 1]);
-                if (assembler.doAssemble() == true)
+                if (assembler.DoAssemble() == true)
                 {
                     if (isDisplay == true)
                     {

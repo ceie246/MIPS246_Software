@@ -19,6 +19,12 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Constructors
+        public AssemblerErrorInfo(uint line, AssemblerError assemblererror)
+        {
+            this.line = line;
+            this.assemblererror = assemblererror;
+        }
+
         public AssemblerErrorInfo(uint line, AssemblerError assemblererror, string description)
         {
             this.line = line;
@@ -27,28 +33,16 @@ namespace MIPS246.Core.Assembler
         }
         #endregion
 
-        #region Properties
-        public uint Line
+        #region Public Methods
+        public void Display()
         {
-            get
+            switch (this.assemblererror)
             {
-                return this.line;
-            }
-        }
-
-        public AssemblerError Assemblererror
-        {
-            get
-            {
-                return this.assemblererror;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return this.description;
+                case AssemblerError.NOFILE:
+                    Console.WriteLine("Line 0: Could not found the source file.");
+                    break;
+                default:
+                    break;
             }
         }
         #endregion
