@@ -14,7 +14,7 @@ namespace MIPS246.Core.Assembler
     {
         #region Fields
         private List<Instruction> codelist;
-        private List<string> sourceList;
+        private List<string[]> sourceList;
         private AssemblerErrorInfo error;
         private string sourcepath;
         private uint address;
@@ -30,7 +30,7 @@ namespace MIPS246.Core.Assembler
         public Assembler(string sourcepath)
         {
             this.sourcepath = sourcepath;
-            sourceList = new List<string>();
+            sourceList = new List<string[]>();
             codelist = new List<Instruction>();
             addresstable = new Hashtable();
 
@@ -67,7 +67,6 @@ namespace MIPS246.Core.Assembler
                 this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
                 return false;
             }
-            RemoveComment();
             /*StreamReader sr = new StreamReader(sourcepath);
             string linetext;
             while ((linetext = sr.ReadLine()) != null) 
@@ -157,7 +156,9 @@ namespace MIPS246.Core.Assembler
                 string linetext;
                 while ((linetext = sr.ReadLine()) != null)
                 {
-                    sourceList.Add(linetext);
+                    linetext = RemoveComment(linetext);
+                    sourceList.Add(linetext.Split());
+
                 }
                 return true;
             }
@@ -350,22 +351,20 @@ namespace MIPS246.Core.Assembler
             return this.addresstable[addressname].ToString();
         }
 
-        private void RemoveComment()
+        private string RemoveComment(string str)
         {
-            for (int i = 0; i < this.sourceList.Count; i++)
-            {
-                if (sourceList[i].Contains('#'))
-                {
-                    if (sourceList[i].IndexOf('#') != 0)
-                    {
-                        sourceList[i] = sourceList[i].Substring(0, sourceList[i].IndexOf("#") - 1);
-                    }
-                    else
-                    {
-                        sourceList[i] = string.Empty;
-                    }
-                }
-            }
+           if (str.Contains('#'))
+           {
+               if (str.IndexOf('#') != 0)
+               {
+                   str = str.Substring(0, str.IndexOf("#") - 1);
+               }
+               else
+               {
+                   str = string.Empty;
+               }
+           }
+           return str;
         }
         #endregion
 
