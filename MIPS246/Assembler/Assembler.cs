@@ -189,6 +189,11 @@ namespace MIPS246.Core.Assembler
                         return OP_SRLV(i);
                     case "SRAV":
                         return OP_SRAV(i);
+                    case "JR":
+                        return OP_JR(i);
+                    case "JALR":
+                        return OP_JALR(i);
+
 
                     default:
                         this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
@@ -574,11 +579,45 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SRL(int i)
         {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            if (CheckShamt(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
 
         private bool OP_SRA(int i)
         {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            if (CheckShamt(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
 
@@ -627,6 +666,38 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_JR(int i)
+        {
+            if (CheckVariableName(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                return false;
+            }
+            if (CheckAddress(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_JALR(int i)
+        {
+            if (CheckVariableName(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                return false;
+            }
+            if (CheckAddress(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
             return true;
         }
         #endregion
