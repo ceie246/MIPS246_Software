@@ -14,8 +14,6 @@ namespace CEIE246.Core.Assembler.CLI
             string sourcepath, outputpath;
             bool isDisplay = false;
 
-            Console.WriteLine(args.Length);
-
             if (args.Length == 0)
             {
                 ShowHelp();

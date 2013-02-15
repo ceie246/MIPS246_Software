@@ -7,25 +7,25 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE,UNKNOWNCMD,TWOADD0,WRONGREGNAME,UNKNOWNADDLABEL
+        NOFILE, INVALIDLABEL, UNKNOWNCMD, TWOADD0, WRONGREGNAME, UNKNOWNADDLABEL
     }
 
     class AssemblerErrorInfo
     {
         #region Fields
-        uint line;
+        int line;
         AssemblerError assemblererror;
         string description;
         #endregion
 
         #region Constructors
-        public AssemblerErrorInfo(uint line, AssemblerError assemblererror)
+        public AssemblerErrorInfo(int line, AssemblerError assemblererror)
         {
             this.line = line;
             this.assemblererror = assemblererror;
         }
 
-        public AssemblerErrorInfo(uint line, AssemblerError assemblererror, string description)
+        public AssemblerErrorInfo(int line, AssemblerError assemblererror, string description)
         {
             this.line = line;
             this.assemblererror = assemblererror;
