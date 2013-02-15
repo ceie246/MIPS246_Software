@@ -10,12 +10,20 @@ namespace DataStructure
     {
         #region Fields
         private Hashtable symtable;
+        private int count;
+
+        public int Count
+        {
+            get { return count; }
+            set { count = value; }
+        }
         #endregion
 
         #region Constructor
         public SymbolTable()
         {
             symtable = new Hashtable();
+            count = 0;
         }
         #endregion
 
@@ -30,6 +38,7 @@ namespace DataStructure
             if (!this.Contains(name))
             {
                 symtable.Add(name, sym);
+                count++;
                 return true;
             }
             else
@@ -42,6 +51,7 @@ namespace DataStructure
             {
                 Symbol sym = new Symbol(symName, symType, symValue, symLineNo);
                 this.Add(symName, sym);
+                count++;
                 return true;
             }
             else
