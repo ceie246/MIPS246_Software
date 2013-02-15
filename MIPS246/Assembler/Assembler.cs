@@ -101,6 +101,7 @@ namespace MIPS246.Core.Assembler
                     linetext = RemoveComment(linetext);
                     sourceList.Add(linetext.Split());
                 }
+                sr.Close();
                 return true;
             }
         }
@@ -133,7 +134,7 @@ namespace MIPS246.Core.Assembler
                     case ".GLOBL":
                         if (sourceList[i].Length != 2)
                         {
-                            this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, "2");
+                            this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
                             return false;
                         }
                         else if (CheckVariableName(sourceList[i][1]) == false)
@@ -141,7 +142,7 @@ namespace MIPS246.Core.Assembler
                             this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
                             return false;
                         }
-                        else if (addresstable.ContainsKey(sourceList[i][1]) == false)
+                        else if (addresstable.ContainsKey(sourceList[i][1].ToString()) == false)
                         {
                             this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                             return false;
@@ -149,13 +150,33 @@ namespace MIPS246.Core.Assembler
                         else
                         {
                             SetAddress0(sourceList[i][1]);
-                            return true;
+                            break;
                         }
                         
                     case ".TEXT":
                     case ".DATA":
                     case ".WORD":
                         break;
+                    case "ADD":
+                        return OP_ADD(i);
+                    case "ADDU":
+                        return OP_ADDU(i);
+                    case "SUB":
+                        return OP_SUB(i);
+                    case "SUBU":
+                        return OP_SUBU(i);
+                    case "AND":
+                        return OP_AND(i);
+                    case "OR":
+                        return OP_OR(i);
+                    case "XOR":
+                        return OP_XOR(i);
+                    case "NOR":
+                        return OP_NOR(i);
+                    case "SLT":
+                        return OP_SLT(i);
+                    case "SLTU":
+                        return OP_SLTU(i);
                     default:
                         this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
                         return false;
@@ -194,58 +215,10 @@ namespace MIPS246.Core.Assembler
             return machine_codeSTR;
         }
 
-        private void CheckOneWord(string[] split)
-        {
-            switch (split[0])
-            {
-                case ".text":
-                case ".data":
-                case ".memory":
-                    break;
-                default:
-                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
-                    break;
-            }
-        }
-
-        private void CheckTwoWord(string [] split)
-        {
-            switch (split[0])
-            {
-                case "JR":
-                case "JALR":       
-                case "J":
-                case "JAL":
-                    if (CheckAddress(split[1]))
-                    {
-                        address += 4;
-                        //Instruction instruction = new Instruction(split[0], ConvertAddress(split[1]), string.Empty, string.Empty, address);
-                                             
-                        //
-                        
-                        break;
-                    }
-                    else
-                    {
-                        //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNADDLABEL, "Line " + line + ": " + "The address label is not define: " + split[1]));
-                        line++;
-                        break;
-                    }
-                default:
-                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
-                    line++;
-                    break;
-            }
-        }
-
-        private void CheckThreeWord(string[] split)
-        {
-
-        }
-
         private bool CheckRegister(string reg)
         {
-            switch (reg)
+            string regname = reg.ToLower();
+            switch (regname)
             {
                 case "$0":
                 case "$zero":
@@ -343,7 +316,7 @@ namespace MIPS246.Core.Assembler
            return str;
         }
         
-         private string InttoHex(int i)
+        private string InttoHex(int i)
         {
             switch (i)
             {
@@ -389,7 +362,165 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region OPs
+        private bool OP_ADD(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
 
+        private bool OP_ADDU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SUB(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SUBU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_AND(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_OR(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_XOR(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_NOR(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SLT(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SLTU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
         #endregion
     }
 }

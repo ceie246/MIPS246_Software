@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace MIPS246.Core.DataStructure
 {
-    enum Mnemonic
+    public enum Mnemonic
     {
         ADD,ADDU,SUB,SUBU,AND,OR,XOR,NOR,SLT,SLTU,SLL,SRL,SRA,SLLV,SRLV,SRAV,JR,JALR,
         ADDI,ADDIU,ANDI,ORI,XORI,LUI,SLTI,SLTIU,LW,SW,LB,LBU,LH,LHU,SB,SH,BEQ,BNE,BGEZ,
@@ -15,7 +15,7 @@ namespace MIPS246.Core.DataStructure
         NULL
     }
 
-    enum Register
+    public enum Register
     {
         ZERO,AT,V0,v1,A0,A1,A2,A3,T0,T1,T2,T3,T4,T5,T6,T7,S0,S1,S2,S3,S4,S5,S6,S7,T8,T9,K0,K1,GP,SP,FP,RA
     }
@@ -44,6 +44,14 @@ namespace MIPS246.Core.DataStructure
             this.arg2 = arg2;
             this.arg3 = arg3;
             this.address = address;
+        }
+
+        public Instruction(string mnemonic, string arg1, string arg2, string arg3)
+        {
+            this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic), mnemonic);
+            this.arg1 = arg1;
+            this.arg2 = arg2;
+            this.arg3 = arg3;
         }
 
         public Instruction(bool[] machine_code)

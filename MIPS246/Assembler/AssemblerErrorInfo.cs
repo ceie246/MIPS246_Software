@@ -36,22 +36,26 @@ namespace MIPS246.Core.Assembler
         #region Public Methods
         public void Display()
         {
+            string printline = (line + 1).ToString();
             switch (this.assemblererror)
             {
                 case AssemblerError.NOFILE:
                     Console.WriteLine("Line 0: Could not found the source file.");
                     break;
                 case AssemblerError.INVALIDLABEL:
-                    Console.WriteLine("Line " + this.line + 1 + ": The address label is invalid: " + this.description);
+                    Console.WriteLine("Line " + printline + ": The address label is invalid: " + this.description);
                     break;
                 case AssemblerError.UNKNOWNCMD:
-                    Console.WriteLine("Line " + this.line + 1 + ": The Mnemonic is invalid: " + this.description);
+                    Console.WriteLine("Line " + printline + ": The Mnemonic is invalid: " + this.description);
                     break;
                 case AssemblerError.WRONGARGUNUM:
-                    Console.WriteLine("Line " + this.line + 1 + ": This Mnemonic takes " + this.description + "arguments.");
+                    Console.WriteLine("Line " + printline + ": The Mnemonic takes " + this.description + " arguments.");
                     break;
                 case AssemblerError.ADDNOTFOUND:
-                    Console.WriteLine("Line " + this.line + 1 + ": This address label is not found in the source file: " + this.description);
+                    Console.WriteLine("Line " + printline + ": The address label is not found in the source file: " + this.description);
+                    break;
+                case AssemblerError.WRONGREGNAME:
+                    Console.WriteLine("Line " + printline + ": The Register name is invalid.");
                     break;
                 default:
                     break;
