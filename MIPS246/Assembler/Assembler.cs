@@ -18,13 +18,12 @@ namespace MIPS246.Core.Assembler
         private List<string[]> sourceList;
         private AssemblerErrorInfo error;
         private string sourcepath;
-        private uint address;
-        private uint line;
+        private int address;
+        private int line;
         private Hashtable addresstable;
-        private bool foundadd0;
 
         //config
-        private static uint startAddress = 0;
+        private static int startAddress = 0;
         #endregion
 
         #region Constructors
@@ -37,7 +36,6 @@ namespace MIPS246.Core.Assembler
 
             address = 0;
             line = 1;
-            foundadd0 = false;
         }
         #endregion
 
@@ -65,6 +63,11 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
+            if (CheckWord() == false)
+            {
+                return false;
+            }
+
 
             return true;
         }
@@ -73,21 +76,7 @@ namespace MIPS246.Core.Assembler
         {
             return "0x"+String.Format("{0:X8}", instruction.Address)+":\t"+DisplayHexCMD(instruction.Machine_Code);
         }
-
-        public string DisplayHexCMD(bool[] machine_code)
-        {
-            string machine_codeSTR = string.Empty;
-            for (int i = 0; i < 8; i++)
-            {
-                machine_codeSTR = machine_codeSTR + InttoHex(8 * BoolToInt(machine_code[i * 4]) +
-                    4 * BoolToInt(machine_code[i * 4 + 1]) +
-                    2 * BoolToInt(machine_code[i * 4 + 2]) +
-                    BoolToInt(machine_code[i * 4 + 3]));
-            }
-
-            return machine_codeSTR; 
-        }
-
+        
         public void DisplayError()
         {
             Console.WriteLine("Compile failed:");
@@ -123,8 +112,7 @@ namespace MIPS246.Core.Assembler
                 if(sourceList[i][0].EndsWith(":"))
                 {
                     string label = sourceList[i][0].Substring(0, sourceList[i][0].Length - 1);
-                    Regex reg = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*");
-                    if (reg.IsMatch(label) == false)
+                    if (CheckVariableName(label) == false)
                     {
                         this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, label);
                         return false;
@@ -137,7 +125,54 @@ namespace MIPS246.Core.Assembler
 
         private bool CheckWord()
         {
+            for (int i = 0; i < sourceList.Count; i++)
+            {
+                if (addresstable.ContainsValue(i)) continue;
+                switch (sourceList[i][0].ToUpper())
+                {
+                    case ".GLOBL":
+                        if (sourceList[i].Length != 2)
+                        {
+                            this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, "2");
+                            return false;
+                        }
+                        else if (CheckVariableName(sourceList[i][1]) == false)
+                        {
+                            this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                            return false;
+                        }
+                        else if (addresstable.ContainsKey(sourceList[i][1]) == false)
+                        {
+                            this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                            return false;
+                        }
+                        else
+                        {
+                            SetAddress0(sourceList[i][1]);
+                            return true;
+                        }
+                        
+                    case ".TEXT":
+                    case ".DATA":
+                    case ".WORD":
+                        break;
+                    default:
+                        this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
+                        return false;
+                }                
+            }
             return true;
+        }
+
+        private bool SetAddress0(string label)
+        {
+            startAddress = int.Parse(addresstable[label].ToString());
+            return true;
+        }
+
+        private bool CheckVariableName(string name)
+        {
+            return Regex.IsMatch(name, "^[a-zA-Z_][a-zA-Z0-9_]*");
         }
 
         private void addAddresstable(string addressname, int address)
@@ -145,27 +180,18 @@ namespace MIPS246.Core.Assembler
             addresstable.Add(addressname, address);
         }
 
-        private void CheckWord(string [] split)
+        private string DisplayHexCMD(bool[] machine_code)
         {
-            switch (split.Length)
+            string machine_codeSTR = string.Empty;
+            for (int i = 0; i < 8; i++)
             {
-                case 1:
-                    CheckOneWord(split);
-                    line++;
-                    break;
-                case 2:
-                    CheckTwoWord(split);
-                    line++;
-                    break;
-                case 3:
-                    CheckThreeWord(split);
-                    line++;
-                    break;
-                default:
-                    //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.UNKNOWNCMD, "Line " + line + ": " + "Unknown command."));
-                    line++;
-                    break;
+                machine_codeSTR = machine_codeSTR + InttoHex(8 * BoolToInt(machine_code[i * 4]) +
+                    4 * BoolToInt(machine_code[i * 4 + 1]) +
+                    2 * BoolToInt(machine_code[i * 4 + 2]) +
+                    BoolToInt(machine_code[i * 4 + 3]));
             }
+
+            return machine_codeSTR;
         }
 
         private void CheckOneWord(string[] split)
@@ -186,42 +212,16 @@ namespace MIPS246.Core.Assembler
         {
             switch (split[0])
             {
-                case ".globl":
-                    if (foundadd0 == false)
-                    {
-                        address = 0;
-                        //addAddresstable(split[1], address);
-                        foundadd0 = true;
-                        break;
-                    }
-                    else
-                    {
-                        //this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.TWOADD0, "Line " + line + ": " + "Address 0 has been defined."));
-                        break;
-                    }
                 case "JR":
-                case "JALR":                
-                    if (CheckRegister(split[1]) == true)
-                    {
-                        address += 4;
-                        Instruction instruction = new Instruction(split[0], split[1], string.Empty, string.Empty, address);                        
-                        instruction.Validate();                        
-                        codelist.Add(instruction);                        
-                        break;
-                    }
-                    else
-                    {
-                       // this.errorlist.Add(new AssemblerErrorInfo(line, AssemblerError.WRONGREGNAME, "Line " + line + ": " + "Wrong register name:"+split[1]));
-                        break;
-                    }
+                case "JALR":       
                 case "J":
                 case "JAL":
                     if (CheckAddress(split[1]))
                     {
                         address += 4;
-                        Instruction instruction = new Instruction(split[0], ConvertAddress(split[1]), string.Empty, string.Empty, address);
-                        instruction.Validate();                        
-                        codelist.Add(instruction);
+                        //Instruction instruction = new Instruction(split[0], ConvertAddress(split[1]), string.Empty, string.Empty, address);
+                                             
+                        //
                         
                         break;
                     }

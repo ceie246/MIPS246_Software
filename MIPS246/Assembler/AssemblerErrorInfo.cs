@@ -7,7 +7,7 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE, INVALIDLABEL, UNKNOWNCMD, TWOADD0, WRONGREGNAME, UNKNOWNADDLABEL
+        NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, UNKNOWNADDLABEL
     }
 
     class AssemblerErrorInfo
@@ -43,6 +43,15 @@ namespace MIPS246.Core.Assembler
                     break;
                 case AssemblerError.INVALIDLABEL:
                     Console.WriteLine("Line " + this.line + 1 + ": The address label is invalid: " + this.description);
+                    break;
+                case AssemblerError.UNKNOWNCMD:
+                    Console.WriteLine("Line " + this.line + 1 + ": The Mnemonic is invalid: " + this.description);
+                    break;
+                case AssemblerError.WRONGARGUNUM:
+                    Console.WriteLine("Line " + this.line + 1 + ": This Mnemonic takes " + this.description + "arguments.");
+                    break;
+                case AssemblerError.ADDNOTFOUND:
+                    Console.WriteLine("Line " + this.line + 1 + ": This address label is not found in the source file: " + this.description);
                     break;
                 default:
                     break;
