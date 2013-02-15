@@ -58,7 +58,7 @@ namespace CEIE246.Core.Assembler.CLI
                 }
                 else
                 {
-
+                    assembler.DisplayError();
                 }
             }
 

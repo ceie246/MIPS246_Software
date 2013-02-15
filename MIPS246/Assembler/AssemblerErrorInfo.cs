@@ -41,6 +41,9 @@ namespace MIPS246.Core.Assembler
                 case AssemblerError.NOFILE:
                     Console.WriteLine("Line 0: Could not found the source file.");
                     break;
+                case AssemblerError.INVALIDLABEL:
+                    Console.WriteLine("Line " + this.line + 1 + ": The address label is invalid: " + this.description);
+                    break;
                 default:
                     break;
             }

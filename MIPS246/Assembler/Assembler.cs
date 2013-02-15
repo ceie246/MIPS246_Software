@@ -59,14 +59,13 @@ namespace MIPS246.Core.Assembler
                 this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
                 return false;
             }
-            /*StreamReader sr = new StreamReader(sourcepath);
-            string linetext;
-            while ((linetext = sr.ReadLine()) != null) 
-            {
-                string[] split = RemoveComment(linetext).Split(new Char[] { ' ', '\t', ',' });
 
-                CheckWord(split);
-            }*/
+            if (LoadAddress() == false)
+            {
+                return false;
+            }
+
+
             return true;
         }
 
@@ -89,49 +88,11 @@ namespace MIPS246.Core.Assembler
             return machine_codeSTR; 
         }
 
-        private string InttoHex(int i)
+        public void DisplayError()
         {
-            switch (i)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    return i.ToString();
-                case 11:
-                    return "A";
-                case 12:
-                    return "B";
-                case 13:
-                    return "C";
-                case 14:
-                    return "D";
-                case 15:
-                    return "E";
-                case 16:
-                    return "F";
-                default:
-                    return i.ToString();
-            }
-        }
-
-        private int BoolToInt(bool bit)
-        {
-            switch (bit)
-            {
-                case true:
-                    return 1;
-                case false:
-                    return 0;
-                default:
-                    return 0;
-            }
-        }
+            Console.WriteLine("Compile failed:");
+            this.error.Display();
+        }       
         #endregion
 
         #region Internal Methods      
@@ -150,13 +111,36 @@ namespace MIPS246.Core.Assembler
                 {
                     linetext = RemoveComment(linetext);
                     sourceList.Add(linetext.Split());
-
                 }
                 return true;
             }
         }
 
-        private void addAddresstable(string addressname, uint address)
+        private bool LoadAddress()
+        {
+            for (int i = 0; i < sourceList.Count; i++)
+            {
+                if(sourceList[i][0].EndsWith(":"))
+                {
+                    string label = sourceList[i][0].Substring(0, sourceList[i][0].Length - 1);
+                    Regex reg = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*");
+                    if (reg.IsMatch(label) == false)
+                    {
+                        this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, label);
+                        return false;
+                    }
+                    addAddresstable(sourceList[i][0].Substring(0, sourceList[i][0].Length - 1), i);
+                }
+            }
+            return true;
+        }
+
+        private bool CheckWord()
+        {
+            return true;
+        }
+
+        private void addAddresstable(string addressname, int address)
         {
             addresstable.Add(addressname, address);
         }
@@ -206,7 +190,7 @@ namespace MIPS246.Core.Assembler
                     if (foundadd0 == false)
                     {
                         address = 0;
-                        addAddresstable(split[1], address);
+                        //addAddresstable(split[1], address);
                         foundadd0 = true;
                         break;
                     }
@@ -358,8 +342,54 @@ namespace MIPS246.Core.Assembler
            }
            return str;
         }
+        
+         private string InttoHex(int i)
+        {
+            switch (i)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    return i.ToString();
+                case 11:
+                    return "A";
+                case 12:
+                    return "B";
+                case 13:
+                    return "C";
+                case 14:
+                    return "D";
+                case 15:
+                    return "E";
+                case 16:
+                    return "F";
+                default:
+                    return i.ToString();
+            }
+        }
+
+        private int BoolToInt(bool bit)
+        {
+            switch (bit)
+            {
+                case true:
+                    return 1;
+                case false:
+                    return 0;
+                default:
+                    return 0;
+            }
+        }
         #endregion
 
-        
+        #region OPs
+
+        #endregion
     }
 }
