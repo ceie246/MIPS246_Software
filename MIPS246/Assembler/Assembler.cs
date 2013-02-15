@@ -23,7 +23,7 @@ namespace MIPS246.Core.Assembler
         private bool foundadd0;
 
         //config
-        private static const uint startAddress = 0;
+        private static uint startAddress = 0;
         #endregion
 
         #region Constructors
@@ -47,15 +47,6 @@ namespace MIPS246.Core.Assembler
             {
                 return this.codelist;
             }
-        }
-
-        public AssemblerErrorInfo Error
-        {
-            get
-            {
-                return this.error;
-            }
-
         }
         #endregion
 
