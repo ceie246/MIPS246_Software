@@ -7,7 +7,7 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, UNKNOWNADDLABEL
+        NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL
     }
 
     class AssemblerErrorInfo
@@ -56,6 +56,9 @@ namespace MIPS246.Core.Assembler
                     break;
                 case AssemblerError.WRONGREGNAME:
                     Console.WriteLine("Line " + printline + ": The Register name is invalid.");
+                    break;
+                case AssemblerError.WRONGSHAMT:
+                    Console.WriteLine("Line " + printline + ": The Shamt should between 0 to 31. Shamt:" + this.description);
                     break;
                 default:
                     break;

@@ -177,6 +177,19 @@ namespace MIPS246.Core.Assembler
                         return OP_SLT(i);
                     case "SLTU":
                         return OP_SLTU(i);
+                    case "SLL":
+                        return OP_SLL(i);
+                    case "SRL":
+                        return OP_SRL(i);
+                    case "SRA":
+                        return OP_SRA(i);
+                    case "SLLV":
+                        return OP_SLLV(i);
+                    case "SRLV":
+                        return OP_SRLV(i);
+                    case "SRAV":
+                        return OP_SRAV(i);
+
                     default:
                         this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
                         return false;
@@ -359,6 +372,21 @@ namespace MIPS246.Core.Assembler
                     return 0;
             }
         }
+
+        private bool CheckShamt(string i)
+        {
+            int n;
+            try
+            {
+                n = int.Parse(i);
+            }
+            catch
+            {
+                return false;
+            }
+            if (n >= 0 && n < 32) return true;
+            else return false;
+        }
         #endregion
 
         #region OPs
@@ -507,6 +535,86 @@ namespace MIPS246.Core.Assembler
         }
 
         private bool OP_SLTU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SLL(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            if (CheckShamt(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SRL(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SRA(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SLLV(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SRLV(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) && CheckRegister(sourceList[i][3]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SRAV(int i)
         {
             if (sourceList[i].Length != 4)
             {

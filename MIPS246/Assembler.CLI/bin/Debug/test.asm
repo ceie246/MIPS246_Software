@@ -1,7 +1,7 @@
 .text
 .globl __start
 __start:
-ADD $t1 $t2 $t3
+SLL $t1 $t2 -1
 # load with sign extension
 JR $31
 JALR $t0
