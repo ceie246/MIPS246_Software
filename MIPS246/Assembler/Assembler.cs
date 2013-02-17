@@ -99,7 +99,7 @@ namespace MIPS246.Core.Assembler
                 while ((linetext = sr.ReadLine()) != null)
                 {
                     linetext = RemoveComment(linetext);
-                    sourceList.Add(linetext.Split());
+                    sourceList.Add(linetext.Split(new Char[] { ' ', '\t', ',' }));
                 }
                 sr.Close();
                 return true;
@@ -458,6 +458,29 @@ namespace MIPS246.Core.Assembler
             if (n >= 0 && n < 32) return true;
             else return false;
         }
+
+        private bool ConvertImmediate(int i, string str, out int intvalue)
+        {
+            if (str.ToUpper().StartsWith("OX") == false)
+            {
+                try
+                {
+                    intvalue = int.Parse(str);
+                }
+                catch
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE, str);
+                    intvalue = 0;
+                    return false;
+                }                
+            }
+            else
+            {
+                intvalue = Int32.Parse(str.Substring(2,str.Length-2), System.Globalization.NumberStyles.HexNumber);
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         #region OPs
@@ -623,9 +646,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SLL(int i)
         {
-            if (sourceList[i].Length != 4)
+            if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -645,9 +668,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SRL(int i)
         {
-            if (sourceList[i].Length != 4)
+            if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -667,9 +690,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SRA(int i)
         {
-            if (sourceList[i].Length != 4)
+            if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -737,14 +760,14 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_JR(int i)
         {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
             if (CheckVariableName(sourceList[i][1]) == false)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
-                return false;
-            }
-            if (CheckAddress(sourceList[i][1]) == false)
-            {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
@@ -753,9 +776,777 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_JALR(int i)
         {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
             if (CheckVariableName(sourceList[i][1]) == false)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_ADDI(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_ADDIU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_ANDI(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_ORI(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_XORI(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_LUI(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+            else
+            {
+                sourceList[i][2] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_SLTI(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_SLTIU(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_LW(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_SW(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_LB(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_LBU(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_LH(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_LHU(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_SB(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_SH(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            if (SubArg.Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = SubArg[0];
+                sourceList[i][2] = SubArg[1];
+                if (CheckRegister(sourceList[i][2]) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    return false;
+                }
+
+                int imm = new int();
+                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    return false;
+                }
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                return true;
+            }
+        }
+
+        private bool OP_BEQ(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BNE(int i)
+        {
+            if (sourceList[i].Length != 4)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BGEZ(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BGEZAL(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BGTZ(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BLEZ(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BLTZ(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_BLTZAL(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (CheckRegister(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            int imm = new int();
+            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                return false;
+            }
+            else
+            {
+                sourceList[i][3] = imm.ToString();
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+            return true;
+        }
+
+        private bool OP_J(int i)
+        {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
             if (CheckAddress(sourceList[i][1]) == false)
@@ -767,133 +1558,19 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        private bool OP_ADDI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_ADDIU(int i)
-        {
-            return true;
-        }
-
-        private bool OP_ANDI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_ORI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_XORI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LUI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SLTI(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SLTIU(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LW(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SW(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LB(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LBU(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LH(int i)
-        {
-            return true;
-        }
-
-        private bool OP_LHU(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SB(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SH(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BEQ(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BNE(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BGEZ(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BGEZAL(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BGTZ(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BLEZ(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BLTZ(int i)
-        {
-            return true;
-        }
-
-        private bool OP_BLTZAL(int i)
-        {
-            return true;
-        }
-
-        private bool OP_J(int i)
-        {
-            return true;
-        }
-
         private bool OP_JAL(int i)
         {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
+            if (CheckAddress(sourceList[i][1]) == false)
+            {
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
             return true;
         }
 

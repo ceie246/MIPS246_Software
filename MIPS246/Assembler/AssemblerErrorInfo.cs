@@ -7,7 +7,8 @@ namespace MIPS246.Core.Assembler
 {
     enum AssemblerError
     {
-        NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL
+        NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL, INVALIDIMMEDIATE,
+        WRONGARG, WRONGOFFSET
     }
 
     class AssemblerErrorInfo
@@ -59,6 +60,12 @@ namespace MIPS246.Core.Assembler
                     break;
                 case AssemblerError.WRONGSHAMT:
                     Console.WriteLine("Line " + printline + ": The Shamt should between 0 to 31. Shamt:" + this.description);
+                    break;
+                case AssemblerError.INVALIDIMMEDIATE:
+                    Console.WriteLine("Line " + printline + ": The immediate formate is incorrect: " + this.description);
+                    break;
+                case AssemblerError.WRONGARG:
+                    Console.WriteLine("Line " + printline + ": The Args are incorrect: " + this.description);
                     break;
                 default:
                     break;
