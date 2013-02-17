@@ -194,6 +194,72 @@ namespace MIPS246.Core.Assembler
                     case "JALR":
                         return OP_JALR(i);
 
+                    case "ADDI":
+                        return OP_ADDI(i);
+                    case "ADDIU":
+                        return OP_ADDIU(i);
+                    case "ANDI":
+                        return OP_ANDI(i);
+                    case "ORI":
+                        return OP_ORI(i);
+                    case "XORI":
+                        return OP_XORI(i);
+                    case "LUI":
+                        return OP_LUI(i);
+                    case "SLTI":
+                        return OP_SLTI(i);
+                    case "SLTIU":
+                        return OP_SLTIU(i);
+                    case "LW":
+                        return OP_LW(i);
+                    case "SW":
+                        return OP_SW(i);
+                    case "LB":
+                        return OP_LB(i);
+                    case "LBU":
+                        return OP_LBU(i);
+                    case "LH":
+                        return OP_LH(i);
+                    case "LHU":
+                        return OP_LHU(i);
+                    case "SB":
+                        return OP_SB(i);
+                    case "SH":
+                        return OP_SH(i);
+                    case "BEQ":
+                        return OP_BEQ(i);
+                    case "BNE":
+                        return OP_BNE(i);
+
+                    case "BGEZ":
+                        return OP_BGEZ(i);
+                    case "BGEZAL":
+                        return OP_BGEZAL(i);
+                    case "BGTZ":
+                        return OP_BGTZ(i);
+                    case "BLEZ":
+                        return OP_BLEZ(i);
+                    case "BLTZ":
+                        return OP_BLTZ(i);
+                    case "BLTZAL":
+                        return OP_BLTZAL(i);
+                    case "J":
+                        return OP_J(i);
+                    case "JAL":
+                        return OP_JAL(i);
+
+                    case "SUBI":
+                        return OP_SUBI(i);
+                    case "MOVE":
+                        return OP_MOVE(i);
+                    case "NOP":
+                        return OP_NOP(i);
+                    case "LI":
+                        return OP_LI(i);
+                    case "LA":
+                        return OP_LA(i);
+                    case "SYSCALL":
+                        return OP_SYSCALL(i);
 
                     default:
                         this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
@@ -698,6 +764,166 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_ADDI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_ADDIU(int i)
+        {
+            return true;
+        }
+
+        private bool OP_ANDI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_ORI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_XORI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LUI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SLTI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SLTIU(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LW(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SW(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LB(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LBU(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LH(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LHU(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SB(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SH(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BEQ(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BNE(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BGEZ(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BGEZAL(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BGTZ(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BLEZ(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BLTZ(int i)
+        {
+            return true;
+        }
+
+        private bool OP_BLTZAL(int i)
+        {
+            return true;
+        }
+
+        private bool OP_J(int i)
+        {
+            return true;
+        }
+
+        private bool OP_JAL(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SUBI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_MOVE(int i)
+        {
+            return true;
+        }
+
+        private bool OP_NOP(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LI(int i)
+        {
+            return true;
+        }
+
+        private bool OP_LA(int i)
+        {
+            return true;
+        }
+
+        private bool OP_SYSCALL(int i)
+        {
             return true;
         }
         #endregion
