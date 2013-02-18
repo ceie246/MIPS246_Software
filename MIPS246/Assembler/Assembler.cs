@@ -158,112 +158,167 @@ namespace MIPS246.Core.Assembler
                     case ".WORD":
                         break;
                     case "ADD":
-                        return OP_ADD(i);
+                        if (OP_ADD(i) == false) return false;
+                        break;
                     case "ADDU":
-                        return OP_ADDU(i);
+                        if (OP_ADDU(i) == false) return false;
+                        break;
                     case "SUB":
-                        return OP_SUB(i);
+                        if (OP_SUB(i) == false) return false;
+                        break;
                     case "SUBU":
-                        return OP_SUBU(i);
+                        if (OP_SUBU(i) == false) return false;
+                        break;
                     case "AND":
-                        return OP_AND(i);
+                        if (OP_AND(i) == false) return false;
+                        break;
                     case "OR":
-                        return OP_OR(i);
+                        if (OP_OR(i) == false) return false;
+                        break;
                     case "XOR":
-                        return OP_XOR(i);
+                        if (OP_XOR(i) == false) return false;
+                        break;
                     case "NOR":
-                        return OP_NOR(i);
+                        if (OP_NOR(i) == false) return false;
+                        break;
                     case "SLT":
-                        return OP_SLT(i);
+                        if (OP_SLT(i) == false) return false;
+                        break;
                     case "SLTU":
-                        return OP_SLTU(i);
+                        if (OP_SLTU(i) == false) return false;
+                        break;
                     case "SLL":
-                        return OP_SLL(i);
+                        if (OP_SLL(i) == false) return false;
+                        break;
                     case "SRL":
-                        return OP_SRL(i);
+                        if (OP_SRL(i) == false) return false;
+                        break;
                     case "SRA":
-                        return OP_SRA(i);
+                        if (OP_SRA(i) == false) return false;
+                        break;
                     case "SLLV":
-                        return OP_SLLV(i);
+                        if (OP_SLLV(i) == false) return false;
+                        break;
                     case "SRLV":
-                        return OP_SRLV(i);
+                        if (OP_SRLV(i) == false) return false;
+                        break;
                     case "SRAV":
-                        return OP_SRAV(i);
+                        if (OP_SRAV(i) == false) return false;
+                        break;
                     case "JR":
-                        return OP_JR(i);
+                        if (OP_JR(i) == false) return false;
+                        break;
                     case "JALR":
-                        return OP_JALR(i);
+                        if (OP_JALR(i) == false) return false;
+                        break;
 
                     case "ADDI":
-                        return OP_ADDI(i);
+                        if (OP_ADDI(i) == false) return false;
+                        break;
                     case "ADDIU":
-                        return OP_ADDIU(i);
+                        if (OP_ADDIU(i) == false) return false;
+                        break;
                     case "ANDI":
-                        return OP_ANDI(i);
+                        if (OP_ANDI(i) == false) return false;
+                        break;
                     case "ORI":
-                        return OP_ORI(i);
+                        if (OP_ORI(i) == false) return false;
+                        break;
                     case "XORI":
-                        return OP_XORI(i);
+                        if (OP_XORI(i) == false) return false;
+                        break;
                     case "LUI":
-                        return OP_LUI(i);
+                        if (OP_LUI(i) == false) return false;
+                        break;
                     case "SLTI":
-                        return OP_SLTI(i);
+                        if (OP_SLTI(i) == false) return false;
+                        break;
                     case "SLTIU":
-                        return OP_SLTIU(i);
+                        if (OP_SLTIU(i) == false) return false;
+                        break;
                     case "LW":
-                        return OP_LW(i);
+                        if (OP_LW(i) == false) return false;
+                        break;
                     case "SW":
-                        return OP_SW(i);
+                        if (OP_SW(i) == false) return false;
+                        break;
                     case "LB":
-                        return OP_LB(i);
+                        if (OP_LB(i) == false) return false;
+                        break;
                     case "LBU":
-                        return OP_LBU(i);
+                        if ( OP_LBU(i) == false) return false;
+                        break;
                     case "LH":
-                        return OP_LH(i);
+                        if (OP_LH(i) == false) return false;
+                        break;
                     case "LHU":
-                        return OP_LHU(i);
+                        if (OP_LHU(i) == false) return false;
+                        break;
                     case "SB":
-                        return OP_SB(i);
+                        if (OP_SB(i) == false) return false;
+                        break;
                     case "SH":
-                        return OP_SH(i);
+                        if (OP_SH(i) == false) return false;
+                        break;
                     case "BEQ":
-                        return OP_BEQ(i);
+                        if (OP_BEQ(i) == false) return false;
+                        break;
                     case "BNE":
-                        return OP_BNE(i);
+                        if (OP_BNE(i) == false) return false;
+                        break;
 
                     case "BGEZ":
-                        return OP_BGEZ(i);
+                        if (OP_BGEZ(i) == false) return false;
+                        break;
                     case "BGEZAL":
-                        return OP_BGEZAL(i);
+                        if (OP_BGEZAL(i) == false) return false;
+                        break;
                     case "BGTZ":
-                        return OP_BGTZ(i);
+                        if (OP_BGTZ(i) == false) return false;
+                        break;
                     case "BLEZ":
-                        return OP_BLEZ(i);
+                        if (OP_BLEZ(i) == false) return false;
+                        break;
                     case "BLTZ":
-                        return OP_BLTZ(i);
+                        if (OP_BLTZ(i) == false) return false;
+                        break;
                     case "BLTZAL":
-                        return OP_BLTZAL(i);
+                        if (OP_BLTZAL(i) == false) return false;
+                        break;
                     case "J":
-                        return OP_J(i);
+                        if (OP_J(i) == false) return false;
+                        break;
                     case "JAL":
-                        return OP_JAL(i);
+                        if (OP_JAL(i) == false) return false;
+                        break;
 
                     case "SUBI":
-                        return OP_SUBI(i);
+                        if (OP_SUBI(i) == false) return false;
+                        break;
                     case "MOVE":
-                        return OP_MOVE(i);
+                        if (OP_MOVE(i) == false) return false;
+                        break;
                     case "NOP":
-                        return OP_NOP(i);
+                        if (OP_NOP(i) == false) return false;
+                        break;
                     case "LI":
-                        return OP_LI(i);
+                        if (OP_LI(i) == false) return false;
+                        break;
                     case "LA":
-                        return OP_LA(i);
+                        if (OP_LA(i) == false) return false;
+                        break;
                     case "SYSCALL":
-                        return OP_SYSCALL(i);
+                        if (OP_SYSCALL(i) == false) return false;
+                        break;
 
                     default:
-                        this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
-                        return false;
+                        if (sourceList[i].Length == 1 && sourceList[i][0] == string.Empty)
+                            break;
+                        else
+                        {
+                            this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
+                            return false;
+                        }                        
                 }                
             }
             return true;
@@ -646,9 +701,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SLL(int i)
         {
-            if (sourceList[i].Length != 3)
+            if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -668,9 +723,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SRL(int i)
         {
-            if (sourceList[i].Length != 3)
+            if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -690,9 +745,9 @@ namespace MIPS246.Core.Assembler
 
         private bool OP_SRA(int i)
         {
-            if (sourceList[i].Length != 3)
+            if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (CheckRegister(sourceList[i][1]) && CheckRegister(sourceList[i][2]) == false)
@@ -765,9 +820,9 @@ namespace MIPS246.Core.Assembler
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
-            if (CheckVariableName(sourceList[i][1]) == false)
+            if (CheckRegister(sourceList[i][1]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
@@ -781,9 +836,9 @@ namespace MIPS246.Core.Assembler
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
-            if (CheckVariableName(sourceList[i][1]) == false)
+            if (CheckRegister(sourceList[i][1]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGREGNAME, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));

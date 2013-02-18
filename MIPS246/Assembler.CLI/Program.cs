@@ -53,7 +53,7 @@ namespace CEIE246.Core.Assembler.CLI
                 {
                     if (isDisplay == true)
                     {
-                        Display(assembler);
+                        //Display(assembler);
                     }
                 }
                 else
