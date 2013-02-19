@@ -48,7 +48,7 @@ namespace MIPS246.Core.DataStructure
 
         public Instruction(string mnemonic, string arg1, string arg2, string arg3)
         {
-            this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic), mnemonic);
+            this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic), mnemonic.ToUpper());
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.arg3 = arg3;
@@ -224,105 +224,49 @@ namespace MIPS246.Core.DataStructure
             switch (this.mnemonic)
             {
                 case Mnemonic.ADD:
+                    OP_ADD();
+                    break;
                 case Mnemonic.ADDU:
+                    OP_ADDU();
+                    break;
                 case Mnemonic.SUB:
+                    OP_SUB();
+                    break;
                 case Mnemonic.SUBU:
+                    OP_SUBU();
+                    break;
                 case Mnemonic.AND:
+                    OP_AND();
+                    break;
                 case Mnemonic.OR:
+                    OP_OR();
+                    break;
                 case Mnemonic.XOR:
+                    OP_XOR();
+                    break;
                 case Mnemonic.NOR:
+                    OP_NOR();
+                    break;
                 case Mnemonic.SLT:
-                case Mnemonic.SLTU:            
-                    bool[] rs = new bool[5];
-                    bool[] rt = RegtoBin(this.arg2);
-                    bool[] rd = RegtoBin(this.arg3);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 16] = rd[i];
-                    }
+                    OP_SLT();
+                    break;
+                case Mnemonic.SLTU:
+                    OP_SLTU();
                     break;
                 case Mnemonic.SLL:
                 case Mnemonic.SRL:
-                case Mnemonic.SRA:
-                    rs = RegtoBin(this.arg1);
-                    rt = RegtoBin(this.arg2);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    break;
+                case Mnemonic.SRA:                    
                 case Mnemonic.SLLV:
                 case Mnemonic.SRLV:
                 case Mnemonic.SRAV:
-                    rs = RegtoBin(this.arg1);
-                    rt = RegtoBin(this.arg2);
-                    rd = RegtoBin(this.arg3);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 16] = rd[i];
-                    }
-                    break;
                 case Mnemonic.JR:
                 case Mnemonic.JALR:
-                    rs = RegtoBin(this.arg1);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    break;
                 case Mnemonic.ADDI:
                 case Mnemonic.ADDIU:
                 case Mnemonic.ANDI:
                 case Mnemonic.ORI:
                 case Mnemonic.XORI:
-                    rs = RegtoBin(this.arg1);
-                    rt = RegtoBin(this.arg2);
-                    bool[] immediate = HEXtoBin16(this.arg3);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    for (int i = 0; i < 16; i++)
-                    {
-                        this.machine_code[i + 16] = immediate[i];
-                    }
-                    break;
                 case Mnemonic.LUI:
-                    rt = RegtoBin(this.arg1);
-                    immediate = HEXtoBin16(this.arg2);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    for (int i = 0; i < 16; i++)
-                    {
-                        this.machine_code[i + 16] = immediate[i];
-                    }
-                    break;
                 case Mnemonic.SLTI:
                 case Mnemonic.SLTIU:
                 case Mnemonic.LW:
@@ -335,46 +279,13 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.SH:
                 case Mnemonic.BEQ:
                 case Mnemonic.BNE:
-                    rs = RegtoBin(this.arg1);
-                    rt = RegtoBin(this.arg2);
-                    bool[] offset = HEXtoBin16(this.arg3);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 11] = rt[i];
-                    }
-                    for (int i = 0; i < 16; i++)
-                    {
-                        this.machine_code[i + 16] = offset[i];
-                    }
-                    break;
                 case Mnemonic.BGEZ:
                 case Mnemonic.BGEZAL:
                 case Mnemonic.BGTZ:
                 case Mnemonic.BLEZ:
                 case Mnemonic.BLTZAL:
-                    rs = RegtoBin(this.arg1);
-                    offset = HEXtoBin16(this.arg2);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        this.machine_code[i + 6] = rs[i];
-                    }
-                    for (int i = 0; i < 16; i++)
-                    {
-                        this.machine_code[i + 16] = offset[i];
-                    }
-                    break;
                 case Mnemonic.J:
                 case Mnemonic.JAL:
-                    bool[] AddressArray = INTtoAddress(arg1);
-                    for (int i = 0; i < 30; i++)
-                    {
-                        machine_code[i + 6] = AddressArray[i + 4];
-                    }
-                    break;
                 /*
                 case Mnemonic.SUBI:
                     break;
@@ -608,6 +519,353 @@ namespace MIPS246.Core.DataStructure
             }
         }
 
+        private void setRegMachineCode(int startPosition, string reg)
+        {
+            switch (reg)
+            {
+                case "$0":
+                case "$zero":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$1":
+                case "$at":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$2":
+                case "$v0":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$3":
+                case "$v1":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$4":
+                case "$a0":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$5":
+                case "$a1":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$6":
+                case "$a2":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$7":
+                case "$a3":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$8":
+                case "$t0":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$9":
+                case "$t1":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$10":
+                case "$t2":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$11":
+                case "$t3":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$12":
+                case "$t4":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$13":
+                case "$t5":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$14":
+                case "$t6":
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$15":
+                case "$t7":                    
+                    this.machine_code[startPosition] = false;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$16":
+                case "$s0":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$17":
+                case "$s1":                    
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$18":
+                case "$s2":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$19":
+                case "$s3":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$20":
+                case "$s4":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$21":
+                case "$s5":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$22":
+                case "$s6":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$23":
+                case "$s7":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = false;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$24":
+                case "$t8":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$25":
+                case "$t9":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$26":
+                case "$k0":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$27":
+                case "$k1":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = false;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$28":
+                case "$gp":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$29":
+                case "$sp":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = false;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                case "$30":
+                case "$fp":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = false;
+                    break;
+                case "$31":
+                case "$ra":
+                    this.machine_code[startPosition] = true;
+                    this.machine_code[startPosition + 1] = true;
+                    this.machine_code[startPosition + 2] = true;
+                    this.machine_code[startPosition + 3] = true;
+                    this.machine_code[startPosition + 4] = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region OPs
+        private void OP_ADD()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADD].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_ADDU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_SUB()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUB].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_SUBU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_AND()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.AND].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_OR()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.OR].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_XOR()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.XOR].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_NOR()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.NOR].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_SLT()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLT].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
+
+        private void OP_SLTU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(6, arg3);
+        }
         #endregion
     }
 }

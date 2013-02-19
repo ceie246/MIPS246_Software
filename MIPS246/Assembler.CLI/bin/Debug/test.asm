@@ -1,6 +1,7 @@
 .text
 .globl __start
 __start:
+add $t1 $t2 $t3
 SLL $t1 $t2 22
 # load with sign extension
 JR $t1
