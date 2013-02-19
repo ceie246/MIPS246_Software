@@ -22,7 +22,7 @@ namespace MIPS246.Core.Assembler
         private Hashtable labeltable;
 
         //config
-        private static int startAddress = 0;
+        private static int startAddress = 0;    //add 0 line, for future use
         #endregion
 
         #region Constructors
@@ -66,6 +66,10 @@ namespace MIPS246.Core.Assembler
             }
 
             WriteBackAddress();
+
+            InitInstructionAddress();
+
+            AssemblerInstructions();
             return true;
         }
 
@@ -328,7 +332,7 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        private bool WriteBackAddress()
+        private void WriteBackAddress()
         {
             for (int i = 0; i < codelist.Count; i++)
             {
@@ -337,7 +341,22 @@ namespace MIPS246.Core.Assembler
                     codelist[i].Arg1 = addresstable[codelist[i].Arg1].ToString();
                 }
             }
-            return true;
+        }
+
+        private void InitInstructionAddress()
+        {
+            for (int i = 0; i < this.codelist.Count; i++)
+            {
+                codelist[i].Address = i * 4;
+            }            
+        }
+
+        private void AssemblerInstructions()
+        {
+            for (int i = 0; i < this.codelist.Count; i++)
+            {
+                codelist[i].Validate();
+            }
         }
 
         private bool SetAddress0(string label)
@@ -355,20 +374,6 @@ namespace MIPS246.Core.Assembler
         {
             addresstable.Add(addressname, address);
             labeltable.Add(address, addressname);
-        }
-
-        private string DisplayHexCMD(bool[] machine_code)
-        {
-            string machine_codeSTR = string.Empty;
-            for (int i = 0; i < 8; i++)
-            {
-                machine_codeSTR = machine_codeSTR + InttoHex(8 * BoolToInt(machine_code[i * 4]) +
-                    4 * BoolToInt(machine_code[i * 4 + 1]) +
-                    2 * BoolToInt(machine_code[i * 4 + 2]) +
-                    BoolToInt(machine_code[i * 4 + 3]));
-            }
-
-            return machine_codeSTR;
         }
 
         private bool CheckRegister(string reg)
@@ -552,6 +557,20 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
             return true;
+        }
+
+        private string DisplayHexCMD(bool[] machine_code)
+        {
+            string machine_codeSTR = string.Empty;
+            for (int i = 0; i < 8; i++)
+            {
+                machine_codeSTR = machine_codeSTR + InttoHex(8 * BoolToInt(machine_code[i * 4]) +
+                    4 * BoolToInt(machine_code[i * 4 + 1]) +
+                    2 * BoolToInt(machine_code[i * 4 + 2]) +
+                    BoolToInt(machine_code[i * 4 + 3]));
+            }
+
+            return machine_codeSTR;
         }
         #endregion
 

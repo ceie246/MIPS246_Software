@@ -26,7 +26,7 @@ namespace MIPS246.Core.DataStructure
         private Mnemonic mnemonic;
         private bool[] machine_code;
         private string arg1, arg2, arg3;
-        private uint address;
+        private int address;
         private static Hashtable AssemblerTable;
         private static Hashtable DisassemblerTable;
         #endregion
@@ -37,7 +37,7 @@ namespace MIPS246.Core.DataStructure
             InitAssemblerTable();
         }
 
-        public Instruction(string mnemonic, string arg1, string arg2, string arg3, uint address)
+        public Instruction(string mnemonic, string arg1, string arg2, string arg3, int address)
         {
             this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic),mnemonic);
             this.arg1 = arg1;
@@ -61,11 +61,15 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Properties
-        public uint Address
+        public int Address
         {
             get
             {
                 return this.address;
+            }
+            set
+            {
+                this.address = value;
             }
         }
 
