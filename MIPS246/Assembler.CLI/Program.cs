@@ -79,7 +79,7 @@ namespace CEIE246.Core.Assembler.CLI
         {
             foreach (Instruction i in assembler.CodeList)
             {
-                Console.WriteLine(assembler.Display(i));
+                //Console.WriteLine(assembler.Display(i));
             }
         }
     }

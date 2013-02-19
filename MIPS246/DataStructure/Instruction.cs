@@ -24,7 +24,7 @@ namespace MIPS246.Core.DataStructure
     {
         #region Fields
         private Mnemonic mnemonic;
-        private bool[] machine_code;
+        private BitArray machine_code;
         private string arg1, arg2, arg3;
         private int address;
         private static Hashtable AssemblerTable;
@@ -54,7 +54,7 @@ namespace MIPS246.Core.DataStructure
             this.arg3 = arg3;
         }
 
-        public Instruction(bool[] machine_code)
+        public Instruction(BitArray machine_code)
         {
             this.machine_code = machine_code;
         }
@@ -73,7 +73,7 @@ namespace MIPS246.Core.DataStructure
             }
         }
 
-        public bool[] Machine_Code
+        public BitArray Machine_Code
         {
             get
             {
@@ -149,9 +149,9 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Internal Methods
-        private static bool[] InitBoolArray(string codestring)
+        private static BitArray InitBoolArray(string codestring)
         {
-            bool[] machine_code = new bool[32];
+            BitArray machine_code = new BitArray(32);
             for (int i = 0; i < 32; i++)
             {
                 if (codestring[i] == '0') machine_code[i] = false;
@@ -254,38 +254,105 @@ namespace MIPS246.Core.DataStructure
                     OP_SLTU();
                     break;
                 case Mnemonic.SLL:
+                    OP_SLL();
+                    break;
                 case Mnemonic.SRL:
-                case Mnemonic.SRA:                    
+                    OP_SRL();
+                    break;
+                case Mnemonic.SRA:
+                    OP_SRA();
+                    break;
                 case Mnemonic.SLLV:
+                    OP_SLLV();
+                    break;
                 case Mnemonic.SRLV:
+                    OP_SRLV();
+                    break;
                 case Mnemonic.SRAV:
+                    OP_SRAV();
+                    break;
                 case Mnemonic.JR:
+                    OP_JR();
+                    break;
                 case Mnemonic.JALR:
+                    OP_JALR();
+                    break;
                 case Mnemonic.ADDI:
+                    OP_ADDI();
+                    break;
                 case Mnemonic.ADDIU:
+                    OP_ADDIU();
+                    break;
                 case Mnemonic.ANDI:
+                    OP_ANDI();
+                    break;
                 case Mnemonic.ORI:
+                    OP_ORI();
+                    break;
                 case Mnemonic.XORI:
+                    OP_XORI();
+                    break;
                 case Mnemonic.LUI:
+                    OP_LUI();
+                    break;
                 case Mnemonic.SLTI:
+                    OP_SLTI();
+                    break;
                 case Mnemonic.SLTIU:
+                    OP_SLTIU();
+                    break;
                 case Mnemonic.LW:
+                    OP_LW();
+                    break;
                 case Mnemonic.SW:
+                    OP_SW();
+                    break;
                 case Mnemonic.LB:
+                    OP_LB();
+                    break;
                 case Mnemonic.LBU:
+                    OP_LBU();
+                    break;
                 case Mnemonic.LH:
+                    OP_LH();
+                    break;
                 case Mnemonic.LHU:
+                    OP_LHU();
+                    break;
                 case Mnemonic.SB:
+                    OP_SB();
+                    break;
                 case Mnemonic.SH:
+                    OP_SH();
+                    break;
                 case Mnemonic.BEQ:
+                    OP_BEQ();
+                    break;
                 case Mnemonic.BNE:
+                    OP_BNE();
+                    break;
                 case Mnemonic.BGEZ:
+                    OP_BGEZ();
+                    break;
                 case Mnemonic.BGEZAL:
+                    OP_BGEZAL();
+                    break;
                 case Mnemonic.BGTZ:
+                    OP_BGTZ();
+                    break;
                 case Mnemonic.BLEZ:
+                    OP_BLEZ();
+                    break;
                 case Mnemonic.BLTZAL:
+                    OP_BLTZAL();
+                    break;
                 case Mnemonic.J:
+                    OP_J();
+                    break;
                 case Mnemonic.JAL:
+                    OP_JAL();
+                    break;
+
                 /*
                 case Mnemonic.SUBI:
                     break;
@@ -302,221 +369,15 @@ namespace MIPS246.Core.DataStructure
                  */
                 default:
                     return;
-
             }
         }
 
-        private static bool[] INTtoAddress(string uintstring)
+        private bool ConvertBit(string i)
         {
-            uint uintaddress = uint.Parse(uintstring);
-            bool[] BinArray = new bool[32];
-            string addressstring = Convert.ToString(uintaddress, 2);
-            for (int i = 0; i < 32; i++)
-            {
-                if (addressstring[i] == '0')
-                    BinArray[i] = false;
-                else
-                    BinArray[i] = true;
-            }
-            return BinArray;
-        }
-
-        private static bool[] HEXtoBin16(string HexString)
-        {
-            bool[] BinArray = new bool[16];
-            for (int i = 0; i < 4; i++)
-            {
-                bool[] Bin4 = HextoBin(HexString[i]);
-                for (int j = 0; j < 4; j++)
-                {
-                    BinArray[i * 4 + j] = Bin4[j];
-                }
-            }
-            return BinArray;
-        }
-
-        private static bool[] HEXtoAddress(string HexString)
-        {
-            bool[] BinArray = new bool[32];
-            for (int i = 0; i < 8; i++)
-            {
-                bool[] Bin4 = HextoBin(HexString[i]);
-                for (int j = 0; j < 4; j++)
-                {
-                    BinArray[i * 4 + j] = Bin4[j];
-                }
-            }
-            return BinArray;
-        }
-
-        private static bool[] HextoBin(char c)
-        {
-            bool[] BinArray;
-             switch (c)
-             {
-                case '0':
-                    BinArray = new bool[4] { false, false, false, false };
-                    return BinArray;
-                case '1':
-                    BinArray = new bool[4] { false, false, false, true };
-                    return BinArray;
-                case '2':
-                     BinArray = new bool[4] { false, false, true, false };
-                     return BinArray;
-                case '3':
-                     BinArray = new bool[4] { false, false, true, true };
-                     return BinArray;
-                case '4':
-                     BinArray = new bool[4] { false, true, false, false };
-                     return BinArray;
-                case '5':
-                     BinArray = new bool[4] { false, true, false, true };
-                     return BinArray;
-                case '6':
-                     BinArray = new bool[4] { false, true, true, false };
-                     return BinArray;
-                case '7':
-                     BinArray = new bool[4] { false, true, true, true };
-                     return BinArray;
-                case '8':
-                     BinArray = new bool[4] { true, false, false, false };
-                     return BinArray;
-                case '9':
-                     BinArray = new bool[4] { true, false, false, true };
-                     return BinArray;
-                case 'A':
-                case 'a':
-                     BinArray = new bool[4] { true, false, true, false };
-                     return BinArray;
-                case 'B':
-                case 'b':
-                     BinArray = new bool[4] { true, false, true, true };
-                     return BinArray;
-                case 'C':
-                case 'c':
-                     BinArray = new bool[4] { true, true, false, false };
-                     return BinArray;
-                case 'D':
-                case 'd':
-                     BinArray = new bool[4] { true, true, false, true };
-                     return BinArray;
-                case 'E':
-                case 'e':
-                     BinArray = new bool[4] { true, true, true, false };
-                     return BinArray;
-                case 'F':
-                case 'f':
-                     BinArray = new bool[4] { true, true, true, true };
-                     return BinArray;
-                 default:
-                     BinArray = new bool[4] { true, true, true, true };
-                     return BinArray;
-             }
-        }
-
-        private static bool[] RegtoBin(string reg)
-        {
-            switch (reg)
-            {
-                case "$0":
-                case "$zero":
-                    return new bool[5] { false, false, false, false, false };
-                case "$1":
-                case "$at":
-                    return new bool[5] { false, false, false, false, true };
-                case "$2":
-                case "$v0":
-                    return new bool[5] { false, false, false, true, false };
-                case "$3":
-                case "$v1":
-                    return new bool[5] { false, false, false, true, true };
-                case "$4":
-                case "$a0":
-                    return new bool[5] { false, false, true, false, false };
-                case "$5":
-                case "$a1":
-                    return new bool[5] { false, false, true, false, true };
-                case "$6":
-                case "$a2":
-                    return new bool[5] { false, false, true, true, false };
-                case "$7":
-                case "$a3":
-                    return new bool[5] { false, false, true, true, true };
-                case "$8":
-                case "$t0":
-                    return new bool[5] { false, true, false, false, false };
-                case "$9":
-                case "$t1":
-                    return new bool[5] { false, true, false, false, true };
-                case "$10":
-                case "$t2":
-                    return new bool[5] { false, true, false, true, false };
-                case "$11":
-                case "$t3":
-                    return new bool[5] { false, true, false, true, true };
-                case "$12":
-                case "$t4":
-                    return new bool[5] { false, true, true, false, false };
-                case "$13":
-                case "$t5":
-                    return new bool[5] { false, true, true, false, true };
-                case "$14":
-                case "$t6":
-                    return new bool[5] { false, true, true, true, false };
-                case "$15":
-                case "$t7":
-                    return new bool[5] { false, true, true, true, true };
-                case "$16":
-                case "$s0":
-                    return new bool[5] { true, false, false, false, false };
-                case "$17":
-                case "$s1":
-                    return new bool[5] { true, false, false, false, true };
-                case "$18":
-                case "$s2":
-                    return new bool[5] { true, false, false, true, false };
-                case "$19":
-                case "$s3":
-                    return new bool[5] { true, false, false, true, true };
-                case "$20":
-                case "$s4":
-                    return new bool[5] { true, false, true, false, false };
-                case "$21":
-                case "$s5":
-                    return new bool[5] { true, false, true, false, true };
-                case "$22":
-                case "$s6":
-                    return new bool[5] { true, false, true, true, false };
-                case "$23":
-                case "$s7":
-                    return new bool[5] { true, false, true, true, true };
-                case "$24":
-                case "$t8":
-                    return new bool[5] { true, true, false, false, false };
-                case "$25":
-                case "$t9":
-                    return new bool[5] { true, true, false, false, true };
-                case "$26":
-                case "$k0":
-                    return new bool[5] { true, true, false, true, false };
-                case "$27":
-                case "$k1":
-                    return new bool[5] { true, true, false, true, true };
-                case "$28":
-                case "$gp":
-                    return new bool[5] { true, true, true, false, false };
-                case "$29":
-                case "$sp":
-                    return new bool[5] { true, true, true, false, true };
-                case "$30":
-                case "$fp":
-                    return new bool[5] { true, true, true, true, false };
-                case "$31":
-                case "$ra":
-                    return new bool[5] { true, true, true, true, true };
-                default:
-                    return new bool[5] { false, false, false, false, false };
-            }
+            if (i == "1")
+                return true;
+            else
+                return false;
         }
 
         private void setRegMachineCode(int startPosition, string reg)
@@ -786,9 +647,40 @@ namespace MIPS246.Core.DataStructure
 
         private void setShamtMachineCode(int startPosition, string shamt)
         {
-
+            string HEXstring = Convert.ToString(int.Parse(shamt), 2);
+            for (int i = 0; i < 5; i++)
+            {
+                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(HEXstring[i]));
+            }
         }
 
+        private void setImmediateMachineCode(int startPosition, string immediate)
+        {
+            string immediatestr = Convert.ToString(int.Parse(immediate), 2);
+            for (int i = 0; i < 16; i++)
+            {
+                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(immediatestr[i]));
+            }
+        }
+
+        private void setOffsetMachineCode(int startPosition, string offset)
+        {
+            string offsetstr = Convert.ToString(int.Parse(offset), 2);
+            for (int i = 0; i < 16; i++)
+            {
+                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(offsetstr[i]));
+            }
+        }
+
+        private void setAddressMachineCode(string address)
+        {
+            string addressstr = Convert.ToString(int.Parse(address), 2);
+            addressstr = addressstr.Substring(2, addressstr.Length - 4);
+            for (int i = 6; i < 32; i++)
+            {
+                machine_code[i] = Convert.ToBoolean(Convert.ToInt32(addressstr[i]));
+            }
+        }
         #endregion
 
         #region OPs
@@ -797,7 +689,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADD].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_ADDU()
@@ -805,7 +697,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDU].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_SUB()
@@ -813,7 +705,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUB].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_SUBU()
@@ -821,7 +713,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBU].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_AND()
@@ -829,7 +721,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.AND].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_OR()
@@ -837,7 +729,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.OR].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_XOR()
@@ -845,7 +737,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.XOR].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_NOR()
@@ -853,7 +745,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.NOR].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_SLT()
@@ -861,7 +753,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLT].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
         }
 
         private void OP_SLTU()
@@ -869,7 +761,306 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTU].ToString());
             setRegMachineCode(6, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(6, arg3);
+            setRegMachineCode(16, arg3);
+        }
+
+        private void OP_SLL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(16, arg2);
+            setShamtMachineCode(21, arg3);
+        }
+
+        private void OP_SRL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(16, arg2);
+            setShamtMachineCode(21, arg3);
+        }
+
+        private void OP_SRA()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(16, arg2);
+            setShamtMachineCode(21, arg3);
+        }
+
+        private void OP_SLLV()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLLV].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(16, arg3);
+        }
+
+        private void OP_SRLV()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRLV].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(16, arg3);
+        }
+
+        private void OP_SRAV()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRAV].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setRegMachineCode(16, arg3);
+        }
+
+        private void OP_JR()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.JR].ToString());
+            setRegMachineCode(6, arg1);
+        }
+
+        private void OP_JALR()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.JR].ToString());
+            setRegMachineCode(6, arg1);
+        }
+
+        private void OP_ADDI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDI].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_ADDIU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDIU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_ANDI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ANDI].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_ORI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ORI].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_XORI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.XORI].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_LUI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LUI].ToString());
+            setRegMachineCode(11, arg1);
+            setImmediateMachineCode(16, arg2);
+        }
+
+        private void OP_SLTI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTI].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_SLTIU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTIU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setImmediateMachineCode(16, arg3);
+        }
+
+        private void OP_LW()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LW].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_SW()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SW].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_LB()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LB].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_LBU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LBU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_LH()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LH].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_LHU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LHU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_SB()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SB].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_SH()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SH].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BEQ()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BEQ].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BNE()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BNE].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BGEZ()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BGEZ].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BGEZAL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BGEZAL].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BGTZ()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BGTZ].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BLEZ()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLEZ].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BLTZ()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLTZ].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_BLTZAL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLTZAL].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+            setOffsetMachineCode(16, arg3);
+        }
+
+        private void OP_J()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.J].ToString());
+            setAddressMachineCode(arg1);
+        }
+
+        private void OP_JAL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.JAL].ToString());
+            setAddressMachineCode(arg1);
+
+        }
+
+        private void OP_SUBI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBI].ToString());
+            setAddressMachineCode(arg1);
+
+        }
+
+        private void OP_NOP()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.NOP].ToString());
+            setAddressMachineCode(arg1);
+
+        }
+
+        private void OP_LI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LI].ToString());
+            setAddressMachineCode(arg1);
+
+        }
+
+        private void OP_LA()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LA].ToString());
+            setAddressMachineCode(arg1);
+
+        }
+
+        private void OP_SYSCALL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SYSCALL].ToString());
+            setAddressMachineCode(arg1);
+
         }
         #endregion
     }

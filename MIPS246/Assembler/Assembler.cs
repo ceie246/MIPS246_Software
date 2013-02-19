@@ -73,10 +73,10 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        public string Display(Instruction instruction)
-        {
-            return "0x"+String.Format("{0:X8}", instruction.Address)+":\t"+DisplayHexCMD(instruction.Machine_Code);
-        }
+        //public string Display(Instruction instruction)
+        //{
+        //    return "0x"+String.Format("{0:X8}", instruction.Address)+":\t"+DisplayHexCMD(instruction.Machine_Code);
+        //}
         
         public void DisplayError()
         {
