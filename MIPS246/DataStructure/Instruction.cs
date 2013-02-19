@@ -784,6 +784,11 @@ namespace MIPS246.Core.DataStructure
             }
         }
 
+        private void setShamtMachineCode(int startPosition, string shamt)
+        {
+
+        }
+
         #endregion
 
         #region OPs
