@@ -8,3 +8,5 @@ JALR $t1
 # load without sign extension
 addressB:
 JR $ra
+J addressB
+JAL __start

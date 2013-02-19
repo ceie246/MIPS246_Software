@@ -76,6 +76,54 @@ namespace MIPS246.Core.DataStructure
                 return this.machine_code;
             }
         }
+
+        public string Arg1
+        {
+            get
+            {
+                return this.arg1;
+            }
+            set
+            {
+                this.arg1 = value;
+            }
+        }
+
+        public string Arg2
+        {
+            get
+            {
+                return this.arg2;
+            }
+            set
+            {
+                this.arg2 = value;
+            }
+        }
+
+        public string Arg3
+        {
+            get
+            {
+                return this.arg3;
+            }
+            set
+            {
+                this.arg3 = value;
+            }
+        }
+
+        public Mnemonic Mnemonic
+        {
+            get
+            {
+                return this.mnemonic;
+            }
+            set
+            {
+                this.mnemonic = value;
+            }
+        }
         #endregion
 
         #region Public Methods

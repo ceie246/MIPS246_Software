@@ -18,9 +18,8 @@ namespace MIPS246.Core.Assembler
         private List<string[]> sourceList;
         private AssemblerErrorInfo error;
         private string sourcepath;
-        private int address;
-        private int line;
         private Hashtable addresstable;
+        private Hashtable labeltable;
 
         //config
         private static int startAddress = 0;
@@ -33,9 +32,7 @@ namespace MIPS246.Core.Assembler
             sourceList = new List<string[]>();
             codelist = new List<Instruction>();
             addresstable = new Hashtable();
-
-            address = 0;
-            line = 1;
+            labeltable = new Hashtable();
         }
         #endregion
 
@@ -68,7 +65,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-
+            WriteBackAddress();
             return true;
         }
 
@@ -128,6 +125,12 @@ namespace MIPS246.Core.Assembler
         {
             for (int i = 0; i < sourceList.Count; i++)
             {
+
+                if (addresstable.ContainsValue(i - 1))
+                {
+                    addresstable[labeltable[i - 1].ToString()] = codelist.Count;
+                }
+
                 if (addresstable.ContainsValue(i)) continue;
                 switch (sourceList[i][0].ToUpper())
                 {
@@ -319,7 +322,20 @@ namespace MIPS246.Core.Assembler
                             this.error = new AssemblerErrorInfo(i, AssemblerError.UNKNOWNCMD, sourceList[i][0]);
                             return false;
                         }                        
-                }                
+                }
+                
+            }
+            return true;
+        }
+
+        private bool WriteBackAddress()
+        {
+            for (int i = 0; i < codelist.Count; i++)
+            {
+                if (codelist[i].Mnemonic == Mnemonic.J || codelist[i].Mnemonic == Mnemonic.JAL)
+                {
+                    codelist[i].Arg1 = addresstable[codelist[i].Arg1].ToString();
+                }
             }
             return true;
         }
@@ -338,6 +354,7 @@ namespace MIPS246.Core.Assembler
         private void addAddresstable(string addressname, int address)
         {
             addresstable.Add(addressname, address);
+            labeltable.Add(address, addressname);
         }
 
         private string DisplayHexCMD(bool[] machine_code)
@@ -1625,7 +1642,7 @@ namespace MIPS246.Core.Assembler
                 this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                 return false;
             }
-            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
             return true;
         }
 
