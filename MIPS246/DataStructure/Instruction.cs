@@ -143,9 +143,7 @@ namespace MIPS246.Core.DataStructure
                 
                 
             }
-        }
-
-        
+        }        
         #endregion
 
         #region Internal Methods
@@ -675,10 +673,11 @@ namespace MIPS246.Core.DataStructure
         private void setAddressMachineCode(string address)
         {
             string addressstr = Convert.ToString(int.Parse(address), 2);
-            addressstr = addressstr.Substring(2, addressstr.Length - 4);
-            for (int i = 6; i < 32; i++)
+            addressstr = addressstr.PadLeft(32,'0');
+            addressstr = addressstr.Substring(4, addressstr.Length - 6);
+            for (int i = 0; i < 26; i++)
             {
-                machine_code[i] = Convert.ToBoolean(Convert.ToInt32(addressstr[i]));
+                machine_code[i + 6] = Convert.ToBoolean(Convert.ToInt32(addressstr[i]));
             }
         }
         #endregion

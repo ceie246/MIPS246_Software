@@ -11,8 +11,11 @@ namespace CEIE246.Core.Assembler.CLI
     {
         static void Main(string[] args)
         {
-            string sourcepath, outputpath;
+            string sourcepath = null, outputpath = null;
             bool isDisplay = false;
+            bool isDisplayBinary = false;
+            bool isOutputCOE = false;
+
 
             if (args.Length == 0)
             {
@@ -21,15 +24,14 @@ namespace CEIE246.Core.Assembler.CLI
             }
             else
             {
-                if (args[args.Length - 1].Contains(".asm"))
+                sourcepath = args[args.Length - 1];
+                if (args[args.Length - 1].EndsWith(".asm"))
                 {
-                    sourcepath = args[args.Length - 1].Substring(0, args[args.Length - 1].Length - 4);
+                    outputpath = args[args.Length - 1].Substring(0, args[args.Length - 1].Length - 4);
                 }
-                else
-                    sourcepath = args[args.Length - 1] + ".bin";
-                outputpath = sourcepath + ".bin";
+
+                outputpath += ".txt";
                 
-                Console.WriteLine(outputpath);
                 for (int i = 0; i < args.Length; i++)
                 {
                     switch (args[i])
@@ -46,23 +48,38 @@ namespace CEIE246.Core.Assembler.CLI
                         case "--display":
                             isDisplay = true;
                             break;
+                        case "-b":
+                            isDisplay = true;
+                            isDisplayBinary = true;
+                            break;
+                        case "-t":                            
+                            break;
+                        case "-c":
+                            isOutputCOE = true;
+                            outputpath = outputpath.Substring(0, outputpath.Length - 4) + ".coe";
+                            break;
                     }
                 }
-                MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(args[args.Length - 1]);
+
+                MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(sourcepath, outputpath);
+
                 if (assembler.DoAssemble() == true)
                 {
                     if (isDisplay == true)
                     {
-                        //Display(assembler);
+                        assembler.Display(isDisplayBinary);
                     }
+                    assembler.Output(isOutputCOE, outputpath);
                 }
                 else
                 {
                     assembler.DisplayError();
+                    return;
                 }
             }
 
-            Console.ReadLine();
+            Console.WriteLine("Compile finished.");
+            Console.WriteLine("Export file: " + outputpath);
             
         }
 
@@ -72,15 +89,10 @@ namespace CEIE246.Core.Assembler.CLI
             Console.WriteLine("Options and arguments (and corresponding environment variables):");
             Console.WriteLine("-h : print this help message and exit (also --help)");
             Console.WriteLine("-o : custom output file name (also --obj)");
-            Console.WriteLine("-d : display in console without output a bin file (also --display)");
-        }
-
-        static void Display(MIPS246.Core.Assembler.Assembler assembler)
-        {
-            foreach (Instruction i in assembler.CodeList)
-            {
-                //Console.WriteLine(assembler.Display(i));
-            }
+            Console.WriteLine("-d : display in console in HEX machine code (also --display)");
+            Console.WriteLine("-b : display in console in binary machine code");
+            Console.WriteLine("-t : Output .txt file. (default)");
+            Console.WriteLine("-c : Output .coe file.");
         }
     }
 }

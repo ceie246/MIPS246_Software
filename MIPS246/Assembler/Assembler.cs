@@ -18,6 +18,7 @@ namespace MIPS246.Core.Assembler
         private List<string[]> sourceList;
         private AssemblerErrorInfo error;
         private string sourcepath;
+        private string outputpath;
         private Hashtable addresstable;
         private Hashtable labeltable;
 
@@ -26,9 +27,10 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Constructors
-        public Assembler(string sourcepath)
+        public Assembler(string sourcepath, string outputpath)
         {
             this.sourcepath = sourcepath;
+            this.outputpath = outputpath;
             sourceList = new List<string[]>();
             codelist = new List<Instruction>();
             addresstable = new Hashtable();
@@ -73,10 +75,61 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        //public string Display(Instruction instruction)
-        //{
-        //    return "0x"+String.Format("{0:X8}", instruction.Address)+":\t"+DisplayHexCMD(instruction.Machine_Code);
-        //}
+        public void Display(bool isBinary)
+        {
+            int[] intarray=new int [1];
+            
+            for (int i = 0; i < codelist.Count; i++)
+            {
+                codelist[i].Machine_Code.CopyTo(intarray,0);
+                if(isBinary)
+                {
+                    Console.WriteLine("0x" + String.Format("{0:X8}", codelist[i].Address) + ":\t"  + string.Format("{0:x}", Convert.ToString(intarray[0], 2)).PadLeft(32, '0'));
+                }
+                else
+                {
+                    Console.WriteLine("0x" + String.Format("{0:X8}", codelist[i].Address) + ":\t" + "0x" + string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0'));
+                }                
+            }
+        }
+
+        public void Output(bool isoutputCOE, string outputPath)
+        {
+            int[] intarray = new int[1];
+
+            StreamWriter sr = new StreamWriter(outputpath);
+
+            if (isoutputCOE == true)
+            {
+                sr.WriteLine("memory_initialization_radix=16;");
+                sr.WriteLine("memory_initialization_vector=");
+                for (int i = 0; i < codelist.Count; i++)
+                {
+                    codelist[i].Machine_Code.CopyTo(intarray, 0);
+                    if (i != codelist.Count - 1)
+                    {
+                        sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0') + ",");
+                    }
+                    else
+                    {
+                        sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0') + ";");
+                    }
+                    
+                }
+            }
+            else
+            {
+                for (int i = 0; i < codelist.Count; i++)
+                {
+                    codelist[i].Machine_Code.CopyTo(intarray, 0);
+                    sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0'));
+                }
+            }
+            
+            
+
+            sr.Close();
+        }
         
         public void DisplayError()
         {
@@ -476,50 +529,6 @@ namespace MIPS246.Core.Assembler
            }
            return str;
         }
-        
-        private string InttoHex(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    return i.ToString();
-                case 11:
-                    return "A";
-                case 12:
-                    return "B";
-                case 13:
-                    return "C";
-                case 14:
-                    return "D";
-                case 15:
-                    return "E";
-                case 16:
-                    return "F";
-                default:
-                    return i.ToString();
-            }
-        }
-
-        private int BoolToInt(bool bit)
-        {
-            switch (bit)
-            {
-                case true:
-                    return 1;
-                case false:
-                    return 0;
-                default:
-                    return 0;
-            }
-        }
 
         private bool CheckShamt(string i)
         {
@@ -557,20 +566,6 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
             return true;
-        }
-
-        private string DisplayHexCMD(bool[] machine_code)
-        {
-            string machine_codeSTR = string.Empty;
-            for (int i = 0; i < 8; i++)
-            {
-                machine_codeSTR = machine_codeSTR + InttoHex(8 * BoolToInt(machine_code[i * 4]) +
-                    4 * BoolToInt(machine_code[i * 4 + 1]) +
-                    2 * BoolToInt(machine_code[i * 4 + 2]) +
-                    BoolToInt(machine_code[i * 4 + 3]));
-            }
-
-            return machine_codeSTR;
         }
         #endregion
 
