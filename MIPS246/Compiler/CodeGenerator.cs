@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DataStructure;
 using MIPS246.Core.DataStructure;
 
 namespace Compiler
