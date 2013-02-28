@@ -1,7 +1,0 @@
-E:\MIPS\MIPS246\Compiler\bin\Debug\Compiler.exe
-E:\MIPS\MIPS246\Compiler\bin\Debug\Compiler.pdb
-E:\MIPS\MIPS246\Compiler\obj\x86\Debug\ResolveAssemblyReference.cache
-E:\MIPS\MIPS246\Compiler\obj\x86\Debug\Compiler.exe
-E:\MIPS\MIPS246\Compiler\obj\x86\Debug\Compiler.pdb
-E:\MIPS\MIPS246\Compiler\bin\Debug\DataStructure.dll
-E:\MIPS\MIPS246\Compiler\bin\Debug\DataStructure.pdb
