@@ -36,9 +36,7 @@ namespace Compiler
                 optimize();
             }
         }
-        #endregion
 
-        #region Public Method
         private string getRegOrImmi() 
         {
             return null;
