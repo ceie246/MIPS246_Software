@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DataStructure
+namespace Compiler
 {
     //变量类型，必须大写
     public enum SymbolType:byte

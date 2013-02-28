@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace DataStructure
+namespace Compiler
 {
     public class SymbolTable
     {
