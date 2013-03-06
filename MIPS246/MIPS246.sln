@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{BFB0D791-9C6C-456A-8B89-2ED73C84FDD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructure", "DataStructure\DataStructure.csproj", "{A3C81FFA-07EB-4239-AFED-DB93E161FE71}"
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disassembler.CLI", "Disassembler.CLI\Disassembler.CLI.csproj", "{231B528A-4D90-44D2-8D72-D5B3A6589528}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler", "Compiler\Compiler.csproj", "{DB12D97E-2396-4378-B738-59DF16C4B10D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.CLI", "Compiler.CLI\Compiler.CLI.csproj", "{4A051863-DC05-41D5-A499-33C922A39D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,16 @@ Global
 		{DB12D97E-2396-4378-B738-59DF16C4B10D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DB12D97E-2396-4378-B738-59DF16C4B10D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DB12D97E-2396-4378-B738-59DF16C4B10D}.Release|x86.ActiveCfg = Release|Any CPU
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Debug|x86.ActiveCfg = Debug|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Debug|x86.Build.0 = Debug|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Release|Any CPU.ActiveCfg = Release|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Release|x86.ActiveCfg = Release|x86
+		{4A051863-DC05-41D5-A499-33C922A39D3B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
