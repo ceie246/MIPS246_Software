@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MIPS246.Core.DataStructure;
-using MIPS246.Core.Assembler;
 
 namespace CEIE246.Core.Assembler.CLI
 {
