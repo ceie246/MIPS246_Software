@@ -40,10 +40,13 @@ namespace MIPS246.Core.Compiler
             string printline = (line + 1).ToString();
             switch (this.compilererror)
             {
-                
+                case CompilerError.NOFILE:
+                    Console.WriteLine("Line 0: Could not found the source file.");
+                    break;
                 default:
                     break;
             }
         }
+        #endregion
     }
 }

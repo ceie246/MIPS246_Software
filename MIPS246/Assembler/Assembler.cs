@@ -151,7 +151,7 @@ namespace MIPS246.Core.Assembler
                 while ((linetext = sr.ReadLine()) != null)
                 {
                     linetext = RemoveComment(linetext);
-                    sourceList.Add(linetext.Split(new Char[] { ' ', '\t', ',' }));
+                    sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }));
                 }
                 sr.Close();
                 return true;

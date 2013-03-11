@@ -1,6 +1,7 @@
 ﻿using MIPS246.Core.DataStructure;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MIPS246.Core.Compiler
 {
@@ -9,7 +10,7 @@ namespace MIPS246.Core.Compiler
         #region Fields
         private List<Instruction> codelist;
         private List<string[]> sourceList;
-        //error manager
+        private CompilerErrorInfo error;
         private string sourcepath;
         private string outputpath;
         private Hashtable addresstable;
@@ -44,7 +45,11 @@ namespace MIPS246.Core.Compiler
         #region Public Methods
         public bool DoCompile()
         {
-            
+            if (this.LoadFile() == false)
+            {
+                this.error = new CompilerErrorInfo(0, CompilerError.NOFILE);
+                return false;
+            }
             return true;
         }
 
@@ -64,7 +69,40 @@ namespace MIPS246.Core.Compiler
         #region Internal Methods      
         private bool LoadFile()
         {
+            if (File.Exists(sourcepath) == false)
+            {
+                this.error = new CompilerErrorInfo(0, CompilerError.NOFILE);
+                return false;
+            }
+            else
+            {
+                StreamReader sr = new StreamReader(sourcepath);
+                string linetext;
+                while ((linetext = sr.ReadLine()) != null)
+                {
+                    linetext = RemoveComment(linetext);
+                    sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }));
+                }
+                sr.Close();
+                return true;
+            }
             return true;
+        }
+
+        private string RemoveComment(string str)
+        {
+            if (str.Contains("//"))
+            {
+                if (str.IndexOf('#') != 0)
+                {
+                    str = str.Substring(0, str.IndexOf("#") - 1);
+                }
+                else
+                {
+                    str = string.Empty;
+                }
+            }
+            return str;
         }
         #endregion
     }

@@ -5,7 +5,7 @@ using System.Text;
 using MIPS246.Core.DataStructure;
 
 
-namespace CEIE246.Core.Compile.CLI
+namespace CEIE246.Core.Compiler.CLI
 {
     class Program
     {
