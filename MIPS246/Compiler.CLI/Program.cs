@@ -5,7 +5,7 @@ using System.Text;
 using MIPS246.Core.DataStructure;
 
 
-namespace ConsoleApplication1
+namespace CEIE246.Core.Compile.CLI
 {
     class Program
     {
@@ -59,8 +59,23 @@ namespace ConsoleApplication1
                         break;
                 }
             }
-            
 
+            MIPS246.Core.Compiler.Compiler compiler = new MIPS246.Core.Compiler.Compiler(sourcepath, outputpath);
+            if (compiler.DoCompile() == true)
+            {
+                if (isDisplay == true)
+                {
+                    compiler.Display(isDisplayBinary);
+                }
+                compiler.Output(isOutputCOE, outputpath);
+            }
+            else
+            {
+                compiler.DisplayError();
+                return;
+            }
+
+            Console.ReadLine();
         }
 
         static void ShowHelp()

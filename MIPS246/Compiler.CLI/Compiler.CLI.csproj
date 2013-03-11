@@ -8,8 +8,8 @@
     <ProjectGuid>{4A051863-DC05-41D5-A499-33C922A39D3B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>Compiler.CLI</RootNamespace>
+    <AssemblyName>Compiler.CLI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -47,6 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Compiler\Compiler.csproj">
+      <Project>{db12d97e-2396-4378-b738-59df16c4b10d}</Project>
+      <Name>Compiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataStructure\DataStructure.csproj">
       <Project>{a3c81ffa-07eb-4239-afed-db93e161fe71}</Project>
       <Name>DataStructure</Name>

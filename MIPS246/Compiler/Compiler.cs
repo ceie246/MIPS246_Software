@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Compiler
+namespace MIPS246.Core.Compiler
 {
-    class Compiler
+    public class Compiler
     {
         #region Fields
         private List<Instruction> codelist;
@@ -44,6 +44,7 @@ namespace Compiler
         #region Public Methods
         public bool DoCompile()
         {
+            
             return true;
         }
 
