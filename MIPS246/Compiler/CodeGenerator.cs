@@ -17,6 +17,7 @@ namespace Compiler
 
         }
         #endregion
+
         #region Public Method
         public static void Generate(ref List<FourExp> fourExpList, ref List<Instruction> insList, ref Dictionary<int, String> labelDic)
         {

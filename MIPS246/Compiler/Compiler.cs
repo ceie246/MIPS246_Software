@@ -9,7 +9,7 @@ namespace MIPS246.Core.Compiler
     {
         #region Fields
         private List<Instruction> codelist;
-        private List<string[]> sourceList;
+        private List<string> sourceList;
         private CompilerErrorInfo error;
         private string sourcepath;
         private string outputpath;
@@ -25,7 +25,7 @@ namespace MIPS246.Core.Compiler
         {
             this.sourcepath = sourcepath;
             this.outputpath = outputpath;
-            sourceList = new List<string[]>();
+            sourceList = new List<string>();
             codelist = new List<Instruction>();
             addresstable = new Hashtable();
             labeltable = new Hashtable();
@@ -80,22 +80,20 @@ namespace MIPS246.Core.Compiler
                 string linetext;
                 while ((linetext = sr.ReadLine()) != null)
                 {
-                    linetext = RemoveComment(linetext);
-                    sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }));
+                    sourceList.Add(linetext);
                 }
                 sr.Close();
                 return true;
             }
-            return true;
         }
 
         private string RemoveComment(string str)
         {
             if (str.Contains("//"))
             {
-                if (str.IndexOf('#') != 0)
+                if (str.IndexOf("//") != 0)
                 {
-                    str = str.Substring(0, str.IndexOf("#") - 1);
+                    str = str.Substring(0, str.IndexOf("//") - 1);
                 }
                 else
                 {
