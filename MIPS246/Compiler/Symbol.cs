@@ -3,8 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Compiler
+namespace MIPS246.Core.Compiler
 {
+    public enum ReservedWord
+    {
+        //Comment if not realize
+        //AUTO,
+        BREAK,
+        //CASE,     soon
+        CHAR,
+        CONST,
+        CONTINUE,
+        //DEFAULT,  soon
+        DO,
+        DOUBLE,
+        ELSE,
+        //ENUM,  soon
+        //EXTERN,
+        //FLOAT,
+        FOR,
+        //GOTO,
+        IF,
+        INT,
+        LONG,
+        REGISTER,
+        RETURN,
+        //SHORT,
+        SIGNED,
+        //SIZEOF,
+        STATIC,
+        //STRUCT,
+        //SWITCH,
+        //TYPEDEF,
+        //UNION,
+        //UNSIGNED,
+        VOID,
+        //VOLATILE,
+        WHILE
+    }
+
     //变量类型，必须大写
     public enum SymbolType:byte
     {
