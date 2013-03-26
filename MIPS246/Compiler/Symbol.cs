@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MIPS246.Core.Compiler
 {
-    public enum ReservedWord
+    public enum TokenType
     {
         //Comment if not realize
         //AUTO,
@@ -40,6 +40,21 @@ namespace MIPS246.Core.Compiler
         VOID,
         //VOLATILE,
         WHILE
+    }
+
+    public enum C_OPs
+    {
+        PLUS,           //+
+        MINUS,          //-
+        TIMES,          //*
+        SLASH,          ///
+        LPAREN,         //(
+        RPAREN,         //)
+        EQL,            //=
+        COMMA,          //,
+        PERIOD,         //.
+        NEQ,            //#
+        SEMICOLON       //;
     }
 
     //变量类型，必须大写

@@ -9,7 +9,8 @@ namespace MIPS246.Core.Compiler
     {
         #region Fields
         private const int maxIdentifierLength = 256;
-        private static StringBuilder tempStr = new StringBuilder();
+        private const int intMax = int.MaxValue;
+        private static StringBuilder tempStr = new StringBuilder();        
         #endregion
 
         #region Public Method
@@ -22,12 +23,20 @@ namespace MIPS246.Core.Compiler
                     continue;
                 }
 
-                if(char.IsLetter(line[i]))
+                if (line[i] == '\\')
+                {
+                    if (line[i + 1] == '\\')
+                    {
+                        return;
+                    }
+                }
+
+                if (char.IsLetter(line[i]))
                 {
                     tempStr.Clear();
                     for (int j = 0; j < maxIdentifierLength; j++)
                     {
-                        
+
                         if (char.IsLetterOrDigit(line[i]) || line[i] == '\t')
                         {
                             tempStr.Append(line[i]);
@@ -44,25 +53,20 @@ namespace MIPS246.Core.Compiler
                         }
                     }
                 }
-                else if(char.IsDigit(line[i]))
-                {
-                    tempStr.Clear();
-                    if (char.IsDigit(line[i]))
-                    {
-                        tempStr.Append(line[i]);
-                        i++;
-                    }
-                    else if (line[i] == ' ' || line[i] == '\t')
-                    {
-                        //add to Number table or ORI WORDS table;
-                        break;
-                    }
-                    else
-                    {
-                        //add wrong Identifier error                            
-                    }
-                }
+
+
+
             }
+
+
+
+        }
+        #endregion
+
+        #region Internal Methods 
+        private bool IsC_OP(char c)
+        {
+            return false;
         }
         #endregion
     }
