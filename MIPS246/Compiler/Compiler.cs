@@ -54,7 +54,6 @@ namespace MIPS246.Core.Compiler
             }
             if (Scanner.DoScan(sourceList, out tokenList) == false)
             {
-                int i = 5;
             }
             return true;
         }

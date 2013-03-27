@@ -86,14 +86,14 @@ namespace MIPS246.Core.Compiler
 
     public enum DelimiterType
     {
-        //(
-        //)
-        //{
-        //}
-        //;
+        leftParenthesis,    //(
+        rightParenthesis,   //)
+        leftBrace,          //{
+        rightBrace,         //}
+        semicolon,          //;
+        comma,              //,
         ////
         ///*
-        ////
         //*/
     }
 
@@ -126,7 +126,6 @@ namespace MIPS246.Core.Compiler
             {
                 this.name = value;
             }
-
         }
         #endregion
     }
@@ -215,7 +214,30 @@ namespace MIPS246.Core.Compiler
 
     public class Delimiter : Token
     {
+        #region Fields
+        DelimiterType form;
+        #endregion
 
+        #region Constructors
+        public Delimiter(DelimiterType form)
+        {
+            this.form = form;
+        }
+        #endregion
+
+        #region Properties
+        DelimiterType Form
+        {
+            get
+            {
+                return this.form;
+            }
+            set
+            {
+                this.form = value;
+            }
+        }
+        #endregion
     }
 
     public class Operator : Token

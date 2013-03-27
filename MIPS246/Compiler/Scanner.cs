@@ -59,6 +59,30 @@ namespace MIPS246.Core.Compiler
                             j--;
                         }                       
                     }
+                    else if (sourceList[i][j] == '(')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.leftParenthesis));
+                    }
+                    else if (sourceList[i][j] == ')')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.rightParenthesis));
+                    }
+                    else if (sourceList[i][j] == '{')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.leftBrace));
+                    }
+                    else if (sourceList[i][j] == '}')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.rightParenthesis));
+                    }
+                    else if (sourceList[i][j] == ';')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.semicolon));
+                    }
+                    else if (sourceList[i][j] == ',')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.comma));
+                    }
                 }
             }
             return true;
