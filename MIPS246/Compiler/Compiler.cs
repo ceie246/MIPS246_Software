@@ -87,20 +87,11 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private string RemoveComment(string str)
+        private bool DoScan()
         {
-            if (str.Contains("//"))
-            {
-                if (str.IndexOf("//") != 0)
-                {
-                    str = str.Substring(0, str.IndexOf("//") - 1);
-                }
-                else
-                {
-                    str = string.Empty;
-                }
-            }
-            return str;
+            
+
+            return true;
         }
         #endregion
     }

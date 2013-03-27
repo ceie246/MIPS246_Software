@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MIPS246.Core.DataStructure;
+using MIPS246.Core.Compiler;
 
 
 namespace CEIE246.Core.Compiler.CLI

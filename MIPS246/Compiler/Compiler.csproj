@@ -49,6 +49,7 @@
     <Compile Include="Scanner.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="SymbolTable.cs" />
+    <Compile Include="Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructure\DataStructure.csproj">

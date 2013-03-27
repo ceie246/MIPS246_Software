@@ -4,61 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace MIPS246.Core.Compiler
-{
-    public enum TokenType
-    {
-        //Comment if not realize
-        //AUTO,
-        BREAK,
-        //CASE,     soon
-        CHAR,
-        CONST,
-        CONTINUE,
-        //DEFAULT,  soon
-        DO,
-        DOUBLE,
-        ELSE,
-        //ENUM,  soon
-        //EXTERN,
-        //FLOAT,
-        FOR,
-        //GOTO,
-        IF,
-        INT,
-        LONG,
-        REGISTER,
-        RETURN,
-        //SHORT,
-        SIGNED,
-        //SIZEOF,
-        STATIC,
-        //STRUCT,
-        //SWITCH,
-        //TYPEDEF,
-        //UNION,
-        //UNSIGNED,
-        VOID,
-        //VOLATILE,
-        WHILE
-    }
-
-    public enum C_OPs
-    {
-        PLUS,           //+
-        MINUS,          //-
-        TIMES,          //*
-        SLASH,          ///
-        LPAREN,         //(
-        RPAREN,         //)
-        EQL,            //=
-        COMMA,          //,
-        PERIOD,         //.
-        NEQ,            //#
-        SEMICOLON       //;
-    }
-
+{ 
     //变量类型，必须大写
-    public enum SymbolType:byte
+    public enum SymbolType
     {
         VOID,
         CHAR,
