@@ -15,6 +15,7 @@ namespace MIPS246.Core.Compiler
         private string outputpath;
         private Hashtable addresstable;
         private Hashtable labeltable;
+        private List<Token> tokenList;
 
         //config
         private static int startAddress = 0;    //add 0 line, for future use
@@ -29,6 +30,7 @@ namespace MIPS246.Core.Compiler
             codelist = new List<Instruction>();
             addresstable = new Hashtable();
             labeltable = new Hashtable();
+            tokenList = new List<Token>();
         }
         #endregion
 
@@ -49,6 +51,10 @@ namespace MIPS246.Core.Compiler
             {
                 this.error = new CompilerErrorInfo(0, CompilerError.NOFILE);
                 return false;
+            }
+            if (Scanner.DoScan(sourceList, out tokenList) == false)
+            {
+                int i = 5;
             }
             return true;
         }
@@ -80,6 +86,7 @@ namespace MIPS246.Core.Compiler
                 string linetext;
                 while ((linetext = sr.ReadLine()) != null)
                 {
+                    linetext = linetext.TrimStart(new char[] { '\t', ' ' });
                     sourceList.Add(linetext);
                 }
                 sr.Close();
