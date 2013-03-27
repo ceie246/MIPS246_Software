@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Compiler
+namespace MIPS246.Core.Compiler
 {
     public enum FourExpOperation
     {
@@ -27,36 +27,39 @@ namespace Compiler
 
     public class FourExp
     {
-        #region fields
-        private FourExpOperation op = FourExpOperation.jmp;
+        #region Private Fields
+        private int index;
+        private FourExpOperation op;
+        private string arg1;
+        private string arg2;
+        private int nextFourExp;
+        private string result;
+        #endregion
 
+        #region Public Fields
         public FourExpOperation Op
         {
             get { return op; }
             set { op = value; }
         }
-        private string arg1 = "";
 
         public string Arg1
         {
             get { return arg1; }
             set { arg1 = value; }
         }
-        private string arg2 = "";
 
         public string Arg2
         {
             get { return arg2; }
             set { arg2 = value; }
         }
-        private int nextFourExp = -1;
 
         public int NextFourExp
         {
             get { return nextFourExp; }
             set { nextFourExp = value; }
         }
-        private string result = "";
 
         public string Result
         {
