@@ -11,7 +11,6 @@ namespace MIPS246.Test
         static void Main(string[] args)
         {
             string aa = "	int a=5;//hello";
-            MIPS246.Core.Compiler.Scanner.GetSymbol(aa);
             Console.ReadLine();
         }
     }
