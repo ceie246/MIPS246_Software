@@ -19,44 +19,64 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Public Method
-        public void add(string varName, VarProp varProp)
+        public void Add(string varName, VarProp varProp)
         {
             this.varDic.Add(varName, varProp);
         }
+
+        public List<string> GetNames()
+        {
+            List<string> names = new List<string>();
+            foreach (string name in varDic.Keys)
+            {
+                names.Add(name);
+            }
+            return names;
+        }
         
-        public VarProp getProp(string varName)
+        public VarProp GetProp(string varName)
         { 
             return varDic[varName];
         }
 
-        public VariableType getType(string varName)
+        public VariableType GetType(string varName)
         {
             return varDic[varName].VarType;
         }
 
-        public int getValue(string varName)
+        public int GetValue(string varName)
         {
             return varDic[varName].VarValue;
         }
 
-        public Stack<int> getRefeInfo(string varName)
+        public Stack<int> GetRefeInfo(string varName)
         {
             return varDic[varName].VarRefeInfo;
         }
 
-        public Stack<bool> getActInfo(string varName)
+        public Stack<bool> GetActInfo(string varName)
         {
             return varDic[varName].VarActInfo;
         }
 
-        public List<string> getAddrInfo(string varName)
+        public List<string> GetAddrInfo(string varName)
         {
             return varDic[varName].VarAddrInfo;
         }
 
-        public int getAddr(string varName)
+        public int GetAddr(string varName)
         {
             return varDic[varName].VarAddr;
+        }
+
+        public void SetAddr(string varName, int addr)
+        {
+            varDic[varName].VarAddr = addr;
+        }
+
+        public bool GetTempInfo(string varName)
+        {
+            return varDic[varName].IsTemp;
         }
 
         #endregion

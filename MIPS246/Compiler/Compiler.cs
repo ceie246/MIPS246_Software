@@ -32,6 +32,7 @@ namespace MIPS246.Core.Compiler
             labeltable = new Hashtable();
             tokenList = new List<Token>();
         }
+
         #endregion
 
         #region Properties

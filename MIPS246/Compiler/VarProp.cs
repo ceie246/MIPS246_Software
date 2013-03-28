@@ -23,13 +23,22 @@ namespace MIPS246.Core.Compiler
 
     public class VarProp
     {
-        #region Fields
+        #region Private Fields
         private VariableType varType;
         private int varValue;
         private Stack<int> varRefeInfo;
         private Stack<bool> varActInfo;
         private List<string> varAddrInfo;
         private int varAddr;
+        private bool isTemp;
+        #endregion
+        
+        #region Public Fields
+        public bool IsTemp
+        {
+            get { return isTemp; }
+            set { isTemp = value; }
+        }
 
         public VariableType VarType
         {
@@ -69,10 +78,15 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Constructor
-        public VarProp(VariableType varType, int varValue)
+        public VarProp(VariableType varType, int varValue, bool isTemp)
         {
             this.VarType = varType;
             this.VarValue = varValue;
+            this.IsTemp = isTemp;
+            this.VarRefeInfo = new Stack<int>();
+            this.VarActInfo = new Stack<bool>();
+            this.VarAddrInfo = new List<string>();
+            this.VarAddr = -1;
         }
         #endregion
     }

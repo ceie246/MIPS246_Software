@@ -71,10 +71,11 @@ namespace MIPS246.Core.Compiler
         #region Constructor
         public FourExp(FourExpOperation op, string arg1, string arg2, int nextFourExp) //跳转
         {
-            this.op = op;
-            this.arg1 = arg1;
-            this.arg2 = arg2;
-            this.nextFourExp = nextFourExp;
+            this.Op = op;
+            this.Arg1 = arg1;
+            this.Arg2 = arg2;
+            this.NextFourExp = nextFourExp;
+            this.Result = "";
         }
 
         public FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算
@@ -85,10 +86,11 @@ namespace MIPS246.Core.Compiler
             }
             else
             {
-                this.op = op;
-                this.arg1 = arg1;
-                this.arg2 = arg2;
-                this.result = result;
+                this.Op = op;
+                this.Arg1 = arg1;
+                this.Arg2 = arg2;
+                this.Result = result;
+                this.NextFourExp = -1;
             }
         }
         #endregion

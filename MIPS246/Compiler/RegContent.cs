@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Compiler
+namespace MIPS246.Core.Compiler
 {
     public class RegContent
     {
@@ -14,6 +14,14 @@ namespace Compiler
         #region Fields
         public RegContent()
         { }
+
+        public RegContent(List<string> regs)
+        { 
+            foreach(string regName in regs)
+            {
+                regDic.Add(regName, new List<string>());
+            }
+        }
         #endregion
 
         #region Public Method
