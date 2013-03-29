@@ -21,12 +21,16 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Public Method
-        public void Generate(ref List<FourExp> fourExpList, ref VarTable varTable, ref List<Instruction> insList, ref Dictionary<int, String> labelDic)
+        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<Instruction> insList, Dictionary<int, String> labelDic)
         {
             //为变量分配内存,并对符号的后续应用信息域和活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(ref varTable, fourExpList, varNameList);
             
+            //生成数据段
+            genDataIns(varNameList, varTable, insList);
+
+            //遍历四元式表，生成代码段
             int labelNo = 0;
             int count = 0;
             foreach (FourExp f in fourExpList)
@@ -46,6 +50,7 @@ namespace MIPS246.Core.Compiler
             }
         }
 
+        //初始化变量表
         private void initVarTable(ref VarTable varTable, List<FourExp> fourExpList, List<string> varNameList)
         {
             
@@ -92,6 +97,7 @@ namespace MIPS246.Core.Compiler
             }
         }
 
+        //获取寄存器
         private string getReg(FourExp f, VarTable varTable, RegContent regUseTable) 
         {
             string A = f.Result;
@@ -124,6 +130,7 @@ namespace MIPS246.Core.Compiler
             }
         }
 
+        //返回一个未用寄存器
         private string getNullReg()
         {
             foreach (string reg in registers.ToList())
@@ -134,6 +141,7 @@ namespace MIPS246.Core.Compiler
             return null;
         }
 
+        //返回已用寄存器之后做调整工作
         private void doAdjust(string A, string B, string C, string returnReg, VarTable varTable, RegContent regUseTable)
         {
             List<string> varList = regUseTable.GetContent(returnReg);
@@ -158,7 +166,8 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private static void genLabel(FourExp f, ref int labelNo, ref Dictionary<int, String> labelDic)
+        //生成标签
+        private void genLabel(FourExp f, ref int labelNo, ref Dictionary<int, String> labelDic)
         {
             int fourExpNo = f.NextFourExp;
             if (fourExpNo != -1)
@@ -168,7 +177,8 @@ namespace MIPS246.Core.Compiler
             }
         }
      
-        private static void convert(FourExp f)
+        //生成指令段
+        private void convert(FourExp f)
         {
             switch (f.Op)
             {
@@ -227,7 +237,19 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private static void optimize()
+        //生成数据段
+        private void genDataIns(List<string> varNameList, VarTable varTable, List<Instruction> insList)
+        {
+            foreach (string varName in varNameList)
+            {
+                int varValue = varTable.GetProp(varName).VarValue;
+                string varType = "word"；
+                insList.Add(new Instruction(varName, varType, varValue));
+            }
+        }
+
+        //优化
+        private void optimize()
         { 
         
         }
