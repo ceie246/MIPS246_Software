@@ -96,7 +96,7 @@ namespace MIPS246.Core.Compiler
         {
             string A = f.Result;
             string B = f.Arg1;
-            string c = f.Arg2;
+            string C = f.Arg2;
             List<string> BRegList = varTable.GetAddrInfo(B);
             if (BRegList != null)
             {
@@ -118,8 +118,9 @@ namespace MIPS246.Core.Compiler
             {
                 Random r = new Random();
                 int i = r.Next(registers.Length);
-                doAdjust();
-                return registers[i];
+                string returnReg = registers[i];
+                doAdjust(A, B, C, returnReg, varTable, regUseTable);
+                return returnReg;
             }
         }
 
@@ -133,9 +134,28 @@ namespace MIPS246.Core.Compiler
             return null;
         }
 
-        private void doAdjust()
-        { 
-            
+        private void doAdjust(string A, string B, string C, string returnReg, VarTable varTable, RegContent regUseTable)
+        {
+            List<string> varList = regUseTable.GetContent(returnReg);
+            foreach (string M in varList)
+            {
+                if (M != A || (M == A && M == C && M != B && !varList.Contains(B)))
+                {
+                    if (M != A)
+                    {
+                        if ((M == B || M == C) && varList.Contains(B))
+                        {
+                            varTable.GetProp(M).VarAddrInfo.Clear();
+                            varTable.GetProp(M).VarAddrInfo.Add(returnReg);
+                        }
+                        else
+                        {
+                            varTable.GetProp(M).VarAddrInfo.Clear();
+                        }
+                    }
+                    varList.Remove(M);
+                }
+            }
         }
 
         private static void genLabel(FourExp f, ref int labelNo, ref Dictionary<int, String> labelDic)
