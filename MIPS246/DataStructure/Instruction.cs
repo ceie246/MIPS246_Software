@@ -692,129 +692,129 @@ namespace MIPS246.Core.DataStructure
         private void OP_ADD()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADD].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_ADDU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_SUB()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUB].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_SUBU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_AND()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.AND].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_OR()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.OR].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_XOR()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.XOR].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_NOR()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.NOR].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_SLT()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLT].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_SLTU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(6, arg2);
+            setRegMachineCode(11, arg3);
         }
 
         private void OP_SLL()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
-            setRegMachineCode(11, arg1);
-            setRegMachineCode(16, arg2);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(11, arg2);
             setShamtMachineCode(21, arg3);
         }
 
         private void OP_SRL()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
-            setRegMachineCode(11, arg1);
-            setRegMachineCode(16, arg2);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(11, arg2);
             setShamtMachineCode(21, arg3);
         }
 
         private void OP_SRA()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
-            setRegMachineCode(11, arg1);
-            setRegMachineCode(16, arg2);
+            setRegMachineCode(16, arg1);
+            setRegMachineCode(11, arg2);
             setShamtMachineCode(21, arg3);
         }
 
         private void OP_SLLV()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLLV].ToString());
-            setRegMachineCode(6, arg1);
+            setRegMachineCode(16, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(6, arg3);
         }
 
         private void OP_SRLV()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRLV].ToString());
-            setRegMachineCode(6, arg1);
+            setRegMachineCode(16, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(6, arg3);
         }
 
         private void OP_SRAV()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRAV].ToString());
-            setRegMachineCode(6, arg1);
+            setRegMachineCode(16, arg1);
             setRegMachineCode(11, arg2);
-            setRegMachineCode(16, arg3);
+            setRegMachineCode(6, arg3);
         }
 
         private void OP_JR()
@@ -832,40 +832,40 @@ namespace MIPS246.Core.DataStructure
         private void OP_ADDI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDI].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_ADDIU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ADDIU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_ANDI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ANDI].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_ORI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ORI].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_XORI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.XORI].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
@@ -879,96 +879,96 @@ namespace MIPS246.Core.DataStructure
         private void OP_SLTI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTI].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_SLTIU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLTIU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setImmediateMachineCode(16, arg3);
         }
 
         private void OP_LW()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LW].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_SW()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SW].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_LB()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LB].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_LBU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LBU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_LH()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LH].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_LHU()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.LHU].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_SB()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SB].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_SH()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SH].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_BEQ()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BEQ].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_BNE()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BNE].ToString());
-            setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(6, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
@@ -984,40 +984,35 @@ namespace MIPS246.Core.DataStructure
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BGEZAL].ToString());
             setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setOffsetMachineCode(16, arg3);
+            setOffsetMachineCode(16, arg2);
         }
 
         private void OP_BGTZ()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BGTZ].ToString());
             setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setOffsetMachineCode(16, arg3);
+            setOffsetMachineCode(16, arg2);
         }
 
         private void OP_BLEZ()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLEZ].ToString());
             setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setOffsetMachineCode(16, arg3);
+            setOffsetMachineCode(16, arg2);
         }
 
         private void OP_BLTZ()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLTZ].ToString());
             setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setOffsetMachineCode(16, arg3);
+            setOffsetMachineCode(16, arg2);
         }
 
         private void OP_BLTZAL()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BLTZAL].ToString());
             setRegMachineCode(6, arg1);
-            setRegMachineCode(11, arg2);
-            setOffsetMachineCode(16, arg3);
+            setOffsetMachineCode(16, arg2);
         }
 
         private void OP_J()
