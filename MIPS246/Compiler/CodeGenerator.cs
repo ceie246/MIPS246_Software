@@ -21,14 +21,14 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Public Method
-        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<Instruction> insList, Dictionary<int, String> labelDic)
+        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<Instruction> insList, List<DataInstruction> dataInsList, Dictionary<int, String> labelDic)
         {
             //为变量分配内存,并对符号的后续应用信息域和活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(ref varTable, fourExpList, varNameList);
             
             //生成数据段
-            genDataIns(varNameList, varTable, insList);
+            genDataIns(varNameList, varTable, dataInsList);
 
             //遍历四元式表，生成代码段
             int labelNo = 0;
@@ -38,10 +38,10 @@ namespace MIPS246.Core.Compiler
                 foreach (string varName in varNameList)
                 {
                     //从符号表的后续引用信息域和活跃域中去除无用信息
-                    if (varTable.GetProp(varName).VarRefeInfo.Peek() == count)
+                    if (varTable.GetPeekRefeInfo(varName) == count)
                     {
-                        varTable.GetProp(varName).VarRefeInfo.Pop();
-                        varTable.GetProp(varName).VarActInfo.Pop();
+                        varTable.PopRefeInfo(varName);
+                        varTable.PopActInfo(varName);
                     }
                 }
                 genLabel(f, ref labelNo, ref labelDic);
@@ -55,22 +55,17 @@ namespace MIPS246.Core.Compiler
         {
             
             int address = 0x0000;
-            foreach (string str in varNameList)
+            foreach (string varName in varNameList)
             {
-                varTable.GetProp(str).VarAddr = address;
+                //初始化变量表中后续引用信息域和活跃信息域
+                varTable.GetProp(varName).VarAddr = address;
                 address += 4;
-                varTable.GetProp(str).VarActInfo.Clear();
-                varTable.GetProp(str).VarRefeInfo.Clear();
-                if (varTable.GetTempInfo(str))
-                {
-                    varTable.GetProp(str).VarActInfo.Push(false);
-                }
-                else
-                {
-                    varTable.GetProp(str).VarActInfo.Push(true);
-                }
-                varTable.GetProp(str).VarRefeInfo.Push(-1);
+                varTable.ClearRefeInfo(varName);
+                varTable.ClearActInfo(varName);
+                varTable.PushActInfo(varName, false);
+                varTable.PushRefeInfo(varName, -1);
             }
+            //扫描四元式表，在变量表中填入相关信息
             int count = fourExpList.Count;
             int length = count;
             for (int i = length; i != 0; i--)
@@ -80,18 +75,18 @@ namespace MIPS246.Core.Compiler
                 string C = fourExpList[i].Arg2;
                 if (A != "")
                 {
-                    varTable.GetProp(A).VarRefeInfo.Push(-1);
-                    varTable.GetProp(A).VarActInfo.Push(false);
+                    varTable.PushRefeInfo(A, -1);
+                    varTable.PushActInfo(A, false);
                 }
                 if (B != "")
                 {
-                    varTable.GetProp(B).VarRefeInfo.Push(count);
-                    varTable.GetProp(B).VarActInfo.Push(true);
+                    varTable.PushRefeInfo(B, count);
+                    varTable.PushActInfo(B, true);
                 }
                 if (C != "")
                 {
-                    varTable.GetProp(C).VarRefeInfo.Push(count);
-                    varTable.GetProp(C).VarActInfo.Push(true);
+                    varTable.PushRefeInfo(C, count);
+                    varTable.PushActInfo(C, true);
                 }
                 count--;
             }
@@ -238,13 +233,13 @@ namespace MIPS246.Core.Compiler
         }
 
         //生成数据段
-        private void genDataIns(List<string> varNameList, VarTable varTable, List<Instruction> insList)
+        private void genDataIns(List<string> varNameList, VarTable varTable, List<DataInstruction> DataInsList)
         {
             foreach (string varName in varNameList)
             {
                 int varValue = varTable.GetProp(varName).VarValue;
                 string varType = "word";
-                insList.Add(new Instruction(varName, varType, varValue));
+                DataInsList.Add(new DataInstruction(varName, varType, varValue));
             }
         }
 

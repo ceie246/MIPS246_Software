@@ -13,7 +13,9 @@ namespace MIPS246.Core.Compiler
 
         #region Fields
         public RegContent()
-        { }
+        {
+            regDic = new Dictionary<string, List<string>>();
+        }
 
         public RegContent(List<string> regs)
         { 

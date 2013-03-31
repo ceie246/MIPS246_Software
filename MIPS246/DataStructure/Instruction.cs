@@ -25,22 +25,12 @@ namespace MIPS246.Core.DataStructure
         private int address;
         private static Hashtable AssemblerTable;
         private static Hashtable DisassemblerTable;
-        private string varName;
-        private string varType;
-        private int varValue;
         #endregion
 
         #region Constructors
         static Instruction()
         {
             InitAssemblerTable();
-        }
-
-        public Instruction(string varName, string varType, int varValue)
-        {
-            this.varName = varName;
-            this.varType = varType;
-            this.varValue = varValue;
         }
 
         public Instruction(string mnemonic, string arg1, string arg2, string arg3, int address)
