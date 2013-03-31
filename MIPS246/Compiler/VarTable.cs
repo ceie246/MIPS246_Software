@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MIPS246.Core.Compiler
 {
-    class VarTable
+    public class VarTable
     {
         #region Fields
         private Dictionary<string, VarProp> varDic;

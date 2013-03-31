@@ -243,7 +243,7 @@ namespace MIPS246.Core.Compiler
             foreach (string varName in varNameList)
             {
                 int varValue = varTable.GetProp(varName).VarValue;
-                string varType = "word"；
+                string varType = "word";
                 insList.Add(new Instruction(varName, varType, varValue));
             }
         }
