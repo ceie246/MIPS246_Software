@@ -49,7 +49,6 @@
     <Compile Include="RegContent.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="Token.cs" />
-    <Compile Include="VarProp.cs" />
     <Compile Include="VarTable.cs" />
   </ItemGroup>
   <ItemGroup>

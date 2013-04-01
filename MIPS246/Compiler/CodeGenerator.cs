@@ -9,7 +9,7 @@ namespace MIPS246.Core.Compiler
     public class CodeGenerator
     {
         #region Fields
-        string[] registers = { "T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T7", "T9" };
+        private static string[] registers = { "T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T7", "T9" };
         private RegContent regUseTable;
         #endregion
 
@@ -23,7 +23,7 @@ namespace MIPS246.Core.Compiler
         #region Public Method
         public void Generate(List<FourExp> fourExpList, VarTable varTable, List<Instruction> insList, List<DataInstruction> dataInsList, Dictionary<int, String> labelDic)
         {
-            //为变量分配内存,并对符号的后续应用信息域和活跃信息域进行初始化
+            //为变量分配内存,并对符号的后续引用信息域和活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(ref varTable, fourExpList, varNameList);
             
@@ -58,7 +58,7 @@ namespace MIPS246.Core.Compiler
             foreach (string varName in varNameList)
             {
                 //初始化变量表中后续引用信息域和活跃信息域
-                varTable.GetProp(varName).VarAddr = address;
+                varTable.SetAddr(varName, address);
                 address += 4;
                 varTable.ClearRefeInfo(varName);
                 varTable.ClearActInfo(varName);
@@ -92,74 +92,74 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        //获取寄存器
-        private string getReg(FourExp f, VarTable varTable, RegContent regUseTable) 
-        {
-            string A = f.Result;
-            string B = f.Arg1;
-            string C = f.Arg2;
-            List<string> BRegList = varTable.GetAddrInfo(B);
-            if (BRegList != null)
-            {
-                foreach (string BReg in BRegList)
-                {
-                    List<string> regContent = regUseTable.GetContent(BReg);
-                    if (regContent.Count == 1 || B == A || varTable.GetProp(B).VarActInfo.Peek() == false)
-                    {
-                        return BReg;
-                    }
-                }
-            }
-            if (getNullReg() != null)
-            {
-                string reg = getNullReg();
-                return reg;
-            }
-            else
-            {
-                Random r = new Random();
-                int i = r.Next(registers.Length);
-                string returnReg = registers[i];
-                doAdjust(A, B, C, returnReg, varTable, regUseTable);
-                return returnReg;
-            }
-        }
+        ////获取寄存器
+        //private string getReg(FourExp f, VarTable varTable, RegContent regUseTable) 
+        //{
+        //    string A = f.Result;
+        //    string B = f.Arg1;
+        //    string C = f.Arg2;
+        //    List<string> BRegList = varTable.GetAddrInfo(B);
+        //    if (BRegList != null)
+        //    {
+        //        foreach (string BReg in BRegList)
+        //        {
+        //            List<string> regContent = regUseTable.GetContent(BReg);
+        //            if (regContent.Count == 1 || B == A || varTable.GetProp(B).VarActInfo.Peek() == false)
+        //            {
+        //                return BReg;
+        //            }
+        //        }
+        //    }
+        //    if (getNullReg() != null)
+        //    {
+        //        string reg = getNullReg();
+        //        return reg;
+        //    }
+        //    else
+        //    {
+        //        Random r = new Random();
+        //        int i = r.Next(registers.Length);
+        //        string returnReg = registers[i];
+        //        doAdjust(A, B, C, returnReg, varTable, regUseTable);
+        //        return returnReg;
+        //    }
+        //}
 
-        //返回一个未用寄存器
-        private string getNullReg()
-        {
-            foreach (string reg in registers.ToList())
-            {
-                if (regUseTable.GetContent(reg).Count == 0)
-                    return reg;
-            }
-            return null;
-        }
+        ////返回一个未用寄存器
+        //private string getNullReg()
+        //{
+        //    foreach (string reg in registers.ToList())
+        //    {
+        //        if (regUseTable.GetContent(reg).Count == 0)
+        //            return reg;
+        //    }
+        //    return null;
+        //}
 
-        //返回已用寄存器之后做调整工作
-        private void doAdjust(string A, string B, string C, string returnReg, VarTable varTable, RegContent regUseTable)
-        {
-            List<string> varList = regUseTable.GetContent(returnReg);
-            foreach (string M in varList)
-            {
-                if (M != A || (M == A && M == C && M != B && !varList.Contains(B)))
-                {
-                    if (M != A)
-                    {
-                        if ((M == B || M == C) && varList.Contains(B))
-                        {
-                            varTable.GetProp(M).VarAddrInfo.Clear();
-                            varTable.GetProp(M).VarAddrInfo.Add(returnReg);
-                        }
-                        else
-                        {
-                            varTable.GetProp(M).VarAddrInfo.Clear();
-                        }
-                    }
-                    varList.Remove(M);
-                }
-            }
-        }
+        ////返回已用寄存器之后做调整工作
+        //private void doAdjust(string A, string B, string C, string returnReg, VarTable varTable, RegContent regUseTable)
+        //{
+        //    List<string> varList = regUseTable.GetContent(returnReg);
+        //    foreach (string M in varList)
+        //    {
+        //        if (M != A || (M == A && M == C && M != B && !varList.Contains(B)))
+        //        {
+        //            if (M != A)
+        //            {
+        //                if ((M == B || M == C) && varList.Contains(B))
+        //                {
+        //                    varTable.GetProp(M).VarAddrInfo.Clear();
+        //                    varTable.GetProp(M).VarAddrInfo.Add(returnReg);
+        //                }
+        //                else
+        //                {
+        //                    varTable.GetProp(M).VarAddrInfo.Clear();
+        //                }
+        //            }
+        //            varList.Remove(M);
+        //        }
+        //    }
+        //}
 
         //生成标签
         private void genLabel(FourExp f, ref int labelNo, ref Dictionary<int, String> labelDic)
@@ -237,7 +237,7 @@ namespace MIPS246.Core.Compiler
         {
             foreach (string varName in varNameList)
             {
-                int varValue = varTable.GetProp(varName).VarValue;
+                int varValue = varTable.GetValue(varName);
                 string varType = "word";
                 DataInsList.Add(new DataInstruction(varName, varType, varValue));
             }

@@ -5,9 +5,49 @@ using System.Text;
 
 namespace MIPS246.Core.Compiler
 {
-    public class VarTable
+    public enum VariableType
     {
+        VOID,
+        CHAR,
+        INT,
+        FLOAT,
+        DOUBLE,
+        SHORT,
+        LONG,
+        SIGNED,
+        UNSIGNED,
+        STRUCT,
+        UNION
+    }
+
+    public class VarTable
+    {   
         #region Fields
+        private class VarProp
+        {
+            #region Private Fields
+            internal VariableType varType;
+            internal int varValue;
+            internal Stack<int> varRefeInfo;
+            internal Stack<bool> varActInfo;
+            internal string varAddrInfo;
+            internal int varAddr;
+            #endregion
+
+            #region Constructor
+            public VarProp(VariableType varType, int varValue)
+            {
+                this.varType = varType;
+                this.varValue = varValue;
+                this.varRefeInfo = new Stack<int>();
+                this.varActInfo = new Stack<bool>();
+                this.varAddrInfo = "";
+                this.varAddr = -1;
+            }
+
+            #endregion
+        }
+        
         private Dictionary<string, VarProp> varDic;
         #endregion
 
@@ -18,10 +58,17 @@ namespace MIPS246.Core.Compiler
         }        
         #endregion
 
-        #region Public Method
-        public void Add(string varName, VarProp varProp)
+        #region Private Methon
+        private void Add(string varName, VarProp varProp)
         {
             this.varDic.Add(varName, varProp);
+        }
+        #endregion
+        #region Public Method
+        public void Add(string varName, string varType, int varValue)
+        { 
+            VarProp prop = new VarProp((VariableType)Enum.Parse(typeof(VariableType), varType), varValue);
+            this.Add(varName, prop);
         }
 
         public List<string> GetNames()
@@ -33,110 +80,95 @@ namespace MIPS246.Core.Compiler
             }
             return names;
         }
-        
-        public VarProp GetProp(string varName)
-        { 
-            return varDic[varName];
-        }
 
         public VariableType GetType(string varName)
         {
-            return varDic[varName].VarType;
+            return varDic[varName].varType;
         }
 
         public void SetType(string varName, VariableType varType)
         {
-            varDic[varName].VarType = varType;
+            varDic[varName].varType = varType;
         }
 
         public int GetValue(string varName)
         {
-            return varDic[varName].VarValue;
+            return varDic[varName].varValue;
         }
 
         public void SetValue(string varName, int varValue)
         {
-            varDic[varName].VarValue = varValue;
+            varDic[varName].varValue = varValue;
         }
 
         public Stack<int> GetRefeInfo(string varName)
         {
-            return varDic[varName].VarRefeInfo;
+            return varDic[varName].varRefeInfo;
         }
 
         public int PopRefeInfo(string varName)
         {
-            return varDic[varName].VarRefeInfo.Pop();
+            return varDic[varName].varRefeInfo.Pop();
         }
 
         public int GetPeekRefeInfo(string varName)
         {
-            return varDic[varName].VarRefeInfo.Peek();
+            return varDic[varName].varRefeInfo.Peek();
         }
 
         public void PushRefeInfo(string varName, int newRefe)
         { 
-            varDic[varName].VarRefeInfo.Push(newRefe);
+            varDic[varName].varRefeInfo.Push(newRefe);
         }
 
         public void ClearRefeInfo(string varName)
         {
-            varDic[varName].VarRefeInfo.Clear();
+            varDic[varName].varRefeInfo.Clear();
         }
 
         public Stack<bool> GetActInfo(string varName)
         {
-            return varDic[varName].VarActInfo;
+            return varDic[varName].varActInfo;
         }
 
         public bool PopActInfo(string varName)
         {
-            return varDic[varName].VarActInfo.Pop();
+            return varDic[varName].varActInfo.Pop();
         }
 
         public bool GetPeekActInfo(string varName)
         {
-            return varDic[varName].VarActInfo.Peek();
+            return varDic[varName].varActInfo.Peek();
         }
 
         public void PushActInfo(string varName, bool newAct)
         {
-            varDic[varName].VarActInfo.Push(newAct);
+            varDic[varName].varActInfo.Push(newAct);
         }
 
         public void ClearActInfo(string varName)
         {
-            varDic[varName].VarActInfo.Clear();
+            varDic[varName].varActInfo.Clear();
         }
 
-        public List<string> GetAddrInfo(string varName)
+        public string GetAddrInfo(string varName)
         {
-            return varDic[varName].VarAddrInfo;
+            return varDic[varName].varAddrInfo;
         }
 
-        public void ClearAddrInfo(string varName)
+        public void SetAddrInfo(string varName, string regName)
         {
-            varDic[varName].VarAddrInfo.Clear();
-        }
-
-        public void AddAddrInfo(string varName, string newAddrInfo)
-        {
-            varDic[varName].VarAddrInfo.Add(newAddrInfo);
+            varDic[varName].varAddrInfo = regName;
         }
 
         public int GetAddr(string varName)
         {
-            return varDic[varName].VarAddr;
+            return varDic[varName].varAddr;
         }
 
         public void SetAddr(string varName, int addr)
         {
-            varDic[varName].VarAddr = addr;
-        }
-
-        public bool GetTempInfo(string varName)
-        {
-            return varDic[varName].IsTemp;
+            varDic[varName].varAddr = addr;
         }
 
         #endregion

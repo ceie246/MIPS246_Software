@@ -7,11 +7,11 @@ namespace MIPS246.Core.Compiler
 {
     public class RegContent
     {
-        #region Fields
+        #region Private Fields
         private Dictionary<string, List<string>> regDic;
         #endregion
 
-        #region Fields
+        #region Constructor
         public RegContent()
         {
             regDic = new Dictionary<string, List<string>>();
@@ -35,6 +35,16 @@ namespace MIPS246.Core.Compiler
         public List<string> GetContent(string regName)
         {
             return regDic[regName];
+        }
+
+        public void Clear(string regName)
+        {
+            regDic[regName].Clear();
+        }
+
+        public void RemoveVar(string regName, string varName)
+        {
+            regDic[regName].Remove(varName);
         }
         #endregion
     }
