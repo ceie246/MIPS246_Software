@@ -64,10 +64,11 @@ namespace MIPS246.Core.Compiler
             this.varDic.Add(varName, varProp);
         }
         #endregion
+
         #region Public Method
-        public void Add(string varName, string varType, int varValue)
+        public void Add(string varName, VariableType varType, int varValue)
         { 
-            VarProp prop = new VarProp((VariableType)Enum.Parse(typeof(VariableType), varType), varValue);
+            VarProp prop = new VarProp(varType, varValue);
             this.Add(varName, prop);
         }
 

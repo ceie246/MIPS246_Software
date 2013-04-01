@@ -28,7 +28,7 @@ namespace MIPS246.Core.Compiler
     public class FourExp
     {
         #region Private Fields
-        private int index;
+        //private int index;
         private FourExpOperation op;
         private string arg1;
         private string arg2;

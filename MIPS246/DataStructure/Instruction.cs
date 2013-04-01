@@ -50,6 +50,14 @@ namespace MIPS246.Core.DataStructure
             this.arg3 = arg3;
         }
 
+        public Instruction(Mnemonic mnemonic, Register arg1, Register arg2, Register arg3)
+        {
+            this.mnemonic = mnemonic;
+            this.arg1 = arg1.ToString();
+            this.arg2 = arg2.ToString();
+            this.arg3 = arg3.ToString();
+        }
+
         public Instruction(BitArray machine_code)
         {
             this.machine_code = machine_code;

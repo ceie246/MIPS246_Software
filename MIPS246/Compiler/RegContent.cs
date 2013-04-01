@@ -46,6 +46,23 @@ namespace MIPS246.Core.Compiler
         {
             regDic[regName].Remove(varName);
         }
+
+        public bool Contains(string regName, string varName)
+        {
+            return regDic[regName].Contains(varName);
+        }
+
+        public bool Contains(string regName, List<string> varNames)
+        {
+            foreach(string varName in varNames)
+            {
+                if (this.Contains(regName, varName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         #endregion
     }
 }
