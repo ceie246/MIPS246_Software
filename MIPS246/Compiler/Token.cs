@@ -49,7 +49,7 @@ namespace MIPS246.Core.Compiler
         //]
         //->
         //.
-        //!
+        not,//!
         //++
         //--
         //*
@@ -65,7 +65,7 @@ namespace MIPS246.Core.Compiler
         //>
         //>=
         //==
-        //!=
+        notequal,         //!=
         //&
         //^
         //|
@@ -92,6 +92,7 @@ namespace MIPS246.Core.Compiler
         rightBrace,         //}
         semicolon,          //;
         comma,              //,
+        pound               //#
         ////
         ///*
         //*/
@@ -242,6 +243,29 @@ namespace MIPS246.Core.Compiler
 
     public class Operator : Token
     {
+        #region Fields
         OperatorType type;
+        #endregion
+
+        #region Constructors
+        public Operator(OperatorType type)
+        {
+            this.type = type;
+        }
+        #endregion
+
+        #region Properties
+        OperatorType Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                this.type = value;
+            }
+        }
+        #endregion
     }
 }

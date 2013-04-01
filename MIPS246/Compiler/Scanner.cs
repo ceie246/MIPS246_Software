@@ -38,6 +38,7 @@ namespace MIPS246.Core.Compiler
                         tokenList.Add(new Number(int.Parse(tempStr.ToString())));
                         j--;
                     }
+
                     else if (char.IsLetter(sourceList[i][j]) || sourceList[i][j] == '_')
                     {
                         tempStr.Clear();
@@ -82,6 +83,21 @@ namespace MIPS246.Core.Compiler
                     else if (sourceList[i][j] == ',')
                     {
                         tokenList.Add(new Delimiter(DelimiterType.comma));
+                    }
+                    else if (sourceList[i][j] == '#')
+                    {
+                        tokenList.Add(new Delimiter(DelimiterType.pound));
+                    }
+                    else if (sourceList[i][j] == '!')
+                    {
+                        if (sourceList[i][j] == '=')
+                        {
+                            tokenList.Add(new Operator(OperatorType.notequal));
+                        }
+                        else
+                        {
+                            tokenList.Add(new Operator(OperatorType.not));
+                        }
                     }
                 }
             }
