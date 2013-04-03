@@ -21,14 +21,14 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Public Method
-        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<string> cmdList, Dictionary<int, String> labelDic)
+        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<string> cmdList, Dictionary<int, String> labelDic, bool isStand)
         {
             //为变量分配内存,并对符号的后续引用信息域和活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(varTable, fourExpList, varNameList);
             
             //生成数据段
-            genDataIns(varNameList, varTable, cmdList);
+            genDataIns(varNameList, varTable, cmdList, isStand);
 
             //遍历四元式表，生成代码段
             int labelNo = 0;
@@ -44,8 +44,8 @@ namespace MIPS246.Core.Compiler
                         varTable.PopActInfo(varName);
                     }
                 }
-                genLabel(f, ref labelNo, ref labelDic);
-                convert(f);
+                genLabel(f, ref labelNo, labelDic);
+                convert(f, varTable, cmdList);
                 optimize();
             }
         }
@@ -54,7 +54,7 @@ namespace MIPS246.Core.Compiler
         private void initVarTable(VarTable varTable, List<FourExp> fourExpList, List<string> varNameList)
         {
             
-            int address = 0x0000;
+            short address = 0x0000;
             foreach (string varName in varNameList)
             {
                 //初始化变量表中后续引用信息域和活跃信息域
@@ -136,14 +136,14 @@ namespace MIPS246.Core.Compiler
         {
             foreach (string varName in regUseTable.GetContent(regName))
             {
-                cmdList.Add("sw " + regName + ", " + varName);
+                cmdList.Add("SW " + regName + ", " + varTable.GetAddr(varName) + "($ZERO)");
                 varTable.SetAddrInfo(varName, "");
             }
             regUseTable.Clear(regName);
         }
 
         //生成标签
-        private void genLabel(FourExp f, ref int labelNo, ref Dictionary<int, String> labelDic)
+        private void genLabel(FourExp f, ref int labelNo, Dictionary<int, String> labelDic)
         {
             int fourExpNo = f.NextFourExp;
             if (fourExpNo != -1)
@@ -154,7 +154,7 @@ namespace MIPS246.Core.Compiler
         }
      
         //生成指令段
-        private void convert(FourExp f)
+        private void convert(FourExp f, VarTable varTable, List<string> cmdList)
         {
             if (f.Op <= FourExpOperation.jle)
             { 
@@ -164,9 +164,9 @@ namespace MIPS246.Core.Compiler
             { 
             
             }
-            else if (f.Op <= FourExpOperation.or)
+            else if (f.Op <= FourExpOperation.or)//数学或逻辑运算
             { 
-            
+                  
             }
             else if (f.Op == FourExpOperation.not)
             {
@@ -179,14 +179,42 @@ namespace MIPS246.Core.Compiler
         }
 
         //生成数据段
-        private void genDataIns(List<string> varNameList, VarTable varTable, List<string> cmdList)
+        private void genDataIns(List<string> varNameList, VarTable varTable, List<string> cmdList, bool isStand)
         {
-            cmdList.Add(".data");
-            foreach (string varName in varNameList)
+            //生成标准的汇编
+            if (isStand)
             {
-                cmdList.Add(varName + ": .word " + varTable.GetValue(varName));
+                cmdList.Add(".data");
+                foreach (string varName in varNameList)
+                {
+                    cmdList.Add(varName + ": .word " + varTable.GetValue(varName));
+                }
+                cmdList.Add(".text");
             }
-            cmdList.Add(".text");
+            //生成非标准的汇编，只有程序段
+            else
+            {
+                foreach (string varName in varNameList)
+                {
+                    if (varTable.GetType(varName) == VariableType.INT)
+                    {
+                        short varValue = (short)varTable.GetValue(varName);
+                        short varAddr = varTable.GetAddr(varName);
+                        cmdList.Add("LUI $T1, " + varValue);
+                        cmdList.Add("SW $T1, " + varAddr + "($ZERO)");
+                    }
+                    else
+                    {
+                        int value = varTable.GetValue(varName);
+                        short high = (short)(value>>16);
+                        short varAddr = varTable.GetAddr(varName);
+                        cmdList.Add("LUI $TI, " + high);
+                        short low = (short)(value & 0xffff);
+                        cmdList.Add("ORI $TI, $T1, " + low);
+                        cmdList.Add("SW $T1, " + varAddr + "($ZERO)");
+                    }
+                }
+            }
         }
 
         //优化

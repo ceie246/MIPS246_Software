@@ -8,12 +8,12 @@ namespace MIPS246.Core.Compiler
     public enum VariableType
     {
         VOID,
-        CHAR,
-        INT,
+        CHAR,//16位
+        INT, //16位
         FLOAT,
         DOUBLE,
         SHORT,
-        LONG,
+        LONG, //32位
         SIGNED,
         UNSIGNED,
         STRUCT,
@@ -31,7 +31,7 @@ namespace MIPS246.Core.Compiler
             internal Stack<int> varRefeInfo;
             internal Stack<bool> varActInfo;
             internal string varAddrInfo;
-            internal int varAddr;
+            internal short varAddr;
             #endregion
 
             #region Constructor
@@ -162,12 +162,12 @@ namespace MIPS246.Core.Compiler
             varDic[varName].varAddrInfo = regName;
         }
 
-        public int GetAddr(string varName)
+        public short GetAddr(string varName)
         {
             return varDic[varName].varAddr;
         }
 
-        public void SetAddr(string varName, int addr)
+        public void SetAddr(string varName, short addr)
         {
             varDic[varName].varAddr = addr;
         }
