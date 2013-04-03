@@ -92,8 +92,21 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private string getReg(FourExp f, VarTable varTable, List<string> cmdList)
+        //获取寄存器，isResult为true，则说明需要返回的是存放结果的寄存器
+        private string getReg(FourExp f, VarTable varTable, bool isResult, List<string> cmdList)
         {
+            //返回B或者C所在的寄存器
+            if (isResult)
+            {
+                if ((varTable.GetAddrInfo(f.Arg1) != "") && (varTable.GetPeekActInfo(f.Arg1) == false))
+                {
+                    return varTable.GetAddrInfo(f.Arg1);
+                }
+                if ((varTable.GetAddrInfo(f.Arg2) != "") && (varTable.GetPeekActInfo(f.Arg2) == false))
+                {
+                    return varTable.GetAddrInfo(f.Arg2);
+                }
+            }
             //返回未占用寄存器
             foreach (string regName in registers)
             {
