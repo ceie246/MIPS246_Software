@@ -9,7 +9,7 @@ namespace MIPS246.Core.Compiler
     public class CodeGenerator
     {
         #region Fields
-        private static string[] registers = { "T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T7", "T9" };
+        private static string[] registers = { "$T0", "$T1", "$T2", "$T3", "$T4", "$T5", "$T6", "$T7", "$T7", "$T9" };
         private RegContent regUseTable;
         #endregion
 
@@ -98,13 +98,21 @@ namespace MIPS246.Core.Compiler
             //返回B或者C所在的寄存器
             if (isResult)
             {
-                if ((varTable.GetAddrInfo(f.Arg1) != "") && (varTable.GetPeekActInfo(f.Arg1) == false))
+                if (varTable.GetAddrInfo(f.Arg1) != "")
                 {
-                    return varTable.GetAddrInfo(f.Arg1);
+                    string regB = varTable.GetAddrInfo(f.Arg1);
+                    if ((varTable.GetPeekActInfo(f.Arg1) == false) || f.Arg1 == f.Result || regUseTable.GetContent(regB).Count == 1)
+                    {
+                        return regB;
+                    }
                 }
-                if ((varTable.GetAddrInfo(f.Arg2) != "") && (varTable.GetPeekActInfo(f.Arg2) == false))
+                if (varTable.GetAddrInfo(f.Arg2) != "")
                 {
-                    return varTable.GetAddrInfo(f.Arg2);
+                    string regC = varTable.GetAddrInfo(f.Arg1);
+                    if ((varTable.GetPeekActInfo(f.Arg2) == false) || f.Arg2 == f.Result || regUseTable.GetContent(regC).Count == 1)
+                    {
+                        return regC;
+                    }
                 }
             }
             //返回未占用寄存器
@@ -165,8 +173,56 @@ namespace MIPS246.Core.Compiler
             
             }
             else if (f.Op <= FourExpOperation.or)//数学或逻辑运算
-            { 
-                  
+            {
+                //获取第一个参数的寄存器
+                string RegA, RegB, RegC;
+                if (varTable.GetAddrInfo(f.Arg1) == "")
+                {
+                    RegB = getReg(f, varTable, false, cmdList);
+                    varTable.SetAddrInfo(f.Arg1, RegB);
+                    regUseTable.Add(RegB, f.Arg1);
+                    cmdList.Add("LW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                }
+                else
+                {
+                    RegB = varTable.GetAddrInfo(f.Arg1);
+                }
+                //获取第二个参数的寄存器
+                if (varTable.GetAddrInfo(f.Arg2) == "")
+                {
+                    RegC = getReg(f, varTable, false, cmdList);
+                    varTable.SetAddrInfo(f.Arg2, RegC);
+                    regUseTable.Add(RegC, f.Arg2);
+                    cmdList.Add("LW " + RegC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                }
+                else
+                {
+                    RegC = varTable.GetAddrInfo(f.Arg2);
+                }
+                RegA = getReg(f, varTable, true, cmdList);
+                varTable.SetAddrInfo(f.Result, RegA);
+                regUseTable.Add(RegA, f.Result);
+                
+                if (RegA == RegB)
+                {
+                    foreach (string var in regUseTable.GetContent(RegB))
+                    {
+                        cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        varTable.SetAddrInfo(var, "");
+                        regUseTable.GetContent(RegB).Remove(var);
+                    }
+                }
+                if (RegA == RegC)
+                {
+                    foreach (string var in regUseTable.GetContent(RegC))
+                    {
+                        cmdList.Add("SW " + RegC + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        varTable.SetAddrInfo(var, "");
+                        regUseTable.GetContent(RegC).Remove(var);
+                    }
+                }
+
+
             }
             else if (f.Op == FourExpOperation.not)
             {
@@ -196,7 +252,7 @@ namespace MIPS246.Core.Compiler
             {
                 foreach (string varName in varNameList)
                 {
-                    if (varTable.GetType(varName) == VariableType.INT)
+                    if (varTable.GetType(varName) == VariableType.INT || varTable.GetType(varName) == VariableType.CHAR)
                     {
                         short varValue = (short)varTable.GetValue(varName);
                         short varAddr = varTable.GetAddr(varName);
