@@ -19,9 +19,11 @@ namespace MIPS246.Core.Compiler
         sub,  //减
         mul,  //乘
         div,  //除
-        neg,   //取反
         and,  //与
         or,   //或
+        xor,  //异或
+        nor,  //非或
+        neg,   //取反
         not  //非
     }
 
@@ -76,6 +78,15 @@ namespace MIPS246.Core.Compiler
             this.Arg2 = arg2;
             this.NextFourExp = nextFourExp;
             this.Result = "";
+        }
+
+        public FourExp(FourExpOperation op, string source, string target)
+        {
+            this.Op = op;
+            this.Arg1 = source;
+            this.Arg2 = "";
+            this.NextFourExp = -1;
+            this.Result = target;
         }
 
         public FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算

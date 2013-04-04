@@ -49,7 +49,9 @@ namespace MIPS246.Core.Compiler
                 optimize();
             }
         }
+        #endregion
 
+        #region Private Method
         //初始化变量表
         private void initVarTable(VarTable varTable, List<FourExp> fourExpList, List<string> varNameList)
         {
@@ -98,7 +100,7 @@ namespace MIPS246.Core.Compiler
             //返回B或者C所在的寄存器
             if (isResult)
             {
-                if (varTable.GetAddrInfo(f.Arg1) != "")
+                if ((f.Arg1 != "") && (varTable.GetAddrInfo(f.Arg1) != ""))
                 {
                     string regB = varTable.GetAddrInfo(f.Arg1);
                     if ((varTable.GetPeekActInfo(f.Arg1) == false) || f.Arg1 == f.Result || regUseTable.GetContent(regB).Count == 1)
@@ -106,7 +108,7 @@ namespace MIPS246.Core.Compiler
                         return regB;
                     }
                 }
-                if (varTable.GetAddrInfo(f.Arg2) != "")
+                if ((f.Arg2 != "") && (varTable.GetAddrInfo(f.Arg2) != ""))
                 {
                     string regC = varTable.GetAddrInfo(f.Arg1);
                     if ((varTable.GetPeekActInfo(f.Arg2) == false) || f.Arg2 == f.Result || regUseTable.GetContent(regC).Count == 1)
@@ -169,8 +171,32 @@ namespace MIPS246.Core.Compiler
                 
             }
             else if (f.Op == FourExpOperation.mov)
-            { 
-            
+            {
+                string RegB = "";
+                if (varTable.GetAddrInfo(f.Arg1) == "")
+                {
+                    RegB = getReg(f, varTable, false, cmdList);
+                }
+                else
+                {
+                    RegB = varTable.GetAddrInfo(f.Arg1);
+                }
+                regUseTable.GetContent(RegB).Add(f.Result);
+                varTable.SetAddrInfo(f.Result, RegB);
+
+                if(varTable.GetPeekActInfo(f.Arg1) == false)
+                {
+                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, "");
+                    regUseTable.GetContent(RegB).Remove(f.Arg1);
+                }
+
+                if(varTable.GetPeekActInfo(f.Result) == false)
+                {
+                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Result, "");
+                    regUseTable.GetContent(RegB).Remove(f.Result);
+                }
             }
             else if (f.Op <= FourExpOperation.or)//数学或逻辑运算
             {
@@ -221,15 +247,67 @@ namespace MIPS246.Core.Compiler
                         regUseTable.GetContent(RegC).Remove(var);
                     }
                 }
+                string operation = "";
+                switch (f.Op)
+                {
+                    case FourExpOperation.add:
+                        operation = Mnemonic.ADD.ToString();
+                        break;
+                    case FourExpOperation.sub:
+                        operation = Mnemonic.SUB.ToString();
+                        break;
+                    //case FourExpOperation.mul:
 
+                    //    break;
+                    //case FourExpOperation.div:
 
+                    //    break;
+                    case FourExpOperation.and:
+                        operation = Mnemonic.AND.ToString();
+                        break;
+                    case FourExpOperation.or:
+                        operation = Mnemonic.OR.ToString();
+                        break;
+                    case FourExpOperation.xor:
+                        operation = Mnemonic.XOR.ToString();
+                        break;
+                    case FourExpOperation.nor:
+                        operation = Mnemonic.NOR.ToString();
+                        break;
+                    default:
+                        //错误处理
+                        break;
+                }
+                cmdList.Add(operation + " " + RegA + ", " + RegB + ", " + RegC);
+                if ((varTable.GetAddrInfo(f.Arg1) != null) && (varTable.GetPeekActInfo(f.Arg1) == false))
+                {
+                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, "");
+                    regUseTable.GetContent(RegB).Remove(f.Arg1);
+                }
+                if ((varTable.GetAddrInfo(f.Arg2) != null) && (varTable.GetPeekActInfo(f.Arg2) == false))
+                {
+                    cmdList.Add("SW " + RegC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg2, "");
+                    regUseTable.GetContent(RegC).Remove(f.Arg2);
+                }
+                if (varTable.GetPeekActInfo(f.Result) == false)
+                {
+                    cmdList.Add("SW " + RegA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Result, "");
+                    regUseTable.GetContent(RegA).Remove(f.Result);
+                }
+            }
+            else if (f.Op == FourExpOperation.neg)
+            { 
+                
             }
             else if (f.Op == FourExpOperation.not)
             {
 
             }
-            else 
-            { 
+            else
+            {
                 //错误处理
             }
         }
@@ -257,6 +335,7 @@ namespace MIPS246.Core.Compiler
                         short varValue = (short)varTable.GetValue(varName);
                         short varAddr = varTable.GetAddr(varName);
                         cmdList.Add("LUI $T1, " + varValue);
+                        cmdList.Add("SRL $T1, $T1, " + 16);
                         cmdList.Add("SW $T1, " + varAddr + "($ZERO)");
                     }
                     else
