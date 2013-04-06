@@ -217,7 +217,7 @@ namespace MIPS246.Core.Compiler
                         Reg2 = getReg(f, varTable, false, cmdList);
                         cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
                         cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
                         cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
                         break;
                     case FourExpOperation.jge:
@@ -225,7 +225,7 @@ namespace MIPS246.Core.Compiler
                         Reg2 = getReg(f, varTable, false, cmdList);
                         cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
                         cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
                         cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
                         break;
                     case FourExpOperation.jl:
@@ -233,7 +233,7 @@ namespace MIPS246.Core.Compiler
                         Reg2 = getReg(f, varTable, false, cmdList);
                         cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
                         cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
                         cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
                         break;
                     case FourExpOperation.jle:
@@ -241,7 +241,7 @@ namespace MIPS246.Core.Compiler
                         Reg2 = getReg(f, varTable, false, cmdList);
                         cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
                         cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
                         cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
                         break;
                     default:
