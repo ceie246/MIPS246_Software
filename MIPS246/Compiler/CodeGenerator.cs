@@ -9,7 +9,8 @@ namespace MIPS246.Core.Compiler
     public class CodeGenerator
     {
         #region Fields
-        private static string[] registers = { "$T0", "$T1", "$T2", "$T3", "$T4", "$T5", "$T6", "$T7", "$T7", "$T9" };
+        //$T0专门用来保存分支指令的结果
+        private static string[] registers = { "$T1", "$T2", "$T3", "$T4", "$T5", "$T6", "$T7", "$T7", "$T9" };
         private RegContent regUseTable;
         #endregion
 
@@ -33,6 +34,13 @@ namespace MIPS246.Core.Compiler
             //遍历四元式表，生成代码段
             int labelNo = 0;
             int count = 0;
+            int index = 0;
+            //生成标签并填入四元式的index字段
+            foreach (FourExp f in fourExpList)
+            {
+                f.Index = index++;
+                genLabel(f, ref labelNo, labelDic);
+            }
             foreach (FourExp f in fourExpList)
             {
                 foreach (string varName in varNameList)
@@ -44,8 +52,8 @@ namespace MIPS246.Core.Compiler
                         varTable.PopActInfo(varName);
                     }
                 }
-                genLabel(f, ref labelNo, labelDic);
-                convert(f, varTable, cmdList);
+                addLabel(f, labelDic, cmdList);
+                convert(f, varTable, labelDic, cmdList);
                 optimize();
             }
         }
@@ -162,14 +170,89 @@ namespace MIPS246.Core.Compiler
                 labelNo++;
             }
         }
-     
-        //生成指令段
-        private void convert(FourExp f, VarTable varTable, List<string> cmdList)
+        
+        //添加标签
+        private void addLabel(FourExp f, Dictionary<int, string> labelDic, List<string> cmdList)
         {
-            if (f.Op <= FourExpOperation.jle)
-            { 
-                
+            if (labelDic.ContainsKey(f.Index))
+            {
+                cmdList.Add(labelDic[f.Index]);
             }
+        }
+        
+        //生成指令段
+        private void convert(FourExp f, VarTable varTable, Dictionary<int, string> labelDic, List<string> cmdList)
+        {
+            #region Jump Operation
+            if (f.Op <= FourExpOperation.jle)
+            {
+                string operation = "";
+                string Reg1 = "";
+                string Reg2 = "";
+                switch (f.Op)
+                { 
+                    case FourExpOperation.jmp:
+                        operation = Mnemonic.JR.ToString();
+                        cmdList.Add(operation + " " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.je:
+                        operation = Mnemonic.BEQ.ToString();
+                        Reg1 = getReg(f, varTable, false, cmdList);
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add(operation + " " + Reg1 + ", " + Reg2 + ", " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.jne:
+                        operation = Mnemonic.BNE.ToString();
+                        Reg1 = getReg(f, varTable, false, cmdList);
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add(operation + " " + Reg1 + ", " + Reg2 + ", " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.jg:
+                        operation = Mnemonic.BGTZ.ToString();
+                        Reg1 = getReg(f, varTable, false, cmdList);
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.jge:
+                        operation = Mnemonic.BGEZ.ToString();
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.jl:
+                        operation = Mnemonic.BLTZ.ToString();
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        break;
+                    case FourExpOperation.jle:
+                        operation = Mnemonic.BLEZ.ToString();
+                        Reg2 = getReg(f, varTable, false, cmdList);
+                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                        cmdList.Add("SUB $T0, " + Reg1 + ", " + Reg2);
+                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        break;
+                    default:
+                        //错误处理
+                        break;
+                }
+
+            }
+            #endregion
+
+            #region Move Operation
             else if (f.Op == FourExpOperation.mov)
             {
                 string RegB = "";
@@ -198,6 +281,9 @@ namespace MIPS246.Core.Compiler
                     regUseTable.GetContent(RegB).Remove(f.Result);
                 }
             }
+            #endregion
+
+            #region Arithmetical or Logical Operation
             else if (f.Op <= FourExpOperation.or)//数学或逻辑运算
             {
                 //获取第一个参数的寄存器
@@ -298,6 +384,9 @@ namespace MIPS246.Core.Compiler
                     regUseTable.GetContent(RegA).Remove(f.Result);
                 }
             }
+            #endregion
+
+            #region Not or Neg Operation
             else if (f.Op == FourExpOperation.neg)
             { 
                 
@@ -306,6 +395,8 @@ namespace MIPS246.Core.Compiler
             {
 
             }
+            #endregion
+            
             else
             {
                 //错误处理
