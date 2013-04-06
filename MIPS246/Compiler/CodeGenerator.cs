@@ -187,8 +187,6 @@ namespace MIPS246.Core.Compiler
             if (f.Op <= FourExpOperation.jle)
             {
                 string operation = "";
-                string Reg1 = "";
-                string Reg2 = "";
                 switch (f.Op)
                 { 
                     case FourExpOperation.jmp:
@@ -197,52 +195,27 @@ namespace MIPS246.Core.Compiler
                         break;
                     case FourExpOperation.je:
                         operation = Mnemonic.BEQ.ToString();
-                        Reg1 = getReg(f, varTable, false, cmdList);
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add(operation + " " + Reg1 + ", " + Reg2 + ", " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     case FourExpOperation.jne:
                         operation = Mnemonic.BNE.ToString();
-                        Reg1 = getReg(f, varTable, false, cmdList);
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add(operation + " " + Reg1 + ", " + Reg2 + ", " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     case FourExpOperation.jg:
                         operation = Mnemonic.BGTZ.ToString();
-                        Reg1 = getReg(f, varTable, false, cmdList);
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
-                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     case FourExpOperation.jge:
                         operation = Mnemonic.BGEZ.ToString();
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
-                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     case FourExpOperation.jl:
                         operation = Mnemonic.BLTZ.ToString();
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
-                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     case FourExpOperation.jle:
                         operation = Mnemonic.BLEZ.ToString();
-                        Reg2 = getReg(f, varTable, false, cmdList);
-                        cmdList.Add("LW " + Reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
-                        cmdList.Add("LW " + Reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
-                        cmdList.Add("SLT $T0, " + Reg1 + ", " + Reg2);
-                        cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+                        doJump(f, operation, varTable, labelDic, cmdList);
                         break;
                     default:
                         //错误处理
@@ -255,30 +228,33 @@ namespace MIPS246.Core.Compiler
             #region Move Operation
             else if (f.Op == FourExpOperation.mov)
             {
-                string RegB = "";
+                string regB = "";
                 if (varTable.GetAddrInfo(f.Arg1) == "")
                 {
-                    RegB = getReg(f, varTable, false, cmdList);
+                    regB = getReg(f, varTable, false, cmdList);
+                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    regUseTable.GetContent(regB).Add(f.Arg1);
+                    varTable.SetAddrInfo(f.Arg1, regB);
                 }
                 else
                 {
-                    RegB = varTable.GetAddrInfo(f.Arg1);
+                    regB = varTable.GetAddrInfo(f.Arg1);
                 }
-                regUseTable.GetContent(RegB).Add(f.Result);
-                varTable.SetAddrInfo(f.Result, RegB);
+                regUseTable.GetContent(regB).Add(f.Result);
+                varTable.SetAddrInfo(f.Result, regB);
 
                 if(varTable.GetPeekActInfo(f.Arg1) == false)
                 {
-                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
                     varTable.SetAddrInfo(f.Arg1, "");
-                    regUseTable.GetContent(RegB).Remove(f.Arg1);
+                    regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
 
                 if(varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
                     varTable.SetAddrInfo(f.Result, "");
-                    regUseTable.GetContent(RegB).Remove(f.Result);
+                    regUseTable.GetContent(regB).Remove(f.Result);
                 }
             }
             #endregion
@@ -287,50 +263,50 @@ namespace MIPS246.Core.Compiler
             else if (f.Op <= FourExpOperation.or)//数学或逻辑运算
             {
                 //获取第一个参数的寄存器
-                string RegA, RegB, RegC;
+                string regA, regB, regC;
                 if (varTable.GetAddrInfo(f.Arg1) == "")
                 {
-                    RegB = getReg(f, varTable, false, cmdList);
-                    varTable.SetAddrInfo(f.Arg1, RegB);
-                    regUseTable.Add(RegB, f.Arg1);
-                    cmdList.Add("LW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    regB = getReg(f, varTable, false, cmdList);
+                    varTable.SetAddrInfo(f.Arg1, regB);
+                    regUseTable.Add(regB, f.Arg1);
+                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
                 }
                 else
                 {
-                    RegB = varTable.GetAddrInfo(f.Arg1);
+                    regB = varTable.GetAddrInfo(f.Arg1);
                 }
                 //获取第二个参数的寄存器
                 if (varTable.GetAddrInfo(f.Arg2) == "")
                 {
-                    RegC = getReg(f, varTable, false, cmdList);
-                    varTable.SetAddrInfo(f.Arg2, RegC);
-                    regUseTable.Add(RegC, f.Arg2);
-                    cmdList.Add("LW " + RegC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                    regC = getReg(f, varTable, false, cmdList);
+                    varTable.SetAddrInfo(f.Arg2, regC);
+                    regUseTable.Add(regC, f.Arg2);
+                    cmdList.Add("LW " + regC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
                 }
                 else
                 {
-                    RegC = varTable.GetAddrInfo(f.Arg2);
+                    regC = varTable.GetAddrInfo(f.Arg2);
                 }
-                RegA = getReg(f, varTable, true, cmdList);
-                varTable.SetAddrInfo(f.Result, RegA);
-                regUseTable.Add(RegA, f.Result);
+                regA = getReg(f, varTable, true, cmdList);
+                varTable.SetAddrInfo(f.Result, regA);
+                regUseTable.Add(regA, f.Result);
                 
-                if (RegA == RegB)
+                if (regA == regB)
                 {
-                    foreach (string var in regUseTable.GetContent(RegB))
+                    foreach (string var in regUseTable.GetContent(regB))
                     {
-                        cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        cmdList.Add("SW " + regB + ", " + varTable.GetAddr(var) + "($ZERO)");
                         varTable.SetAddrInfo(var, "");
-                        regUseTable.GetContent(RegB).Remove(var);
+                        regUseTable.GetContent(regB).Remove(var);
                     }
                 }
-                if (RegA == RegC)
+                if (regA == regC)
                 {
-                    foreach (string var in regUseTable.GetContent(RegC))
+                    foreach (string var in regUseTable.GetContent(regC))
                     {
-                        cmdList.Add("SW " + RegC + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        cmdList.Add("SW " + regC + ", " + varTable.GetAddr(var) + "($ZERO)");
                         varTable.SetAddrInfo(var, "");
-                        regUseTable.GetContent(RegC).Remove(var);
+                        regUseTable.GetContent(regC).Remove(var);
                     }
                 }
                 string operation = "";
@@ -364,32 +340,59 @@ namespace MIPS246.Core.Compiler
                         //错误处理
                         break;
                 }
-                cmdList.Add(operation + " " + RegA + ", " + RegB + ", " + RegC);
+                cmdList.Add(operation + " " + regA + ", " + regB + ", " + regC);
                 if ((varTable.GetAddrInfo(f.Arg1) != null) && (varTable.GetPeekActInfo(f.Arg1) == false))
                 {
-                    cmdList.Add("SW " + RegB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
                     varTable.SetAddrInfo(f.Arg1, "");
-                    regUseTable.GetContent(RegB).Remove(f.Arg1);
+                    regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
                 if ((varTable.GetAddrInfo(f.Arg2) != null) && (varTable.GetPeekActInfo(f.Arg2) == false))
                 {
-                    cmdList.Add("SW " + RegC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                    cmdList.Add("SW " + regC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
                     varTable.SetAddrInfo(f.Arg2, "");
-                    regUseTable.GetContent(RegC).Remove(f.Arg2);
+                    regUseTable.GetContent(regC).Remove(f.Arg2);
                 }
                 if (varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + RegA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
                     varTable.SetAddrInfo(f.Result, "");
-                    regUseTable.GetContent(RegA).Remove(f.Result);
+                    regUseTable.GetContent(regA).Remove(f.Result);
                 }
             }
             #endregion
 
             #region Not or Neg Operation
             else if (f.Op == FourExpOperation.neg)
-            { 
-                
+            {
+                string regB = varTable.GetAddrInfo(f.Arg1);
+                string regA = varTable.GetAddrInfo(f.Result);
+                if (regB == "")
+                {
+                    regB = getReg(f, varTable, false, cmdList);
+                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, regB);
+                    regUseTable.GetContent(regB).Add(f.Arg1);
+                }
+                if (regA == "")
+                {
+                    regA = getReg(f, varTable, true, cmdList);
+                    varTable.SetAddrInfo(f.Result, regA);
+                    regUseTable.GetContent(regA).Add(f.Result);
+                }
+                cmdList.Add("SUB " + regA + ", " + "$ZERO" + ", " + regB);
+                if (varTable.GetPeekActInfo(f.Arg1) == false)
+                {
+                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, "");
+                    regUseTable.GetContent(regB).Remove(f.Arg1);
+                }
+                if (varTable.GetPeekActInfo(f.Result) == false)
+                {
+                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Result, "");
+                    regUseTable.GetContent(regA).Remove(f.Result);
+                }
             }
             else if (f.Op == FourExpOperation.not)
             {
@@ -400,6 +403,47 @@ namespace MIPS246.Core.Compiler
             else
             {
                 //错误处理
+            }
+        }
+
+        private void doJump(FourExp f, string operation, VarTable varTable, Dictionary<int, string> labelDic, List<string> cmdList)
+        {
+            string reg1 = "", reg2 = "";
+            reg1 = varTable.GetAddrInfo(f.Arg1);
+            reg2 = varTable.GetAddrInfo(f.Arg2);
+            if (reg1 == "")
+            {
+                reg1 = getReg(f, varTable, false, cmdList);
+                cmdList.Add("LW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                regUseTable.GetContent(reg1).Add(f.Arg1);
+                varTable.SetAddrInfo(f.Arg1, reg1);
+            }
+            if (reg2 == "")
+            {
+                reg2 = getReg(f, varTable, false, cmdList);
+                cmdList.Add("LW " + reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                regUseTable.GetContent(reg2).Add(f.Arg2);
+                varTable.SetAddrInfo(f.Arg2, reg2);
+            }
+            cmdList.Add("SLT $T0, " + reg1 + ", " + reg2);
+            cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+            adjustAfterJump(f, reg1, reg2, varTable, cmdList);
+        }
+
+        //跳转之后的调整
+        private void adjustAfterJump(FourExp f, string reg1, string reg2, VarTable varTable, List<string> cmdList)
+        {
+            if (varTable.GetPeekActInfo(f.Arg1) == false)
+            {
+                cmdList.Add("SW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                varTable.SetAddrInfo(f.Arg1, "");
+                regUseTable.GetContent(reg1).Remove(f.Arg1);
+            }
+            if (varTable.GetPeekActInfo(f.Arg2) == false)
+            {
+                cmdList.Add("SW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                varTable.SetAddrInfo(f.Arg2, "");
+                regUseTable.GetContent(reg2).Remove(f.Arg2);
             }
         }
 

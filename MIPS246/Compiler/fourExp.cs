@@ -86,7 +86,7 @@ namespace MIPS246.Core.Compiler
             this.Result = "";
         }
 
-        public FourExp(FourExpOperation op, string source, string target)
+        public FourExp(FourExpOperation op, string source, string target) //赋值、取反
         {
             this.Op = op;
             this.Arg1 = source;
@@ -95,7 +95,7 @@ namespace MIPS246.Core.Compiler
             this.Result = target;
         }
 
-        public FourExp(FourExpOperation op, string arg1, string arg2, string result) //赋值、取反、四则元算、逻辑运算
+        public FourExp(FourExpOperation op, string arg1, string arg2, string result) //四则元算、逻辑运算
         {
             if (op < FourExpOperation.mov)
             {
