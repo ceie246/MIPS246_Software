@@ -396,7 +396,34 @@ namespace MIPS246.Core.Compiler
             }
             else if (f.Op == FourExpOperation.not)
             {
-
+                string regB = varTable.GetAddrInfo(f.Arg1);
+                string regA = varTable.GetAddrInfo(f.Result);
+                if (regB == "")
+                {
+                    regB = getReg(f, varTable, false, cmdList);
+                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, regB);
+                    regUseTable.GetContent(regB).Add(f.Arg1);
+                }
+                if (regA == "")
+                {
+                    regA = getReg(f, varTable, true, cmdList);
+                    varTable.SetAddrInfo(f.Result, regA);
+                    regUseTable.GetContent(regA).Add(f.Result);
+                }
+                cmdList.Add("XORI " + regA + ", " + regB + ", " + 1);//a = NOT b => a = b xor 1
+                if (varTable.GetPeekActInfo(f.Arg1) == false)
+                {
+                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Arg1, "");
+                    regUseTable.GetContent(regB).Remove(f.Arg1);
+                }
+                if (varTable.GetPeekActInfo(f.Result) == false)
+                {
+                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    varTable.SetAddrInfo(f.Result, "");
+                    regUseTable.GetContent(regA).Remove(f.Result);
+                }
             }
             #endregion
             
