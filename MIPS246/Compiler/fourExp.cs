@@ -36,6 +36,7 @@ namespace MIPS246.Core.Compiler
         private string arg2;
         private int nextFourExp;
         private string result;
+        private int addr;
         #endregion
 
         #region Public Fields
@@ -74,6 +75,12 @@ namespace MIPS246.Core.Compiler
             get { return result; }
             set { result = value; }
         }
+
+        public int Addr
+        {
+            get { return addr; }
+            set { addr = value; }
+        }
         #endregion
 
         #region Constructor
@@ -84,6 +91,7 @@ namespace MIPS246.Core.Compiler
             this.Arg2 = arg2;
             this.NextFourExp = nextFourExp;
             this.Result = "";
+            this.Addr = 0x0000;
         }
 
         public FourExp(FourExpOperation op, string source, string target) //赋值、取反
@@ -93,6 +101,7 @@ namespace MIPS246.Core.Compiler
             this.Arg2 = "";
             this.NextFourExp = -1;
             this.Result = target;
+            this.Addr = 0x0000;
         }
 
         public FourExp(FourExpOperation op, string arg1, string arg2, string result) //四则元算、逻辑运算

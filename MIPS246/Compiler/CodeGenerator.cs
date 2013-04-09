@@ -22,24 +22,22 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Public Method
-        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<string> cmdList, Dictionary<int, String> labelDic, bool isStand)
+        public void Generate(List<FourExp> fourExpList, VarTable varTable, List<AssemblerIns> cmdList)
         {
             //为变量分配内存,并对符号的后续引用信息域和活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(varTable, fourExpList, varNameList);
             
             //生成数据段
-            genDataIns(varNameList, varTable, cmdList, isStand);
+            genDataIns(varNameList, varTable, cmdList);
 
             //遍历四元式表，生成代码段
-            int labelNo = 0;
             int count = 0;
             int index = 0;
-            //生成标签并填入四元式的index字段
+            //填入四元式的index字段
             foreach (FourExp f in fourExpList)
             {
                 f.Index = index++;
-                genLabel(f, ref labelNo, labelDic);
             }
             foreach (FourExp f in fourExpList)
             {
@@ -52,8 +50,8 @@ namespace MIPS246.Core.Compiler
                         varTable.PopActInfo(varName);
                     }
                 }
-                addLabel(f, labelDic, cmdList);
-                convert(f, varTable, labelDic, cmdList);
+                f.Addr = cmdList.Count() * 4;   //填入四元式对应的汇编指令首地址
+                convert(f, varTable, cmdList);
                 optimize();
             }
         }
@@ -103,7 +101,7 @@ namespace MIPS246.Core.Compiler
         }
 
         //获取寄存器，isResult为true，则说明需要返回的是存放结果的寄存器
-        private string getReg(FourExp f, VarTable varTable, bool isResult, List<string> cmdList)
+        private string getReg(FourExp f, VarTable varTable, bool isResult, List<AssemblerIns> cmdList)
         {
             //返回B或者C所在的寄存器
             if (isResult)
@@ -150,38 +148,17 @@ namespace MIPS246.Core.Compiler
         }
 
         //调整变量表和寄存器表中的相关域
-        private void doAdjust(string regName, VarTable varTable, List<string> cmdList)
+        private void doAdjust(string regName, VarTable varTable, List<AssemblerIns> cmdList)
         {
             foreach (string varName in regUseTable.GetContent(regName))
             {
-                cmdList.Add("SW " + regName + ", " + varTable.GetAddr(varName) + "($ZERO)");
+                cmdList.Add(AssemblerFac.GenSW(regName, varTable.GetAddr(varName).ToString(), "$ZERO"));
                 varTable.SetAddrInfo(varName, "");
             }
             regUseTable.Clear(regName);
         }
 
-        //生成标签
-        private void genLabel(FourExp f, ref int labelNo, Dictionary<int, String> labelDic)
-        {
-            int fourExpNo = f.NextFourExp;
-            if (fourExpNo != -1)
-            {
-                labelDic.Add(fourExpNo, "L" + labelNo.ToString("D3"));
-                labelNo++;
-            }
-        }
-        
-        //添加标签
-        private void addLabel(FourExp f, Dictionary<int, string> labelDic, List<string> cmdList)
-        {
-            if (labelDic.ContainsKey(f.Index))
-            {
-                cmdList.Add(labelDic[f.Index]);
-            }
-        }
-        
-        //生成指令段
-        private void convert(FourExp f, VarTable varTable, Dictionary<int, string> labelDic, List<string> cmdList)
+        private void convert(FourExp f, VarTable varTable, List<AssemblerIns> cmdList)
         {
             #region Jump Operation
             if (f.Op <= FourExpOperation.jle)
@@ -190,32 +167,32 @@ namespace MIPS246.Core.Compiler
                 switch (f.Op)
                 { 
                     case FourExpOperation.jmp:
-                        operation = Mnemonic.JR.ToString();
-                        cmdList.Add(operation + " " + labelDic[f.Index]);
+                        operation = Mnemonic.J.ToString();
+                        cmdList.Add(AssemblerFac.GenJ(f.NextFourExp.ToString()));
                         break;
                     case FourExpOperation.je:
                         operation = Mnemonic.BEQ.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     case FourExpOperation.jne:
                         operation = Mnemonic.BNE.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     case FourExpOperation.jg:
                         operation = Mnemonic.BGTZ.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     case FourExpOperation.jge:
                         operation = Mnemonic.BGEZ.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     case FourExpOperation.jl:
                         operation = Mnemonic.BLTZ.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     case FourExpOperation.jle:
                         operation = Mnemonic.BLEZ.ToString();
-                        doJump(f, operation, varTable, labelDic, cmdList);
+                        doJump(f, operation, varTable, cmdList);
                         break;
                     default:
                         //错误处理
@@ -232,7 +209,7 @@ namespace MIPS246.Core.Compiler
                 if (varTable.GetAddrInfo(f.Arg1) == "")
                 {
                     regB = getReg(f, varTable, false, cmdList);
-                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenLW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     regUseTable.GetContent(regB).Add(f.Arg1);
                     varTable.SetAddrInfo(f.Arg1, regB);
                 }
@@ -245,14 +222,14 @@ namespace MIPS246.Core.Compiler
 
                 if(varTable.GetPeekActInfo(f.Arg1) == false)
                 {
-                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, "");
                     regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
 
                 if(varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(f.Result).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Result, "");
                     regUseTable.GetContent(regB).Remove(f.Result);
                 }
@@ -269,7 +246,7 @@ namespace MIPS246.Core.Compiler
                     regB = getReg(f, varTable, false, cmdList);
                     varTable.SetAddrInfo(f.Arg1, regB);
                     regUseTable.Add(regB, f.Arg1);
-                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenLW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                 }
                 else
                 {
@@ -281,7 +258,7 @@ namespace MIPS246.Core.Compiler
                     regC = getReg(f, varTable, false, cmdList);
                     varTable.SetAddrInfo(f.Arg2, regC);
                     regUseTable.Add(regC, f.Arg2);
-                    cmdList.Add("LW " + regC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenLW(regC, varTable.GetAddr(f.Arg2).ToString(), "$ZERO"));
                 }
                 else
                 {
@@ -295,7 +272,7 @@ namespace MIPS246.Core.Compiler
                 {
                     foreach (string var in regUseTable.GetContent(regB))
                     {
-                        cmdList.Add("SW " + regB + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(var).ToString(), "$ZERO"));
                         varTable.SetAddrInfo(var, "");
                         regUseTable.GetContent(regB).Remove(var);
                     }
@@ -304,7 +281,7 @@ namespace MIPS246.Core.Compiler
                 {
                     foreach (string var in regUseTable.GetContent(regC))
                     {
-                        cmdList.Add("SW " + regC + ", " + varTable.GetAddr(var) + "($ZERO)");
+                        cmdList.Add(AssemblerFac.GenSW(regC, varTable.GetAddr(var).ToString(), "$ZERO"));
                         varTable.SetAddrInfo(var, "");
                         regUseTable.GetContent(regC).Remove(var);
                     }
@@ -340,22 +317,22 @@ namespace MIPS246.Core.Compiler
                         //错误处理
                         break;
                 }
-                cmdList.Add(operation + " " + regA + ", " + regB + ", " + regC);
+                cmdList.Add(AssemblerFac.GenMathOrLog(operation, regA, regB, regC));
                 if ((varTable.GetAddrInfo(f.Arg1) != null) && (varTable.GetPeekActInfo(f.Arg1) == false))
                 {
-                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, "");
                     regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
                 if ((varTable.GetAddrInfo(f.Arg2) != null) && (varTable.GetPeekActInfo(f.Arg2) == false))
                 {
-                    cmdList.Add("SW " + regC + ", " + varTable.GetAddr(f.Arg2) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regC, varTable.GetAddr(f.Arg2).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg2, "");
                     regUseTable.GetContent(regC).Remove(f.Arg2);
                 }
                 if (varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regA, varTable.GetAddr(f.Result).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Result, "");
                     regUseTable.GetContent(regA).Remove(f.Result);
                 }
@@ -370,7 +347,7 @@ namespace MIPS246.Core.Compiler
                 if (regB == "")
                 {
                     regB = getReg(f, varTable, false, cmdList);
-                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenLW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, regB);
                     regUseTable.GetContent(regB).Add(f.Arg1);
                 }
@@ -380,16 +357,16 @@ namespace MIPS246.Core.Compiler
                     varTable.SetAddrInfo(f.Result, regA);
                     regUseTable.GetContent(regA).Add(f.Result);
                 }
-                cmdList.Add("SUB " + regA + ", " + "$ZERO" + ", " + regB);
+                cmdList.Add(AssemblerFac.GenSUB(regA, "$ZERO", regB));
                 if (varTable.GetPeekActInfo(f.Arg1) == false)
                 {
-                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, "");
                     regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
                 if (varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regA, varTable.GetAddr(f.Result).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Result, "");
                     regUseTable.GetContent(regA).Remove(f.Result);
                 }
@@ -401,7 +378,7 @@ namespace MIPS246.Core.Compiler
                 if (regB == "")
                 {
                     regB = getReg(f, varTable, false, cmdList);
-                    cmdList.Add("LW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenLW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, regB);
                     regUseTable.GetContent(regB).Add(f.Arg1);
                 }
@@ -411,16 +388,16 @@ namespace MIPS246.Core.Compiler
                     varTable.SetAddrInfo(f.Result, regA);
                     regUseTable.GetContent(regA).Add(f.Result);
                 }
-                cmdList.Add("XORI " + regA + ", " + regB + ", " + 1);//a = NOT b => a = b xor 1
+                cmdList.Add(AssemblerFac.GenXORI(regA, regB, Convert.ToString(1)));//a = NOT b => a = b xor 1
                 if (varTable.GetPeekActInfo(f.Arg1) == false)
                 {
-                    cmdList.Add("SW " + regB + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regB, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Arg1, "");
                     regUseTable.GetContent(regB).Remove(f.Arg1);
                 }
                 if (varTable.GetPeekActInfo(f.Result) == false)
                 {
-                    cmdList.Add("SW " + regA + ", " + varTable.GetAddr(f.Result) + "($ZERO)");
+                    cmdList.Add(AssemblerFac.GenSW(regA, varTable.GetAddr(f.Result).ToString(), "$ZERO"));
                     varTable.SetAddrInfo(f.Result, "");
                     regUseTable.GetContent(regA).Remove(f.Result);
                 }
@@ -433,7 +410,7 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private void doJump(FourExp f, string operation, VarTable varTable, Dictionary<int, string> labelDic, List<string> cmdList)
+        private void doJump(FourExp f, string operation, VarTable varTable, List<AssemblerIns> cmdList)
         {
             string reg1 = "", reg2 = "";
             reg1 = varTable.GetAddrInfo(f.Arg1);
@@ -441,75 +418,61 @@ namespace MIPS246.Core.Compiler
             if (reg1 == "")
             {
                 reg1 = getReg(f, varTable, false, cmdList);
-                cmdList.Add("LW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "$(ZERO)");
+                cmdList.Add(AssemblerFac.GenLW(reg1, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                 regUseTable.GetContent(reg1).Add(f.Arg1);
                 varTable.SetAddrInfo(f.Arg1, reg1);
             }
             if (reg2 == "")
             {
                 reg2 = getReg(f, varTable, false, cmdList);
-                cmdList.Add("LW " + reg2 + ", " + varTable.GetAddr(f.Arg2) + "$(ZERO)");
+                cmdList.Add(AssemblerFac.GenLW(reg2, varTable.GetAddr(f.Arg2).ToString(), "$ZERO"));
                 regUseTable.GetContent(reg2).Add(f.Arg2);
                 varTable.SetAddrInfo(f.Arg2, reg2);
             }
-            cmdList.Add("SLT $T0, " + reg1 + ", " + reg2);
-            cmdList.Add(operation + " $T0, " + labelDic[f.Index]);
+            cmdList.Add(AssemblerFac.GenSLT("$T0", reg1, reg2));
+            cmdList.Add(AssemblerFac.GenJUMP(operation, "$T0", f.NextFourExp.ToString()));
             adjustAfterJump(f, reg1, reg2, varTable, cmdList);
         }
 
         //跳转之后的调整
-        private void adjustAfterJump(FourExp f, string reg1, string reg2, VarTable varTable, List<string> cmdList)
+        private void adjustAfterJump(FourExp f, string reg1, string reg2, VarTable varTable, List<AssemblerIns> cmdList)
         {
             if (varTable.GetPeekActInfo(f.Arg1) == false)
             {
-                cmdList.Add("SW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                cmdList.Add(AssemblerFac.GenSW(reg1, varTable.GetAddr(f.Arg1).ToString(), "$ZERO"));
                 varTable.SetAddrInfo(f.Arg1, "");
                 regUseTable.GetContent(reg1).Remove(f.Arg1);
             }
             if (varTable.GetPeekActInfo(f.Arg2) == false)
             {
-                cmdList.Add("SW " + reg1 + ", " + varTable.GetAddr(f.Arg1) + "($ZERO)");
+                cmdList.Add(AssemblerFac.GenSW(reg2, varTable.GetAddr(f.Arg2).ToString(), "$ZERO"));
                 varTable.SetAddrInfo(f.Arg2, "");
                 regUseTable.GetContent(reg2).Remove(f.Arg2);
             }
         }
 
         //生成数据段
-        private void genDataIns(List<string> varNameList, VarTable varTable, List<string> cmdList, bool isStand)
+        private void genDataIns(List<string> varNameList, VarTable varTable, List<AssemblerIns> cmdList)
         {
-            //生成标准的汇编
-            if (isStand)
+            foreach (string varName in varNameList)
             {
-                cmdList.Add(".data");
-                foreach (string varName in varNameList)
+                if (varTable.GetType(varName) == VariableType.INT || varTable.GetType(varName) == VariableType.CHAR)
                 {
-                    cmdList.Add(varName + ": .word " + varTable.GetValue(varName));
+                    short varValue = (short)varTable.GetValue(varName);
+                    short varAddr = varTable.GetAddr(varName);
+                    cmdList.Add(AssemblerFac.GenLUI("$T0", varValue.ToString()));
+                    cmdList.Add(AssemblerFac.GenSRL("$T0", "$T0", Convert.ToString(16)));
+                    cmdList.Add(AssemblerFac.GenSW("$T0", varAddr.ToString(), "$ZERO"));
                 }
-                cmdList.Add(".text");
-            }
-            //生成非标准的汇编，只有程序段
-            else
-            {
-                foreach (string varName in varNameList)
+                else
                 {
-                    if (varTable.GetType(varName) == VariableType.INT || varTable.GetType(varName) == VariableType.CHAR)
-                    {
-                        short varValue = (short)varTable.GetValue(varName);
-                        short varAddr = varTable.GetAddr(varName);
-                        cmdList.Add("LUI $T1, " + varValue);
-                        cmdList.Add("SRL $T1, $T1, " + 16);
-                        cmdList.Add("SW $T1, " + varAddr + "($ZERO)");
-                    }
-                    else
-                    {
-                        int value = varTable.GetValue(varName);
-                        short high = (short)(value>>16);
-                        short varAddr = varTable.GetAddr(varName);
-                        cmdList.Add("LUI $TI, " + high);
-                        short low = (short)(value & 0xffff);
-                        cmdList.Add("ORI $TI, $T1, " + low);
-                        cmdList.Add("SW $T1, " + varAddr + "($ZERO)");
-                    }
+                    int value = varTable.GetValue(varName);
+                    short high = (short)(value>>16);
+                    short varAddr = varTable.GetAddr(varName);
+                    cmdList.Add(AssemblerFac.GenLUI("$T0", high.ToString()));
+                    short low = (short)(value & 0xffff);
+                    cmdList.Add(AssemblerFac.GenORI("$T0", "$T0", low.ToString()));
+                    cmdList.Add(AssemblerFac.GenSW("$T0", varAddr.ToString(), "$ZERO"));
                 }
             }
         }

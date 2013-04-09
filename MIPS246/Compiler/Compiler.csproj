@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblerFac.cs" />
+    <Compile Include="AssemblerIns.cs" />
     <Compile Include="CodeGenerator.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerErrorInfo.cs" />
-    <Compile Include="fourExp.cs" />
+    <Compile Include="FourExp.cs" />
     <Compile Include="GlobalVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegContent.cs" />
