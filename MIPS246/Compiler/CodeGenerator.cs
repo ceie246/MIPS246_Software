@@ -31,7 +31,6 @@ namespace MIPS246.Core.Compiler
             //生成数据段
             genDataIns(varNameList, varTable, cmdList);
 
-            //遍历四元式表，生成代码段
             int count = 0;
             int index = 0;
             //填入四元式的index字段
@@ -39,6 +38,7 @@ namespace MIPS246.Core.Compiler
             {
                 f.Index = index++;
             }
+
             foreach (FourExp f in fourExpList)
             {
                 foreach (string varName in varNameList)
@@ -49,10 +49,26 @@ namespace MIPS246.Core.Compiler
                         varTable.PopRefeInfo(varName);
                         varTable.PopActInfo(varName);
                     }
+                    count++;
                 }
                 f.Addr = cmdList.Count() * 4;   //填入四元式对应的汇编指令首地址
                 convert(f, varTable, cmdList);
                 optimize();
+            }
+
+            //回填汇编代码中跳转指令的地址字段
+            foreach (AssemblerIns a in cmdList)
+            {
+                string operation = a.Op;
+                List<string> JumpIns = new List<String>() { "BEQ", "BNE", "BGEZ", "BGTZ", "BLEZ", "BLTZ" };
+                if (JumpIns.Contains(operation))
+                {
+                    a.Offset = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
+                }
+                else if (a.Op == "J")
+                {
+                    a.Address = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
+                }
             }
         }
         #endregion

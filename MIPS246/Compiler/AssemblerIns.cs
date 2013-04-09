@@ -7,8 +7,11 @@ namespace MIPS246.Core.DataStructure
 {
     internal class AssemblerIns
     {
+        #region Private Fields
         private string op = "", rs = "", rt = "", rd = "", immediate = "", offset = "", shamt = "", address = "";
+        #endregion
 
+        #region Public Fields
         public string Address
         {
             get { return address; }
@@ -56,13 +59,81 @@ namespace MIPS246.Core.DataStructure
             get { return op; }
             set { op = value; }
         }
-
-
+        #endregion
 
         #region Public Method
         public string ToString()
         {
-            return "";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(this.Op).Append(" ");
+            switch (this.Op)
+            {
+                case "ADD":
+                case "SUB":
+                case "AND":
+                case "OR":
+                case "XOR":
+                case "NOR":
+                case "SLT":
+                    sb.Append(this.Rd)
+                        .Append(", ")
+                        .Append(this.Rs)
+                        .Append(", ")
+                        .Append(this.Rt);
+                    break;
+                case "SRL":
+                    sb.Append(this.Rd)
+                        .Append(", ")
+                        .Append(this.Rt)
+                        .Append(", ")
+                        .Append(this.Shamt);
+                    break;
+                case "ORI":
+                case "XORI":
+                    sb.Append(this.Rt)
+                        .Append(", ")
+                        .Append(this.Rs)
+                        .Append(", ")
+                        .Append(this.Immediate);
+                    break;
+                case "LUI":
+                    sb.Append(this.Rt)
+                        .Append(", ")
+                        .Append(this.Immediate);
+                    break;
+                case "LW":
+                case "SW":
+                    sb.Append(this.rt)
+                        .Append(", ")
+                        .Append(this.Offset)
+                        .Append("(")
+                        .Append(this.Rs)
+                        .Append(")");
+                    break;
+                case "BEQ":
+                case "BNE":
+                    sb.Append(this.Rs)
+                        .Append(", ")
+                        .Append(this.Rt)
+                        .Append(", ")
+                        .Append(this.Offset);
+                    break;
+                case "BGEZ":
+                case "BGTZ":
+                case "BLEZ":
+                case "BLTZ":
+                    sb.Append(this.Rs)
+                        .Append(", ")
+                        .Append(this.Offset);
+                    break;
+                case "J":
+                    sb.Append(this.Address);
+                    break;
+                default:
+                    //错误处理
+                    break;
+            }
+            return sb.ToString();
         }
         #endregion
     }
