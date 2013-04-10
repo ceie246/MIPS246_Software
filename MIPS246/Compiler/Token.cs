@@ -45,42 +45,43 @@ namespace MIPS246.Core.Compiler
     public enum OperatorType
     {
         
-        //[
-        //]
+        leftbracket,        //[
+        rightbracket,       //]
         //->
         //.
-        not,//!
-        //++
-        //--
-        //*
-        //&
+        not,                //!
+        selfadd,            //++
+        selfsub,            //--
+        mul,                //*
+        div,                ///
         //~
-        //+
-        //-
+        add,                //+
+        sub,                //-
         //sizeof
-        //>>
-        //<<
-        //<
-        //<=
-        //>
-        //>=
-        //==
-        notequal,         //!=
-        //&
-        //^
-        //|
-        //&&
-        //||
+        rightmove,          //>>
+        leftmove,           //<<
+        less,               //<
+        lessequal,          //<=
+        greater,            //>
+        greatereuqal,       //>=
+        equal,              //==
+        notequal,           //!=
+        bitand,             //&
+        bitnot,             //^
+        bitor,              //|
+        and,                //&&
+        or,                 //||
         //?:
-        //=
-        //+=
-        //-=
-        //*=
-        ///=
-        //%=
-        //&=
-        //|=
-        //^=
+        assign,             //=
+        addassign,          //+=
+        subassign,          //-=
+        mulassign,          //*=
+        divassign,          ///=
+        aliquot,            //%
+        aliquotassign,       //%=
+        andassign,          //&=
+        orassign,           //|=
+        notassign,          //^=
         //,        
     }
 
@@ -93,9 +94,9 @@ namespace MIPS246.Core.Compiler
         semicolon,          //;
         comma,              //,
         pound               //#
-        ////
-        ///*
-        //*/
+        //// - ignore
+        ///* - ignore
+        //*/ - ignore
     }
 
     public abstract class Token
