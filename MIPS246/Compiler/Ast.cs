@@ -10,29 +10,21 @@ namespace MIPS246.Core.Compiler
     {
     }
 
-    class TrueExpression : Expression
-    {
-    }
-
-    class FalseExpression : Expression
-    {
-    }
-
     class IdentifyExpression : Expression
     {
-                #region Fields
+        #region Fields
         private Expression expression1;
         private Expression expression2;
         private Operator op;
         #endregion
 
         #region Constructors
-        /*public OPExpression(Expression expression1, Expression expression2, Operator op)
+        public IdentifyExpression(Expression expression1, Expression expression2, Operator op)
         {
             this.expression1 = expression1;
             this.expression2 = expression2;
             this.op = op;
-        }*/
+        }
         #endregion
 
         #region Properties
@@ -71,8 +63,6 @@ namespace MIPS246.Core.Compiler
                 this.op = value;
             }
         }
-
-
         #endregion  
     }
 
@@ -149,6 +139,122 @@ namespace MIPS246.Core.Compiler
 
         #region Properties
         public int Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    }
+
+    class ArrayExpression : Expression
+    {
+    }
+
+    class IntValue : Expression
+    {
+        #region Fields
+        private int value;
+        #endregion
+
+        #region Constructors
+        public IntValue(int value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public int Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    }
+
+    class CharValue : Expression
+    {
+        #region Fields
+        private char value;
+        #endregion
+
+        #region Constructors
+        public CharValue(char value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public char Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    }
+
+    class LongValue : Expression
+    {
+        #region Fields
+        private long value;
+        #endregion
+
+        #region Constructors
+        public LongValue(long value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public long Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    }
+
+    class BoolValue : Expression
+    {
+        #region Fields
+        private bool value;
+        #endregion
+
+        #region Constructors
+        public BoolValue(bool value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public bool Value
         {
             get
             {
