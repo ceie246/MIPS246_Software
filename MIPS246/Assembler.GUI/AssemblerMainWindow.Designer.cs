@@ -82,7 +82,6 @@
             // 
             // AssembleButton
             // 
-            this.AssembleButton.Enabled = false;
             this.AssembleButton.ForeColor = System.Drawing.Color.Red;
             this.AssembleButton.Location = new System.Drawing.Point(697, 526);
             this.AssembleButton.Name = "AssembleButton";

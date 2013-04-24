@@ -112,6 +112,17 @@ namespace Assembler.GUI
 
         private void AssembleButton_Click(object sender, EventArgs e)
         {
+            if (SourceFilePathTextBox.Text == string.Empty)
+            {
+                SaveFileDialog.Filter = "asm file (*.asm)|*.asm";
+                SaveFileDialog.FileName = "";
+                if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    sourcepath = SaveFileDialog.FileName;
+                    SourceFilePathTextBox.Text = sourcepath;
+                }
+            }
+
             StreamWriter sw = new StreamWriter(sourcepath, false);
             for (int i = 0; i < SourceRichTextBox.Lines.Length; i++)
             {
