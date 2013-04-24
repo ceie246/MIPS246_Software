@@ -2,13 +2,13 @@
 
 namespace MIPS246.Core.Assembler
 {
-    enum AssemblerError
+    public enum AssemblerError
     {
         NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL, INVALIDIMMEDIATE,
         WRONGARG, WRONGOFFSET
     }
 
-    class AssemblerErrorInfo
+    public class AssemblerErrorInfo
     {
         #region Fields
         int line;
@@ -32,7 +32,7 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Public Methods
-        public void Display()
+        public void ConsoleDisplay()
         {
             string printline = (line + 1).ToString();
             switch (this.assemblererror)
@@ -67,6 +67,35 @@ namespace MIPS246.Core.Assembler
                 default:
                     break;
             }
+        }
+
+        public override string ToString()
+        {
+            string printline = (line + 1).ToString();
+            switch (this.assemblererror)
+            {
+                case AssemblerError.NOFILE:
+                    return "Line 0: Could not found the source file.";
+                case AssemblerError.INVALIDLABEL:
+                    return "Line " + printline + ": The address label is invalid: " + this.description;
+                case AssemblerError.UNKNOWNCMD:
+                    return "Line " + printline + ": The Mnemonic is invalid: " + this.description;
+                case AssemblerError.WRONGARGUNUM:
+                    return "Line " + printline + ": The Mnemonic takes " + this.description + " arguments.";
+                case AssemblerError.ADDNOTFOUND:
+                    return "Line " + printline + ": The address label is not found in the source file: " + this.description;
+                case AssemblerError.WRONGREGNAME:
+                    return "Line " + printline + ": The Register name is invalid.";
+                case AssemblerError.WRONGSHAMT:
+                    return "Line " + printline + ": The Shamt should between 0 to 31. Shamt:" + this.description;
+                case AssemblerError.INVALIDIMMEDIATE:
+                    return "Line " + printline + ": The immediate formate is incorrect: " + this.description;
+                case AssemblerError.WRONGARG:
+                    return  "Line " + printline + ": The Args are incorrect: " + this.description;
+                default:
+                    break;
+            }
+            return base.ToString();
         }
         #endregion
 

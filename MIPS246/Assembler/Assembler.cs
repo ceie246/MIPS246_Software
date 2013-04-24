@@ -44,6 +44,14 @@ namespace MIPS246.Core.Assembler
                 return this.codelist;
             }
         }
+
+        public AssemblerErrorInfo Error
+        {
+            get
+            {
+                return this.error;
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -132,7 +140,7 @@ namespace MIPS246.Core.Assembler
         public void DisplayError()
         {
             Console.WriteLine("Compile failed:");
-            this.error.Display();
+            this.error.ConsoleDisplay();
         }       
         #endregion
 
@@ -180,7 +188,7 @@ namespace MIPS246.Core.Assembler
         {
             for (int i = 0; i < sourceList.Count; i++)
             {
-
+                
                 if (addresstable.ContainsValue(i - 1))
                 {
                     addresstable[labeltable[i - 1].ToString()] = codelist.Count;

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{BFB0D791-9C6C-456A-8B89-2ED73C84FDD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructure", "DataStructure\DataStructure.csproj", "{A3C81FFA-07EB-4239-AFED-DB93E161FE71}"
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.CLI", "Compiler.CLI\Compiler.CLI.csproj", "{4A051863-DC05-41D5-A499-33C922A39D3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIPS246.Test", "MIPS246.Test\MIPS246.Test.csproj", "{89CEBFA6-ACC1-48E3-8A07-A41AA9C51123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.GUI", "Assembler.GUI\Assembler.GUI.csproj", "{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,16 @@ Global
 		{89CEBFA6-ACC1-48E3-8A07-A41AA9C51123}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{89CEBFA6-ACC1-48E3-8A07-A41AA9C51123}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{89CEBFA6-ACC1-48E3-8A07-A41AA9C51123}.Release|x86.ActiveCfg = Release|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
