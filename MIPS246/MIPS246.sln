@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIPS246.Test", "MIPS246.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.GUI", "Assembler.GUI\Assembler.GUI.csproj", "{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.GUI", "Compiler.GUI\Compiler.GUI.csproj", "{FB530D7A-EA99-4A30-AD81-9634403CF67D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,16 @@ Global
 		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B4A5C52E-D391-4866-96E9-FC6F5094E2B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
