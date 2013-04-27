@@ -267,6 +267,104 @@ namespace MIPS246.Core.Compiler
         }
         #endregion
     }
+
+    class ArrayGet : Expression
+    {
+        #region Fields
+        private string identify;
+        private int offset;
+        #endregion
+
+        #region Constructors
+        public ArrayGet(string identify, int offset)
+        {
+            this.identify = identify;
+            this.offset = offset;
+        }
+        #endregion
+
+        #region Properties
+        public string Identify
+        {
+            get
+            {
+                return this.identify;
+            }
+            set
+            {
+                this.identify = value;
+            }
+        }
+
+        public int Offset
+        {
+            get
+            {
+                return this.offset;
+            }
+            set
+            {
+                this.offset = value;
+            }
+        }
+        #endregion
+    }
+
+    class NotExpression : Expression
+    {
+        #region Fields
+        private Expression expression;
+        #endregion
+
+        #region Constructors
+        public NotExpression(Expression expression)
+        {
+            this.expression = expression;
+        }
+        #endregion
+
+        #region Properties
+        public Expression Expression
+        {
+            get
+            {
+                return this.expression;
+            }
+            set
+            {
+                this.expression = value;
+            }
+        }
+        #endregion
+    }
+
+    class RestExpression : Expression
+    {
+        #region Fields
+        private Expression expression;
+        #endregion
+
+        #region Constructors
+        public RestExpression(Expression expression)
+        {
+            this.expression = expression;
+        }
+        #endregion
+
+        #region Properties
+        public Expression Expression
+        {
+            get
+            {
+                return this.expression;
+            }
+            set
+            {
+                this.expression = value;
+            }
+        }
+        #endregion
+    }
     #endregion
     
 
