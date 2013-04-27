@@ -557,7 +557,7 @@ namespace MIPS246.Core.Assembler
 
         private bool ConvertImmediate(int i, string str, out int intvalue)
         {
-            if (str.ToUpper().StartsWith("OX") == false)
+            if (str.ToUpper().StartsWith("0X") == false)
             {
                 try
                 {
@@ -572,8 +572,16 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                intvalue = Int32.Parse(str.Substring(2,str.Length-2), System.Globalization.NumberStyles.HexNumber);
-                return false;
+                try
+                {
+                    intvalue = Int32.Parse(str.Substring(2), System.Globalization.NumberStyles.HexNumber);
+                }
+                catch
+                {
+                    this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDIMMEDIATE, str);
+                    intvalue = 0;
+                    return false;
+                }
             }
             return true;
         }

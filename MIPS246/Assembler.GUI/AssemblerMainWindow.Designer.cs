@@ -205,6 +205,7 @@
             this.Controls.Add(this.SourceFilePathTextBox);
             this.Controls.Add(this.SourceRichTextBox);
             this.Controls.Add(this.Assemble);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "AssemblerMainWindow";
             this.ShowIcon = false;
             this.Text = "MIPS246 Assembler";
