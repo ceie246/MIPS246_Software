@@ -658,19 +658,33 @@ namespace MIPS246.Core.DataStructure
 
         private void setImmediateMachineCode(int startPosition, string immediate)
         {
-            string immediatestr = immediate.PadLeft(16, '0');
+            string immediatestr = Convert.ToString(int.Parse(immediate), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
-                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(immediatestr[i]));
+                if (immediatestr[i] == '0')
+                {
+                    machine_code[i + startPosition] = false;
+                }
+                else
+                {
+                    machine_code[i + startPosition] = true;
+                }
             }
         }
 
         private void setOffsetMachineCode(int startPosition, string offset)
         {
-            string offsetstr = Convert.ToString(int.Parse(offset), 2);
+            string offsetstr = Convert.ToString(int.Parse(offset), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
-                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(offsetstr[i]));
+                if (offsetstr[i] == '0')
+                {
+                    machine_code[i + startPosition] = false;
+                }
+                else
+                {
+                    machine_code[i + startPosition] = true;
+                }
             }
         }
 

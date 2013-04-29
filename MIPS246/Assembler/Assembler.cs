@@ -583,6 +583,7 @@ namespace MIPS246.Core.Assembler
                     return false;
                 }
             }
+
             return true;
         }
         #endregion
@@ -1123,7 +1124,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1131,8 +1132,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1163,7 +1163,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1171,8 +1171,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1185,7 +1184,7 @@ namespace MIPS246.Core.Assembler
                     this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
-                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
+                this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], imm.ToString()));
                 return true;
             }
         }
@@ -1203,7 +1202,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1211,8 +1210,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1243,7 +1241,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1251,8 +1249,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1283,7 +1280,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1291,8 +1288,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1323,7 +1319,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1331,8 +1327,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1363,7 +1358,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1371,8 +1366,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
@@ -1403,7 +1397,7 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' });
+            string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
                 this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGARG, this.sourceList[i][2]);
@@ -1411,8 +1405,7 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                sourceList[i][3] = SubArg[0];
-                sourceList[i][2] = SubArg[1];
+                sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (CheckRegister(sourceList[i][2]) == false)
                 {
                     this.error = new AssemblerErrorInfo(i, AssemblerError.INVALIDLABEL, this.sourceList[i][2]);

@@ -131,20 +131,34 @@ namespace Assembler.GUI
             sw.Close();
             OutputRichTextBox.Text = "";
 
-            int[] intarray=new int [1];
+            bool[] boolArray = new bool[32];
             MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(sourcepath, outputpath);
             if (assembler.DoAssemble() == true)
             {                
                 for (int i = 0; i < assembler.CodeList.Count; i++)
                 {
-                    assembler.CodeList[i].Machine_Code.CopyTo(intarray,0);
+                    assembler.CodeList[i].Machine_Code.CopyTo(boolArray,0);
                     if (HEXRadioButton.Checked == false)
                     {
-                        OutputRichTextBox.Text += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t"  + string.Format("{0:x}", Convert.ToString(intarray[0], 2)).PadLeft(32, '0') + "\r\n";
+                        OutputRichTextBox.Text += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t";
+                        for (int j = 0; j < 32; j++)
+                        {
+                            if (boolArray[j] == true)
+                            {
+                                OutputRichTextBox.Text += "1";
+                            }
+                            else
+                            {
+                                OutputRichTextBox.Text += "0";
+                            }
+                        }
+                        OutputRichTextBox.Text += "\r\n";
                     }
                     else
                     {
-                        OutputRichTextBox.Text += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t" + "0x" + string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0') + "\r\n";
+                        OutputRichTextBox.Text += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t";
+                        OutputRichTextBox.Text += FormatHex(boolArray);
+                        OutputRichTextBox.Text += "\r\n";
                     }
                 }
 
@@ -174,6 +188,50 @@ namespace Assembler.GUI
             {
                 AssembleButton_Click(null, null);
             }
+        }
+
+        private string FormatHex(bool[] boolArray)
+        {
+            string Hexstr="0x";
+            for (int i = 0; i < 8; i++)
+            {
+                int tempi = 0;
+                tempi += 8 * Convert.ToInt32(boolArray[i * 4]) + 4 * Convert.ToInt32(boolArray[i * 4 + 1]) + 2 * Convert.ToInt32(boolArray[i * 4 + 2]) + Convert.ToInt32(boolArray[i * 4 + 3]);
+                if (tempi >= 0 && tempi < 10)
+                {
+                    Hexstr += tempi.ToString();
+                }
+                else
+                {
+                    if (tempi == 10)
+                    {
+                        Hexstr += "a";
+                    }
+                    else if (tempi == 11)
+                    {
+                        Hexstr += "b";
+                    }
+                    else if (tempi == 12)
+                    {
+                        Hexstr += "c";
+                    }
+                    else if (tempi == 13)
+                    {
+                        Hexstr += "d";
+                    }
+                    else if (tempi == 14)
+                    {
+                        Hexstr += "e";
+                    }
+                    else if (tempi == 15)
+                    {
+                        Hexstr += "f";
+                    }
+                }
+            }
+
+
+            return Hexstr;
         }
     }
 }
