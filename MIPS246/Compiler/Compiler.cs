@@ -95,12 +95,6 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        private bool DoScan()
-        {
-            
-
-            return true;
-        }
         #endregion
     }
 }
