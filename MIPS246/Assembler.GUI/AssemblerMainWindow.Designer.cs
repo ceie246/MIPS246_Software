@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssemblerMainWindow));
             this.Assemble = new System.Windows.Forms.Button();
             this.SourceRichTextBox = new System.Windows.Forms.RichTextBox();
             this.SourceFilePathTextBox = new System.Windows.Forms.TextBox();
@@ -206,8 +207,10 @@
             this.Controls.Add(this.SourceRichTextBox);
             this.Controls.Add(this.Assemble);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AssemblerMainWindow";
-            this.ShowIcon = false;
             this.Text = "MIPS246 Assembler";
             this.ResumeLayout(false);
             this.PerformLayout();
