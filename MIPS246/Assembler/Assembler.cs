@@ -87,18 +87,32 @@ namespace MIPS246.Core.Assembler
 
         public void Display(bool isBinary)
         {
-            int[] intarray=new int [1];
+            bool[] boolArray = new bool[32];
             
             for (int i = 0; i < codelist.Count; i++)
             {
-                codelist[i].Machine_Code.CopyTo(intarray,0);
+                codelist[i].Machine_Code.CopyTo(boolArray, 0);
+             
                 if(isBinary)
                 {
-                    Console.WriteLine("0x" + String.Format("{0:X8}", codelist[i].Address) + ":\t"  + string.Format("{0:x}", Convert.ToString(intarray[0], 2)).PadLeft(32, '0'));
+                    Console.Write("0x" + String.Format("{0:X8}", this.codelist[i].Address) + ":\t");
+                    for (int j = 0; j < 32; j++)
+                    {
+                        if (boolArray[j] == true)
+                        {
+                            Console.Write("1");
+                        }
+                        else
+                        {
+                            Console.Write("0");
+                        }
+                    }
+                    Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine("0x" + String.Format("{0:X8}", codelist[i].Address) + ":\t" + "0x" + string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0'));
+                    Console.Write("0x" + String.Format("{0:X8}", this.codelist[i].Address) + ":\t");
+                    Console.WriteLine(FormatHex(boolArray));
                 }                
             }
         }
@@ -611,6 +625,50 @@ namespace MIPS246.Core.Assembler
             }
 
             return true;
+        }
+
+        private string FormatHex(bool[] boolArray)
+        {
+            string Hexstr="0x";
+            for (int i = 0; i < 8; i++)
+            {
+                int tempi = 0;
+                tempi += 8 * Convert.ToInt32(boolArray[i * 4]) + 4 * Convert.ToInt32(boolArray[i * 4 + 1]) + 2 * Convert.ToInt32(boolArray[i * 4 + 2]) + Convert.ToInt32(boolArray[i * 4 + 3]);
+                if (tempi >= 0 && tempi < 10)
+                {
+                    Hexstr += tempi.ToString();
+                }
+                else
+                {
+                    if (tempi == 10)
+                    {
+                        Hexstr += "a";
+                    }
+                    else if (tempi == 11)
+                    {
+                        Hexstr += "b";
+                    }
+                    else if (tempi == 12)
+                    {
+                        Hexstr += "c";
+                    }
+                    else if (tempi == 13)
+                    {
+                        Hexstr += "d";
+                    }
+                    else if (tempi == 14)
+                    {
+                        Hexstr += "e";
+                    }
+                    else if (tempi == 15)
+                    {
+                        Hexstr += "f";
+                    }
+                }
+            }
+
+
+            return Hexstr;
         }
         #endregion
 
