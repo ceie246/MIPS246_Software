@@ -250,20 +250,13 @@ namespace Assembler.GUI
             }
             else
             {
-                try
+                outputpath = OutputPathTextBox.Text;
+                if (isOutputFile == true)
                 {
-                    if (isOutputFile == true)
-                    {
-                        assembler.Output(isOutputCOE, outputpath);
-                    }
+                    assembler.Output(isOutputCOE, outputpath);
                 }
-                catch
-                {
-                    return;
-                }
-                
-            }
 
+            }
             
         }
 

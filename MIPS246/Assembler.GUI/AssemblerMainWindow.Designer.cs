@@ -138,6 +138,7 @@
             this.OutputPathTextBox.Enabled = false;
             this.OutputPathTextBox.Location = new System.Drawing.Point(110, 499);
             this.OutputPathTextBox.Name = "OutputPathTextBox";
+            this.OutputPathTextBox.ReadOnly = true;
             this.OutputPathTextBox.Size = new System.Drawing.Size(500, 21);
             this.OutputPathTextBox.TabIndex = 9;
             // 

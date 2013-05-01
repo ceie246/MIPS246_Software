@@ -103,9 +103,9 @@ namespace MIPS246.Core.Assembler
             }
         }
 
-        public void Output(bool isoutputCOE, string outputPath)
+        public void Output(bool isoutputCOE, string outputpath)
         {
-            int[] intarray = new int[1];
+            bool[] boolArray = new bool[32];
 
             StreamWriter sr = new StreamWriter(outputpath);
 
@@ -115,14 +115,25 @@ namespace MIPS246.Core.Assembler
                 sr.WriteLine("memory_initialization_vector=");
                 for (int i = 0; i < codelist.Count; i++)
                 {
-                    codelist[i].Machine_Code.CopyTo(intarray, 0);
+                    this.codelist[i].Machine_Code.CopyTo(boolArray, 0);
+                    for (int j = 0; j < 32; j++)
+                    {
+                        if (boolArray[j] == true)
+                        {
+                            sr.Write("1");
+                        }
+                        else
+                        {
+                            sr.Write("0");
+                        }
+                    }
                     if (i != codelist.Count - 1)
                     {
-                        sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0') + ",");
+                        sr.WriteLine(",");
                     }
                     else
                     {
-                        sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0') + ";");
+                        sr.WriteLine(";");
                     }
                     
                 }
@@ -131,8 +142,19 @@ namespace MIPS246.Core.Assembler
             {
                 for (int i = 0; i < codelist.Count; i++)
                 {
-                    codelist[i].Machine_Code.CopyTo(intarray, 0);
-                    sr.WriteLine(string.Format("{0:x}", Convert.ToString(intarray[0], 16)).PadLeft(8, '0'));
+                    this.codelist[i].Machine_Code.CopyTo(boolArray, 0);
+                    for (int j = 0; j < 32; j++)
+                    {
+                        if (boolArray[j] == true)
+                        {
+                            sr.Write("1");
+                        }
+                        else
+                        {
+                            sr.Write("0");
+                        }
+                    }
+                    sr.WriteLine();
                 }
             }
             
