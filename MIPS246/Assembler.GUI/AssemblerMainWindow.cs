@@ -124,6 +124,11 @@ namespace Assembler.GUI
                     sourcepath = SaveFileDialog.FileName;
                     SourceFilePathTextBox.Text = sourcepath;
                 }
+                else
+                {
+                    sourcepath = @"c:\windows\temp\temp.asm";
+                    SourceFilePathTextBox.Text = sourcepath;
+                }
             }
 
             StreamWriter sw = new StreamWriter(sourcepath, false);
@@ -239,10 +244,28 @@ namespace Assembler.GUI
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (isOutputFile == true)
+            if (OutputPathTextBox.Text == string.Empty)
             {
-                assembler.Output(isOutputCOE, outputpath);
+                return;
             }
+            else
+            {
+                try
+                {
+                    if (isOutputFile == true)
+                    {
+                        assembler.Output(isOutputCOE, outputpath);
+                    }
+                }
+                catch
+                {
+                    return;
+                }
+                
+            }
+
+            
         }
+
     }
 }

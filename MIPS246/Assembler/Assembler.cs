@@ -148,7 +148,7 @@ namespace MIPS246.Core.Assembler
         }       
         #endregion
 
-        #region Internal Methods      
+        #region Internal Methods
         private bool LoadFile()
         {
             if (File.Exists(sourcepath) == false)
