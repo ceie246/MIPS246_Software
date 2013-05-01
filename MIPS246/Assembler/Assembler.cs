@@ -25,6 +25,10 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Constructors
+        public Assembler()
+        {
+        }
+
         public Assembler(string sourcepath, string outputpath)
         {
             this.sourcepath = sourcepath;

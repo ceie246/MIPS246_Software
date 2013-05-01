@@ -18,10 +18,11 @@ namespace Assembler.GUI
         string defaultFileName = null;
         bool isOutputFile = false;
         bool isOutputCOE = false;
+        MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler();
 
         public AssemblerMainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void OutputFileCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -99,6 +100,7 @@ namespace Assembler.GUI
         {
             OutputFileButton.Enabled = true;
             OutputPathTextBox.Enabled = true;
+            SaveButton.Enabled = true;
             isOutputFile = true;
         }
 
@@ -107,6 +109,7 @@ namespace Assembler.GUI
             OutputFileButton.Enabled = false;
             OutputPathTextBox.Enabled = false;
             OutputPathTextBox.Text = string.Empty;
+            SaveButton.Enabled = false;
             isOutputFile = false;
         }
 
@@ -132,7 +135,7 @@ namespace Assembler.GUI
             OutputRichTextBox.Text = "";
 
             bool[] boolArray = new bool[32];
-            MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(sourcepath, outputpath);
+            assembler = new MIPS246.Core.Assembler.Assembler(sourcepath, outputpath);
             if (assembler.DoAssemble() == true)
             {                
                 for (int i = 0; i < assembler.CodeList.Count; i++)
@@ -232,6 +235,14 @@ namespace Assembler.GUI
 
 
             return Hexstr;
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            if (isOutputFile == true)
+            {
+                assembler.Output(isOutputCOE, outputpath);
+            }
         }
     }
 }
