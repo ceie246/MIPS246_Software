@@ -658,7 +658,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setImmediateMachineCode(int startPosition, string immediate)
         {
-            string immediatestr = Convert.ToString(int.Parse(immediate), 2).PadLeft(16, '0');
+            string immediatestr = Convert.ToString(Int16.Parse(immediate), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
                 if (immediatestr[i] == '0')
@@ -674,7 +674,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setOffsetMachineCode(int startPosition, string offset)
         {
-            string offsetstr = Convert.ToString(int.Parse(offset), 2).PadLeft(16, '0');
+            string offsetstr = Convert.ToString(Int16.Parse(offset), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
                 if (offsetstr[i] == '0')
@@ -690,7 +690,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setAddressMachineCode(string address)
         {
-            string addressstr = Convert.ToString(int.Parse(address), 2);
+            string addressstr = Convert.ToString(Int32.Parse(address), 2);
             addressstr = addressstr.PadLeft(32,'0');
             addressstr = addressstr.Substring(4, addressstr.Length - 6);
             for (int i = 0; i < 26; i++)
