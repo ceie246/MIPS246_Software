@@ -971,16 +971,16 @@ namespace MIPS246.Core.DataStructure
         private void OP_BEQ()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BEQ].ToString());
-            setRegMachineCode(11, arg1);
-            setRegMachineCode(6, arg2);
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
         private void OP_BNE()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BNE].ToString());
-            setRegMachineCode(11, arg1);
-            setRegMachineCode(6, arg2);
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
             setOffsetMachineCode(16, arg3);
         }
 
