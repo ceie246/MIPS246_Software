@@ -79,6 +79,8 @@ namespace MIPS246.Core.Assembler
 
             WriteBackAddress();
 
+            CalculOffset();
+
             InitInstructionAddress();
 
             AssemblerInstructions();
@@ -444,6 +446,22 @@ namespace MIPS246.Core.Assembler
                     codelist[i].Arg1 = addresstable[codelist[i].Arg1].ToString();
                 }
             }
+        }
+
+        private void CalculOffset()
+        {
+            for (int i = 0; i < codelist.Count; i++)
+            {
+                if (codelist[i].Mnemonic == Mnemonic.BEQ || codelist[i].Mnemonic == Mnemonic.BNE ||
+                        codelist[i].Mnemonic == Mnemonic.BGEZ || codelist[i].Mnemonic == Mnemonic.BGEZAL ||
+                        codelist[i].Mnemonic == Mnemonic.BGTZ || codelist[i].Mnemonic == Mnemonic.BLTZ ||
+                        codelist[i].Mnemonic == Mnemonic.BLTZAL)
+                {
+                    string addtemp=codelist[i].Arg3;
+                    codelist[i].Arg3 = ((int)addresstable[addtemp]-i).ToString();
+                }
+            }
+
         }
 
         private void InitInstructionAddress()
@@ -1520,16 +1538,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1547,16 +1561,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1574,16 +1584,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1601,16 +1607,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1628,16 +1630,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1655,16 +1653,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1682,16 +1676,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
@@ -1709,16 +1699,12 @@ namespace MIPS246.Core.Assembler
                 return false;
             }
 
-            int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo(i, AssemblerError.WRONGOFFSET);
+                this.error = new AssemblerErrorInfo(i, AssemblerError.ADDNOTFOUND);
                 return false;
             }
-            else
-            {
-                sourceList[i][3] = imm.ToString();
-            }
+            
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
             return true;
         }
