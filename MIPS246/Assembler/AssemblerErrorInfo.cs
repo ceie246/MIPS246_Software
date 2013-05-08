@@ -64,6 +64,9 @@ namespace MIPS246.Core.Assembler
                 case AssemblerError.WRONGARG:
                     Console.WriteLine("Line " + printline + ": The Args are incorrect: " + this.description);
                     break;
+                case AssemblerError.WRONGOFFSET:
+                    Console.WriteLine("Line " + printline + ": The Offset are incorrect: " + this.description);
+                    break;
                 default:
                     break;
             }
@@ -92,6 +95,8 @@ namespace MIPS246.Core.Assembler
                     return "Line " + printline + ": The immediate formate is incorrect: " + this.description;
                 case AssemblerError.WRONGARG:
                     return  "Line " + printline + ": The Args are incorrect: " + this.description;
+                case AssemblerError.WRONGOFFSET:
+                    return "Line " + printline + ": The Offset are incorrect: " + this.description;
                 default:
                     break;
             }
