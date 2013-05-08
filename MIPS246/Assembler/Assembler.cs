@@ -211,8 +211,12 @@ namespace MIPS246.Core.Assembler
                         linetext = RemoveComment(linetext);
                         if (linetext != "")
                         {
-                            linetable[sourceList.Count] = i;
-                            sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));                            
+                            if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
+                            {
+                                linetable[sourceList.Count] = i;
+                                sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                            }
+                            
                         }
                     }
                 }
