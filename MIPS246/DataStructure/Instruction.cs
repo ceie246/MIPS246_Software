@@ -695,7 +695,14 @@ namespace MIPS246.Core.DataStructure
             addressstr = addressstr.Substring(4, addressstr.Length - 6);
             for (int i = 0; i < 26; i++)
             {
-                machine_code[i + 6] = Convert.ToBoolean(Convert.ToInt32(addressstr[i]));
+                if (addressstr[i] == '0')
+                {
+                    machine_code[i + 6] = false;
+                }
+                else
+                {
+                    machine_code[i + 6] = true;
+                }
             }
         }
         #endregion

@@ -214,7 +214,7 @@ namespace MIPS246.Core.Assembler
                             if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
                             {
                                 linetable[sourceList.Count] = i;
-                                sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                            sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
                             }
                             
                         }
@@ -457,7 +457,7 @@ namespace MIPS246.Core.Assembler
             {
                 if (codelist[i].Mnemonic == Mnemonic.J || codelist[i].Mnemonic == Mnemonic.JAL)
                 {
-                    codelist[i].Arg1 = addresstable[codelist[i].Arg1].ToString();
+                    codelist[i].Arg1 = ((int)addresstable[codelist[i].Arg1]*4).ToString();
                 }
             }
         }
