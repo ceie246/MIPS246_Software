@@ -652,7 +652,14 @@ namespace MIPS246.Core.DataStructure
             string HEXstring = Convert.ToString(int.Parse(shamt), 2);
             for (int i = 0; i < 5; i++)
             {
-                machine_code[i + startPosition] = Convert.ToBoolean(Convert.ToInt32(HEXstring[i]));
+                if (HEXstring[i] == '1')
+                {
+                    machine_code[i + startPosition] = true;
+                }
+                else
+                {
+                    machine_code[i + startPosition] = false;
+                }
             }
         }
 
@@ -806,7 +813,7 @@ namespace MIPS246.Core.DataStructure
 
         private void OP_SRA()
         {
-            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRA].ToString());
             setRegMachineCode(16, arg1);
             setRegMachineCode(11, arg2);
             setShamtMachineCode(21, arg3);
