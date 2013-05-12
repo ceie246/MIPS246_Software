@@ -649,7 +649,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setShamtMachineCode(int startPosition, string shamt)
         {
-            string HEXstring = Convert.ToString(int.Parse(shamt), 2);
+            string HEXstring = Convert.ToString(int.Parse(shamt), 2).PadLeft(5, '0');
             for (int i = 0; i < 5; i++)
             {
                 if (HEXstring[i] == '1')
@@ -681,7 +681,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setOffsetMachineCode(int startPosition, string offset)
         {
-            string offsetstr = Convert.ToString(Int16.Parse(offset), 2).PadLeft(16, '0');
+            string offsetstr = Convert.ToString(Int32.Parse(offset), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
                 if (offsetstr[i] == '0')
@@ -805,7 +805,7 @@ namespace MIPS246.Core.DataStructure
 
         private void OP_SRL()
         {
-            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SLL].ToString());
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SRL].ToString());
             setRegMachineCode(16, arg1);
             setRegMachineCode(11, arg2);
             setShamtMachineCode(21, arg3);
