@@ -121,7 +121,7 @@ namespace MIPS246.Core.Assembler
             }
         }
 
-        public void Output(bool isoutputCOE, string outputpath)
+        public void Output(bool isoutputCOE, string outputpath, bool isHEX)
         {
             bool[] boolArray = new bool[32];
 
@@ -158,24 +158,34 @@ namespace MIPS246.Core.Assembler
             }
             else
             {
-                for (int i = 0; i < codelist.Count; i++)
+                if (isHEX == true)
                 {
-                    this.codelist[i].Machine_Code.CopyTo(boolArray, 0);
-                    for (int j = 0; j < 32; j++)
+                    for (int i = 0; i < codelist.Count; i++)
                     {
-                        if (boolArray[j] == true)
-                        {
-                            sr.Write("1");
-                        }
-                        else
-                        {
-                            sr.Write("0");
-                        }
+                        this.codelist[i].Machine_Code.CopyTo(boolArray, 0);
+                        sr.WriteLine(FormatHex(boolArray).Substring(2));
                     }
-                    sr.WriteLine();
                 }
-            }
-            
+                else
+                {
+                    for (int i = 0; i < codelist.Count; i++)
+                    {
+                        this.codelist[i].Machine_Code.CopyTo(boolArray, 0);
+                        for (int j = 0; j < 32; j++)
+                        {
+                            if (boolArray[j] == true)
+                            {
+                                sr.Write("1");
+                            }
+                            else
+                            {
+                                sr.Write("0");
+                            }
+                        }
+                        sr.WriteLine();
+                    }
+                }                
+            }   
             
 
             sr.Close();

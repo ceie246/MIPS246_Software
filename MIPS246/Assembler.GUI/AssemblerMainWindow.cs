@@ -172,7 +172,7 @@ namespace Assembler.GUI
 
                 if (isOutputFile == true)
                 {
-                    assembler.Output(isOutputCOE, outputpath);
+                    assembler.Output(isOutputCOE, outputpath, HEXRadioButton.Checked);
                 }                
             }
             else
@@ -253,7 +253,7 @@ namespace Assembler.GUI
                 outputpath = OutputPathTextBox.Text;
                 if (isOutputFile == true)
                 {
-                    assembler.Output(isOutputCOE, outputpath);
+                    assembler.Output(isOutputCOE, outputpath, HEXRadioButton.Checked);
                 }
 
             }
