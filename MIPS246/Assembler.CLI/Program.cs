@@ -64,7 +64,7 @@ namespace CEIE246.Core.Assembler.CLI
                     {
                         assembler.Display(isDisplayBinary);
                     }
-                    assembler.Output(isOutputCOE, outputpath);
+                    assembler.Output(isOutputCOE, outputpath, false);
                 }
                 else
                 {

@@ -150,7 +150,7 @@ namespace Assembler.GUI
 
                 if (isOutputFile == true)
                 {
-                    assembler.Output(isOutputCOE, outputpath);
+                    assembler.Output(isOutputCOE, outputpath, false);
                 }                
             }
             else
