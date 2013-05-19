@@ -644,7 +644,7 @@ namespace MIPS246.Core.Assembler
                 try
                 {
                     intvalue = int.Parse(str);
-                    if (intvalue < 0 || intvalue > 65535)
+                    if (intvalue < -32678 || intvalue > 32677)
                     {
                         this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
                         return false;
