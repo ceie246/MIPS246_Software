@@ -77,8 +77,11 @@ namespace Assembler.GUI
             SaveFileDialog.Filter = "Text file (*.txt)|*.txt|Coe File (*.coe)|*.coe";
             SaveFileDialog.FileName = defaultFileName;
             if (SaveFileDialog.ShowDialog() == DialogResult.OK)
-            {
+            {                
                 OutputPathTextBox.Text = SaveFileDialog.FileName;
+
+                AssembleButton_Click(null, null);
+                
                 if (Path.GetExtension(SaveFileDialog.FileName) == ".coe")
                 {
 
@@ -94,13 +97,26 @@ namespace Assembler.GUI
             {
                 OutputPathTextBox.Text = string.Empty;
             }
+
+            if (OutputPathTextBox.Text == string.Empty)
+            {
+                return;
+            }
+            else
+            {
+                outputpath = OutputPathTextBox.Text;
+                if (isOutputFile == true)
+                {
+                    assembler.Output(isOutputCOE, outputpath, HEXRadioButton.Checked);
+                }
+
+            }
         }
 
         private void EnableFileOutput()
         {
             OutputFileButton.Enabled = true;
             OutputPathTextBox.Enabled = true;
-            SaveButton.Enabled = true;
             isOutputFile = true;
         }
 
@@ -109,7 +125,6 @@ namespace Assembler.GUI
             OutputFileButton.Enabled = false;
             OutputPathTextBox.Enabled = false;
             OutputPathTextBox.Text = string.Empty;
-            SaveButton.Enabled = false;
             isOutputFile = false;
         }
 
@@ -140,6 +155,7 @@ namespace Assembler.GUI
             OutputRichTextBox.Text = "";
 
             bool[] boolArray = new bool[32];
+            outputpath = OutputPathTextBox.Text;
             assembler = new MIPS246.Core.Assembler.Assembler(sourcepath, outputpath);
             if (assembler.DoAssemble() == true)
             {                
@@ -242,22 +258,12 @@ namespace Assembler.GUI
             return Hexstr;
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
+        private void ClearButton_Click(object sender, EventArgs e)
         {
-            if (OutputPathTextBox.Text == string.Empty)
-            {
-                return;
-            }
-            else
-            {
-                outputpath = OutputPathTextBox.Text;
-                if (isOutputFile == true)
-                {
-                    assembler.Output(isOutputCOE, outputpath, HEXRadioButton.Checked);
-                }
-
-            }
-            
+            SourceFilePathTextBox.Text = "";
+            SourceRichTextBox.Text = "";
+            OutputFileCheckBox.Checked = false;
+            OutputPathTextBox.Enabled = false;
         }
 
     }

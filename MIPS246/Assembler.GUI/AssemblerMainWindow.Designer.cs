@@ -45,7 +45,7 @@
             this.AssembledLabel = new System.Windows.Forms.Label();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.SaveButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Assemble
@@ -69,12 +69,12 @@
             // 
             this.SourceFilePathTextBox.Location = new System.Drawing.Point(95, 12);
             this.SourceFilePathTextBox.Name = "SourceFilePathTextBox";
-            this.SourceFilePathTextBox.Size = new System.Drawing.Size(596, 21);
+            this.SourceFilePathTextBox.Size = new System.Drawing.Size(515, 21);
             this.SourceFilePathTextBox.TabIndex = 2;
             // 
             // SourcePathFileButton
             // 
-            this.SourcePathFileButton.Location = new System.Drawing.Point(697, 10);
+            this.SourcePathFileButton.Location = new System.Drawing.Point(616, 10);
             this.SourcePathFileButton.Name = "SourcePathFileButton";
             this.SourcePathFileButton.Size = new System.Drawing.Size(75, 23);
             this.SourcePathFileButton.TabIndex = 3;
@@ -114,7 +114,7 @@
             // OutputFileButton
             // 
             this.OutputFileButton.Enabled = false;
-            this.OutputFileButton.Location = new System.Drawing.Point(616, 497);
+            this.OutputFileButton.Location = new System.Drawing.Point(697, 497);
             this.OutputFileButton.Name = "OutputFileButton";
             this.OutputFileButton.Size = new System.Drawing.Size(75, 23);
             this.OutputFileButton.TabIndex = 7;
@@ -139,7 +139,7 @@
             this.OutputPathTextBox.Location = new System.Drawing.Point(110, 499);
             this.OutputPathTextBox.Name = "OutputPathTextBox";
             this.OutputPathTextBox.ReadOnly = true;
-            this.OutputPathTextBox.Size = new System.Drawing.Size(500, 21);
+            this.OutputPathTextBox.Size = new System.Drawing.Size(581, 21);
             this.OutputPathTextBox.TabIndex = 9;
             // 
             // BinaryRadioButton
@@ -189,23 +189,22 @@
             // 
             this.OpenFileDialog.FileName = "FileDialog";
             // 
-            // SaveButton
+            // ClearButton
             // 
-            this.SaveButton.Enabled = false;
-            this.SaveButton.Location = new System.Drawing.Point(697, 497);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveButton.TabIndex = 14;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.ClearButton.Location = new System.Drawing.Point(697, 10);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearButton.TabIndex = 14;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // AssemblerMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
-            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.AssembledLabel);
             this.Controls.Add(this.SourceLabel);
             this.Controls.Add(this.HEXRadioButton);
@@ -249,7 +248,7 @@
         private System.Windows.Forms.Label AssembledLabel;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog;
-        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button ClearButton;
     }
 }
 
