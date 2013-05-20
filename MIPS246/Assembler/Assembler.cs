@@ -637,14 +637,27 @@ namespace MIPS246.Core.Assembler
             else return false;
         }
 
-        private bool ConvertImmediate(int i, string str, out int intvalue)
+        private bool ConvertImmediate(int i, string str, out int intvalue, bool sign)
         {
+            int maxvalue, minvalue;
+
+            if (sign == true)
+            {
+                maxvalue = 32677;
+                minvalue = -32678;
+            }
+            else
+            {
+                maxvalue = 65535;
+                minvalue = 0;
+            }
+
             if (str.ToUpper().StartsWith("0X") == false)
             {
                 try
                 {
                     intvalue = int.Parse(str);
-                    if (intvalue < -32678 || intvalue > 32677)
+                    if (intvalue < minvalue || intvalue > maxvalue)
                     {
                         this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
                         return false;
@@ -662,7 +675,7 @@ namespace MIPS246.Core.Assembler
                 try
                 {
                     intvalue = Int32.Parse(str.Substring(2), System.Globalization.NumberStyles.HexNumber);
-                    if (intvalue < 0 || intvalue > 65535)
+                    if (intvalue < minvalue || intvalue > maxvalue)
                     {
                         this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
                         return false;
@@ -1045,7 +1058,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
             {
                 return false;
             }
@@ -1071,7 +1084,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
             {
                 return false;
             }
@@ -1097,7 +1110,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
             {
                 return false;
             }
@@ -1123,7 +1136,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
             {
                 return false;
             }
@@ -1149,7 +1162,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
             {
                 return false;
             }
@@ -1175,7 +1188,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][2], out imm, true) == false)
             {
                 this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
                 return false;
@@ -1202,7 +1215,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
             {
                 return false;
             }
@@ -1228,7 +1241,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+            if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
             {
                 return false;
             }
@@ -1269,7 +1282,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1308,7 +1321,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1347,7 +1360,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1386,7 +1399,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1425,7 +1438,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1464,7 +1477,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1503,7 +1516,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
@@ -1542,7 +1555,7 @@ namespace MIPS246.Core.Assembler
                 }
 
                 int imm = new int();
-                if (ConvertImmediate(i, sourceList[i][3], out imm) == false)
+                if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
                     this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
