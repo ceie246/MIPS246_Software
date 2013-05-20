@@ -16,6 +16,7 @@ namespace MIPS246.Core.Compiler
         private Hashtable addresstable;
         private Hashtable labeltable;
         private List<Token> tokenList;
+        private Ast ast;
 
         //config
         private static int startAddress = 0;    //add 0 line, for future use
@@ -57,6 +58,10 @@ namespace MIPS246.Core.Compiler
             {
 
             }
+
+            if (Parser.DoParse(tokenList, out ast) == false)
+            {
+            }
             return true;
         }
 
@@ -73,7 +78,7 @@ namespace MIPS246.Core.Compiler
         }
         #endregion
 
-        #region Internal Methods      
+        #region Internal Methods
         private bool LoadFile()
         {
             if (File.Exists(sourcepath) == false)

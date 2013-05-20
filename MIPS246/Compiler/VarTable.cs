@@ -10,14 +10,14 @@ namespace MIPS246.Core.Compiler
         VOID,
         CHAR,//16位
         INT, //16位
-        FLOAT,
-        DOUBLE,
-        SHORT,
+        //FLOAT,
+        //DOUBLE,
+        //SHORT,
         LONG, //32位
-        SIGNED,
-        UNSIGNED,
-        STRUCT,
-        UNION
+        //SIGNED,
+        //UNSIGNED,
+        //STRUCT,
+        //UNION
     }
 
     public class VarTable
