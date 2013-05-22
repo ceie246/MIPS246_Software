@@ -12,6 +12,7 @@ namespace MIPS246.Core.Assembler
     public class Assembler
     {
         #region Fields
+        private List<string> sourceString;
         private List<Instruction> codelist;
         private List<string[]> sourceList;
         private AssemblerErrorInfo error;
@@ -34,11 +35,23 @@ namespace MIPS246.Core.Assembler
         {
             this.sourcepath = sourcepath;
             this.outputpath = outputpath;
-            sourceList = new List<string[]>();
-            codelist = new List<Instruction>();
-            linetable = new Hashtable();
-            addresstable = new Hashtable();
-            labeltable = new Hashtable();
+            this.sourceList = new List<string[]>();
+            this.codelist = new List<Instruction>();
+            this.linetable = new Hashtable();
+            this.addresstable = new Hashtable();
+            this.labeltable = new Hashtable();
+        }
+
+        public Assembler(List<string> sourceString)
+        {
+            this.sourceList = null;
+            this.outputpath = null;
+            this.sourceString = sourceString;
+            this.sourceList = new List<string[]>();
+            this.codelist = new List<Instruction>();
+            this.linetable = new Hashtable();
+            this.addresstable = new Hashtable();
+            this.labeltable = new Hashtable();
         }
         #endregion
 
@@ -201,39 +214,56 @@ namespace MIPS246.Core.Assembler
         #region Internal Methods
         private bool LoadFile()
         {
-            if (File.Exists(sourcepath) == false)
+            if (sourcepath != null)
             {
-                this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
-                return false;
+                if (File.Exists(sourcepath) == false)
+                {
+                    this.error = new AssemblerErrorInfo(0, AssemblerError.NOFILE);
+                    return false;
+                }
+                else
+                {
+                    StreamReader sr = new StreamReader(sourcepath);
+                    string linetext;
+                    for (int i = 0; ; i++)
+                    {
+                        if ((linetext = sr.ReadLine()) == null)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            linetext = RemoveComment(linetext);
+                            if (linetext != "")
+                            {
+                                if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
+                                {
+                                    linetable[sourceList.Count] = i;
+                                    sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                                }
+                            }
+                        }
+                    }
+
+                    sr.Close();
+                    return true;
+                }
             }
             else
             {
-                StreamReader sr = new StreamReader(sourcepath);
-                string linetext;
-                for (int i = 0; ; i++)
+                for (int i = 0; i < this.sourceString.Count;i++)
                 {
-                    if ((linetext = sr.ReadLine()) == null) 
+                    if (sourceString[i] != "")
                     {
-                        break;
-                    }
-                    else
-                    {
-                        linetext = RemoveComment(linetext);
-                        if (linetext != "")
+                        if (sourceString[i].Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
                         {
-                            if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
-                            {
-                                linetable[sourceList.Count] = i;
-                            sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
-                            }
-                            
+                            linetable[sourceList.Count] = i;
+                            sourceList.Add(sourceString[i].Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
                         }
                     }
                 }
-
-                sr.Close();
                 return true;
-            }
+            }           
         }
 
         private bool LoadAddress()
