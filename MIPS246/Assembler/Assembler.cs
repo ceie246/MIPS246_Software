@@ -512,7 +512,7 @@ namespace MIPS246.Core.Assembler
                         codelist[i].Mnemonic == Mnemonic.BLTZAL)
                 {
                     string addtemp=codelist[i].Arg3;
-                    codelist[i].Arg3 = ((int)addresstable[addtemp]-i).ToString();
+                    codelist[i].Arg3 = (((int)addresstable[addtemp] - i) * 4).ToString();
                 }
             }
 

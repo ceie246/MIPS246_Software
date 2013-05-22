@@ -681,7 +681,7 @@ namespace MIPS246.Core.DataStructure
 
         private void setOffsetMachineCode(int startPosition, string offset)
         {
-            string offsetstr = Convert.ToString(Int32.Parse(offset), 2).PadLeft(16, '0');
+            string offsetstr = Convert.ToString(Int16.Parse(offset), 2).PadLeft(16, '0');
             for (int i = 0; i < 16; i++)
             {
                 if (offsetstr[i] == '0')
