@@ -11,6 +11,61 @@ namespace MIPS246.Core.Compiler
 
     }
 
+    public class Statement
+    {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
+    }
+
+    public class StatementList : Statement
+    {
+    }
+
+    public class IfStatment : Statement
+    {
+    }
+
+    public class WhileStatment : Statement
+    {
+    }
+
+    public class DoWhileStatment : Statement
+    {
+    }
+
+    public class ForStatement : Statement
+    {
+    }
+
+    public class FieldDefineStatment : Statement
+    {
+
+    }
+
+    public class FieldDefineStatment : Statement
+    {
+    }
+
+    public class ArrayDefineStatement : Statement
+    {
+    }
+
+    public class AssignStatement : Statement
+    {
+    }
+
+    public class RestStatement : Statement
+    {
+    }
+
+
+
     public class Expression
     {
     }
