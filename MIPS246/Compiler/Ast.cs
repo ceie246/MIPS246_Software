@@ -3,12 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MIPS246.Core.Compiler
+namespace MIPS246.Core.Compiler.AstStructure
 {
-    #region Expression classes
+   
     public class Ast
     {
+        #region Fields
+        private List<Statement> statements;
+        #endregion
 
+        #region Constructors
+        public Ast()
+        {
+        }
+        #endregion
+
+        #region Properties
+        public List<Statement> Statements
+        {
+            get
+            {
+                return this.statements;
+            }
+            set
+            {
+                this.statements = value;
+            }
+        }
+        #endregion
     }
 
     public class Statement
@@ -23,51 +45,113 @@ namespace MIPS246.Core.Compiler
         #endregion
     }
 
-    public class StatementList : Statement
-    {
-    }
-
     public class IfStatment : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class WhileStatment : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class DoWhileStatment : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class ForStatement : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class FieldDefineStatment : Statement
     {
+        #region Fields
+        #endregion
 
-    }
+        #region Constructors
+        #endregion
 
-    public class FieldDefineStatment : Statement
-    {
+        #region Properties
+        #endregion
     }
 
     public class ArrayDefineStatement : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class AssignStatement : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class RestStatement : Statement
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
-
-
+    #region Expression classes
     public class Expression
     {
+        #region Fields
+        #endregion
+
+        #region Constructors
+        #endregion
+
+        #region Properties
+        #endregion
     }
 
     public class OPExpression : Expression
@@ -123,36 +207,34 @@ namespace MIPS246.Core.Compiler
                 this.op = value;
             }
         }
-
-
         #endregion
     }
 
     public class ArrayGet : Expression
     {
         #region Fields
-        private string identify;
+        private string identifier;
         private int offset;
         #endregion
 
         #region Constructors
-        public ArrayGet(string identify, int offset)
+        public ArrayGet(string identifier, int offset)
         {
-            this.identify = identify;
+            this.identifier = identifier;
             this.offset = offset;
         }
         #endregion
 
         #region Properties
-        public string Identify
+        public string Identifier
         {
             get
             {
-                return this.identify;
+                return this.identifier;
             }
             set
             {
-                this.identify = value;
+                this.identifier = value;
             }
         }
 
@@ -165,6 +247,62 @@ namespace MIPS246.Core.Compiler
             set
             {
                 this.offset = value;
+            }
+        }
+        #endregion
+    }
+
+    public class BoolValue : Expression
+    {
+        #region Fields
+        private bool value;
+        #endregion
+
+        #region Constructors
+        public BoolValue(bool value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public bool Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    }    
+
+    public class NotExpression : Expression
+    {
+        #region Fields
+        private Expression expression;
+        #endregion
+
+        #region Constructors
+        public NotExpression(Expression expression)
+        {
+            this.expression = expression;
+        }
+        #endregion
+
+        #region Properties
+        public Expression Expression
+        {
+            get
+            {
+                return this.expression;
+            }
+            set
+            {
+                this.expression = value;
             }
         }
         #endregion
@@ -282,34 +420,6 @@ namespace MIPS246.Core.Compiler
         #endregion  
     }
 
-    public class BoolValue : Expression
-    {
-        #region Fields
-        private bool value;
-        #endregion
-
-        #region Constructors
-        public BoolValue(bool value)
-        {
-            this.value = value;
-        }
-        #endregion
-
-        #region Properties
-        public bool Value
-        {
-            get
-            {
-                return this.value;
-            }
-            set
-            {
-                this.value = value;
-            }
-        }
-        #endregion
-    }    
-
     public class CharValue : Expression
     {
         #region Fields
@@ -364,35 +474,7 @@ namespace MIPS246.Core.Compiler
             }
         }
         #endregion
-    }    
-
-    public class NotExpression : Expression
-    {
-        #region Fields
-        private Expression expression;
-        #endregion
-
-        #region Constructors
-        public NotExpression(Expression expression)
-        {
-            this.expression = expression;
-        }
-        #endregion
-
-        #region Properties
-        public Expression Expression
-        {
-            get
-            {
-                return this.expression;
-            }
-            set
-            {
-                this.expression = value;
-            }
-        }
-        #endregion
-    }
+    }        
 
     public class RestExpression : Expression
     {

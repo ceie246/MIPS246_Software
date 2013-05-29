@@ -39,7 +39,10 @@ namespace MIPS246.Core.Compiler
         //UNSIGNED,
         VOID,
         //VOLATILE,
-        WHILE
+        WHILE,
+        PRINT,//246only
+        INPUT//246only
+
     }
 
     public enum OperatorType
