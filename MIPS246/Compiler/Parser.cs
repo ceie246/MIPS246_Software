@@ -25,7 +25,7 @@ namespace MIPS246.Core.Compiler
 
             while (i < tokenList.Count)
             {
-                GenStatement();
+                GenStatement(ast.Statements);
             }
 
             return true;
@@ -43,14 +43,14 @@ namespace MIPS246.Core.Compiler
             return tokenList[i]; 
         }
 
-        static private bool GenStatement()
+        static private bool GenStatement(List<Statement> StatementsNode)
         {
             Token tempToken = TouchNextToken();
             if (tempToken is ReservedWord)
             {
                 if (IsTypeToken(tempToken))
                 {
-                    GenFieldDefineStatement();                    
+                    GenFieldDefineStatement(StatementsNode);                    
                 }
             }
             return true;
@@ -77,7 +77,7 @@ namespace MIPS246.Core.Compiler
         {
         }
 
-        static private bool GenFieldDefineStatement()
+        static private bool GenFieldDefineStatement(List<Statement> StatementsNode)
         {
             Token identifierType = null;
             Token identifierToken = null;
@@ -107,7 +107,7 @@ namespace MIPS246.Core.Compiler
                     return false;
                 }
 
-                ast.Statements.Add(new FieldDefineStatement((IdentifierType)Enum.Parse(typeof(IdentifierType), ((ReservedWord)identifierType).WordType.ToString()), ((Identifier)identifierToken).Name));
+                StatementsNode.Add(new FieldDefineStatement((IdentifierType)Enum.Parse(typeof(IdentifierType), ((ReservedWord)identifierType).WordType.ToString()), ((Identifier)identifierToken).Name));
 
                 if (IsAssign(TouchNextToken()))
                 {
@@ -167,7 +167,7 @@ namespace MIPS246.Core.Compiler
         static private bool IsTypeToken(Token token)
         {
             return (token is ReservedWord)
-                &&(((ReservedWord)token).WordType == ReservedWordType.INT || ((ReservedWord)token).WordType == ReservedWordType.LONG || ((ReservedWord)token).WordType == ReservedWordType.CHAR);
+                && (((ReservedWord)token).WordType == ReservedWordType.INT || ((ReservedWord)token).WordType == ReservedWordType.LONG || ((ReservedWord)token).WordType == ReservedWordType.CHAR);
         }
         #endregion
     }
