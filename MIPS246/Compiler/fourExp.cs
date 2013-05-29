@@ -7,7 +7,7 @@ namespace MIPS246.Core.Compiler
 {
     public enum FourExpOperation
     {
-        
+
         label, //标签类型
         jmp,  //无条件跳转
         je,   //条件跳转：=
@@ -32,22 +32,14 @@ namespace MIPS246.Core.Compiler
     public class FourExp
     {
         #region Private Fields
-        private int index;
         private FourExpOperation op;
         private string arg1;
         private string arg2;
-        private string targetLabel;
-        private string result;
-        private string labelName;
+        private string arg3;
         //private int addr;
         #endregion
 
         #region Public Fields
-        public int Index
-        {
-            get { return index; }
-            set { index = value; }
-        }
 
         public FourExpOperation Op
         {
@@ -67,80 +59,33 @@ namespace MIPS246.Core.Compiler
             set { arg2 = value; }
         }
 
-        public string TargetLabel
+        public string TargetLabel //跳转的目标标签
         {
-            get { return targetLabel; }
-            set { targetLabel = value; }
+            get { return arg3; }
+            set { arg3 = value; }
         }
 
-        public string Result
+        public string Result //数学和逻辑运算的结果
         {
-            get { return result; }
-            set { result = value; }
+            get { return arg3; }
+            set { arg3 = value; }
         }
 
-        public string LabelName
+        public string LabelName //标签的标签名
         {
-            get { return labelName; }
-            set { labelName = value; }
+            get { return arg3; }
+            set { arg3 = value; }
         }
 
-        //public int Addr
-        //{
-        //    get { return addr; }
-        //    set { addr = value; }
-        //}
         #endregion
 
         #region Constructor
-        public FourExp(FourExpOperation op, string labelName) //标签
+        public FourExp(FourExpOperation op, string arg1, string arg2, string arg3)
         {
-            this.Op = op;
-            this.Arg1 = "";
-            this.Arg2 = "";
-            this.TargetLabel = "";
-            this.Result = "";
-            this.LabelName = labelName;
-            //this.Addr = 0x0000;
-        }
-        
-        public FourExp(FourExpOperation op, string arg1, string arg2, string targetLabel) //跳转
-        {
-            this.Op = op;
-            this.Arg1 = arg1;
-            this.Arg2 = arg2;
-            this.TargetLabel = targetLabel;
-            this.Result = "";
-            this.LabelName = "";
-            //this.Addr = 0x0000;
-        }
-
-        public FourExp(FourExpOperation op, string source, string target) //赋值、取反
-        {
-            this.Op = op;
-            this.Arg1 = source;
-            this.Arg2 = "";
-            this.TargetLabel = "";
-            this.Result = target;
-            this.LabelName = "";
-            //this.Addr = 0x0000;
-        }
-
-        public FourExp(FourExpOperation op, string arg1, string arg2, string result) //四则元算、逻辑运算
-        {
-            if (op < FourExpOperation.mov)
-            {
-                //错误处理
-            }
-            else
-            {
-                this.Op = op;
-                this.Arg1 = arg1;
-                this.Arg2 = arg2;
-                this.Result = result;
-                this.TargetLabel = "";
-                this.LabelName = "";
-            }
+            this.op = op;
+            this.arg1 = arg1;
+            this.arg2 = arg2;
+            this.arg3 = arg3;
         }
         #endregion
 
@@ -156,22 +101,14 @@ namespace MIPS246.Core.Compiler
             else
             {
                 strTemp.Append("( ")
-                        .Append(this.op)
-                        .Append(", ")
-                        .Append(this.arg1)
-                        .Append(", ")
-                        .Append(this.arg2)
-                        .Append(", ");
-                if (this.targetLabel == "")
-                {
-                    strTemp.Append(this.result)
-                        .Append(" )");
-                }
-                else
-                {
-                    strTemp.Append(this.targetLabel)
-                        .Append(" )");
-                }
+                    .Append(this.op)
+                    .Append(", ")
+                    .Append(this.arg1)
+                    .Append(", ")
+                    .Append(this.arg2)
+                    .Append(", ")
+                    .Append(this.arg3)
+                    .Append(" )");
             }
             return strTemp.ToString();
         }
