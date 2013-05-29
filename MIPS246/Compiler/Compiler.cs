@@ -33,6 +33,7 @@ namespace MIPS246.Core.Compiler
             addresstable = new Hashtable();
             labeltable = new Hashtable();
             tokenList = new List<Token>();
+            ast = new Ast();
         }
 
         #endregion
@@ -55,13 +56,15 @@ namespace MIPS246.Core.Compiler
                 this.error = new CompilerErrorInfo(0, CompilerError.NOFILE);
                 return false;
             }
-            if (Scanner.DoScan(sourceList, out tokenList) == false)
+
+            if (Scanner.DoScan(sourceList, out tokenList, out this.error) == false)
             {
 
             }
 
-            if (Parser.DoParse(tokenList, out ast) == false)
+            if (Parser.DoParse(tokenList, ast, out this.error) == false)
             {
+
             }
             return true;
         }
