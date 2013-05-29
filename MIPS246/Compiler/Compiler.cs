@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using MIPS246.Core.Compiler.AstStructure;
 
 namespace MIPS246.Core.Compiler
 {
