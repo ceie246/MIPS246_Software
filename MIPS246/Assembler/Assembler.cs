@@ -673,8 +673,8 @@ namespace MIPS246.Core.Assembler
 
             if (sign == true)
             {
-                maxvalue = 32677;
-                minvalue = -32678;
+                maxvalue = 32767;
+                minvalue = -32768;
             }
             else
             {

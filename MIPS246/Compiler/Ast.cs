@@ -15,6 +15,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #region Constructors
         public Ast()
         {
+            statements = new List<Statement>();
         }
         #endregion
 
@@ -32,6 +33,8 @@ namespace MIPS246.Core.Compiler.AstStructure
         }
         #endregion
     }
+
+    #region Statement classes
 
     public class Statement
     {
@@ -93,15 +96,45 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
     }
 
-    public class FieldDefineStatment : Statement
+    public class FieldDefineStatement : Statement
     {
         #region Fields
+        private IdentifierType type;
+        private string name;
         #endregion
 
         #region Constructors
+        public FieldDefineStatement(IdentifierType type, string name)
+        {
+            this.type = type;
+            this.name = name;
+        }
         #endregion
 
         #region Properties
+        public IdentifierType Type
+        {
+            set
+            {
+                this.type = value;
+            }
+            get
+            {
+                return this.type;
+            }
+        }
+
+        public string Name
+        {
+            set
+            {
+                this.name = value;
+            }
+            get
+            {
+                return this.name;
+            }
+        }
         #endregion
     }
 
@@ -140,6 +173,8 @@ namespace MIPS246.Core.Compiler.AstStructure
         #region Properties
         #endregion
     }
+
+    #endregion    
 
     #region Expression classes
     public class Expression
@@ -530,6 +565,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+    }
+    #endregion
+
+    #region IdentifierType
+    public enum IdentifierType
+    {
+        INT,LONG,CHAR
     }
     #endregion
     

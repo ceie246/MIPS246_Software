@@ -14,8 +14,9 @@ namespace MIPS246.Core.Compiler
         #endregion        
 
         #region Public Method
-        public static bool DoScan(List<string> sourceList, out List<Token> tokenList)
+        public static bool DoScan(List<string> sourceList, out List<Token> tokenList, out CompilerErrorInfo error)
         {
+            error = null;
             tokenList = new List<Token>();
             for (int i = 0; i < sourceList.Count; i++)
             {

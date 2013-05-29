@@ -110,7 +110,7 @@ namespace MIPS246.Core.Compiler
     public class Identifier : Token
     {
         #region Fields
-        string name;
+        private string name;
         #endregion
 
         #region Constructors
@@ -121,7 +121,7 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Properties
-        string Name
+        public string Name
         {
             get
             {
@@ -220,7 +220,7 @@ namespace MIPS246.Core.Compiler
     public class Delimiter : Token
     {
         #region Fields
-        DelimiterType form;
+        private DelimiterType form;
         #endregion
 
         #region Constructors
@@ -231,7 +231,7 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Properties
-        DelimiterType Form
+        public DelimiterType Form
         {
             get
             {
@@ -248,7 +248,7 @@ namespace MIPS246.Core.Compiler
     public class Operator : Token
     {
         #region Fields
-        OperatorType type;
+        private OperatorType type;
         #endregion
 
         #region Constructors
@@ -259,7 +259,7 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Properties
-        OperatorType Type
+        public OperatorType Type
         {
             get
             {

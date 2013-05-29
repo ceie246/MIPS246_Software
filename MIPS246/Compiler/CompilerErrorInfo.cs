@@ -5,13 +5,13 @@ using System.Text;
 
 namespace MIPS246.Core.Compiler
 {
-    enum CompilerError
+    public enum CompilerError
     {
         NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL, INVALIDIMMEDIATE,
-        WRONGARG, WRONGOFFSET
+        WRONGARG, WRONGOFFSET,EXCEPTIDENTIFIER
     }
 
-    class CompilerErrorInfo
+    public class CompilerErrorInfo
     {
         #region Fields
         int line;
