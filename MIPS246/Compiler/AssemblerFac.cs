@@ -85,12 +85,31 @@ namespace MIPS246.Core.DataStructure
             return a;
         }
 
+        private static AssemblerIns genrsrtlabel(string operation, string rs, string rt, string label)
+        {
+            AssemblerIns a = new AssemblerIns();
+            a.Op = operation;
+            a.Rs = rs;
+            a.Rt = rt;
+            a.Label = label;
+            return a;
+        }
+
         private static AssemblerIns genrsoffset(string operation, string rs, string offset)
         {
             AssemblerIns a = new AssemblerIns();
             a.Op = operation;
             a.Rs = rs;
             a.Offset = offset;
+            return a;
+        }
+
+        private static AssemblerIns genrslabel(string operation, string rs, string label)
+        {
+            AssemblerIns a = new AssemblerIns();
+            a.Op = operation;
+            a.Rs = rs;
+            a.Offset = label;
             return a;
         }
 
@@ -123,6 +142,14 @@ namespace MIPS246.Core.DataStructure
             AssemblerIns a = new AssemblerIns();
             a.Op = operation;
             a.Rt = rt;
+            a.Label = label;
+            return a;
+        }
+
+        private static AssemblerIns genlabel(string operation, string label)
+        {
+            AssemblerIns a = new AssemblerIns();
+            a.Op = operation;
             a.Label = label;
             return a;
         }
@@ -299,44 +326,44 @@ namespace MIPS246.Core.DataStructure
             return genrtoffsetrs("SH", rt, offset, rs);
         }
 
-        public static AssemblerIns GenBEQ(string rs, string rt, string offset)
+        public static AssemblerIns GenBEQ(string rs, string rt, string label)
         {
-            return genrsrtoffset("BEQ", rs, rt, offset);
+            return genrsrtlabel("BEQ", rs, rt, label);
         }
 
-        public static AssemblerIns GenBNE(string rs, string rt, string offset)
+        public static AssemblerIns GenBNE(string rs, string rt, string label)
         {
-            return genrsrtoffset("BNE", rs, rt, offset);
+            return genrsrtlabel("BNE", rs, rt, label);
         }
 
-        public static AssemblerIns GenBGEZ(string rs, string offset)
+        public static AssemblerIns GenBGEZ(string rs, string label)
         {
-            return genrsoffset("BGEZ", rs, offset);
+            return genrslabel("BGEZ", rs, label);
         }
 
-        public static AssemblerIns GenBGEZAL(string rs, string offset)
+        public static AssemblerIns GenBGEZAL(string rs, string label)
         {
-            return genrsoffset("BGEZAL", rs, offset);
+            return genrslabel("BGEZAL", rs, label);
         }
 
-        public static AssemblerIns GenBGTZ(string rs, string offset)
+        public static AssemblerIns GenBGTZ(string rs, string label)
         {
-            return genrsoffset("BGTZ", rs, offset);
+            return genrslabel("BGTZ", rs, label);
         }
 
-        public static AssemblerIns GenBLEZ(string rs, string offset)
+        public static AssemblerIns GenBLEZ(string rs, string label)
         {
-            return genrsoffset("BLEZ", rs, offset);
+            return genrslabel("BLEZ", rs, label);
         }
 
-        public static AssemblerIns GenBLTZ(string rs, string offset)
+        public static AssemblerIns GenBLTZ(string rs, string label)
         {
-            return genrsoffset("BLTZ", rs, offset);
+            return genrslabel("BLTZ", rs, label);
         }
 
-        public static AssemblerIns GenBLTZAL(string rs, string offset)
+        public static AssemblerIns GenBLTZAL(string rs, string label)
         {
-            return genrsoffset("BLTZAL", rs, offset);
+            return genrslabel("BLTZAL", rs, label);
         }
 
         public static AssemblerIns GenJ(string address)
@@ -374,14 +401,19 @@ namespace MIPS246.Core.DataStructure
             return genrtlabel("LA", rt, label);
         }
 
+        public static AssemblerIns GenLABEL(string label)
+        {
+            return genlabel("LABEL", label);
+        }
+
         public static AssemblerIns GenSYSCALL()
         {
             return gennull("SYSCALL");
         }
 
-        public static AssemblerIns GenJUMP(string operation, string rs, string offset)
+        public static AssemblerIns GenJUMP(string operation, string rs, string label)
         {
-            return genrsoffset(operation, rs, offset);
+            return genrslabel(operation, rs, label);
         }
 
         public static AssemblerIns GenMathOrLog(string operation, string rd, string rs, string rt)

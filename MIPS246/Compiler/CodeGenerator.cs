@@ -33,11 +33,11 @@ namespace MIPS246.Core.Compiler
 
             int count = 0;
             int index = 0;
-            //填入四元式的index字段
-            foreach (FourExp f in fourExpList)
-            {
-                f.Index = index++;
-            }
+            ////填入四元式的index字段
+            //foreach (FourExp f in fourExpList)
+            //{
+            //    f.Index = index++;
+            //}
 
             foreach (FourExp f in fourExpList)
             {
@@ -51,25 +51,25 @@ namespace MIPS246.Core.Compiler
                     }
                     count++;
                 }
-                f.Addr = cmdList.Count() * 4;   //填入四元式对应的汇编指令首地址
+                //f.Addr = cmdList.Count() * 4;   //填入四元式对应的汇编指令首地址
                 convert(f, varTable, cmdList);
                 optimize();
             }
 
-            //回填汇编代码中跳转指令的地址字段
-            foreach (AssemblerIns a in cmdList)
-            {
-                string operation = a.Op;
-                List<string> JumpIns = new List<String>() { "BEQ", "BNE", "BGEZ", "BGTZ", "BLEZ", "BLTZ" };
-                if (JumpIns.Contains(operation))
-                {
-                    a.Offset = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
-                }
-                else if (a.Op == "J")
-                {
-                    a.Address = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
-                }
-            }
+            ////回填汇编代码中跳转指令的地址字段
+            //foreach (AssemblerIns a in cmdList)
+            //{
+            //    string operation = a.Op;
+            //    List<string> JumpIns = new List<String>() { "BEQ", "BNE", "BGEZ", "BGTZ", "BLEZ", "BLTZ" };
+            //    if (JumpIns.Contains(operation))
+            //    {
+            //        a.Offset = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
+            //    }
+            //    else if (a.Op == "J")
+            //    {
+            //        a.Address = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
+            //    }
+            //}
         }
         #endregion
 
@@ -176,15 +176,22 @@ namespace MIPS246.Core.Compiler
 
         private void convert(FourExp f, VarTable varTable, List<AssemblerIns> cmdList)
         {
+            #region Label FourExp
+            if (f.Op == FourExpOperation.label)
+            {
+                cmdList.Add(AssemblerFac.GenLABEL(f.LabelName));
+            }
+            #endregion
+
             #region Jump Operation
-            if (f.Op <= FourExpOperation.jle)
+            if (f.Op >= FourExpOperation.jmp && f.Op <= FourExpOperation.jle)
             {
                 string operation = "";
                 switch (f.Op)
                 { 
                     case FourExpOperation.jmp:
                         operation = Mnemonic.J.ToString();
-                        cmdList.Add(AssemblerFac.GenJ(f.NextFourExp.ToString()));
+                        cmdList.Add(AssemblerFac.GenJ(f.TargetLabel.ToString()));
                         break;
                     case FourExpOperation.je:
                         operation = Mnemonic.BEQ.ToString();
@@ -446,7 +453,7 @@ namespace MIPS246.Core.Compiler
                 varTable.SetAddrInfo(f.Arg2, reg2);
             }
             cmdList.Add(AssemblerFac.GenSLT("$T0", reg1, reg2));
-            cmdList.Add(AssemblerFac.GenJUMP(operation, "$T0", f.NextFourExp.ToString()));
+            cmdList.Add(AssemblerFac.GenJUMP(operation, "$T0", f.TargetLabel.ToString()));
             adjustAfterJump(f, reg1, reg2, varTable, cmdList);
         }
 

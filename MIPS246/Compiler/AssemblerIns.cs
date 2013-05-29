@@ -155,7 +155,7 @@ namespace MIPS246.Core.DataStructure
                         .Append(", ")
                         .Append(this.Rt)
                         .Append(", ")
-                        .Append(this.Offset);
+                        .Append(this.Label);
                     break;
                 case "BGEZ":
                 case "BGEZAL":
@@ -165,7 +165,7 @@ namespace MIPS246.Core.DataStructure
                 case "BLTZAL":
                     sb.Append(this.Rs)
                         .Append(", ")
-                        .Append(this.Offset);
+                        .Append(this.Label);
                     break;
                 case "J":
                 case "JAL":
@@ -184,7 +184,10 @@ namespace MIPS246.Core.DataStructure
                         .Append(", ")
                         .Append(this.Label);
                     break;
-                    
+                case "LABEL":
+                    sb.Append(this.Label)
+                        .Append(":");
+                    break;
                 default:
                     //错误处理
                     break;
