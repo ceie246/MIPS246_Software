@@ -47,6 +47,7 @@
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerErrorInfo.cs" />
     <Compile Include="FourExp.cs" />
+    <Compile Include="FourExpFac.cs" />
     <Compile Include="GlobalVariable.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
