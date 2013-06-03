@@ -7,6 +7,7 @@ namespace MIPS246.Core.Compiler
 {
     class FourExpFac
     {
+        #region Public region
         public static FourExp GenLabel(string labelName)
         {
             FourExp f = new FourExp(FourExpOperation.label, "", "", labelName);
@@ -120,6 +121,6 @@ namespace MIPS246.Core.Compiler
             FourExp f = new FourExp(FourExpOperation.not, arg1, "", result);
             return f;
         }
-
+        #endregion
     }
 }
