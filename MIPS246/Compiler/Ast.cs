@@ -189,7 +189,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Virtual Method
-        public virtual string GetValue()
+        public virtual string GetValue(VarTable vartable, Stack<string> labelStack, List<FourExp> fourExpList)
         {
             return "";
         }
@@ -248,6 +248,45 @@ namespace MIPS246.Core.Compiler.AstStructure
             {
                 this.op = value;
             }
+        }
+        #endregion
+
+        #region Public Method
+        public virtual string GetValue(VarTable vartable, Stack<string> labelStack, List<FourExp> fourExpList)
+        {
+            string returnValue = vartable.newVar(VariableType.INT);
+            string arg1, arg2;
+            switch (this.op.Type)
+            { 
+                case OperatorType.add:
+                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
+                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenAdd(arg1, arg2, returnValue));
+                    break;
+                case OperatorType.sub: 
+                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
+                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenSub(arg1, arg2, returnValue));
+                    break;
+                case OperatorType.mul:
+                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
+                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenMul(arg1, arg2, returnValue));
+                    break;
+                case OperatorType.div:
+                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
+                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenDiv(arg1, arg2, returnValue));
+                    break;
+                case OperatorType.and:
+                    break;
+                case OperatorType.or:
+                    break;
+                default:
+                    //错误处理
+                    break;
+            }
+            return "";
         }
         #endregion
     }

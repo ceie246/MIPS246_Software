@@ -49,12 +49,14 @@ namespace MIPS246.Core.Compiler
         }
         
         private Dictionary<string, VarProp> varDic;
+        private int tempIndex;
         #endregion
 
         #region Constructor
         public VarTable()
         { 
             this.varDic = new Dictionary<string, VarProp>();
+            this.tempIndex = 0;
         }        
         #endregion
 
@@ -70,6 +72,13 @@ namespace MIPS246.Core.Compiler
         { 
             VarProp prop = new VarProp(varType, varValue);
             this.Add(varName, prop);
+        }
+
+        public string newVar(VariableType varType)
+        {
+            string varName = "T" + tempIndex;
+            this.Add(varName, varType, 0);
+            return varName;
         }
 
         public List<string> GetNames()
