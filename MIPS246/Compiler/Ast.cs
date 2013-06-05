@@ -187,6 +187,13 @@ namespace MIPS246.Core.Compiler.AstStructure
 
         #region Properties
         #endregion
+
+        #region Virtual Method
+        public virtual string GetValue()
+        {
+            return "";
+        }
+        #endregion
     }
 
     public class OPExpression : Expression
