@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MIPS246.Core.Compiler
+namespace MIPS246.Core.DataStructure
 {
     public enum FourExpOperation
     {

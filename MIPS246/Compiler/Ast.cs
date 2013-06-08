@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MIPS246.Core.DataStructure;
 
 namespace MIPS246.Core.Compiler.AstStructure
 {

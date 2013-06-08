@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MIPS246.Core.Compiler
+namespace MIPS246.Core.DataStructure
 {
-    class FourExpFac
+    public class FourExpFac
     {
         #region Public region
         public static FourExp GenLabel(string labelName)
