@@ -457,33 +457,34 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
     } 
 
-    public class NotExpression : Expression
-    {
-        #region Fields
-        private Expression expression;
-        #endregion
+    //This should be contained in SingleOPExpression
+    //public class NotExpression : Expression
+    //{
+    //    #region Fields
+    //    private Expression expression;
+    //    #endregion
 
-        #region Constructors
-        public NotExpression(Expression expression)
-        {
-            this.expression = expression;
-        }
-        #endregion
+    //    #region Constructors
+    //    public NotExpression(Expression expression)
+    //    {
+    //        this.expression = expression;
+    //    }
+    //    #endregion
 
-        #region Properties
-        public Expression Expression
-        {
-            get
-            {
-                return this.expression;
-            }
-            set
-            {
-                this.expression = value;
-            }
-        }
-        #endregion
-    }
+    //    #region Properties
+    //    public Expression Expression
+    //    {
+    //        get
+    //        {
+    //            return this.expression;
+    //        }
+    //        set
+    //        {
+    //            this.expression = value;
+    //        }
+    //    }
+    //    #endregion
+    //}
 
     public class IdentifyExpression : Expression
     {

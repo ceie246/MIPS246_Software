@@ -8,25 +8,27 @@ namespace MIPS246.Core.DataStructure
     public enum FourExpOperation
     {
 
-        label, //标签类型
-        jmp,  //无条件跳转
-        je,   //条件跳转：=
-        jne,  //条件跳转：！=
-        jg,   //条件跳转：>
-        jge,  //条件跳转：>=
-        jl,   //条件跳转：<
-        jle,  //条件跳转：<=
-        mov,  //赋值
-        add,  //加
-        sub,  //减
-        mul,  //乘
-        div,  //除
-        and,  //与
-        or,   //或
-        xor,  //异或
-        nor,  //非或
-        neg,   //取反
-        not  //非
+        label,          //标签类型
+        jmp,            //无条件跳转
+        je,             //条件跳转：=
+        jne,            //条件跳转：！=
+        jg,             //条件跳转：>
+        jge,            //条件跳转：>=
+        jl,             //条件跳转：<
+        jle,            //条件跳转：<=
+        mov,            //赋值
+        add,            //加
+        sub,            //减
+        mul,            //乘
+        div,            //除
+        and,            //与
+        or,             //或
+        xor,            //异或
+        nor,            //非或
+        neg,            //取反
+        not,            //非
+        rightshift,     //右移
+        leftshift       //左移
     }
 
     public class FourExp
