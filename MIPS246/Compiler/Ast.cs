@@ -100,12 +100,12 @@ namespace MIPS246.Core.Compiler.AstStructure
     public class FieldDefineStatement : Statement
     {
         #region Fields
-        private IdentifierType type;
+        private VariableType type;
         private string name;
         #endregion
 
         #region Constructors
-        public FieldDefineStatement(IdentifierType type, string name)
+        public FieldDefineStatement(VariableType type, string name)
         {
             this.type = type;
             this.name = name;
@@ -113,7 +113,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Properties
-        public IdentifierType Type
+        public VariableType Type
         {
             set
             {
@@ -253,7 +253,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public virtual string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = vartable.newVar(VariableType.INT);
             string arg1, arg2;
@@ -318,6 +318,43 @@ namespace MIPS246.Core.Compiler.AstStructure
                     break;
             }
             return returnValue;
+        }
+        #endregion
+    }
+
+    public class SingleOPExpression : Expression
+    {
+        #region Fields
+        private Expression expression;
+        private Operator op;
+        #endregion
+
+        #region Constructors
+        public SingleOPExpression(Expression expression, Operator op)
+        {
+            this.expression = expression;
+            this.op = op;
+        }
+        #endregion
+
+        #region Properties
+        public Expression Expression1
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
+
+        public Operator Op
+        {
+            get { return op; }
+            set { op = value; }
+        }
+        #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return "";
         }
         #endregion
     }
@@ -646,10 +683,12 @@ namespace MIPS246.Core.Compiler.AstStructure
     #endregion
 
     #region IdentifierType
-    public enum IdentifierType
-    {
-        INT,LONG,CHAR
-    }
+    //public enum IdentifierType this already exists in MIPS.CORE.DATESTRUCTURE.VariableType
+    //{
+    //    CHAR, //8bit
+    //    INT, //16bit
+    //    LONG //32bit
+    //}
     #endregion
     
 

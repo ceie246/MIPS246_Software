@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MIPS246.Core.Compiler;
 using MIPS246.Core.Compiler.AstStructure;
+using MIPS246.Core.DataStructure;
 
 namespace MIPS246.Core.Compiler
 {
@@ -107,7 +108,7 @@ namespace MIPS246.Core.Compiler
                     return false;
                 }
 
-                StatementsNode.Add(new FieldDefineStatement((IdentifierType)Enum.Parse(typeof(IdentifierType), ((ReservedWord)identifierType).WordType.ToString()), ((Identifier)identifierToken).Name));
+                StatementsNode.Add(new FieldDefineStatement((VariableType)Enum.Parse(typeof(VariableType), ((ReservedWord)identifierType).WordType.ToString()), ((Identifier)identifierToken).Name));
 
                 if (IsAssign(TouchNextToken()))
                 {

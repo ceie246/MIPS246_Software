@@ -8,7 +8,7 @@ namespace MIPS246.Core.DataStructure
     public enum VariableType
     {
         VOID,
-        CHAR,//16位
+        CHAR,//8位
         INT, //16位
         //FLOAT,
         //DOUBLE,

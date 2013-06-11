@@ -53,6 +53,7 @@ namespace MIPS246.Core.Compiler
         //->
         //.
         not,                //!
+        neg,                //-
         selfadd,            //++
         selfsub,            //--
         mul,                //*
