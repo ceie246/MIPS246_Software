@@ -322,7 +322,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
     }
 
-    public class ArrayGet : Expression
+    public class ArrayGetExpression : Expression
     {
         #region Fields
         private string identifier;
@@ -330,7 +330,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Constructors
-        public ArrayGet(string identifier, int offset)
+        public ArrayGetExpression(string identifier, int offset)
         {
             this.identifier = identifier;
             this.offset = offset;
@@ -364,14 +364,14 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
     }
 
-    public class BoolValue : Expression
+    public class TrueExpression : Expression
     {
         #region Fields
         private bool value;
         #endregion
 
         #region Constructors
-        public BoolValue(bool value)
+        public TrueExpression(bool value)
         {
             this.value = value;
         }
@@ -390,7 +390,35 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
-    }    
+    }
+
+    public class FalseExpression : Expression
+    {
+        #region Fields
+        private bool value;
+        #endregion
+
+        #region Constructors
+        public FalseExpression(bool value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public bool Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
+    } 
 
     public class NotExpression : Expression
     {
@@ -462,34 +490,6 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion  
     }
 
-    public class IntValue : Expression
-    {
-        #region Fields
-        private int value;
-        #endregion
-
-        #region Constructors
-        public IntValue(int value)
-        {
-            this.value = value;
-        }
-        #endregion
-
-        #region Properties
-        public int Value
-        {
-            get
-            {
-                return this.value;
-            }
-            set
-            {
-                this.value = value;
-            }
-        }
-        #endregion
-    }
-
     public class ArrayExpression : Expression
     {
         #region Fields
@@ -529,7 +529,35 @@ namespace MIPS246.Core.Compiler.AstStructure
                 this.type = value;
             }
         }
-        #endregion  
+        #endregion
+    }
+
+    public class IntValue : Expression
+    {
+        #region Fields
+        private int value;
+        #endregion
+
+        #region Constructors
+        public IntValue(int value)
+        {
+            this.value = value;
+        }
+        #endregion
+
+        #region Properties
+        public int Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
     }
 
     public class CharValue : Expression
@@ -587,34 +615,6 @@ namespace MIPS246.Core.Compiler.AstStructure
         }
         #endregion
     }        
-
-    public class RestExpression : Expression
-    {
-        #region Fields
-        private Expression expression;
-        #endregion
-
-        #region Constructors
-        public RestExpression(Expression expression)
-        {
-            this.expression = expression;
-        }
-        #endregion
-
-        #region Properties
-        public Expression Expression
-        {
-            get
-            {
-                return this.expression;
-            }
-            set
-            {
-                this.expression = value;
-            }
-        }
-        #endregion
-    }
 
     public class ParenthesesExpression : Expression
     {
