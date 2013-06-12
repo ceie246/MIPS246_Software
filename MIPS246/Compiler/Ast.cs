@@ -52,48 +52,142 @@ namespace MIPS246.Core.Compiler.AstStructure
     public class IfStatment : Statement
     {
         #region Fields
+        private Expression expression;
+        private Statement statement1;
+        private Statement statement2;
         #endregion
 
         #region Constructors
+        public IfStatment(Expression expression, Statement statement1, Statement statement2)
+        {
+            this.expression = expression;
+            this.statement1 = statement1;
+            this.statement2 = statement2;
+        }
         #endregion
 
         #region Properties
+
+        public Expression Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
+
+        public Statement Statement1
+        {
+            get { return statement1; }
+            set { statement1 = value; }
+        }
+
+        public Statement Statement2
+        {
+            get { return statement2; }
+            set { statement2 = value; }
+        }
         #endregion
     }
 
     public class WhileStatment : Statement
     {
         #region Fields
+        private Expression expression;
+        private Statement statement;
         #endregion
 
         #region Constructors
+        public WhileStatment(Expression expression, Statement statement)
+        {
+            this.expression = expression;
+            this.statement = statement;
+        }
         #endregion
 
         #region Properties
+        public Expression Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
+
+        public Statement Statement
+        {
+            get { return statement; }
+            set { statement = value; }
+        }
         #endregion
     }
 
     public class DoWhileStatment : Statement
     {
         #region Fields
+        private Expression expression;
+        private Statement statement;
         #endregion
 
         #region Constructors
+        public DoWhileStatment(Statement statement, Expression expression)
+        {
+            this.statement = statement;
+            this.expression = expression;
+        }
         #endregion
 
         #region Properties
+        public Expression Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
+
+        public Statement Statement
+        {
+            get { return statement; }
+            set { statement = value; }
+        }
         #endregion
     }
 
     public class ForStatement : Statement
     {
         #region Fields
+        private Expression expression1, expression2, expression3;
+        private Statement statement;
         #endregion
 
         #region Constructors
+        public ForStatement(Expression expression1, Expression expression2, Expression expression3, Statement statement)
+        {
+            this.expression1 = expression1;
+            this.expression2 = expression2;
+            this.expression3 = expression3;
+        }
         #endregion
 
         #region Properties
+        public Expression Expression3
+        {
+            get { return expression3; }
+            set { expression3 = value; }
+        }
+
+        public Expression Expression2
+        {
+            get { return expression2; }
+            set { expression2 = value; }
+        }
+
+        public Expression Expression1
+        {
+            get { return expression1; }
+            set { expression1 = value; }
+        }
+
+        public Statement Statement1
+        {
+            get { return statement; }
+            set { statement = value; }
+        }
         #endregion
     }
 
@@ -154,12 +248,30 @@ namespace MIPS246.Core.Compiler.AstStructure
     public class AssignStatement : Statement
     {
         #region Fields
+        private string identify;
+        private Expression expression;
         #endregion
 
         #region Constructors
+        public AssignStatement(string identify, Expression expression)
+        {
+            this.identify = identify;
+            this.expression = expression;
+        }
         #endregion
 
         #region Properties
+        public string Identify
+        {
+            get { return identify; }
+            set { identify = value; }
+        }
+
+        public Expression Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
         #endregion
     }
 
