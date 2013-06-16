@@ -367,63 +367,21 @@ namespace MIPS246.Core.Compiler.AstStructure
         #region Public Method
         public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
-            string returnValue = vartable.newVar(VariableType.INT);
+            string returnValue = "";
             string arg1, arg2;
             switch (this.op.Type)
             { 
                 case OperatorType.add://加
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenAdd(arg1, arg2, returnValue));
                     break;
                 case OperatorType.sub: //减
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenSub(arg1, arg2, returnValue));
                     break;
                 case OperatorType.mul://乘
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenMul(arg1, arg2, returnValue));
                     break;
                 case OperatorType.div://除
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    arg2 = this.expression2.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenDiv(arg1, arg2, returnValue));
                     break;
                 case OperatorType.and://与
-                    //计算E1
-                    labelStack.Push();
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenJe(arg1, "0", labelStack.Peek()));
-                    fourExpList.Add(FourExpFac.GenMov("1", arg1));
-                    fourExpList.Add(FourExpFac.GenLabel(labelStack.Pop()));
-
-                    //计算E2
-                    labelStack.Push();
-                    arg2 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenJe(arg2, "0", labelStack.Peek()));
-                    fourExpList.Add(FourExpFac.GenMov("1", arg1));
-                    fourExpList.Add(FourExpFac.GenLabel(labelStack.Pop()));
-
-                    fourExpList.Add(FourExpFac.GenAnd(arg1, arg2, returnValue));
                     break;
                 case OperatorType.or://或
-                    //计算E1
-                    labelStack.Push();
-                    arg1 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenJe(arg1, "0", labelStack.Peek()));
-                    fourExpList.Add(FourExpFac.GenMov("1", arg1));
-                    fourExpList.Add(FourExpFac.GenLabel(labelStack.Pop()));
-
-                    //计算E2
-                    labelStack.Push();
-                    arg2 = this.expression1.GetValue(vartable, labelStack, fourExpList);
-                    fourExpList.Add(FourExpFac.GenJe(arg2, "0", labelStack.Peek()));
-                    fourExpList.Add(FourExpFac.GenMov("1", arg1));
-                    fourExpList.Add(FourExpFac.GenLabel(labelStack.Pop()));
-
-                    fourExpList.Add(FourExpFac.GenOr(arg1, arg2, returnValue));
                     break;
                 default:
                     //错误处理

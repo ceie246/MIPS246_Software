@@ -74,11 +74,14 @@ namespace MIPS246.Core.DataStructure
             this.Add(varName, prop);
         }
 
-        public string newVar(VariableType varType)
+        public string newVar()
         {
-            string varName = "T" + tempIndex;
-            this.Add(varName, varType, 0);
-            return varName;
+            return "";
+        }
+
+        public string newTemp()
+        {
+            return "";
         }
 
         public List<string> GetNames()
