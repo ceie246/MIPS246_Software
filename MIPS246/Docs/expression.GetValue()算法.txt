@@ -1,0 +1,74 @@
+E.GetValue()算法
+if ( is LongValue or IntValue or CharValue)
+	return E.Value;
+else if (E is ArrayExpression)
+	
+else if (E is IdentifyExpression)
+	return E;
+else if (E is TrueExpression)
+	return 1;
+else if (E is FalseExpression)
+	return 0;
+else if (E is ArrayGet)
+else if (E is OPExpression)
+	case +, -, *, /, &, |
+		T = newTemp();
+		(op, E1.GetValue(), E2.GetValue(), T);
+		return T;
+	case &&, ||
+		newLabel(L1);
+		arg1 = E1.GetValue();
+		(je, arg1, 0, L1);
+		T1 = newTemp();
+		(mov, 1, _, T1);
+		arg1 = T1;
+		(label, _, _, L1);
+		newLabel(L2);
+		arg2 = E2.GetValue();
+		(je, arg2, 0, L2)
+		T2 = newTemp();
+		(mov, 1, _, T2);
+		arg2 = T2;
+		(label, _, _, L2);
+		T3 = newTemp();
+		(op, arg1, arg2, T3);
+		return T3;
+	case <<, >>
+		T = newTemp();
+		(op, E1.GetValue, E2.GetValue, T)
+		return T;
+	case <, <=, >, >=, ==, !=
+		newLabel(L1, L2, L3);
+		(op, E1.GetValue, E2.GetValue, L1);
+		(!op, E1.GetValue, E2.GetValue, L2);
+		T = newTemp();
+		(label, _, _, L1);
+		(mov, 1, _, T);
+		(jmp, _, _, L3);
+		(label, _, _, L2);
+		(mov, 0, _, T);
+		(label, _, _, L3);
+		return T;
+else if (E is SingleOPExpression)
+	case !
+		newLabel(L);
+		T1 = newTemp()
+		T1 = E.GetValue();
+		(je, T1, 0, L);
+		(mov, 1, _, T1);
+		(label, _, _, L);
+		T2 = newTemp();
+		(not, T1, _, T2);
+		return T2;
+	case ++, --
+		T = newTemp();
+		(op, E.GetValue(), 1, T);
+		return T;
+	case ^
+		T = newTemp();
+		(not, E.GetValue(), _, T);
+		return T;
+	case –
+		T = newTemp();
+		(neg, E.GetValue(), _, T);
+		return T;
