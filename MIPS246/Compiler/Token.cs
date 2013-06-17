@@ -54,8 +54,10 @@ namespace MIPS246.Core.Compiler
         //.
         not,                //!
         neg,                //-
-        selfadd,            //++
-        selfsub,            //--
+        selfaddhead,        //++前置
+        selfsubhead,        //--前置
+        selfaddtail,        //++后置
+        selfsubtail,        //--后置
         mul,                //*
         div,                ///
         //~

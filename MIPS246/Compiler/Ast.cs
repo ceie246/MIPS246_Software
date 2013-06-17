@@ -425,25 +425,52 @@ namespace MIPS246.Core.Compiler.AstStructure
         public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = "";
+            string label1, t1, t2, var;
             switch (this.op.Type)
             { 
                 case OperatorType.not:          //非
-                    string label = labelStack.newLabel();
-                    string t1 = vartable.NewTemp(VariableType.BOOL, expression.GetValue(vartable, labelStack, fourExpList));
-                    fourExpList.Add(FourExpFac.GenJe(t1, "0", label));
+                    label1 = labelStack.newLabel();
+                    t1 = vartable.NewTemp(VariableType.BOOL, expression.GetValue(vartable, labelStack, fourExpList));
+                    fourExpList.Add(FourExpFac.GenJe(t1, "0", label1));
                     fourExpList.Add(FourExpFac.GenMov("1", t1));
-                    fourExpList.Add(FourExpFac.GenLabel(label));
-                    string t2 = vartable.NewTemp(VariableType.BOOL);
+                    fourExpList.Add(FourExpFac.GenLabel(label1));
+                    t2 = vartable.NewTemp(VariableType.BOOL);
                     fourExpList.Add(FourExpFac.GenNot(t1, t2));
                     returnValue = t2;
                     break;
-                case OperatorType.selfadd:      //自增
+                case OperatorType.selfaddhead:      //自增前置
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenAdd(var, 1 + "", var));
+                    returnValue = var;
                     break;
-                case OperatorType.selfsub:      //自减
+                case OperatorType.selfsubhead:      //自减前置
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenSub(var, 1 + "", var));
+                    returnValue = var;
+                    break;
+                case OperatorType.selfaddtail:      //自增后置
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    t1 = vartable.NewTemp(var);
+                    fourExpList.Add(FourExpFac.GenAdd(var, 1 + "", var));
+                    returnValue = t1;
+                    break;
+                case OperatorType.selfsubtail:      //自减后置
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    t1 = vartable.NewTemp(var);
+                    fourExpList.Add(FourExpFac.GenSub(var, 1 + "", var));
+                    returnValue = t1;
                     break;
                 case OperatorType.bitnot:       //按位非
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    t1 = vartable.NewTemp(var);
+                    fourExpList.Add(FourExpFac.GenNot(var, t1));
+                    returnValue = t1;
                     break;
                 case OperatorType.neg:          //取反
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    t1 = vartable.NewTemp(var);
+                    fourExpList.Add(FourExpFac.GenNeg(var, t1));
+                    returnValue = t1;
                     break;
             }
             return returnValue;

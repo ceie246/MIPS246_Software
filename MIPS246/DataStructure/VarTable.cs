@@ -22,7 +22,7 @@ namespace MIPS246.Core.DataStructure
     }
 
     public class VarTable
-    {   
+    {
         #region Fields
         private class VarProp
         {
@@ -48,17 +48,17 @@ namespace MIPS246.Core.DataStructure
 
             #endregion
         }
-        
+
         private Dictionary<string, VarProp> varDic;
         private int tempIndex;
         #endregion
 
         #region Constructor
         public VarTable()
-        { 
+        {
             this.varDic = new Dictionary<string, VarProp>();
             this.tempIndex = 0;
-        }        
+        }
         #endregion
 
         #region Private Methon
@@ -70,7 +70,7 @@ namespace MIPS246.Core.DataStructure
 
         #region Public Method
         public void Add(string varName, VariableType varType, int varValue)
-        { 
+        {
             VarProp prop = new VarProp(varType, varValue);
             this.Add(varName, prop);
         }
@@ -83,6 +83,12 @@ namespace MIPS246.Core.DataStructure
             return varName;
         }
 
+        /// <summary>
+        /// 根据源变量产生产生布尔型的临时变量，用于非运算
+        /// </summary>
+        /// <param name="varType"></param>
+        /// <param name="sourceName"></param>
+        /// <returns></returns>
         public string NewTemp(VariableType varType, string sourceName)
         {
             string varName = "t" + tempIndex.ToString("000");
@@ -92,11 +98,27 @@ namespace MIPS246.Core.DataStructure
             {
                 value = Convert.ToInt32(sourceName);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 value = this.GetValue(sourceName);
             }
             this.Add(varName, varType, value);
+            return varName;
+        }
+
+        /// <summary>
+        /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算
+        /// </summary>
+        /// <param name="sourceName"></param>
+        /// <returns></returns>
+        public string NewTemp(string sourceName)
+        {
+            string varName = "t" + tempIndex.ToString("000");
+            tempIndex++;
+            int value = 0;
+            value = this.GetValue(sourceName);
+            VariableType type = this.GetType(sourceName);
+            this.Add(sourceName, type, value);
             return varName;
         }
 
@@ -146,7 +168,7 @@ namespace MIPS246.Core.DataStructure
         }
 
         public void PushRefeInfo(string varName, int newRefe)
-        { 
+        {
             varDic[varName].varRefeInfo.Push(newRefe);
         }
 
