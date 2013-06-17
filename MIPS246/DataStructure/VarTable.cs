@@ -75,11 +75,28 @@ namespace MIPS246.Core.DataStructure
             this.Add(varName, prop);
         }
 
-        public string newTemp(VariableType varType)
+        public string NewTemp(VariableType varType)
         {
             string varName = "t" + tempIndex.ToString("000");
             tempIndex++;
             this.Add(varName, varType, 0);
+            return varName;
+        }
+
+        public string NewTemp(VariableType varType, string sourceName)
+        {
+            string varName = "t" + tempIndex.ToString("000");
+            tempIndex++;
+            int value = 0;
+            try
+            {
+                value = Convert.ToInt32(sourceName);
+            }
+            catch (FormatException e)
+            {
+                value = this.GetValue(sourceName);
+            }
+            this.Add(varName, varType, value);
             return varName;
         }
 

@@ -424,7 +424,29 @@ namespace MIPS246.Core.Compiler.AstStructure
         #region Public Method
         public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
-            return "";
+            string returnValue = "";
+            switch (this.op.Type)
+            { 
+                case OperatorType.not:          //非
+                    string label = labelStack.newLabel();
+                    string t1 = vartable.NewTemp(VariableType.BOOL, expression.GetValue(vartable, labelStack, fourExpList));
+                    fourExpList.Add(FourExpFac.GenJe(t1, "0", label));
+                    fourExpList.Add(FourExpFac.GenMov("1", t1));
+                    fourExpList.Add(FourExpFac.GenLabel(label));
+                    string t2 = vartable.NewTemp(VariableType.BOOL);
+                    fourExpList.Add(FourExpFac.GenNot(t1, t2));
+                    returnValue = t2;
+                    break;
+                case OperatorType.selfadd:      //自增
+                    break;
+                case OperatorType.selfsub:      //自减
+                    break;
+                case OperatorType.bitnot:       //按位非
+                    break;
+                case OperatorType.neg:          //取反
+                    break;
+            }
+            return returnValue;
         }
         #endregion
     }
@@ -469,6 +491,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return "";
+        }
+        #endregion
     }
 
     public class TrueExpression : Expression
@@ -497,6 +526,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return 1+"";
+        }
+        #endregion
     }
 
     public class FalseExpression : Expression
@@ -523,6 +559,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             {
                 this.value = value;
             }
+        }
+        #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return 0 + "";
         }
         #endregion
     } 
@@ -596,6 +639,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion  
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return this.name;
+        }
+        #endregion
     }
 
     public class ArrayExpression : Expression
@@ -638,6 +688,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return "";
+        }
+        #endregion
     }
 
     public class IntValue : Expression
@@ -664,6 +721,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             {
                 this.value = value;
             }
+        }
+        #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return this.value.ToString(); 
         }
         #endregion
     }
@@ -694,6 +758,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return this.value.ToString(); 
+        }
+        #endregion
     }
 
     public class LongValue : Expression
@@ -720,6 +791,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             {
                 this.value = value;
             }
+        }
+        #endregion
+
+        #region Public Method
+        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            return this.value.ToString();            
         }
         #endregion
     }        
