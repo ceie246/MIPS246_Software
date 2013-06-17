@@ -9,7 +9,6 @@ namespace MIPS246.Core.DataStructure
     {
         #region Private Field
         private int labelIndex = 0;
-        private Stack<string> labelStack = new Stack<string>();
         #endregion
 
         #region Public Field
@@ -18,22 +17,12 @@ namespace MIPS246.Core.DataStructure
         #region Public Constructor
         #endregion
 
-
         #region Public Method
-        public void Push()
-        { 
-            this.labelStack.Push("L" + labelIndex.ToString("000"));
-            this.labelIndex ++;
-        }
-
-        public string Pop()
-        { 
-            return labelStack.Pop();
-        }
-
-        public string Peek()
+        public string newLabel()
         {
-            return labelStack.Peek();
+            string label = "L" + this.labelIndex.ToString("000");
+            this.labelIndex++;
+            return label;
         }
         #endregion
     }

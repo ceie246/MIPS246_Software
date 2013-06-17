@@ -8,16 +8,17 @@ namespace MIPS246.Core.DataStructure
     public enum VariableType
     {
         VOID,
-        CHAR,//8位
-        INT, //16位
+        CHAR,       //8位
+        INT,        //16位
         //FLOAT,
         //DOUBLE,
         //SHORT,
-        LONG, //32位
+        LONG,       //32位
         //SIGNED,
         //UNSIGNED,
         //STRUCT,
-        //UNION
+        //UNION,
+        BOOL        //布尔值
     }
 
     public class VarTable
@@ -74,14 +75,12 @@ namespace MIPS246.Core.DataStructure
             this.Add(varName, prop);
         }
 
-        public string newVar()
+        public string newTemp(VariableType varType)
         {
-            return "";
-        }
-
-        public string newTemp()
-        {
-            return "";
+            string varName = "t" + tempIndex.ToString("000");
+            tempIndex++;
+            this.Add(varName, varType, 0);
+            return varName;
         }
 
         public List<string> GetNames()
