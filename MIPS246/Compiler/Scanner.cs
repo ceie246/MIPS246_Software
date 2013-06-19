@@ -160,7 +160,7 @@ namespace MIPS246.Core.Compiler
                         if (j < sourceList[i].Length && sourceList[i][j + 1] == '+')
                         {
                             j++;
-                            tokenList.Add(new Operator(OperatorType.selfadd));
+                            //tokenList.Add(new Operator(OperatorType.selfadd));
                         }
                         else if (j < sourceList[i].Length && sourceList[i][j + 1] == '=')
                         {
@@ -177,7 +177,7 @@ namespace MIPS246.Core.Compiler
                         if (j < sourceList[i].Length && sourceList[i][j + 1] == '-')
                         {
                             j++;
-                            tokenList.Add(new Operator(OperatorType.selfsub));
+                            //tokenList.Add(new Operator(OperatorType.selfsub));
                         }
                         else if (j < sourceList[i].Length && sourceList[i][j + 1] == '=')
                         {

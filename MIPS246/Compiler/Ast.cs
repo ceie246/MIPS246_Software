@@ -457,15 +457,17 @@ namespace MIPS246.Core.Compiler.AstStructure
         public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = "";
-            string label1, t1, t2, var;
+            string label, t1, t2, var;
             switch (this.op.Type)
             { 
                 case OperatorType.not:          //非
-                    label1 = labelStack.newLabel();
-                    t1 = vartable.NewTemp(VariableType.BOOL, expression.GetValue(vartable, labelStack, fourExpList));
-                    fourExpList.Add(FourExpFac.GenJe(t1, "0", label1));
-                    fourExpList.Add(FourExpFac.GenMov("1", t1));
-                    fourExpList.Add(FourExpFac.GenLabel(label1));
+                    label = labelStack.newLabel();
+                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    fourExpList.Add(FourExpFac.GenJe(var, 0 + "", label));
+                    t1 = vartable.NewTemp(VariableType.BOOL);
+                    fourExpList.Add(FourExpFac.GenMov(1 + "", t1));
+                    var = t1;
+                    fourExpList.Add(FourExpFac.GenLabel(label));
                     t2 = vartable.NewTemp(VariableType.BOOL);
                     fourExpList.Add(FourExpFac.GenNot(t1, t2));
                     returnValue = t2;

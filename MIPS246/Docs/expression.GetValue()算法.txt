@@ -52,9 +52,11 @@ else if (E is OPExpression)
 else if (E is SingleOPExpression)
 	case !
 		newLabel(L);
-		T1 = newTemp(E.GetValue())
-		(je, T1, 0, L);
+		arg = E.GetValue();
+		(je, arg, 0, L)
+		T1 = newTemp();
 		(mov, 1, _, T1);
+		arg = T1;
 		(label, _, _, L);
 		T2 = newTemp();
 		(not, T1, _, T2);
