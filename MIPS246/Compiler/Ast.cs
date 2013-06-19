@@ -369,23 +369,55 @@ namespace MIPS246.Core.Compiler.AstStructure
         {
             string returnValue = "";
             string arg1, arg2;
-            switch (this.op.Type)
+            //加、减、乘、除、按位与、按位或
+            if (this.op.Type == OperatorType.add || this.op.Type == OperatorType.sub || this.op.Type == OperatorType.mul || this.op.Type == OperatorType.div || this.op.Type == OperatorType.bitand || this.op.Type == OperatorType.bitor)
+            {
+                arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                string t = vartable.NewTemp(arg1, arg2);
+                switch (this.op.Type)
+                { 
+                    case OperatorType.add:
+                        fourExpList.Add(FourExpFac.GenAdd(arg1, arg2, t));
+                        break;
+                    case OperatorType.sub:
+                        fourExpList.Add(FourExpFac.GenSub(arg1, arg2, t));
+                        break;
+                    case OperatorType.mul:
+                        fourExpList.Add(FourExpFac.GenMul(arg1, arg2, t));
+                        break;
+                    case OperatorType.div:
+                        fourExpList.Add(FourExpFac.GenDiv(arg1, arg2, t));
+                        break;
+                    case OperatorType.bitand:
+                        fourExpList.Add(FourExpFac.GenAnd(arg1, arg2, t));
+                        break;
+                    case OperatorType.bitor:
+                        fourExpList.Add(FourExpFac.GenOr(arg1, arg2, t));
+                        break;
+                    default:
+                        break;
+                }
+                returnValue = t;
+            }
+            //与、或
+            else if (this.op.Type == OperatorType.and || this.op.Type == OperatorType.or)
             { 
-                case OperatorType.add://加
-                    break;
-                case OperatorType.sub: //减
-                    break;
-                case OperatorType.mul://乘
-                    break;
-                case OperatorType.div://除
-                    break;
-                case OperatorType.and://与
-                    break;
-                case OperatorType.or://或
-                    break;
-                default:
-                    //错误处理
-                    break;
+                
+            }
+            //左移、右移
+            else if (this.op.Type == OperatorType.leftmove || this.op.Type == OperatorType.rightmove)
+            { 
+            
+            }
+            //小于、小于等于、大于、大于等于、等于、不等于
+            else if (this.op.Type == OperatorType.less || this.op.Type == OperatorType.lessequal || this.op.Type == OperatorType.greater || this.op.Type == OperatorType.greatereuqal || this.op.Type == OperatorType.equal || this.op.Type == OperatorType.notequal)
+            {
+
+            }
+            else
+            { 
+                //错误处理
             }
             return returnValue;
         }

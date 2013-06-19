@@ -32,7 +32,7 @@ namespace MIPS246.Core.Compiler
             genDataIns(varNameList, varTable, cmdList);
 
             int count = 0;
-            int index = 0;
+            //int index = 0;
             ////填入四元式的index字段
             //foreach (FourExp f in fourExpList)
             //{

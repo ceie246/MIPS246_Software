@@ -8,17 +8,17 @@ namespace MIPS246.Core.DataStructure
     public enum VariableType
     {
         VOID,
+        BOOL,       //布尔值
         CHAR,       //8位
         INT,        //16位
         //FLOAT,
         //DOUBLE,
         //SHORT,
-        LONG,       //32位
+        LONG        //32位
         //SIGNED,
         //UNSIGNED,
         //STRUCT,
         //UNION,
-        BOOL        //布尔值
     }
 
     public class VarTable
@@ -84,11 +84,11 @@ namespace MIPS246.Core.DataStructure
         }
 
         /// <summary>
-        /// 根据源变量产生产生布尔型的临时变量，用于非运算
+        /// 根据源变量的值产生布尔型的临时变量，用于非运算，新临时变量的值与源变量相同
         /// </summary>
-        /// <param name="varType"></param>
-        /// <param name="sourceName"></param>
-        /// <returns></returns>
+        /// <param name="varType">变量类型</param>
+        /// <param name="sourceName">源变量</param>
+        /// <returns>临时变量名</returns>
         public string NewTemp(VariableType varType, string sourceName)
         {
             string varName = "t" + tempIndex.ToString("000");
@@ -107,18 +107,42 @@ namespace MIPS246.Core.DataStructure
         }
 
         /// <summary>
-        /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算
+        /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算，新临时变量的值与源变量相同
         /// </summary>
-        /// <param name="sourceName"></param>
-        /// <returns></returns>
+        /// <param name="sourceName">原变量</param>
+        /// <returns>临时变量名</returns>
         public string NewTemp(string sourceName)
         {
             string varName = "t" + tempIndex.ToString("000");
             tempIndex++;
-            int value = 0;
-            value = this.GetValue(sourceName);
+            int value = this.GetValue(sourceName);
             VariableType type = this.GetType(sourceName);
             this.Add(sourceName, type, value);
+            return varName;
+        }
+
+        /// <summary>
+        /// 根据两个源变量中类型较大的变量的类型，产生一个新的临时变量,新临时变量的值为0
+        /// </summary>
+        /// <param name="source1">源变量1</param>
+        /// <param name="source2">源变量2</param>
+        /// <returns>临时变量名</returns>
+        public string NewTemp(string source1, string source2)
+        {
+            string varName = "t" + tempIndex.ToString("000");
+            tempIndex++;
+            VariableType type1 = this.GetType(source1);
+            VariableType type2 = this.GetType(source2);
+            VariableType type = 0;
+            if (type1 > type2)
+            {
+                type = type1;
+            }
+            else
+            {
+                type = type2;
+            }
+            this.Add(varName, type, 0);
             return varName;
         }
 
