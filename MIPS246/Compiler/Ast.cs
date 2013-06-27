@@ -368,12 +368,11 @@ namespace MIPS246.Core.Compiler.AstStructure
         public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = "";
-            string arg1, arg2;
             //加、减、乘、除、按位与、按位或
             if (this.op.Type == OperatorType.add || this.op.Type == OperatorType.sub || this.op.Type == OperatorType.mul || this.op.Type == OperatorType.div || this.op.Type == OperatorType.bitand || this.op.Type == OperatorType.bitor)
             {
-                arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
-                arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
                 string t = vartable.NewTemp(arg1, arg2);
                 switch (this.op.Type)
                 { 
@@ -402,8 +401,34 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
             //与、或
             else if (this.op.Type == OperatorType.and || this.op.Type == OperatorType.or)
-            { 
-                
+            {
+                string label1 = labelStack.NewLabel();
+                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenJe(arg1, 0 + "", label1));
+                string t1 = vartable.NewTemp(VariableType.BOOL);
+                fourExpList.Add(FourExpFac.GenMov(1 + "", t1));
+                arg1 = t1;
+                fourExpList.Add(FourExpFac.GenLabel(label1));
+
+                string label2 = labelStack.NewLabel();
+                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenJe(arg2, 0 + "", label2));
+                string t2 = vartable.NewTemp(VariableType.BOOL);
+                fourExpList.Add(FourExpFac.GenMov(1 + "", t2));
+                arg2 = t2;
+                fourExpList.Add(FourExpFac.GenLabel(label2));
+
+                string t3 = vartable.NewTemp(VariableType.BOOL);
+                switch (this.op.Type)
+                { 
+                    case OperatorType.and:
+                        fourExpList.Add(FourExpFac.GenAnd(arg1, arg2, t3));
+                        break;
+                    case OperatorType.or:
+                        fourExpList.Add(FourExpFac.GenOr(arg1, arg2, t3));
+                        break;
+                }
+                returnValue = t3;
             }
             //左移、右移
             else if (this.op.Type == OperatorType.leftmove || this.op.Type == OperatorType.rightmove)
@@ -461,7 +486,7 @@ namespace MIPS246.Core.Compiler.AstStructure
             switch (this.op.Type)
             { 
                 case OperatorType.not:          //非
-                    label = labelStack.newLabel();
+                    label = labelStack.NewLabel();
                     var = expression.GetValue(vartable, labelStack, fourExpList);
                     fourExpList.Add(FourExpFac.GenJe(var, 0 + "", label));
                     t1 = vartable.NewTemp(VariableType.BOOL);
