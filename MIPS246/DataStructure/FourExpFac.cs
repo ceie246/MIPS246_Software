@@ -121,6 +121,32 @@ namespace MIPS246.Core.DataStructure
             FourExp f = new FourExp(FourExpOperation.not, arg1, "", result);
             return f;
         }
+
+        /// <summary>
+        /// 右移运算
+        /// </summary>
+        /// <param name="source">运算的左值（被移动的数）</param>
+        /// <param name="count">运算的右值（移动的位数）</param>
+        /// <param name="result">运算的结果</param>
+        /// <returns></returns>
+        public static FourExp GenRightshift(string source, string count, string result)
+        {
+            FourExp f = new FourExp(FourExpOperation.rightshift, source, count, result);
+            return f;
+        }
+
+        /// <summary>
+        /// 左移运算
+        /// </summary>
+        /// <param name="source">运算的左值（被移动的数）</param>
+        /// <param name="count">运算的右值（移动的位数）</param>
+        /// <param name="result">运算的结果</param>
+        /// <returns></returns>
+        public static FourExp GenLeftshift(string source, string count, string result)
+        {
+            FourExp f = new FourExp(FourExpOperation.leftshift, source, count, result);
+            return f;
+        }
         #endregion
     }
 }
