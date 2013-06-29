@@ -10,7 +10,7 @@ namespace MIPS246.Core.DataStructure
 
         label,          //标签类型
         jmp,            //无条件跳转
-        je,             //条件跳转：=
+        je,             //条件跳转：==
         jne,            //条件跳转：！=
         jg,             //条件跳转：>
         jge,            //条件跳转：>=

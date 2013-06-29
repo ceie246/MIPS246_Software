@@ -83,31 +83,31 @@ namespace MIPS246.Core.DataStructure
             return varName;
         }
 
-        /// <summary>
-        /// 根据源变量的值产生布尔型的临时变量，用于非运算，新临时变量的值与源变量相同
-        /// </summary>
-        /// <param name="varType">变量类型</param>
-        /// <param name="sourceName">源变量</param>
-        /// <returns>临时变量名</returns>
-        public string NewTemp(VariableType varType, string sourceName)
-        {
-            string varName = "t" + tempIndex.ToString("000");
-            tempIndex++;
-            int value = 0;
-            try
-            {
-                value = Convert.ToInt32(sourceName);
-            }
-            catch (FormatException)
-            {
-                value = this.GetValue(sourceName);
-            }
-            this.Add(varName, varType, value);
-            return varName;
-        }
+        ///// <summary>
+        ///// 根据源变量的值产生布尔型的临时变量，用于非运算，新临时变量的值与源变量相同
+        ///// </summary>
+        ///// <param name="varType">变量类型</param>
+        ///// <param name="sourceName">源变量</param>
+        ///// <returns>临时变量名</returns>
+        //public string NewTemp(VariableType varType, string sourceName)
+        //{
+        //    string varName = "t" + tempIndex.ToString("000");
+        //    tempIndex++;
+        //    int value = 0;
+        //    try
+        //    {
+        //        value = Convert.ToInt32(sourceName);
+        //    }
+        //    catch (FormatException)
+        //    {
+        //        value = this.GetValue(sourceName);
+        //    }
+        //    this.Add(varName, varType, value);
+        //    return varName;
+        //}
 
         /// <summary>
-        /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算，新临时变量的值与源变量相同
+        /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算、左移运算、右移运算，新临时变量的值和类型与源变量相同
         /// </summary>
         /// <param name="sourceName">原变量</param>
         /// <returns>临时变量名</returns>

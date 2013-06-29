@@ -376,22 +376,22 @@ namespace MIPS246.Core.Compiler.AstStructure
                 string t = vartable.NewTemp(arg1, arg2);
                 switch (this.op.Type)
                 { 
-                    case OperatorType.add:
+                    case OperatorType.add:          //+
                         fourExpList.Add(FourExpFac.GenAdd(arg1, arg2, t));
                         break;
-                    case OperatorType.sub:
+                    case OperatorType.sub:          //-
                         fourExpList.Add(FourExpFac.GenSub(arg1, arg2, t));
                         break;
-                    case OperatorType.mul:
+                    case OperatorType.mul:          //*
                         fourExpList.Add(FourExpFac.GenMul(arg1, arg2, t));
                         break;
-                    case OperatorType.div:
+                    case OperatorType.div:          ///
                         fourExpList.Add(FourExpFac.GenDiv(arg1, arg2, t));
                         break;
-                    case OperatorType.bitand:
+                    case OperatorType.bitand:       //按位与
                         fourExpList.Add(FourExpFac.GenAnd(arg1, arg2, t));
                         break;
-                    case OperatorType.bitor:
+                    case OperatorType.bitor:        //按位或
                         fourExpList.Add(FourExpFac.GenOr(arg1, arg2, t));
                         break;
                     default:
@@ -421,10 +421,10 @@ namespace MIPS246.Core.Compiler.AstStructure
                 string t3 = vartable.NewTemp(VariableType.BOOL);
                 switch (this.op.Type)
                 { 
-                    case OperatorType.and:
+                    case OperatorType.and:      //与
                         fourExpList.Add(FourExpFac.GenAnd(arg1, arg2, t3));
                         break;
-                    case OperatorType.or:
+                    case OperatorType.or:       //或
                         fourExpList.Add(FourExpFac.GenOr(arg1, arg2, t3));
                         break;
                 }
@@ -432,13 +432,61 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
             //左移、右移
             else if (this.op.Type == OperatorType.leftmove || this.op.Type == OperatorType.rightmove)
-            { 
-            
+            {
+                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                string t = vartable.NewTemp(arg1);
+                switch (this.op.Type)
+                { 
+                    case OperatorType.leftmove:             //左移
+                        fourExpList.Add(FourExpFac.GenLeftshift(arg1, arg2, t));
+                        break;
+                    case OperatorType.rightmove:            //右移
+                        fourExpList.Add(FourExpFac.GenRightshift(arg1, arg2, t));
+                        break;
+                    default:
+                        break;
+                }
+                returnValue = t;
             }
             //小于、小于等于、大于、大于等于、等于、不等于
             else if (this.op.Type == OperatorType.less || this.op.Type == OperatorType.lessequal || this.op.Type == OperatorType.greater || this.op.Type == OperatorType.greatereuqal || this.op.Type == OperatorType.equal || this.op.Type == OperatorType.notequal)
             {
-
+                string label1 = labelStack.NewLabel();
+                string label2 = labelStack.NewLabel();
+                string t = vartable.NewTemp(VariableType.BOOL);
+                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                switch (this.op.Type)
+                { 
+                    case OperatorType.less:         //<
+                        fourExpList.Add(FourExpFac.GenJl(arg1, arg2, label1));
+                        break;
+                    case OperatorType.lessequal:    //<=
+                        fourExpList.Add(FourExpFac.GenJle(arg1, arg2, label1));
+                        break;
+                    case OperatorType.greater:      //>
+                        fourExpList.Add(FourExpFac.GenJg(arg1, arg2, label1));
+                        break;
+                    case OperatorType.greatereuqal: //>=
+                        fourExpList.Add(FourExpFac.GenJge(arg1, arg2, label1));
+                        break;
+                    case OperatorType.equal:        //==
+                        fourExpList.Add(FourExpFac.GenJe(arg1, arg2, label1));
+                        break;
+                    case OperatorType.notequal:     //!=
+                        fourExpList.Add(FourExpFac.GenJne(arg1, arg2, label1));
+                        break;
+                    default:
+                        //
+                        break;
+                }
+                fourExpList.Add(FourExpFac.GenMov(0 + "", t));
+                fourExpList.Add(FourExpFac.GenJmp(label2));
+                fourExpList.Add(FourExpFac.GenLabel(label1));
+                fourExpList.Add(FourExpFac.GenMov(1 + "", t));
+                fourExpList.Add(FourExpFac.GenLabel(label2));
+                returnValue = t;
             }
             else
             { 

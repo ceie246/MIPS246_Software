@@ -38,16 +38,14 @@ else if (E is OPExpression)
 		(op, E1.GetValue, E2.GetValue, T)
 		return T;
 	case <, <=, >, >=, ==, !=
-		newLabel(L1, L2, L3);
-		(op, E1.GetValue, E2.GetValue, L1);
-		(!op, E1.GetValue, E2.GetValue, L2);
+		newLabel(L1, L2);
 		T = newTemp();
+		(op, E1.GetValue(), E2.GetValue(), L1);
+		(mov, 0, _, T);
+		(jmp, _, _, L2);
 		(label, _, _, L1);
 		(mov, 1, _, T);
-		(jmp, _, _, L3);
 		(label, _, _, L2);
-		(mov, 0, _, T);
-		(label, _, _, L3);
 		return T;
 else if (E is SingleOPExpression)
 	case !
