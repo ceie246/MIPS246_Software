@@ -21,6 +21,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.GUI", "Assembler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.GUI", "Compiler.GUI\Compiler.GUI.csproj", "{FB530D7A-EA99-4A30-AD81-9634403CF67D}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MIPS246.Web", "http://localhost:5153", "{F7831300-A269-43F4-B915-95252AB5D70A}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_5153"
+		Debug.AspNetCompiler.PhysicalPath = "MIPS246.Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_5153\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_5153"
+		Release.AspNetCompiler.PhysicalPath = "MIPS246.Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_5153\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "MIPS246.Web\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +153,16 @@ Global
 		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FB530D7A-EA99-4A30-AD81-9634403CF67D}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F7831300-A269-43F4-B915-95252AB5D70A}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
