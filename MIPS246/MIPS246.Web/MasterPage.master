@@ -9,14 +9,16 @@
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
     <link href="./css/bootstrap.css" rel="stylesheet" />
-    <link href="./css/bootstrap-responsive.css" rel="stylesheet" /> 
+    <link href="./css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="./css/mips246.css" rel="stylesheet" /> 
+    <link href='http://fonts.googleapis.com/css?family=Advent+Pro:500' rel='stylesheet' type='text/css' />
     <script src="./js/jquery-1.10.1.min.js"></script>   
     <script src="./js/bootstrap.js"></script>    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
-            <a class="brand" href="Default.aspx">Mips 246</a>
+            <a class="brand" id="mips246brand" href="/">Mips 246</a>
             <ul class="nav nav-pills">
                 <li class="active"><a href="Default.aspx">首页</a></li>
                 <li><a href="#">实验指导书</a></li>
