@@ -38,10 +38,8 @@ else if statement is DoWhileStatement
 else if statement is ForStatement
 
 else if statement is FieldDefineStatement
-	if expression == null
-		newVar(name, type, 0)
-	else
-		newVar(name, type, expression.GetValue)
+	newVar(name, type, 0)
+
 
 else if statement is arrayDefineStatement
 

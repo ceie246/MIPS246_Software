@@ -69,6 +69,12 @@ namespace MIPS246.Core.DataStructure
         #endregion
 
         #region Public Method
+        /// <summary>
+        /// 根据变量名，变量类型，变量值向符号表中增加一个变量
+        /// </summary>
+        /// <param name="varName">变量名</param>
+        /// <param name="varType">变量类型</param>
+        /// <param name="varValue">变量值</param>
         public void Add(string varName, VariableType varType, int varValue)
         {
             VarProp prop = new VarProp(varType, varValue);
@@ -82,29 +88,6 @@ namespace MIPS246.Core.DataStructure
             this.Add(varName, varType, 0);
             return varName;
         }
-
-        ///// <summary>
-        ///// 根据源变量的值产生布尔型的临时变量，用于非运算，新临时变量的值与源变量相同
-        ///// </summary>
-        ///// <param name="varType">变量类型</param>
-        ///// <param name="sourceName">源变量</param>
-        ///// <returns>临时变量名</returns>
-        //public string NewTemp(VariableType varType, string sourceName)
-        //{
-        //    string varName = "t" + tempIndex.ToString("000");
-        //    tempIndex++;
-        //    int value = 0;
-        //    try
-        //    {
-        //        value = Convert.ToInt32(sourceName);
-        //    }
-        //    catch (FormatException)
-        //    {
-        //        value = this.GetValue(sourceName);
-        //    }
-        //    this.Add(varName, varType, value);
-        //    return varName;
-        //}
 
         /// <summary>
         /// 在变量表中生成一个源变量的副本，用于后置自增、自减运算、左移运算、右移运算，新临时变量的值和类型与源变量相同
@@ -174,6 +157,28 @@ namespace MIPS246.Core.DataStructure
         public void SetValue(string varName, int varValue)
         {
             varDic[varName].varValue = varValue;
+        }
+
+        /// <summary>
+        /// 根据源变量，给变量表中的变量赋值
+        /// </summary>
+        /// <param name="varName">待赋值变量</param>
+        /// <param name="sourceVar">源变量</param>
+        public void SetValue(string varName, string sourceVar)
+        {
+            int value = 0;
+            try
+            {
+                value = Convert.ToInt32(sourceVar);
+            }
+            catch
+            {
+                value = this.GetValue(sourceVar);
+            }
+            finally
+            {
+                this.SetValue(varName, value);
+            }
         }
 
         public Stack<int> GetRefeInfo(string varName)

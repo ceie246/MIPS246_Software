@@ -47,6 +47,13 @@ namespace MIPS246.Core.Compiler.AstStructure
 
         #region Properties
         #endregion
+
+        #region Virtual Method
+        public virtual void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        { 
+            
+        }
+        #endregion
     }
 
     public class IfStatment : Statement
@@ -86,6 +93,32 @@ namespace MIPS246.Core.Compiler.AstStructure
             set { statement2 = value; }
         }
         #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            if (statement1 == null)
+            {
+                string label = labelStack.NewLabel();
+                string condition = expression.GetValue(varTable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenJe(condition, 0+"", label));
+                statement1.Translate(varTable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenLabel(label));
+            }
+            else
+            {
+                string label1 = labelStack.NewLabel();
+                string label2 = labelStack.NewLabel();
+                string condition = expression.GetValue(varTable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenJe(condition, 0 + "", label1));
+                statement1.Translate(varTable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenJmp(label2));
+                fourExpList.Add(FourExpFac.GenLabel(label1));
+                statement2.Translate(varTable, labelStack, fourExpList);
+                fourExpList.Add(FourExpFac.GenLabel(label2));
+            }
+        }
+        #endregion
     }
 
     public class WhileStatment : Statement
@@ -116,6 +149,20 @@ namespace MIPS246.Core.Compiler.AstStructure
             set { statement = value; }
         }
         #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            string label1 = labelStack.NewLabel();
+            string label2 = labelStack.NewLabel();
+            fourExpList.Add(FourExpFac.GenLabel(label1));
+            string condition = expression.GetValue(varTable, labelStack, fourExpList);
+            fourExpList.Add(FourExpFac.GenJe(condition, 0 + "", label2));
+            statement.Translate(varTable, labelStack, fourExpList);
+            fourExpList.Add(FourExpFac.GenJmp(label1));
+            fourExpList.Add(FourExpFac.GenLabel(label2));
+        }
+        #endregion
     }
 
     public class DoWhileStatment : Statement
@@ -144,6 +191,17 @@ namespace MIPS246.Core.Compiler.AstStructure
         {
             get { return statement; }
             set { statement = value; }
+        }
+        #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            string label = labelStack.NewLabel();
+            fourExpList.Add(FourExpFac.GenLabel(label));
+            statement.Translate(varTable, labelStack, fourExpList);
+            string condition = expression.GetValue(varTable, labelStack, fourExpList);
+            fourExpList.Add(FourExpFac.GenJne(condition, 0 + "", label));
         }
         #endregion
     }
@@ -189,6 +247,13 @@ namespace MIPS246.Core.Compiler.AstStructure
             set { statement = value; }
         }
         #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+
+        }
+        #endregion
     }
 
     public class FieldDefineStatement : Statement
@@ -231,6 +296,14 @@ namespace MIPS246.Core.Compiler.AstStructure
             }
         }
         #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            int value = 0;
+            varTable.Add(this.name, this.type, value);
+        }
+        #endregion
     }
 
     public class ArrayDefineStatement : Statement
@@ -242,6 +315,13 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Properties
+        #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+
+        }
         #endregion
     }
 
@@ -273,6 +353,14 @@ namespace MIPS246.Core.Compiler.AstStructure
             set { expression = value; }
         }
         #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+            string value = expression.GetValue(varTable, labelStack, fourExpList);
+            varTable.SetValue(this.identify, value);
+        }
+        #endregion
     }
 
     public class RestStatement : Statement
@@ -284,6 +372,13 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Properties
+        #endregion
+
+        #region Public Method
+        public override void Translate(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
+        {
+
+        }
         #endregion
     }
 
@@ -302,7 +397,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Virtual Method
-        public virtual string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public virtual string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return "";
         }
@@ -365,15 +460,15 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = "";
             //加、减、乘、除、按位与、按位或
             if (this.op.Type == OperatorType.add || this.op.Type == OperatorType.sub || this.op.Type == OperatorType.mul || this.op.Type == OperatorType.div || this.op.Type == OperatorType.bitand || this.op.Type == OperatorType.bitor)
             {
-                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
-                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
-                string t = vartable.NewTemp(arg1, arg2);
+                string arg1 = expression1.GetValue(varTable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(varTable, labelStack, fourExpList);
+                string t = varTable.NewTemp(arg1, arg2);
                 switch (this.op.Type)
                 { 
                     case OperatorType.add:          //+
@@ -403,22 +498,22 @@ namespace MIPS246.Core.Compiler.AstStructure
             else if (this.op.Type == OperatorType.and || this.op.Type == OperatorType.or)
             {
                 string label1 = labelStack.NewLabel();
-                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
+                string arg1 = expression1.GetValue(varTable, labelStack, fourExpList);
                 fourExpList.Add(FourExpFac.GenJe(arg1, 0 + "", label1));
-                string t1 = vartable.NewTemp(VariableType.BOOL);
+                string t1 = varTable.NewTemp(VariableType.BOOL);
                 fourExpList.Add(FourExpFac.GenMov(1 + "", t1));
                 arg1 = t1;
                 fourExpList.Add(FourExpFac.GenLabel(label1));
 
                 string label2 = labelStack.NewLabel();
-                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(varTable, labelStack, fourExpList);
                 fourExpList.Add(FourExpFac.GenJe(arg2, 0 + "", label2));
-                string t2 = vartable.NewTemp(VariableType.BOOL);
+                string t2 = varTable.NewTemp(VariableType.BOOL);
                 fourExpList.Add(FourExpFac.GenMov(1 + "", t2));
                 arg2 = t2;
                 fourExpList.Add(FourExpFac.GenLabel(label2));
 
-                string t3 = vartable.NewTemp(VariableType.BOOL);
+                string t3 = varTable.NewTemp(VariableType.BOOL);
                 switch (this.op.Type)
                 { 
                     case OperatorType.and:      //与
@@ -433,9 +528,9 @@ namespace MIPS246.Core.Compiler.AstStructure
             //左移、右移
             else if (this.op.Type == OperatorType.leftmove || this.op.Type == OperatorType.rightmove)
             {
-                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
-                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
-                string t = vartable.NewTemp(arg1);
+                string arg1 = expression1.GetValue(varTable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(varTable, labelStack, fourExpList);
+                string t = varTable.NewTemp(arg1);
                 switch (this.op.Type)
                 { 
                     case OperatorType.leftmove:             //左移
@@ -454,9 +549,9 @@ namespace MIPS246.Core.Compiler.AstStructure
             {
                 string label1 = labelStack.NewLabel();
                 string label2 = labelStack.NewLabel();
-                string t = vartable.NewTemp(VariableType.BOOL);
-                string arg1 = expression1.GetValue(vartable, labelStack, fourExpList);
-                string arg2 = expression2.GetValue(vartable, labelStack, fourExpList);
+                string t = varTable.NewTemp(VariableType.BOOL);
+                string arg1 = expression1.GetValue(varTable, labelStack, fourExpList);
+                string arg2 = expression2.GetValue(varTable, labelStack, fourExpList);
                 switch (this.op.Type)
                 { 
                     case OperatorType.less:         //<
@@ -527,7 +622,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             string returnValue = "";
             string label, t1, t2, var;
@@ -535,47 +630,47 @@ namespace MIPS246.Core.Compiler.AstStructure
             { 
                 case OperatorType.not:          //非
                     label = labelStack.NewLabel();
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
                     fourExpList.Add(FourExpFac.GenJe(var, 0 + "", label));
-                    t1 = vartable.NewTemp(VariableType.BOOL);
+                    t1 = varTable.NewTemp(VariableType.BOOL);
                     fourExpList.Add(FourExpFac.GenMov(1 + "", t1));
                     var = t1;
                     fourExpList.Add(FourExpFac.GenLabel(label));
-                    t2 = vartable.NewTemp(VariableType.BOOL);
+                    t2 = varTable.NewTemp(VariableType.BOOL);
                     fourExpList.Add(FourExpFac.GenNot(t1, t2));
                     returnValue = t2;
                     break;
                 case OperatorType.selfaddhead:      //自增前置
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
                     fourExpList.Add(FourExpFac.GenAdd(var, 1 + "", var));
                     returnValue = var;
                     break;
                 case OperatorType.selfsubhead:      //自减前置
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
                     fourExpList.Add(FourExpFac.GenSub(var, 1 + "", var));
                     returnValue = var;
                     break;
                 case OperatorType.selfaddtail:      //自增后置
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
-                    t1 = vartable.NewTemp(var);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
+                    t1 = varTable.NewTemp(var);
                     fourExpList.Add(FourExpFac.GenAdd(var, 1 + "", var));
                     returnValue = t1;
                     break;
                 case OperatorType.selfsubtail:      //自减后置
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
-                    t1 = vartable.NewTemp(var);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
+                    t1 = varTable.NewTemp(var);
                     fourExpList.Add(FourExpFac.GenSub(var, 1 + "", var));
                     returnValue = t1;
                     break;
                 case OperatorType.bitnot:       //按位非
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
-                    t1 = vartable.NewTemp(var);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
+                    t1 = varTable.NewTemp(var);
                     fourExpList.Add(FourExpFac.GenNot(var, t1));
                     returnValue = t1;
                     break;
                 case OperatorType.neg:          //取反
-                    var = expression.GetValue(vartable, labelStack, fourExpList);
-                    t1 = vartable.NewTemp(var);
+                    var = expression.GetValue(varTable, labelStack, fourExpList);
+                    t1 = varTable.NewTemp(var);
                     fourExpList.Add(FourExpFac.GenNeg(var, t1));
                     returnValue = t1;
                     break;
@@ -627,7 +722,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return "";
         }
@@ -662,7 +757,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return 1+"";
         }
@@ -697,7 +792,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return 0 + "";
         }
@@ -775,7 +870,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion  
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return this.name;
         }
@@ -824,7 +919,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return "";
         }
@@ -859,7 +954,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return this.value.ToString(); 
         }
@@ -894,7 +989,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return this.value.ToString(); 
         }
@@ -929,7 +1024,7 @@ namespace MIPS246.Core.Compiler.AstStructure
         #endregion
 
         #region Public Method
-        public override string GetValue(VarTable vartable, LabelStack labelStack, List<FourExp> fourExpList)
+        public override string GetValue(VarTable varTable, LabelStack labelStack, List<FourExp> fourExpList)
         {
             return this.value.ToString();            
         }
