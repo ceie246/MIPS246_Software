@@ -74,7 +74,12 @@ namespace MIPS246.Core.Compiler
         #endregion
 
         #region Private Method
-        //初始化变量表
+        /// <summary>
+        /// 初始化变量表
+        /// </summary>
+        /// <param name="varTable">变量表</param>
+        /// <param name="fourExpList">四元式列表</param>
+        /// <param name="varNameList">变量表中变量名的列表</param>
         private void initVarTable(VarTable varTable, List<FourExp> fourExpList, List<string> varNameList)
         {
             
@@ -116,7 +121,14 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        //获取寄存器，isResult为true，则说明需要返回的是存放结果的寄存器
+        /// <summary>
+        /// 获取寄存器，isResult为true，则说明需要返回的是存放结果的寄存器
+        /// </summary>
+        /// <param name="f">四元式</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="isResult">指定获取的寄存器是否是用来存放计算结果</param>
+        /// <param name="cmdList">汇编指令列表</param>
+        /// <returns>寄存器名</returns>
         private string getReg(FourExp f, VarTable varTable, bool isResult, List<AssemblerIns> cmdList)
         {
             //返回B或者C所在的寄存器
@@ -163,7 +175,12 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        //调整变量表和寄存器表中的相关域
+        /// <summary>
+        /// 调整变量表和寄存器表中的相关域
+        /// </summary>
+        /// <param name="regName">计算器名</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="cmdList">汇编指令列表</param>
         private void doAdjust(string regName, VarTable varTable, List<AssemblerIns> cmdList)
         {
             foreach (string varName in regUseTable.GetContent(regName))
@@ -174,6 +191,12 @@ namespace MIPS246.Core.Compiler
             regUseTable.Clear(regName);
         }
 
+        /// <summary>
+        /// 将四元式翻译为汇编指令
+        /// </summary>
+        /// <param name="f">四元式</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="cmdList">汇编指令列表</param>
         private void convert(FourExp f, VarTable varTable, List<AssemblerIns> cmdList)
         {
             #region Label FourExp
@@ -433,6 +456,13 @@ namespace MIPS246.Core.Compiler
             }
         }
 
+        /// <summary>
+        /// 翻译跳转指令
+        /// </summary>
+        /// <param name="f">四元式</param>
+        /// <param name="operation">汇编指令的操作助记符</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="cmdList">汇编指令列表</param>
         private void doJump(FourExp f, string operation, VarTable varTable, List<AssemblerIns> cmdList)
         {
             string reg1 = "", reg2 = "";
@@ -457,7 +487,14 @@ namespace MIPS246.Core.Compiler
             adjustAfterJump(f, reg1, reg2, varTable, cmdList);
         }
 
-        //跳转之后的调整
+        /// <summary>
+        /// 跳转之后的调整
+        /// </summary>
+        /// <param name="f">四元式</param>
+        /// <param name="reg1">寄存器1</param>
+        /// <param name="reg2">寄存器2</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="cmdList">汇编指令列表</param>
         private void adjustAfterJump(FourExp f, string reg1, string reg2, VarTable varTable, List<AssemblerIns> cmdList)
         {
             if (varTable.GetPeekActInfo(f.Arg1) == false)
@@ -474,7 +511,12 @@ namespace MIPS246.Core.Compiler
             }
         }
 
-        //生成数据段
+        /// <summary>
+        /// 生成数据段
+        /// </summary>
+        /// <param name="varNameList">变量名列表</param>
+        /// <param name="varTable">变量表</param>
+        /// <param name="cmdList">汇编指令列表</param>
         private void genDataIns(List<string> varNameList, VarTable varTable, List<AssemblerIns> cmdList)
         {
             foreach (string varName in varNameList)
