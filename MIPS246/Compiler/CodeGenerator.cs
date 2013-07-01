@@ -534,6 +534,13 @@ namespace MIPS246.Core.Compiler
             }
             #endregion
             
+            #region Rightshift or Leftshift
+            else if (f.Op == FourExpOperation.leftshift || f.Op == FourExpOperation.rightshift)
+            {
+
+            }
+            #endregion
+
             else
             {
                 //错误处理
