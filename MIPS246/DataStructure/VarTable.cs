@@ -141,12 +141,23 @@ namespace MIPS246.Core.DataStructure
 
         public VariableType GetType(string varName)
         {
-            return varDic[varName].varType;
+            if (this.Contains(varName))
+            {
+                return varDic[varName].varType;
+            }
+            else
+                return 0;
         }
 
-        public void SetType(string varName, VariableType varType)
+        public bool SetType(string varName, VariableType varType)
         {
-            varDic[varName].varType = varType;
+            if (this.GetNames().Contains(varName))
+            {
+                varDic[varName].varType = varType;
+                return true;
+            }
+            else
+                return false;
         }
 
         public int GetValue(string varName)
@@ -249,6 +260,16 @@ namespace MIPS246.Core.DataStructure
         public void SetAddr(string varName, short addr)
         {
             varDic[varName].varAddr = addr;
+        }
+
+        public bool Contains(string varName)
+        {
+            if (this.GetNames().Contains(varName))
+            {
+                return true;
+            }
+            else 
+                return false;
         }
 
         #endregion
