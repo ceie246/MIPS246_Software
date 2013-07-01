@@ -24,7 +24,7 @@ namespace MIPS246.Core.Compiler
         #region Public Method
         public void Generate(List<FourExp> fourExpList, VarTable varTable, List<AssemblerIns> cmdList)
         {
-            //为变量分配内存,并对符号的后续引用信息域和活跃信息域进行初始化
+            //为变量分配内存,并对符号的活跃信息域进行初始化
             List<string> varNameList = varTable.GetNames();
             initVarTable(varTable, fourExpList, varNameList);
             
@@ -32,12 +32,6 @@ namespace MIPS246.Core.Compiler
             genDataIns(varNameList, varTable, cmdList);
 
             int count = 0;
-            //int index = 0;
-            ////填入四元式的index字段
-            //foreach (FourExp f in fourExpList)
-            //{
-            //    f.Index = index++;
-            //}
 
             foreach (FourExp f in fourExpList)
             {
@@ -46,30 +40,14 @@ namespace MIPS246.Core.Compiler
                     //从符号表的后续引用信息域和活跃域中去除无用信息
                     if (varTable.GetPeekRefeInfo(varName) == count)
                     {
-                        varTable.PopRefeInfo(varName);
+                        //varTable.PopRefeInfo(varName);
                         varTable.PopActInfo(varName);
                     }
                     count++;
                 }
-                //f.Addr = cmdList.Count() * 4;   //填入四元式对应的汇编指令首地址
                 convert(f, varTable, cmdList);
                 optimize();
             }
-
-            ////回填汇编代码中跳转指令的地址字段
-            //foreach (AssemblerIns a in cmdList)
-            //{
-            //    string operation = a.Op;
-            //    List<string> JumpIns = new List<String>() { "BEQ", "BNE", "BGEZ", "BGTZ", "BLEZ", "BLTZ" };
-            //    if (JumpIns.Contains(operation))
-            //    {
-            //        a.Offset = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
-            //    }
-            //    else if (a.Op == "J")
-            //    {
-            //        a.Address = fourExpList[Convert.ToInt32(a.Offset)].Addr.ToString();
-            //    }
-            //}
         }
         #endregion
 
@@ -86,13 +64,13 @@ namespace MIPS246.Core.Compiler
             short address = 0x0000;
             foreach (string varName in varNameList)
             {
-                //初始化变量表中后续引用信息域和活跃信息域
+                //初始化变量表中的变量地址和活跃信息域
                 varTable.SetAddr(varName, address);
                 address += 4;
-                varTable.ClearRefeInfo(varName);
+                //varTable.ClearRefeInfo(varName);
                 varTable.ClearActInfo(varName);
                 varTable.PushActInfo(varName, false);
-                varTable.PushRefeInfo(varName, -1);
+                //varTable.PushRefeInfo(varName, -1);
             }
             //扫描四元式表，在变量表中填入相关信息
             int count = fourExpList.Count;
@@ -104,17 +82,17 @@ namespace MIPS246.Core.Compiler
                 string C = fourExpList[i].Arg2;
                 if (A != "")
                 {
-                    varTable.PushRefeInfo(A, -1);
+                    //varTable.PushRefeInfo(A, -1);
                     varTable.PushActInfo(A, false);
                 }
                 if (B != "")
                 {
-                    varTable.PushRefeInfo(B, count);
+                    //varTable.PushRefeInfo(B, count);
                     varTable.PushActInfo(B, true);
                 }
                 if (C != "")
                 {
-                    varTable.PushRefeInfo(C, count);
+                    //varTable.PushRefeInfo(C, count);
                     varTable.PushActInfo(C, true);
                 }
                 count--;
@@ -521,7 +499,7 @@ namespace MIPS246.Core.Compiler
         {
             foreach (string varName in varNameList)
             {
-                if (varTable.GetType(varName) == VariableType.INT || varTable.GetType(varName) == VariableType.CHAR)
+                if (varTable.GetType(varName) == VariableType.INT || varTable.GetType(varName) == VariableType.CHAR || varTable.GetType(varName) == VariableType.BOOL)
                 {
                     short varValue = (short)varTable.GetValue(varName);
                     short varAddr = varTable.GetAddr(varName);
