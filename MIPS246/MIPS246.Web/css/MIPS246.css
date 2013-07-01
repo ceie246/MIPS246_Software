@@ -1,5 +1,23 @@
-#mips246brand 
-{    
+#mips246brand  {    
     margin-left: 10px;
+}
+
+.container {
+    position: relative;
+    padding: 40px 0;
+}
+
+.mips246font {    
     font-family: 'Advent Pro', sans-serif;
+}
+
+.source_code_area, .target_code_area {
+    resize: none;
+}
+
+.assemble_codearea {
+    height: 200px;
+}
+.button_area {
+
 }

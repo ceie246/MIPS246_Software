@@ -15,10 +15,10 @@
     <script src="./js/jquery-1.10.1.min.js"></script>   
     <script src="./js/bootstrap.js"></script>    
 </head>
-<body>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
-            <a class="brand" id="mips246brand" href="/">Mips 246</a>
+            <a class="brand mips246font" id="mips246brand"  href="/">Mips 246</a>
             <ul class="nav nav-pills">
                 <li class="active"><a href="Default.aspx">首页</a></li>
                 <li><a href="#">实验指导书</a></li>
@@ -36,12 +36,13 @@
             </form>
         </div>
     </div>
-    <form id="form1" runat="server">    
-    <div>
-        <asp:ContentPlaceHolder id="PageBody" runat="server">
+    <asp:ContentPlaceHolder id="PageBody" runat="server">
         
-        </asp:ContentPlaceHolder>
+    </asp:ContentPlaceHolder>
+    <!--<form id="form1" runat="server">    
+    <div>
+        
     </div>
-    </form>
+    </form>-->
 </body>
 </html>
