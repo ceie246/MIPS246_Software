@@ -147,7 +147,29 @@ namespace MIPS246.Core.DataStructure
                 
                 
             }
-        }        
+        }
+
+        public override string ToString()
+        {
+            string mnemonicString=this.mnemonic.ToString()+" ";
+
+            if (this.arg1 != null)
+            {
+                mnemonicString = mnemonicString+this.arg1;
+            }
+
+            if (this.arg2 != null)
+            {
+                mnemonicString = mnemonicString + "," + this.arg2;
+            }
+
+            if (this.arg3 != null)
+            {
+                mnemonicString = mnemonicString + "," + this.arg3;
+            }
+
+            return mnemonicString;
+        }
         #endregion
 
         #region Internal Methods
