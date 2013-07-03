@@ -85,15 +85,101 @@ namespace MIPS246.Core.TestCodeGeneator
         #endregion
 
         #region Internal Methods
-        private static void ReadConfig()
-        {
-            
-        }
 
         private static Instruction GenerateCMD(int cmdIndex)
         {
             string mnemonic = cmdList[cmdIndex].ToString();
             string arg1 = null, arg2 = null, arg3 = null;
+
+            switch(mnemonic)
+            {
+                case "ADD":
+                case "ADDU":
+                case "SUB":
+                case "SUBU":
+                case "AND":
+                case "OR":
+                case "XOR":
+                case "NOR":
+                case "SLT":
+                case "SLTU":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateReg();
+                    break;
+                case "SLL":
+                case "SRL":
+                case "SRA":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateShamt();
+                    break;
+                case "SLLV":
+                case "SRLV":
+                case "SRAV":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateReg();
+                    break;
+                case "JR":
+                case "JALR":
+                    arg1 = GenerateReg();
+                    break;
+                case "ADDI":
+                case "ADDIU":
+                case "ANDI":
+                case "ORI":
+                case "XORI":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateImmediate();
+                    break;
+                case "LUI":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateImmediate();
+                    break;
+                case "SLTI":
+                case "SLTIU":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateImmediate();
+                    break;
+                case "LW":
+                case "SW":
+                case "LB":
+                case "LBU":
+                case "LH":
+                case "LHU":
+                case "SB":
+                case "SH":
+                case "BEQ":
+                case "BNE":                    
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateOffset();
+                    break;
+                case "BGEZ":
+                case "BGEZAL":
+                case "BGTZ":
+                case "BLEZ":
+                case "BLTZ":
+                case "BLTZAL":                                     
+                    arg1 = GenerateReg();
+                    arg2 = GenerateOffset();
+                    break;
+                case "J":
+                case "JAL":
+                    arg1 = GenerateAddress();
+                    break;
+                case "SUBI":
+                case "MOVE":
+                case "NOP":
+                case "LI":
+                case "LA":
+                case "SYSCALL":
+                default:
+                    break;
+            }
 
             return new Instruction(mnemonic, arg1, arg2, arg3);
         }
@@ -112,11 +198,30 @@ namespace MIPS246.Core.TestCodeGeneator
 
         private static string GenerateOffset()
         {
-            int offset = r.Next(minIMM, maxIMM);
+            int offset;
+            if (codeList.Count <= (count - codeList.Count))
+            {
+                offset = r.Next(codeList.Count * 4, (count - codeList.Count) * 4);
+            }
+            else
+            {
+                offset = r.Next((count - codeList.Count) * 4, codeList.Count * 4);
+            }
+            
             return offset.ToString(); 
         }
 
-        
+        private static string GenerateShamt()
+        {
+            int shamt = r.Next(0, 31);
+            return shamt.ToString();
+        }
+
+        private static string GenerateAddress()
+        {
+            int address = r.Next(0, count-1);
+            return address.ToString();
+        }
         #endregion
 
         #region Args Geneator

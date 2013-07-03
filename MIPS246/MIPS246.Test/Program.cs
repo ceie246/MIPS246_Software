@@ -25,7 +25,6 @@ namespace MIPS246.Test
             TestCodeGeneator.ConfigGeneator(100, int.Parse(ConfigurationManager.AppSettings["maximm"]), int.Parse(ConfigurationManager.AppSettings["minimm"]), cmdList);
             TestCodeGeneator.Generate();
 
-
             Console.ReadLine();
         }
     }
