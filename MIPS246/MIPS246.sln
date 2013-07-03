@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{BFB0D791-9C6C-456A-8B89-2ED73C84FDD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructure", "DataStructure\DataStructure.csproj", "{A3C81FFA-07EB-4239-AFED-DB93E161FE71}"
@@ -21,7 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler.GUI", "Compiler.GU
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MIPS246.Web", "http://localhost:5153", "{F7831300-A269-43F4-B915-95252AB5D70A}"
 	ProjectSection(WebsiteProperties) = preProject
-		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_5153"
 		Debug.AspNetCompiler.PhysicalPath = "MIPS246.Web\"
@@ -42,6 +41,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MIPS246.Web", "http://local
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCodeGeneator", "TestCodeGeneator\TestCodeGeneator.csproj", "{CC5276E4-9B49-4ED0-B3A7-B52C6755DA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ttt", "ttt\ttt.csproj", "{C99E2F4E-4F10-4357-95F8-3783D7922EAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +164,16 @@ Global
 		{CC5276E4-9B49-4ED0-B3A7-B52C6755DA6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CC5276E4-9B49-4ED0-B3A7-B52C6755DA6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CC5276E4-9B49-4ED0-B3A7-B52C6755DA6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Debug|x86.ActiveCfg = Debug|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Debug|x86.Build.0 = Debug|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Release|Any CPU.ActiveCfg = Release|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Release|x86.ActiveCfg = Release|x86
+		{C99E2F4E-4F10-4357-95F8-3783D7922EAF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

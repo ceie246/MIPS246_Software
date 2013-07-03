@@ -3,66 +3,123 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MIPS246.Core.DataStructure;
+using System.Configuration;
 
 namespace MIPS246.Core.TestCodeGeneator
 {
-    public class TestCodeGeneator
+    public static class TestCodeGeneator
     {
         #region Fields
-        private int count;
-        private int seed;
-        private List<Instruction> codeList; 
+        private static int count;
+        private static int seed;
+        private static List<Instruction> codeList;
+        private static Random r;
+
+        private static List<Mnemonic> cmdList;
         #endregion
 
         #region Constructors
         static TestCodeGeneator()
         {
+            r = new Random();
+            cmdList = new List<Mnemonic>();
+            ReadConfig();
         }
         #endregion
 
         #region Properties
-        public int Count
+        public static int Count
         {
             set
             {
-                this.count = value;
+                count = value;
             }
 
             get
             {
-                return this.count;
+                return count;
             }
         }
 
-        public int Seed
+        public static int Seed
         {
             set
             {
-                this.seed = value;
+                seed = value;
             }
             get
             {
-                return this.seed;
+                return seed;
             }
         }
 
-        public List<Instruction> CodeList
+        public static List<Instruction> CodeList
         {
             set
             {
-                this.codeList = value;
+                codeList = value;
             }
             get
             {
-                return this.codeList;
+                return codeList;
             }
         }
         #endregion
 
         #region Public Methods
+        public static void Generate()
+        {
+            for (int i = 0; i < count; i++)
+            {
+                codeList.Add(GenerateCMD(r.Next(0, cmdList.Count)));
+            }
+        }
         #endregion
 
         #region Internal Methods
+        private static void ReadConfig()
+        {
+            foreach (Mnemonic m in Enum.GetValues(typeof(Mnemonic)))
+            {
+                if(ConfigurationManager.AppSettings[m.ToString()]=="true")
+                {
+                    cmdList.Add(m);
+                    Console.WriteLine(m.ToString());
+                }
+            }
+        }
+
+        private static Instruction GenerateCMD(int cmdIndex)
+        {
+            string mnemonic = cmdList[cmdIndex].ToString();
+            string arg1 = null, arg2 = null, arg3 = null;
+
+            return new Instruction(mnemonic, arg1, arg2, arg3);
+        }
+
+        private static string GenerateReg()
+        {
+            Register register = (Register)(r.Next(0, 31));
+            return register.ToString();
+        }
+
+        private static string GenerateImmediate()
+        {
+            int immediate = r.Next(-32768,32767);
+            return immediate.ToString(); 
+        }
+
+        private static string GenerateOffset()
+        {
+            int offset = r.Next(-32768,32767);
+            return offset.ToString(); 
+        }
+
+
+        #endregion
+
+        #region Args Geneator
         #endregion
     }
 }
+
