@@ -14,6 +14,7 @@ namespace MIPS246.Core.TestCodeGeneator
         private static int seed;
         private static List<Instruction> codeList;
         private static Random r;
+        private static int maxIMM, minIMM;
 
         private static List<Mnemonic> cmdList;
         #endregion
@@ -22,8 +23,7 @@ namespace MIPS246.Core.TestCodeGeneator
         static TestCodeGeneator()
         {
             r = new Random();
-            cmdList = new List<Mnemonic>();
-            ReadConfig();
+            codeList = new List<Instruction>();
         }
         #endregion
 
@@ -67,6 +67,14 @@ namespace MIPS246.Core.TestCodeGeneator
         #endregion
 
         #region Public Methods
+        public static void ConfigGeneator(int num, int maximm, int minimm, List<Mnemonic> targetCMDList)
+        {
+            count = num;
+            maxIMM = maximm;
+            minIMM = minimm;
+            cmdList = targetCMDList;
+        }
+
         public static void Generate()
         {
             for (int i = 0; i < count; i++)
@@ -79,14 +87,7 @@ namespace MIPS246.Core.TestCodeGeneator
         #region Internal Methods
         private static void ReadConfig()
         {
-            foreach (Mnemonic m in Enum.GetValues(typeof(Mnemonic)))
-            {
-                if(ConfigurationManager.AppSettings[m.ToString()]=="true")
-                {
-                    cmdList.Add(m);
-                    Console.WriteLine(m.ToString());
-                }
-            }
+            
         }
 
         private static Instruction GenerateCMD(int cmdIndex)
@@ -105,17 +106,17 @@ namespace MIPS246.Core.TestCodeGeneator
 
         private static string GenerateImmediate()
         {
-            int immediate = r.Next(-32768,32767);
+            int immediate = r.Next(minIMM,maxIMM);
             return immediate.ToString(); 
         }
 
         private static string GenerateOffset()
         {
-            int offset = r.Next(-32768,32767);
+            int offset = r.Next(minIMM, maxIMM);
             return offset.ToString(); 
         }
 
-
+        
         #endregion
 
         #region Args Geneator
