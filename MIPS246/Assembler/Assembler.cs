@@ -71,6 +71,18 @@ namespace MIPS246.Core.Assembler
                 return this.error;
             }
         }
+
+        public Hashtable Linetable
+        {
+            set
+            {
+                this.Linetable = linetable;
+            }
+            get
+            {
+                return this.linetable;
+            }
+        }
         #endregion
 
         #region Public Methods
