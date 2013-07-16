@@ -56,6 +56,14 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Properties
+        public List<string> SourceString
+        {
+            get
+            {
+                return this.sourceString;
+            }
+        }
+
         public List<Instruction> CodeList
         {
             get
