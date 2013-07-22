@@ -26,7 +26,8 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">工具 <b class="caret"></b></a>
                       <ul class="dropdown-menu">
                           <li><a href="Assembler.aspx">MIPS246 汇编器</a></li>
-                          <li><a href="#">MIPS246 模拟器</a></li>
+                          <li><a href="#">MIPS246 模拟器</a></li>                          
+                          <li><a href="TestCodeGeneator.aspx">测试代码生成器</a></li>
                       </ul>
                     </li>
                 <li><a href="#">论坛</a></li>

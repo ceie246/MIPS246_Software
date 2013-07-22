@@ -56,6 +56,14 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Properties
+        public List<string> SourceString
+        {
+            get
+            {
+                return this.sourceString;
+            }
+        }
+
         public List<Instruction> CodeList
         {
             get
@@ -69,6 +77,18 @@ namespace MIPS246.Core.Assembler
             get
             {
                 return this.error;
+            }
+        }
+
+        public Hashtable Linetable
+        {
+            set
+            {
+                this.Linetable = linetable;
+            }
+            get
+            {
+                return this.linetable;
             }
         }
         #endregion

@@ -4,21 +4,18 @@
 
 .container {
     position: relative;
-    padding: 40px 0;
+    padding: 80px 0;
 }
 
 .mips246font {    
     font-family: 'Advent Pro', sans-serif;
 }
 
-#source_code_area, #target_code_area {
+#source_code_area, #target_code_area, #test_code_area {
     resize: none;
     height: 100%;
 }
 
 #assemble_codearea {
     height: 100%;
-}
-.button_area {
-
 }
