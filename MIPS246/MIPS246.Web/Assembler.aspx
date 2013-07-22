@@ -8,7 +8,7 @@
             <h1 class="mips246font">Mips246 汇编器</h1>
         </div>
         <div class="row">
-            <div class="span2 offset6" >
+            <div class="span2 offset6">
                 <label class="radio inline">
                     <input type="radio" name="displayformat" id="hex_format" value="HEX" checked="checked" />HEX
                 </label>
@@ -28,7 +28,7 @@
         <div class="row-fluid" id="button _area">
             <button class="btn btn-info span1" type="button">保存</button>
             <button class="btn btn-info span1" type="button">载入</button>
-            <button class="btn btn-danger span1" type="button">清除</button>
+            <button class="btn btn-danger span1" type="button" onclick="clear_source_box">清除</button>
             <button class="btn btn-info span1 offset3" type="button">保存</button>
             <button class="btn btn-primary span2 offset3 btn-large" type="button">编译</button>
         </div>

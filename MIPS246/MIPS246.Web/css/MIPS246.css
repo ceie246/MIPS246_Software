@@ -11,12 +11,13 @@
     font-family: 'Advent Pro', sans-serif;
 }
 
-.source_code_area, .target_code_area {
+#source_code_area, #target_code_area {
     resize: none;
+    height: 100%;
 }
 
-.assemble_codearea {
-    height: 200px;
+#assemble_codearea {
+    height: 100%;
 }
 .button_area {
 
