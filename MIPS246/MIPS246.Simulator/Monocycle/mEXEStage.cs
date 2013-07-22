@@ -107,9 +107,9 @@ namespace MipsSimulator.Monocycle
                 case CodeType.SLTU:
                     {
                         if ((UInt32)mEXEStage.args[0] < (UInt32)mEXEStage.args[1])
-                            obj1 = (UInt32)1;
+                            obj1 = (Int32)1;
                         else
-                            obj1 = (UInt32)0;
+                            obj1 = (Int32)0;
                         break;
                     }
                 case CodeType.SLL:
@@ -163,7 +163,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ADDIU:
                     {
-                        obj1 = (UInt32)mEXEStage.args[0] + (UInt32)mEXEStage.args[1];
+                        obj1 = (Int32)mEXEStage.args[0] + (Int32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.ANDI:
@@ -173,7 +173,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ORI:
                     {
-                        obj1 = (UInt32)mEXEStage.args[0] | (UInt32)mEXEStage.args[1];
+                        obj1 = (Int32)mEXEStage.args[0] | (Int32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.XORI:
