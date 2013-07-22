@@ -56,11 +56,11 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Properties
-        public List<string> SourceString
+        public List<string[]> SourceList
         {
             get
             {
-                return this.sourceString;
+                return this.sourceList;
             }
         }
 
@@ -118,7 +118,7 @@ namespace MIPS246.Core.Assembler
 
             InitInstructionAddress();
 
-            AssemblerInstructions();
+            AssembleInstructions();
             return true;
         }
 
@@ -258,7 +258,11 @@ namespace MIPS246.Core.Assembler
                             {
                                 if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
                                 {
-                                    linetable[sourceList.Count] = i;
+                                    if(linetext.EndsWith(":")==false)
+                                    {
+                                        linetable[linetable.Count] = i;
+                                    }
+                                    
                                     sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
                                 }
                             }
@@ -546,7 +550,7 @@ namespace MIPS246.Core.Assembler
             }            
         }
 
-        private void AssemblerInstructions()
+        private void AssembleInstructions()
         {
             for (int i = 0; i < this.codelist.Count; i++)
             {
@@ -1238,9 +1242,9 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm, true) == false)
+            if (ConvertImmediate(i, sourceList[i][2], out imm, false) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE);
                 return false;
             }
             else
