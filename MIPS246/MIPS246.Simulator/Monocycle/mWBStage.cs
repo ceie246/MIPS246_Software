@@ -48,9 +48,9 @@ namespace MipsSimulator.Monocycle
             switch (code.codeType)
             {
                 case CodeType.ADD:
-                case CodeType.ADDU:
+                
                 case CodeType.SUB:
-                case CodeType.SUBU:
+                
                 case CodeType.AND:
                 case CodeType.OR:
                 case CodeType.XOR:
@@ -67,6 +67,21 @@ namespace MipsSimulator.Monocycle
                         string rd = code.machineCode.Substring(16, 5);
                         rd = "$" + CommonTool.StrToNum(TypeCode.Int32, rd, 2);
                         Int32 value = (Int32)mWBStage.args[0];
+                        if (!Register.SetRegisterValue(rd, value))
+                        {
+                            if (MipsSimulator.Program.mode == 1)
+                            {
+                                Form1.Message("写寄存器" + rd + "出错");
+                            }
+                        }
+                        break;
+                    }
+                case CodeType.ADDU:
+                case CodeType.SUBU:
+                    {
+                        string rd = code.machineCode.Substring(16, 5);
+                        rd = "$" + CommonTool.StrToNum(TypeCode.Int32, rd, 2);
+                        UInt32 value = (UInt32)mWBStage.args[0];
                         if (!Register.SetRegisterValue(rd, value))
                         {
                             if (MipsSimulator.Program.mode == 1)

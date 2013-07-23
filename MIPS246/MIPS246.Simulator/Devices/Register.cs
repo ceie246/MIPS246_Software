@@ -111,5 +111,18 @@ namespace MipsSimulator.Devices
                 return true;
             }
         }
+        public static bool SetRegisterValue(string registerName, UInt32 value)
+        {
+            DataRow[] register = Res.Select("Name='" + registerName + "'");
+            if (register.Length < 0)
+                return false;
+            else
+            {
+                string numStr = registerName.Trim('$');
+                int numInt = Convert.ToInt32(numStr, 10);
+                Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
+                return true;
+            }
+        }
     }
 }

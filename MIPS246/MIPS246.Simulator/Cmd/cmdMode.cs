@@ -99,7 +99,7 @@ namespace MipsSimulator.Cmd
                 case "ADD":
                     return CodeType.ADD;
                 case "ADDU":
-                    return CodeType.ADDI;
+                    return CodeType.ADDU;
                 case "SUB":
                     return CodeType.SUB;
                 case "SUBU":

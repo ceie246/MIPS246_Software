@@ -64,7 +64,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ADDU:
                     {
-                        obj1 = (Int32)mEXEStage.args[0] + (Int32)mEXEStage.args[1];
+                        obj1 = (UInt32)mEXEStage.args[0] + (UInt32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.SUB:
@@ -74,7 +74,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.SUBU:
                     {
-                        obj1 = (Int32)mEXEStage.args[0] - (Int32)mEXEStage.args[1];
+                        obj1 = (UInt32)mEXEStage.args[0] - (UInt32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.AND:
@@ -169,7 +169,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ANDI:
                     {
-                        obj1 = (UInt32)mEXEStage.args[0] & (UInt32)mEXEStage.args[1];
+                        obj1 = (Int32)mEXEStage.args[0] & (Int32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.ORI:
@@ -179,7 +179,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.XORI:
                     {
-                        obj1 = (UInt32)mEXEStage.args[0] ^ (UInt32)mEXEStage.args[1];
+                        obj1 = (Int32)mEXEStage.args[0] ^ (Int32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.LUI:
@@ -247,8 +247,8 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.SLTIU:
                     {
-                        int rs = (Int32)mEXEStage.args[0];
-                        int immediate = (Int32)mEXEStage.args[1];
+                        UInt32 rs = (UInt32)mEXEStage.args[0];
+                        UInt32 immediate = (UInt32)mEXEStage.args[1];
                         if (rs < immediate)
                             obj1 = 1;
                         else

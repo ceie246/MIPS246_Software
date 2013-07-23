@@ -90,6 +90,8 @@ namespace MipsSimulator.Monocycle
                             if (MipsSimulator.Program.mode == 1)
                             {
                                 Form1.Message("读内存出错");
+                                RunTimeCode.codeList.Clear();
+                                break;
                             }
                         }
                        
@@ -107,6 +109,8 @@ namespace MipsSimulator.Monocycle
                             if (MipsSimulator.Program.mode == 1)
                             {
                                  Form1.Message("写内存出错");
+                                 RunTimeCode.codeList.Clear();
+                                 break;
                             }
                         }
                         

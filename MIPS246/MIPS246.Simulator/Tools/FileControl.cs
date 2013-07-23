@@ -56,7 +56,7 @@ namespace MipsSimulator.Tools
                         }
                         FileStream fs = fInfo.OpenWrite();
                         StreamWriter w = new StreamWriter(fs);
-                        w.BaseStream.Seek(0, SeekOrigin.Begin);
+                        //w.BaseStream.Seek(0, SeekOrigin.Begin);
                         w.Write(stream);
                         w.Flush();
                         w.Close();

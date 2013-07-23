@@ -57,8 +57,15 @@ namespace MipsSimulator.Devices
             Int32 row=address/32;//行数从0算起
            
             Int32 column=(address%32)/4;
-           
-            string valueStr32 = Mem.Rows[row][column+1].ToString();
+            string valueStr32 = "";
+            try
+            {
+                valueStr32 = Mem.Rows[row][column + 1].ToString();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
              string valueStr16=valueStr32.Substring(2,4);
              if (address % 4 == 0)
              {

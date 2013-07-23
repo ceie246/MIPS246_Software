@@ -56,8 +56,7 @@ namespace MipsSimulator.Monocycle
                 case CodeType.XOR:
                 case CodeType.NOR:
                 case CodeType.SLT:
-                case CodeType.ADDU:
-                case CodeType.SUBU:
+                
                     {
                         string rs = code.machineCode.Substring(6, 5);
                         string rt = code.machineCode.Substring(11, 5);
@@ -73,7 +72,23 @@ namespace MipsSimulator.Monocycle
                         mEXEStage.enableRun++;
                         break;
                     }
+                case CodeType.ADDU:
+                case CodeType.SUBU:
+                    {
+                        string rs = code.machineCode.Substring(6, 5);
+                        string rt = code.machineCode.Substring(11, 5);
+                        rs = "$" + CommonTool.StrToNum(TypeCode.Int32, rs, 2);
+                        rt = "$" + CommonTool.StrToNum(TypeCode.Int32, rt, 2);
+                        string strArg1 = Register.GetRegisterValue(rs);
+                        string strArg2 = Register.GetRegisterValue(rt);
+                        obj1 = (UInt32)CommonTool.StrToNum(TypeCode.UInt32, strArg1, 16);
+                        obj2 = (UInt32)CommonTool.StrToNum(TypeCode.UInt32, strArg2, 16);
 
+                        mEXEStage.code = mDEStage.code;
+                        mEXEStage.args = new object[2] { obj1, obj2 };
+                        mEXEStage.enableRun++;
+                        break;
+                    }
                 case CodeType.SLTU:
                     {
                         string rs = code.machineCode.Substring(6, 5);
@@ -100,7 +115,7 @@ namespace MipsSimulator.Monocycle
                         string strArg1 = Register.GetRegisterValue(rt);
                         obj1 = (Int32)CommonTool.StrToNum(TypeCode.Int32, strArg1, 16);
                         // obj2=code.machineCode.
-                        obj2 = CommonTool.binToDec(sa);
+                        obj2 = CommonTool.StrToNum(TypeCode.Int32,sa,2);
                         
                         mEXEStage.code = mDEStage.code;
                         mEXEStage.args = new object[2] { obj1, obj2 };
@@ -248,7 +263,7 @@ namespace MipsSimulator.Monocycle
 
                         string immediate = code.machineCode.Substring(16, 16);
                         immediate = CommonTool.sign_extend(immediate, 32);
-                        obj2 = (Int32)CommonTool.StrToNum(TypeCode.Int16, immediate, 2);
+                        obj2 = (Int32)CommonTool.StrToNum(TypeCode.Int32, immediate, 2);
                         
                         mEXEStage.code = mDEStage.code;
                         mEXEStage.args = new object[2] { obj1, obj2 };
@@ -260,11 +275,11 @@ namespace MipsSimulator.Monocycle
                         string rs = code.machineCode.Substring(6, 5);
                         rs = "$" + CommonTool.StrToNum(TypeCode.Int32, rs, 2);
                         string strArg1 = Register.GetRegisterValue(rs);
-                        obj1 = (Int32)CommonTool.StrToNum(TypeCode.Int32, strArg1, 16);
+                        obj1 = (UInt32)CommonTool.StrToNum(TypeCode.UInt32, strArg1, 16);
 
                         string immediate = code.machineCode.Substring(16, 16);
-                        immediate = CommonTool.zero_extend(immediate, 32);
-                        obj2 = (Int32)CommonTool.StrToNum(TypeCode.Int32, immediate, 2);
+                        immediate = CommonTool.sign_extend(immediate, 32);
+                        obj2 = (UInt32)CommonTool.StrToNum(TypeCode.UInt32, immediate, 2);
 
                         mEXEStage.code = mDEStage.code;
                         mEXEStage.args = new object[2] { obj1, obj2 };
