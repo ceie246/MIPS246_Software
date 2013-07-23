@@ -14,6 +14,8 @@ namespace MipsSimulator.Cmd
     class cmdMode
     {
         MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler();
+        public static Hashtable lineTable;
+        
         public void start(string inputPath,string outputPath)
         {
             if (doAssembler(inputPath, outputPath))
@@ -50,16 +52,37 @@ namespace MipsSimulator.Cmd
                     Code code = new Assembler.Code(codeType, null, "", machineCode);
                     code.index = i;
                     RunTimeCode.codeList.Add(code);
-
-                    //codeT should be based on sourceString
+                }
+                List<String[]> sourceList = assembler.SourceList;
+                lineTable = assembler.Linetable;
+                for (int i = 0; i < sourceList.Count; i++)
+                {
+                    string codeStr = sourceList[i][0]+" ";
+                    for (int s =1; s < sourceList[i].Count(); s++)
+                    {
+                        codeStr += sourceList[i][s] + ",";
+                    }
+                    if (codeStr.Substring(codeStr.Length - 1, 1) == ",")
+                    {
+                        codeStr = codeStr.Substring(0, codeStr.Length - 1);
+                    }
+                    string machineCode = "";
+                    int j = 0;
+                    for (j = 0; j < lineTable.Count; j++)
+                    {
+                        if ((int)lineTable[j] == i)
+                        {
+                            break;
+                        }
+                    }
+                    if (j != lineTable.Count)
+                    {
+                        machineCode = RunTimeCode.codeList[j].machineCode;
+                    }
+                    Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
+                    code.index = i;
                     RunTimeCode.Add(code);
                 }
-                List<String> sourceString = assembler.SourceString;
-                Hashtable lineTable = assembler.Linetable;
-                //for (int i = 0; i < sourceString.Count; i++)
-                //{
-
-                //}
 
             }
             else

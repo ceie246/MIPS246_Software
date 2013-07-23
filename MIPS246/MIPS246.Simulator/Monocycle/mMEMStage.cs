@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MipsSimulator.Assembler;
 using MipsSimulator.Devices;
+using MipsSimulator.Cmd;
 
 namespace MipsSimulator.Monocycle
 {
@@ -156,7 +157,8 @@ namespace MipsSimulator.Monocycle
 
             if (MipsSimulator.Program.mode == 1)
             {
-                Form1.codeColor(mMEMStage.code.Index, 4);
+                int colorIndex = (int)cmdMode.lineTable[mMEMStage.code.Index];
+                Form1.codeColor(colorIndex, 4);
             }
             
             isEnd = true;
