@@ -73,6 +73,9 @@
     <Compile Include="Tools\CommonTool.cs" />
     <Compile Include="Tools\FileControl.cs" />
     <Compile Include="Assembler\CodeStruct.cs" />
+    <Compile Include="zzyTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

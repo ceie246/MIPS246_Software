@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using TextBoxSync;
 namespace MipsSimulator
 {
     partial class Form1
@@ -46,7 +47,7 @@ namespace MipsSimulator
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            //this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             dataGridView1 = new System.Windows.Forms.DataGridView();
             this.BreakPoint = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -71,7 +72,118 @@ namespace MipsSimulator
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+
+            this.components = new System.ComponentModel.Container();
+            this._vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this._statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this._toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+           // this._menuStrip1 = new System.Windows.Forms.MenuStrip();
+           // this._menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this._timer1 = new System.Windows.Forms.Timer(this.components);
+            this._txtRow = new System.Windows.Forms.TextBox();
+            this.txtContent = new TextBoxSync.zzyTextBox();
+            this._statusStrip1.SuspendLayout();
+           // this._menuStrip1.SuspendLayout();
+
             this.SuspendLayout();
+
+
+            // 
+            // vScrollBar1
+            // 
+            this._vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._vScrollBar1.LargeChange = 13;
+            this._vScrollBar1.Location = new System.Drawing.Point(470, 6);
+            this._vScrollBar1.Maximum = 15;
+            this._vScrollBar1.Name = "vScrollBar1";
+            this._vScrollBar1.Size = new System.Drawing.Size(17, 212);
+            this._vScrollBar1.TabIndex = 3;
+            this._vScrollBar1.Visible = true;
+            this._vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
+            // 
+            // statusStrip1
+            // 
+            this._statusStrip1.GripMargin = new System.Windows.Forms.Padding(0);
+            this._statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStripStatusLabel1});
+            this._statusStrip1.Location = new System.Drawing.Point(0, 225);
+            this._statusStrip1.Name = "statusStrip1";
+            this._statusStrip1.Size = new System.Drawing.Size(481, 22);
+            this._statusStrip1.TabIndex = 6;
+            this._statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this._toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this._toolStripStatusLabel1.Size = new System.Drawing.Size(34, 17);
+            this._toolStripStatusLabel1.Text = "line: 0";
+            // 
+            // menuStrip1
+            // 
+            //this._menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
+            //this._menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            //this._menuItemAbout});
+            //this._menuStrip1.Location = new System.Drawing.Point(0, 0);
+            //this._menuStrip1.Name = "menuStrip1";
+            //this._menuStrip1.Size = new System.Drawing.Size(498, 25);
+            //this._menuStrip1.TabIndex = 7;
+            //this._menuStrip1.Text = "menuStrip1";
+            // 
+            // menuItemAbout
+            // 
+            //this._menuItemAbout.Name = "menuItemAbout";
+            //this._menuItemAbout.Size = new System.Drawing.Size(44, 21);
+            //this._menuItemAbout.Text = "关于";
+            //this._menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
+            // 
+            // timer1
+            // 
+            this._timer1.Interval = 30;
+            this._timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // txtRow
+            // 
+            this._txtRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this._txtRow.BackColor = System.Drawing.Color.LightGray;
+            this._txtRow.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._txtRow.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._txtRow.Location = new System.Drawing.Point(0, 6);
+            this._txtRow.Margin = new System.Windows.Forms.Padding(0);
+            this._txtRow.MaxLength = 65535;
+            this._txtRow.Multiline = true;
+            this._txtRow.Name = "txtRow";
+            this._txtRow.ReadOnly = true;
+            this._txtRow.Size = new System.Drawing.Size(26, 212);
+            this._txtRow.TabIndex = 8;
+            this._txtRow.WordWrap = false;
+            this._txtRow.SizeChanged += new System.EventHandler(this.txtRow_SizeChanged);
+            this._txtRow.TextChanged += new System.EventHandler(this.txtRow_TextChanged);
+            // 
+            // txtContent
+            // 
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            //this.txtContent.BackColor = System.Drawing.Color.White;
+            this.txtContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtContent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtContent.Location = new System.Drawing.Point(3, 6);
+           // this.txtContent.Margin = new System.Windows.Forms.Padding(0);
+            this.txtContent.MaxLength = 65535;
+            this.txtContent.Multiline = true;
+            this.txtContent.Name = "txtContent";
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtContent.Size = new System.Drawing.Size(482, 215);
+            this.txtContent.TabIndex = 1;
+            this.txtContent.WordWrap = false;
+            this.txtContent.SizeChanged += new System.EventHandler(this.txtContent_SizeChanged);
+            this.txtContent.TextChanged += new System.EventHandler(this.txtContect_TextChanged);
+            this.txtContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContent_KeyDown);
+            this.txtContent.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtContent_KeyUp);
+            this.txtContent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtContent_MouseDown);
+
             // 
             // toolStrip1
             // 
@@ -224,7 +336,12 @@ namespace MipsSimulator
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Controls.Add(this._txtRow);
+            this.tabPage1.Controls.Add(this._statusStrip1);
+           // this.tabPage1.Controls.Add(this._menuStrip1);
+            this.tabPage1.Controls.Add(this._vScrollBar1);
+           // this.tabPage1.Controls.Add(this.txtContent);
+            this.tabPage1.Controls.Add(this.txtContent);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -232,18 +349,24 @@ namespace MipsSimulator
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Edit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            this._statusStrip1.ResumeLayout(false);
+            this._statusStrip1.PerformLayout();
+            //this._menuStrip1.ResumeLayout(false);
+           // this._menuStrip1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(3, 6);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(482, 215);
-            this.textBox1.TabIndex = 0;
+            //this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            //            | System.Windows.Forms.AnchorStyles.Left)
+            //            | System.Windows.Forms.AnchorStyles.Right)));
+            //this.textBox1.Location = new System.Drawing.Point(3, 6);
+            //this.textBox1.Multiline = true;
+            //this.textBox1.Name = "textBox1";
+            //this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            //this.textBox1.Size = new System.Drawing.Size(482, 215);
+            //this.textBox1.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -431,7 +554,7 @@ namespace MipsSimulator
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private TextBox textBox1;
+        //private TextBox textBox1;
         private TabControl tabControl2;
         private TabPage tabPage3;
         private TabControl tabControl3;
@@ -448,6 +571,16 @@ namespace MipsSimulator
         private ToolStripButton toolStripButton6;
         private static DataGridView dataGridView1;
         private static TextBox textBox2;
+
+
+        private System.Windows.Forms.VScrollBar _vScrollBar1;
+        private System.Windows.Forms.StatusStrip _statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel _toolStripStatusLabel1;
+       // private System.Windows.Forms.MenuStrip _menuStrip1;
+       // private System.Windows.Forms.ToolStripMenuItem _menuItemAbout;
+        private System.Windows.Forms.Timer _timer1;
+        private System.Windows.Forms.TextBox _txtRow;
+        private zzyTextBox txtContent;
     }
 }
 
