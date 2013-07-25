@@ -71,7 +71,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("写寄存器" + rd + "出错");
+                                Form1.Message(code.codeStr+" error\r\n");
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -86,7 +90,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("写寄存器" + rd + "出错");
+                                Form1.Message(code.codeStr + " error\r\n");
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -109,7 +117,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("写寄存器" + rt + "出错");
+                                Form1.Message(code.codeStr + " error\r\n");
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -122,7 +134,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("写寄存器$31出错");
+                                Form1.Message(code.codeStr + " error\r\n");
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -136,7 +152,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("写寄存器" + rt + "出错");
+                                Form1.Message(code.codeStr + " error\r\n");
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         break;

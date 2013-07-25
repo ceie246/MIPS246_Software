@@ -32,14 +32,11 @@ namespace MipsSimulator
 
             this.txtContent.MouseWheel += new MouseEventHandler(txtContect_MouseWheel);
 
-           
-            
-            //this.textBox1.Font = new Font(textBox1.Font.FontFamily, 15, textBox1.Font.Style);
             textBox2.Font = new Font(textBox2.Font.FontFamily, 15, textBox2.Font.Style);
-            
+
             //寄存器表格
             Register.ResInitialize();
-            this.dataGridView2.DataSource =Register.Res;
+            this.dataGridView2.DataSource = Register.Res;
             this.dataGridView2.Columns[0].FillWeight = 30;
             this.dataGridView2.Columns[1].FillWeight = 70;
 
@@ -217,7 +214,7 @@ namespace MipsSimulator
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
-        #endregion        
+        #endregion
         //File    Open
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -235,7 +232,7 @@ namespace MipsSimulator
         //Help   About
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            About aboutFrm=new About();
+            About aboutFrm = new About();
             aboutFrm.Visible = true;
         }
 
@@ -254,7 +251,7 @@ namespace MipsSimulator
         //分析代码
         private void toolStripButton1_Click_1(object sender, EventArgs e)
         {
-            textBox2.Text="";
+            textBox2.Text = "";
             if (this.txtContent.Text == null || this.txtContent.Text == "")
             {
                 MessageBox.Show("代码不可以为空！");
@@ -286,19 +283,19 @@ namespace MipsSimulator
             MipsSimulator.Cmd.cmdMode cmdMode = new Cmd.cmdMode();
             if (!cmdMode.doAssembler(inputPath, outputPath))
             {
-                string error=MipsSimulator.Tools.FileControl.ReadFile(outputPath);
+                string error = MipsSimulator.Tools.FileControl.ReadFile(outputPath);
                 RunTimeCode.Clear();
                 textBox2.Text += error;
                 return;
             }
 
-            int rows=RunTimeCode.CodeT.Rows.Count;
+            int rows = RunTimeCode.CodeT.Rows.Count;
 
             dataGridView1.Refresh();
             int rows2 = dataGridView1.RowCount;
 
             this.tabControl1.SelectedTab = this.tabPage2;
-            
+
         }
 
         static public void codeColor(int index, int color)
@@ -308,26 +305,66 @@ namespace MipsSimulator
                 case 1:
                     {
                         dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Red;
+                        if (MipsSimulator.Program.mode == 1)
+                        {
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (i != index)
+                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                            }
+                        }
                         break;
                     }
                 case 2:
                     {
                         dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Orange;
+                        if (MipsSimulator.Program.mode == 1)
+                        {
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (i != index)
+                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                            }
+                        }
                         break;
                     }
                 case 3:
                     {
                         dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Green;
+                        if (MipsSimulator.Program.mode == 1)
+                        {
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (i != index)
+                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                            }
+                        }
                         break;
                     }
                 case 4:
                     {
                         dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Purple;
+                        if (MipsSimulator.Program.mode == 1)
+                        {
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (i != index)
+                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                            }
+                        }
                         break;
                     }
                 case 5:
                     {
                         dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Blue;
+                        if (MipsSimulator.Program.mode == 1)
+                        {
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                if (i != index)
+                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                            }
+                        }
                         break;
                     }
             }
@@ -348,15 +385,15 @@ namespace MipsSimulator
 
             Register.Clear();
             RunTimeCode.Clear();
-           
+
             //MasterSwitch.Initialize();
             //MasterSwitch.Close();
 
-           // IFStage.Close();
+            // IFStage.Close();
             //DEStage.Close();
             //EXEStage.Close();
-           // MEMStage.Close();
-           // WBStage.Close();
+            // MEMStage.Close();
+            // WBStage.Close();
 
             mMasterSwitch.Initialize();
             mMasterSwitch.Close();
@@ -368,14 +405,14 @@ namespace MipsSimulator
             //MasterSwitch.Start();
         }
 
-        
+
         //step
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             this.toolStripButton3.Enabled = false;
             if (!isStep)
             {
-              // MasterSwitch.Initialize();
+                // MasterSwitch.Initialize();
             }
             isStep = true;
             //MasterSwitch.StepInto();
@@ -408,10 +445,10 @@ namespace MipsSimulator
                 {
                     //第0列是checkbox 
                     DataGridViewCheckBoxCell check = dataGridView1.Rows[i].Cells[0] as DataGridViewCheckBoxCell;
-                                    
+
                     if (check.Value != null)//先验证为null                    
                     {
-                        int id = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);                       
+                        int id = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);
                         if ((bool)check.Value)
                         {
                             breakpoints.Add(id);
@@ -466,6 +503,6 @@ namespace MipsSimulator
         {
             this.dataGridView3.Refresh();
         }
-        
+
     }
 }

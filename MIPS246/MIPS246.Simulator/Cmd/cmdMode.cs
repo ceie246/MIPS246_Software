@@ -8,6 +8,8 @@ using MIPS246.Core.DataStructure;
 using MipsSimulator.Assembler;
 using MipsSimulator.Monocycle;
 using MipsSimulator.Devices;
+using MipsSimulator.Tools;
+using System.IO;
 
 namespace MipsSimulator.Cmd
 {
@@ -15,50 +17,84 @@ namespace MipsSimulator.Cmd
     {
         MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler();
         public static Hashtable lineTable;
-        
-        public void start(string inputPath,string outputPath)
+        public static string outPath="";
+        public void start(string inputPath, string outputPath)
         {
+            outPath=outputPath;
+            MipsSimulator.Devices.Register.ResInitialize();
+            MipsSimulator.Devices.Memory.MemInitialize();
+            RunTimeCode.CodeTInitial();
             if (doAssembler(inputPath, outputPath))
             {
-                MipsSimulator.Devices.Register.ResInitialize();
-                MipsSimulator.Devices.Memory.MemInitialize();
-                for (int k = 0; k <= RunTimeCode.CodeIndex; k++)
+                if (File.Exists(outputPath))
                 {
-                    mMasterSwitch.StepInto();
+                    File.Delete(outputPath);
+                }
+                
+                for( int k = 0; k <= RunTimeCode.codeList.Count; k++)
+                {
+                    try
+                    {
+                        mMasterSwitch.StepInto();
+                    }
+                    catch (Exception e)
+                    {
+                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, e.Message);
+                        return;
+                    }
                     for (int i = 0; i <= 31; i++)
                     {
                         string registerName = "$" + i;
-                        string value = registerName + ":  " + MipsSimulator.Devices.Register.GetRegisterValue(registerName) + "\r\n";
+                        string value =MipsSimulator.Devices.Register.GetRegisterValue(registerName) + " ";
                         MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
                     }
-                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, "------------------------------\r\n");
+                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, "\r\n\r\n");
                 }
             }
+        }
+        public static void addMessage(string message)
+        {
+            MipsSimulator.Tools.FileControl.WriteFile(outPath, message);            
         }
         public bool doAssembler(string inputPath, string outputPath)
         {
             assembler = new MIPS246.Core.Assembler.Assembler(inputPath, outputPath);
+            Form1.Reset();
             if (assembler.DoAssemble() == true)
             {
+                List<String[]> sourceList = assembler.SourceList;
+                lineTable = assembler.Linetable;
+                List<Instruction> codeList = assembler.CodeList;
+
                 if (MipsSimulator.Program.mode != 1)
                 {
                     RunTimeCode.CodeTInitial();
                 }
-                List<Instruction> codeList = assembler.CodeList;
+                
                 for (int i = 0; i < codeList.Count; i++)
                 {
                     CodeType codeType = convertToCodeType(codeList[i].Mnemonic.ToString());
                     string machineCode = convertToMachineCode(codeList[i].Machine_Code);
-                    Code code = new Assembler.Code(codeType, null, "", machineCode);
+                    
+                    int p = (int)lineTable[i];
+                    string codeStr = sourceList[p][0] + " ";
+                    for (int s = 1; s < sourceList[p].Count(); s++)
+                    {
+                        codeStr += sourceList[p][s] + ",";
+                    }
+                    if (codeStr.Substring(codeStr.Length - 1, 1) == ",")
+                    {
+                        codeStr = codeStr.Substring(0, codeStr.Length - 1);
+                    }
+                    Code code = new Assembler.Code(codeType, null, codeStr, machineCode);
                     code.index = i;
                     RunTimeCode.codeList.Add(code);
                 }
-                List<String[]> sourceList = assembler.SourceList;
-                lineTable = assembler.Linetable;
+                
                 for (int i = 0; i < sourceList.Count; i++)
                 {
-                    string codeStr = sourceList[i][0]+" ";
-                    for (int s =1; s < sourceList[i].Count(); s++)
+                    string codeStr = sourceList[i][0] + " ";
+                    for (int s = 1; s < sourceList[i].Count(); s++)
                     {
                         codeStr += sourceList[i][s] + ",";
                     }
@@ -78,6 +114,8 @@ namespace MipsSimulator.Cmd
                     if (j != lineTable.Count)
                     {
                         machineCode = RunTimeCode.codeList[j].machineCode;
+                        Int32 tmp = (Int32)CommonTool.StrToNum(TypeCode.Int32, machineCode, 2);
+                        machineCode = "0x" + tmp.ToString("X8");
                     }
                     Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
                     code.index = i;
@@ -94,7 +132,7 @@ namespace MipsSimulator.Cmd
         }
         private CodeType convertToCodeType(string mnemonic)
         {
-            switch(mnemonic)
+            switch (mnemonic)
             {
                 case "ADD":
                     return CodeType.ADD;
@@ -159,7 +197,7 @@ namespace MipsSimulator.Cmd
                 case "JAL":
                     return CodeType.JAL;
                 default:
-                    return CodeType.UNSUPPOTED;  
+                    return CodeType.UNSUPPOTED;
             }
         }
 

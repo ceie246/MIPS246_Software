@@ -269,7 +269,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.JAL:
                     {
-                        int PC1 = (Int32)mEXEStage.args[1] + 4;//PC+8
+                        int PC1 = (Int32)mEXEStage.args[1] ;//PC+8
                         obj1 = PC1;
                         // int PC2 = (Int32)EXEStage.args[1] - 4;//PC
                         string target = Convert.ToString(mEXEStage.args[0]);
@@ -278,7 +278,7 @@ namespace MipsSimulator.Monocycle
                         int target1 = (Int32)CommonTool.StrToNum(TypeCode.Int32, target, 2);
                         int PC2 = ((Int32)mEXEStage.args[1] - 4) & (Int32)CommonTool.StrToNum(TypeCode.Int32, "F0000000", 16);
 
-                        mEXEStage.bzAddress = PC1 | target1;
+                        mEXEStage.bzAddress = PC2 | target1;
                         
                         break;
                     }

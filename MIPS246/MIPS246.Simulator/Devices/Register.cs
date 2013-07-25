@@ -7,9 +7,9 @@ using MipsSimulator.Tools;
 
 namespace MipsSimulator.Devices
 {
-     public class Register
+    public class Register
     {
-        static public  DataTable Res;
+        static public DataTable Res;
 
         static public void ResInitialize()
         {
@@ -20,7 +20,7 @@ namespace MipsSimulator.Devices
             {
                 DataRow dr = Res.NewRow();
                 string[] s = new string[2];
-                s[0] = "$" + i.ToString(); 
+                s[0] = "$" + i.ToString();
                 s[1] = "0x00000000";
                 dr["Name"] = s[0];
                 dr["Value"] = s[1];
@@ -50,7 +50,7 @@ namespace MipsSimulator.Devices
             drLO["Name"] = loStr[0];
             drLO["Value"] = loStr[1];
             Res.Rows.Add(drLO);
-            
+
         }
 
         static public void Clear()
@@ -62,10 +62,10 @@ namespace MipsSimulator.Devices
         }
 
         // 判断寄存器是否存在
-        static public  bool IfExsit(String registerName)
+        static public bool IfExsit(String registerName)
         {
             DataRow[] register = Res.Select("Name='" + registerName + "'");
-            if (register.Length<=0)
+            if (register.Length <= 0)
                 return false;
             else return true;
         }
@@ -75,9 +75,9 @@ namespace MipsSimulator.Devices
         {
             if (IfExsit(registerName))
             {
-                string numStr=registerName.Trim('$');
+                string numStr = registerName.Trim('$');
                 int numInt = Convert.ToInt32(numStr, 10);
-                string regMachineCode = CommonTool.decToBin(numInt,5);
+                string regMachineCode = CommonTool.decToBin(numInt, 5);
                 return regMachineCode;
             }
             else
@@ -86,8 +86,8 @@ namespace MipsSimulator.Devices
 
         public static void setPC(Int32 addressPC)
         {
-            string pcValue = "0x"+addressPC.ToString("X8");
-            Res.Rows[32]["Value"] = pcValue;  
+            string pcValue = "0x" + addressPC.ToString("X8");
+            Res.Rows[32]["Value"] = pcValue;
         }
 
         public static string GetRegisterValue(string registerName)
@@ -98,14 +98,14 @@ namespace MipsSimulator.Devices
             else
                 return (string)register[0]["Value"];
         }
-        public static bool SetRegisterValue(string registerName,Int32 value)
+        public static bool SetRegisterValue(string registerName, Int32 value)
         {
             DataRow[] register = Res.Select("Name='" + registerName + "'");
             if (register.Length < 0)
                 return false;
             else
             {
-                string numStr=registerName.Trim('$');
+                string numStr = registerName.Trim('$');
                 int numInt = Convert.ToInt32(numStr, 10);
                 Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
                 return true;

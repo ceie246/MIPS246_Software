@@ -89,9 +89,16 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message("读内存出错");
+                                Form1.Message(code.codeStr+" error\r\n");
                                 RunTimeCode.codeList.Clear();
                                 break;
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
+                               // cmdMode.addMessage(code.codeStr + " error\r\n");
+                                //RunTimeCode.codeList.Clear();
+                               // break;
                             }
                         }
                        
@@ -108,9 +115,13 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                 Form1.Message("写内存出错");
+                                Form1.Message(code.codeStr + "error\r\n");
                                  RunTimeCode.codeList.Clear();
                                  break;
+                            }
+                            if (MipsSimulator.Program.mode == 0)
+                            {
+                                throw new Exception(code.codeStr + " error\r\n");
                             }
                         }
                         

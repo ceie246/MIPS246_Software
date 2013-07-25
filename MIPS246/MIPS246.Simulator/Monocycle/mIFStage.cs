@@ -67,6 +67,12 @@ namespace MipsSimulator.Monocycle
                         ifOverOrNop = true;
                         break;
                     }
+                case CodeType.ERR:
+                    {
+                        Form1.Message(code.codeStr);
+                        RunTimeCode.codeList.Clear();
+                        break;
+                    }
                 default:
                     {
                         PC = PC + 4;

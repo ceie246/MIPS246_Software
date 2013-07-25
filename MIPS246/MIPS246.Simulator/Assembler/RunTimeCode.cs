@@ -40,7 +40,7 @@ namespace MipsSimulator.Assembler
             //code.Index = codeIndex;
             //codeIndex++;
             //codeList.Add(code);
-           
+
             DataRow dr = CodeT.NewRow();
             dr["Index"] = code.Index;
             dr["Code"] = code.machineCode;
@@ -52,7 +52,7 @@ namespace MipsSimulator.Assembler
         static public void Add(Code[] codes)//添加指令段
         {
 
-            for (int i = 0; i < codes.Length;i++ )
+            for (int i = 0; i < codes.Length; i++)
             {
                 DataRow dr = CodeT.NewRow();
                 dr["Index"] = codes[i].Index;
@@ -62,7 +62,7 @@ namespace MipsSimulator.Assembler
                 codes[i].Index = codeIndex;
                 codeIndex++;
             }
-           // codeList.AddRange(codes);
+            // codeList.AddRange(codes);
         }
         static public void Clear()//清除指令序列
         {
@@ -74,12 +74,20 @@ namespace MipsSimulator.Assembler
 
         static public Code GetCode(Int32 codeCurrentAddress)//获取指令
         {
+            if ((codeCurrentAddress - CodeStartAddress) % 4 != 0)
+            {
+                Code code = new Code();
+                code.codeType = CodeType.ERR;
+                code.codeStr = "地址未对齐";
+                // code.Index = -1;
+                return code;
+            }
             int index = Convert.ToInt32((codeCurrentAddress - CodeStartAddress) / 4);
             if (index < 0 || index >= codeList.Count)
             {
                 Code code = new Code();
                 code.codeType = CodeType.OVER;
-               // code.Index = -1;
+                // code.Index = -1;
                 return code;
             }
             return codeList[index];
