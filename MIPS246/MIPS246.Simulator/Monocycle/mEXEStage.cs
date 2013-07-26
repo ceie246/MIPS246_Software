@@ -208,7 +208,7 @@ namespace MipsSimulator.Monocycle
                         if (rs == rt)
                         {
                             mEXEStage.bzSuccess = true;
-                            mEXEStage.bzAddress = (Int32)mEXEStage.args[1] + (Int32)mEXEStage.args[3];
+                            mEXEStage.bzAddress = (Int32)mEXEStage.args[1] + (Int32)mEXEStage.args[3]-4;
                            
                         }
                         else
@@ -225,7 +225,7 @@ namespace MipsSimulator.Monocycle
                         if (rs != rt)
                         {
                             mEXEStage.bzSuccess = true;
-                            mEXEStage.bzAddress = (Int32)mEXEStage.args[1] + (Int32)mEXEStage.args[3];
+                            mEXEStage.bzAddress = (Int32)mEXEStage.args[1] + (Int32)mEXEStage.args[3]-4;
                             
                         }
                         else
