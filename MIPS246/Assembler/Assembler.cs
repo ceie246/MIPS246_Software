@@ -521,7 +521,7 @@ namespace MIPS246.Core.Assembler
             {
                 if (codelist[i].Mnemonic == Mnemonic.J || codelist[i].Mnemonic == Mnemonic.JAL)
                 {
-                    codelist[i].Arg1 = ((int)addresstable[codelist[i].Arg1]*4).ToString();
+                    codelist[i].Arg1 = ((int)addresstable[codelist[i].Arg1]).ToString();
                 }
             }
         }
