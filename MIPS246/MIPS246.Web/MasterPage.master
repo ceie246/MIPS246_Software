@@ -42,10 +42,5 @@
     <asp:ContentPlaceHolder id="PageBody" runat="server">
         
     </asp:ContentPlaceHolder>
-    <!--<form id="form1" runat="server">    
-    <div>
-        
-    </div>
-    </form>-->
 </body>
 </html>
