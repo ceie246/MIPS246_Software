@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{BFB0D791-9C6C-456A-8B89-2ED73C84FDD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructure", "DataStructure\DataStructure.csproj", "{A3C81FFA-07EB-4239-AFED-DB93E161FE71}"
@@ -23,6 +23,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MIPS246.Web", "http://local
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{bfb0d791-9c6c-456a-8b89-2ed73c84fdd7}|Assembler.dll;{A3C81FFA-07EB-4239-AFED-DB93E161FE71}|DataStructure.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_5153"
 		Debug.AspNetCompiler.PhysicalPath = "MIPS246.Web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_5153\"

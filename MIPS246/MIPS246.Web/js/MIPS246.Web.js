@@ -9,16 +9,46 @@ function ClearSourceBox() {
 }
 
 function Assemble() {
-    $sourcecode = $(source_code_area).val();
-    $.post(
-        "AssemblerRequest.aspx",
+    var sourcecode = $(source_code_area).val();
+    var displayFormat = $("input[name=displayformat]:radio:checked").val();
+    var hasAddress = $("input[name=hasAddress]:checkbox:checked").attr("checked");
+    var args = "{'sourceCode':'" + sourcecode + "', 'displayFormat': '" + displayFormat + "' , 'hasAddress': '" + hasAddress + "'}";
+    $.ajax(
         {
-            sourcecode: $sourcecode
-        },
-        UpdateTargetCode($data))
+            type: "Post",
+            url: "AssemblerRequest.aspx/Assemble",
+            contentType: "application/json; charset=utf-8",
+            data: args,
+            dataType: "json",
+            success: 
+                function (data) {
+                    UpdateTargetCode(data.d);
+                }
+        })
 }
 
 function UpdateTargetCode($data)
 {
     $(target_code_area).val($data);
+}
+
+function SaveTargetCode() {
+    var sourcecode = $(source_code_area).val();
+    var displayFormat = $("input[name=displayformat]:radio:checked").val();
+    var hasAddress = $("input[name=hasAddress]:checkbox:checked").attr("checked");
+    var outputFormat = $("input[name=OutputFormat]:radio:checked").val();
+    var args = "{'sourceCode':'" + sourcecode + "', 'displayFormat': '" + displayFormat + "' , 'hasAddress': '" + hasAddress + "' , 'outputFormat':'" + outputFormat + "'}";
+    alert(args);
+    $.ajax(
+        {
+            type: "Post",
+            url: "AssemblerRequest.aspx/SaveTargetCode",
+            contentType: "application/json; charset=utf-8",
+            data: args,
+            dataType: "json",
+            success:
+                function (data) {
+                    UpdateTargetCode(data.d);
+                }
+        })
 }

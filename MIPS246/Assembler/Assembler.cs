@@ -53,6 +53,18 @@ namespace MIPS246.Core.Assembler
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
         }
+
+        public Assembler(string sourceCode)
+        {
+            this.sourceList = null;
+            this.outputpath = null;
+            this.sourceString = new List<string>(sourceCode.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries));
+            this.sourceList = new List<string[]>();
+            this.codelist = new List<Instruction>();
+            this.linetable = new Hashtable();
+            this.addresstable = new Hashtable();
+            this.labeltable = new Hashtable();
+        }
         #endregion
 
         #region Properties
@@ -253,6 +265,7 @@ namespace MIPS246.Core.Assembler
                         }
                         else
                         {
+                            sourceString.Add(linetext);
                             linetext = RemoveComment(linetext);
                             if (linetext != "")
                             {
