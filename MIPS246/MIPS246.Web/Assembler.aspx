@@ -30,7 +30,7 @@
             <button class="btn btn-info span1" type="button">载入</button>
             <button class="btn btn-danger span1" type="button" onclick="ClearSourceBox()">清除</button>
             <button class="btn btn-info span1 offset3" type="button">保存</button>
-            <button class="btn btn-primary span2 offset3 btn-large" type="button">编译</button>
+            <button class="btn btn-primary span2 offset3 btn-large" type="button" onclick="Assemble()">编译</button>
         </div>
     </div>
 </asp:Content>
