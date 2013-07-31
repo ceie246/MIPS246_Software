@@ -10,14 +10,14 @@
         <div class="row">
             <div class="span2 offset6">
                 <label class="radio inline">
-                    <input type="radio" name="displayformat" id="hex_format" value="HEX" checked="checked" onchange="Assemble()"/>HEX
+                    <input type="radio" name="displayformat" id="hex_format" value="HEX" checked="checked" onchange="DisplayFormatChange()"/>HEX
                 </label>
                 <label class="radio inline">
-                    <input type="radio" name="displayformat" id="bin_format" value="BIN" onchange="Assemble()"/>BIN
+                    <input type="radio" name="displayformat" id="bin_format" value="BIN" onchange="DisplayFormatChange()"/>BIN
                 </label>
             </div>
             <div class="span1 offset3">
-                <label class="checkbox" onchange="Assemble()">
+                <label class="checkbox" onchange="DisplayFormatChange()">
                     <input type="checkbox" name="hasAddress" id="hasAddress" checked="checked"/>Address
                 </label>                
             </div>            
@@ -26,12 +26,12 @@
             <div class="span6">
                 <textarea class="span12" rows="20" id="source_code_area" placeholder="源代码..."></textarea>
             </div>
-            <div class="span6">
-                <textarea class="span12" rows="20" id="target_code_area" placeholder="机器码..."></textarea>
+            <div class="span6 error">
+                <textarea class="span12 " rows="20" id="target_code_area" placeholder="机器码..."></textarea>
             </div> 
         </div>
         <div class="row-fluid" id="button _area">
-            <button class="btn btn-info span1" type="button" onclick="SaveAsmFile()">保存</button>
+            <button class="btn btn-info span1" type="button" onclick="SaveSourceCode()">保存</button>
             <button class="btn btn-info span1" type="button">载入</button>
             <button class="btn btn-danger span1" type="button" onclick="ClearSourceBox()">清除</button>
             <a href="#save_option_popup_window" class="btn btn-info span1 offset3" data-toggle="modal">保存</a>
@@ -54,7 +54,7 @@
               </div>
           </div>
           <div class="modal-footer">
-                  <a href="#" class="btn">关闭</a>
+                  <a href="#" class="btn" onclick="CloseSaveTargetPopUp()">关闭</a>
                   <a href="#" class="btn btn-info btn-large" onclick="SaveTargetCode()">保存</a>
           </div>
     </div>

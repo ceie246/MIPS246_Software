@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
-using MIPS246.Core.Assembler;
-using System.Windows.Forms;
 using System.IO;
+using MIPS246.Core.Assembler;
+
 
 public partial class AssemblerRequest : System.Web.UI.Page
 {
@@ -108,45 +108,33 @@ public partial class AssemblerRequest : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static void SaveTargetCode(string sourceCode, string displayFormat,string hasAddress, string outputFormat)
+    public static string SaveTargetCode(string sourceCode, string displayFormat, string outputFormat)
     {
         string output = "";
+        string fileName = Guid.NewGuid().ToString();
+        bool isHEX;
         MIPS246.Core.Assembler.Assembler assembler = new MIPS246.Core.Assembler.Assembler(sourceCode);
+        if(outputFormat=="BIN")
+        {
+            isHEX=false;
+        }
+        else
+        {
+            isHEX=true;
+        }
 
         if (assembler.DoAssemble() == true)
         {
-            bool[] boolArray = new bool[32];
-            for (int i = 0; i < assembler.CodeList.Count; i++)
+            
+            if (outputFormat == "TXT")
             {
-                assembler.CodeList[i].Machine_Code.CopyTo(boolArray, 0);
-                if (displayFormat == "BIN")
-                {
-                    if (hasAddress == "checked")
-                    {
-                        output += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t";
-                    }
-                    for (int j = 0; j < 32; j++)
-                    {
-                        if (boolArray[j] == true)
-                        {
-                            output += "1";
-                        }
-                        else
-                        {
-                            output += "0";
-                        }
-                    }
-                    output += "\n";
-                }
-                else
-                {
-                    if (hasAddress == "checked")
-                    {
-                        output += "0x" + String.Format("{0:X8}", assembler.CodeList[i].Address) + ":\t";
-                    }
-                    output += FormatHex(boolArray);
-                    output += "\n";
-                }
+                fileName += ".txt";
+                assembler.Output(false, HttpContext.Current.Server.MapPath("~") + "/AssemblerOutput/" + fileName, isHEX);
+            }
+            else
+            {
+                fileName += ".coe";
+                assembler.Output(true, HttpContext.Current.Server.MapPath("~") + "/AssemblerOutput/" + fileName, isHEX);
             }
         }
         else
@@ -154,21 +142,16 @@ public partial class AssemblerRequest : System.Web.UI.Page
             output = assembler.Error.ToString();
         }
 
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
-        if(outputFormat=="TXT")
-        {
-            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
-            saveFileDialog.FileName = "";
-        }
-        else
-        {
-            saveFileDialog.Filter = "Coe File (*.coe)|*.coe";
-            saveFileDialog.FileName = "";
-        }
-        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-        {
-            string fileName = saveFileDialog.FileName;
-        }
-        
+        return fileName;        
+    }
+
+    [WebMethod]
+    public static string SaveSourceCode(string sourceCode)
+    {
+        string fileName = Guid.NewGuid().ToString() + ".txt";
+        StreamWriter sr = new StreamWriter(HttpContext.Current.Server.MapPath("~") + "/AssemblerOutput/" + fileName);
+        sr.Write(sourceCode);
+        sr.Close();
+        return fileName;
     }
 }
