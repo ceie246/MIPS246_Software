@@ -2,3 +2,4 @@
 MIPS246/*/obj/*
 MIPS246/*/bin/*
 *.user
+MIPS246/MIPS246.Web/AssemblerOutput/*
