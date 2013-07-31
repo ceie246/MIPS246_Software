@@ -1255,7 +1255,7 @@ namespace MIPS246.Core.Assembler
             }
 
             int imm = new int();
-            if (ConvertImmediate(i, sourceList[i][2], out imm, false) == false)
+            if (ConvertImmediate(i, sourceList[i][2], out imm, true) == false)
             {
                 this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE);
                 return false;
