@@ -19,8 +19,10 @@ namespace MIPS246.Core.Assembler
         private string sourcepath;
         private string outputpath;
         private Hashtable linetable;
+        private Hashtable codeindextable;
         private Hashtable addresstable;
         private Hashtable labeltable;
+        
 
         //config
         private static int startAddress = 0;    //add 0 line, for future use
@@ -40,6 +42,9 @@ namespace MIPS246.Core.Assembler
             this.linetable = new Hashtable();
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
+            this.codeindextable = new Hashtable();
+            this.sourceString = new List<string>();
+
         }
 
         public Assembler(List<string> sourceString)
@@ -52,6 +57,7 @@ namespace MIPS246.Core.Assembler
             this.linetable = new Hashtable();
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
+            this.codeindextable = new Hashtable();
         }
 
         public Assembler(string sourceCode)
@@ -64,6 +70,7 @@ namespace MIPS246.Core.Assembler
             this.linetable = new Hashtable();
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
+            this.codeindextable = new Hashtable();
         }
         #endregion
 
@@ -96,7 +103,19 @@ namespace MIPS246.Core.Assembler
         {
             set
             {
-                this.Linetable = linetable;
+                this.Linetable = value;
+            }
+            get
+            {
+                return this.linetable;
+            }
+        }
+
+        public Hashtable CodeIndexTable
+        {
+            set
+            {
+                this.CodeIndexTable = value;
             }
             get
             {
@@ -273,7 +292,9 @@ namespace MIPS246.Core.Assembler
                                 {
                                     if(linetext.EndsWith(":")==false)
                                     {
-                                        linetable[linetable.Count] = i;
+                                        int temp=linetable.Count;
+                                        linetable[temp] = i;
+                                        codeindextable[i] = temp;
                                     }
                                     
                                     sourceList.Add(linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
@@ -312,7 +333,7 @@ namespace MIPS246.Core.Assembler
                     string label = sourceList[i][0].Substring(0, sourceList[i][0].Length - 1);
                     if (CheckVariableName(label) == false)
                     {
-                        this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, label);
+                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, label);
                         return false;
                     }
                     addAddresstable(sourceList[i][0].Substring(0, sourceList[i][0].Length - 1), i);
@@ -337,17 +358,17 @@ namespace MIPS246.Core.Assembler
                     case ".GLOBL":
                         if (sourceList[i].Length != 2)
                         {
-                            this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "2");
+                            this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
                             return false;
                         }
                         else if (CheckVariableName(sourceList[i][1]) == false)
                         {
-                            this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, sourceList[i][1]);
+                            this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, sourceList[i][1]);
                             return false;
                         }
                         else if (addresstable.ContainsKey(sourceList[i][1].ToString()) == false)
                         {
-                            this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                            this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                             return false;
                         }
                         else
@@ -519,7 +540,7 @@ namespace MIPS246.Core.Assembler
                             break;
                         else
                         {
-                            this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.UNKNOWNCMD, sourceList[i][0]);
+                            this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.UNKNOWNCMD, sourceList[i][0]);
                             return false;
                         }                        
                 }
@@ -726,13 +747,13 @@ namespace MIPS246.Core.Assembler
                     intvalue = int.Parse(str);
                     if (intvalue < minvalue || intvalue > maxvalue)
                     {
-                        this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
                         return false;
                     }
                 }
                 catch
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
                     intvalue = 0;
                     return false;
                 }                
@@ -744,13 +765,13 @@ namespace MIPS246.Core.Assembler
                     intvalue = Int32.Parse(str.Substring(2), System.Globalization.NumberStyles.HexNumber);
                     if (intvalue < minvalue || intvalue > maxvalue)
                     {
-                        this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
                         return false;
                     }
                 }
                 catch
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
                     intvalue = 0;
                     return false;
                 }
@@ -809,12 +830,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -825,12 +846,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -841,12 +862,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -857,12 +878,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -873,12 +894,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -889,12 +910,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -905,12 +926,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -921,12 +942,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -937,12 +958,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -953,12 +974,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -969,18 +990,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckShamt(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -991,18 +1012,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckShamt(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1013,18 +1034,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckShamt(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGSHAMT, sourceList[i][3]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1035,12 +1056,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1051,12 +1072,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1067,12 +1088,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]) || !CheckRegister(sourceList[i][3]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1083,12 +1104,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "2");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
@@ -1099,12 +1120,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "2");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
@@ -1115,12 +1136,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1141,12 +1162,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1167,12 +1188,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1193,12 +1214,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1219,12 +1240,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1245,19 +1266,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             int imm = new int();
             if (ConvertImmediate(i, sourceList[i][2], out imm, true) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE);
                 return false;
             }
             else
@@ -1272,12 +1293,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1298,12 +1319,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDIMMEDIATE, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
@@ -1324,19 +1345,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1344,14 +1365,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1363,19 +1384,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1383,14 +1404,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, true) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], imm.ToString()));
@@ -1402,19 +1423,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1422,14 +1443,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1441,19 +1462,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1461,14 +1482,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1480,19 +1501,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1500,14 +1521,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1519,19 +1540,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1539,14 +1560,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1558,19 +1579,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1578,14 +1599,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1597,19 +1618,19 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             string[] SubArg = sourceList[i][2].Split(new Char[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             if (SubArg.Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARG, this.sourceList[i][2]);
                 return false;
             }
             else
@@ -1617,14 +1638,14 @@ namespace MIPS246.Core.Assembler
                 sourceList[i] = new string[] { sourceList[i][0], sourceList[i][1], SubArg[1], SubArg[0] };
                 if (!CheckRegister(sourceList[i][2]))
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDLABEL, this.sourceList[i][2]);
                     return false;
                 }
 
                 int imm = new int();
                 if (ConvertImmediate(i, sourceList[i][3], out imm, false) == false)
                 {
-                    this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGOFFSET, this.sourceList[i][3]);
                     return false;
                 }
                 this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], sourceList[i][3]));
@@ -1636,18 +1657,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1659,18 +1680,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 4)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "4");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "4");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1682,18 +1703,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1705,18 +1726,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1728,18 +1749,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1751,18 +1772,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1774,18 +1795,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
 
@@ -1797,18 +1818,18 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 3)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "3");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
                 return false;
             }
             if (!CheckRegister(sourceList[i][1]))
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGREGNAME);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
                 return false;
             }
 
             if (CheckAddress(sourceList[i][3]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND);
                 return false;
             }
             
@@ -1820,12 +1841,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "2");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
             if (CheckAddress(sourceList[i][1]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
@@ -1836,12 +1857,12 @@ namespace MIPS246.Core.Assembler
         {
             if (sourceList[i].Length != 2)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.WRONGARGUNUM, "2");
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
                 return false;
             }
             if (CheckAddress(sourceList[i][1]) == false)
             {
-                this.error = new AssemblerErrorInfo((int)linetable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.ADDNOTFOUND, sourceList[i][1]);
                 return false;
             }
             this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
