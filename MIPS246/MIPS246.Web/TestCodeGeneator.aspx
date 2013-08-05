@@ -9,22 +9,22 @@
         </div>
         <div class="row-fluid">
             <div class="span3">
-                <table class="table table-hover table-bordered">
+                <table class="table table-hover table-striped table-condensed">
                     <tr>
                         <td>代码数量</td>
-                        <td><input type="text" class="input-mini" placeholder="数量…" /></td>
+                        <td><input type="text" class="input-mini" placeholder="50" /></td>
                     </tr>
                     <tr>
-                        <td>代码数量</td>
-                        <td><input type="text" class="input-mini" placeholder="数量…" /></td>
+                        <td>整型最小值</td>
+                        <td><input type="text" class="input-mini" placeholder="0" /></td>
                     </tr>
                     <tr>
-                        <td>代码数量</td>
-                        <td><input type="text" class="input-mini" placeholder="数量…" /></td>
+                        <td>整型最大值</td>
+                        <td><input type="text" class="input-mini" placeholder="65535" /></td>
                     </tr>
                     <tr>
-                        <td>代码数量</td>
-                        <td><input type="text" class="input-mini" placeholder="数量…" /></td>
+                        <td></td>
+                        <td><button class="btn btn-primary btn-large" type="button" onclick="GeneatorCode()">生成</button></td>
                     </tr>
                 </table>
             </div>
