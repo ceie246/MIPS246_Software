@@ -25,6 +25,7 @@ namespace MIPS246.Core.TestCodeGeneator
             r = new Random();
             codeList = new List<Instruction>();
         }
+
         #endregion
 
         #region Properties
