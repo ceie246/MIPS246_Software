@@ -767,7 +767,16 @@ namespace MIPS246.Core.DataStructure
 
         private void setImmediateMachineCode(int startPosition, string immediate)
         {
-            string immediatestr = Convert.ToString(Int16.Parse(immediate), 2).PadLeft(16, '0');
+            string immediatestr = string.Empty;
+            if (int.Parse(immediate) <= 32767)
+            {
+                immediatestr = Convert.ToString(Int16.Parse(immediate), 2).PadLeft(16, '0');
+            }
+            else
+            {
+                immediatestr = Convert.ToString(Int32.Parse(immediate), 2).PadLeft(32, '0').Substring(16, 16);
+            }
+
             for (int i = 0; i < 16; i++)
             {
                 if (immediatestr[i] == '0')
