@@ -7,8 +7,8 @@ namespace MIPS246.Core.DataStructure
     {
         ADD,ADDU,SUB,SUBU,AND,OR,XOR,NOR,SLT,SLTU,SLL,SRL,SRA,SLLV,SRLV,SRAV,JR,JALR,
         ADDI,ADDIU,ANDI,ORI,XORI,LUI,SLTI,SLTIU,LW,SW,LB,LBU,LH,LHU,SB,SH,BEQ,BNE,BGEZ,
-        BGEZAL,BGTZ,BLEZ,BLTZ,BLTZAL,J,JAL,SUBI,MOVE,NOP,LI,LA,SYSCALL,
-        NULL
+        BGEZAL,BGTZ,BLEZ,BLTZ,BLTZAL,J,JAL,NULL
+        //,SUBI,MOVE,NOP,LI,LA,SYSCALL,        
     }
 
     public enum Register
@@ -162,6 +162,7 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.AND:
                 case Mnemonic.OR:
                 case Mnemonic.XOR:
+                case Mnemonic.NOR:
                 case Mnemonic.SLT:
                 case Mnemonic.SLTU:
                 case Mnemonic.SLL:
@@ -205,6 +206,7 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.LW:
                 case Mnemonic.SW:
                 case Mnemonic.LB:
+                case Mnemonic.LBU:
                 case Mnemonic.LH:
                 case Mnemonic.LHU:
                 case Mnemonic.SB:
@@ -236,12 +238,12 @@ namespace MIPS246.Core.DataStructure
                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
                     mnemonicString = mnemonicString + this.arg1;
                     break;
-                case Mnemonic.SUBI:
+                /*case Mnemonic.SUBI:
                 case Mnemonic.MOVE:
                 case Mnemonic.NOP:
                 case Mnemonic.LI:
                 case Mnemonic.LA:
-                case Mnemonic.SYSCALL:
+                case Mnemonic.SYSCALL:*/
                 default:
                     break;
             }
@@ -1154,7 +1156,7 @@ namespace MIPS246.Core.DataStructure
 
         }
 
-        private void OP_SUBI()
+        /*private void OP_SUBI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBI].ToString());
             setAddressMachineCode(arg1);
@@ -1187,7 +1189,7 @@ namespace MIPS246.Core.DataStructure
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SYSCALL].ToString());
             setAddressMachineCode(arg1);
 
-        }
+        }*/
         #endregion
     }
 }

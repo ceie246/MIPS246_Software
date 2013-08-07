@@ -14,8 +14,6 @@ namespace MIPS246.Core.TestCodeGeneator
         private static int seed;
         private static List<Instruction> codeList;
         private static Random r;
-        private static int maxIMM, minIMM;
-
         private static List<Mnemonic> cmdList;
         #endregion
 
@@ -68,19 +66,18 @@ namespace MIPS246.Core.TestCodeGeneator
         #endregion
 
         #region Public Methods
-        public static void ConfigGeneator(int num, int maximm, int minimm, List<Mnemonic> targetCMDList)
+        public static void ConfigGeneator(int num, List<Mnemonic> targetCMDList)
         {
             count = num;
-            maxIMM = maximm;
-            minIMM = minimm;
             cmdList = targetCMDList;
         }
 
         public static void Generate()
         {
+            codeList.Clear();
             for (int i = 0; i < count; i++)
             {
-                codeList.Add(GenerateCMD(r.Next(0, cmdList.Count)));
+                codeList.Add(GenerateCMD(r.Next(0, cmdList.Count - 1)));
             }
         }
         #endregion
@@ -128,22 +125,26 @@ namespace MIPS246.Core.TestCodeGeneator
                     break;
                 case "ADDI":
                 case "ADDIU":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    arg3 = GenerateImmediate(true);
+                    break;
                 case "ANDI":
                 case "ORI":
                 case "XORI":
                     arg1 = GenerateReg();
                     arg2 = GenerateReg();
-                    arg3 = GenerateImmediate();
+                    arg3 = GenerateImmediate(false);
                     break;
                 case "LUI":
                     arg1 = GenerateReg();
-                    arg2 = GenerateImmediate();
+                    arg2 = GenerateImmediate(true);
                     break;
                 case "SLTI":
                 case "SLTIU":
                     arg1 = GenerateReg();
                     arg2 = GenerateReg();
-                    arg3 = GenerateImmediate();
+                    arg3 = GenerateImmediate(true);
                     break;
                 case "LW":
                 case "SW":
@@ -191,9 +192,18 @@ namespace MIPS246.Core.TestCodeGeneator
             return register.ToString();
         }
 
-        private static string GenerateImmediate()
+        private static string GenerateImmediate(bool isSign)
         {
-            int immediate = r.Next(minIMM,maxIMM);
+            int immediate;
+            if (isSign == true)
+            {
+                immediate = r.Next(-32768, 32767);
+            }
+            else
+            {
+                immediate = r.Next(0, 65535);
+            }
+            
             return immediate.ToString(); 
         }
 
@@ -220,7 +230,7 @@ namespace MIPS246.Core.TestCodeGeneator
 
         private static string GenerateAddress()
         {
-            int address = r.Next(0, count-1);
+            int address = r.Next(codeList.Count - 2, count - 1);
             return address.ToString();
         }
         #endregion

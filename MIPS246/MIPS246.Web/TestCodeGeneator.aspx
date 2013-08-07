@@ -12,15 +12,7 @@
                 <table class="table table-hover table-striped table-condensed">
                     <tr>
                         <td>代码数量</td>
-                        <td><input type="text" class="input-mini" placeholder="50" /></td>
-                    </tr>
-                    <tr>
-                        <td>整型最小值</td>
-                        <td><input type="text" class="input-mini" placeholder="0" /></td>
-                    </tr>
-                    <tr>
-                        <td>整型最大值</td>
-                        <td><input type="text" class="input-mini" placeholder="65535" /></td>
+                        <td><input type="text" class="input-mini" id="codenum" placeholder="50" onclick="UpdateDefaultValue()"/></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -30,21 +22,18 @@
             </div>
             <div class="span9">
                 <textarea class="span12" rows="25" id="test_code_area" placeholder="测试代码序列..."></textarea>
-                <div class="span2">
+                <div class="span3">
                     <label class="radio inline">
-                    <input type="radio" name="displayformat" id="hex_format" value="HEX" checked="checked" onchange="DisplayFormatChange()"/>HEX
-                </label>
-                <label class="radio inline">
-                    <input type="radio" name="displayformat" id="bin_format" value="BIN" onchange="DisplayFormatChange()"/>BIN
-                </label>
+                        <input type="radio" name="displayformat" id="mnemonic_format" value="MNE" checked="checked" onchange="GeneatorCodeDisplayFormatChange()" />Mnemonic
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="displayformat" id="hex_format" value="HEX" onchange="GeneatorCodeDisplayFormatChange()"/>HEX
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="displayformat" id="bin_format" value="BIN" onchange="GeneatorCodeDisplayFormatChange()"/>BIN
+                    </label>
                 </div>
-                <div class="span1 offset8">
-                    <label class="checkbox" onchange="DisplayFormatChange()">
-                    <input type="checkbox" name="hasAddress" id="hasAddress" checked="checked"/>Address
-                </label>
-                </div>
-            </div>
-            
+            </div>            
         </div>
     </div>
 </asp:Content>
