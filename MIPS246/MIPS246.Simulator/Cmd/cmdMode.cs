@@ -31,7 +31,7 @@ namespace MipsSimulator.Cmd
                     File.Delete(outputPath);
                 }
                 
-                for( int k = 0; k <= RunTimeCode.codeList.Count; k++)
+                for( int k = 0; k < RunTimeCode.codeList.Count; k++)
                 {
                     try
                     {
@@ -42,13 +42,16 @@ namespace MipsSimulator.Cmd
                         MipsSimulator.Tools.FileControl.WriteFile(outputPath, e.Message);
                         return;
                     }
+                    string codeStr = RunTimeCode.codeList[k].codeStr;
+                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, codeStr + "\r\n");
                     for (int i = 0; i <= 31; i++)
                     {
                         string registerName = "$" + i;
                         string value =MipsSimulator.Devices.Register.GetRegisterValue(registerName) + " ";
                         MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
                     }
-                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, "\r\n\r\n");
+                   
+                    MipsSimulator.Tools.FileControl.WriteFile(outputPath,"\r\n");
                 }
             }
         }
