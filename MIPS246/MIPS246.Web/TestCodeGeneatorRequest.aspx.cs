@@ -22,7 +22,16 @@ public partial class TestCodeGeneatorRequest : System.Web.UI.Page
         List<Mnemonic> MnemonicList = new List<Mnemonic>();
         foreach(Mnemonic mnemonic in Enum.GetValues(typeof(Mnemonic)))
         {
-            MnemonicList.Add(mnemonic);
+            if (mnemonic != Mnemonic.J && mnemonic != Mnemonic.JAL && mnemonic != Mnemonic.LW
+                && mnemonic != Mnemonic.SW && mnemonic != Mnemonic.LB && mnemonic != Mnemonic.LBU
+                && mnemonic != Mnemonic.LH && mnemonic != Mnemonic.LHU && mnemonic != Mnemonic.SB
+                && mnemonic != Mnemonic.SH && mnemonic != Mnemonic.BEQ && mnemonic != Mnemonic.BNE
+                && mnemonic != Mnemonic.BGEZ && mnemonic != Mnemonic.BGEZAL && mnemonic != Mnemonic.BGTZ
+                && mnemonic != Mnemonic.BLEZ && mnemonic != Mnemonic.BLTZ && mnemonic != Mnemonic.BLTZAL)
+            {
+                MnemonicList.Add(mnemonic);
+            }
+            
         }
         TestCodeGeneator.ConfigGeneator(int.Parse(num), MnemonicList);
         TestCodeGeneator.Generate();

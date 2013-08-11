@@ -12,7 +12,7 @@
                 <table class="table table-hover table-striped table-condensed">
                     <tr>
                         <td>代码数量</td>
-                        <td><input type="text" class="input-mini" id="codenum" placeholder="50" onclick="UpdateDefaultValue()"/></td>
+                        <td><input type="text" class="input-mini" id="codenum" placeholder="20" value="20" /></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -25,12 +25,6 @@
                 <div class="span3">
                     <label class="radio inline">
                         <input type="radio" name="displayformat" id="mnemonic_format" value="MNE" checked="checked" onchange="GeneatorCodeDisplayFormatChange()" />Mnemonic
-                    </label>
-                    <label class="radio inline">
-                        <input type="radio" name="displayformat" id="hex_format" value="HEX" onchange="GeneatorCodeDisplayFormatChange()"/>HEX
-                    </label>
-                    <label class="radio inline">
-                        <input type="radio" name="displayformat" id="bin_format" value="BIN" onchange="GeneatorCodeDisplayFormatChange()"/>BIN
                     </label>
                 </div>
             </div>            

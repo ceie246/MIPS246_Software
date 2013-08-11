@@ -211,17 +211,16 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.LHU:
                 case Mnemonic.SB:
                 case Mnemonic.SH:
-                    //
                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
                     mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
+                    mnemonicString = mnemonicString + "," + this.arg3 + "(";
+                    mnemonicString = mnemonicString + this.arg2 + ")";                    
                     break;
                 case Mnemonic.BEQ:
                 case Mnemonic.BNE:
                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
                     mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg3 + "(";
-                    mnemonicString = mnemonicString + this.arg2 + ")";
+                    mnemonicString = mnemonicString + "," + this.arg2;
                     break;
                 case Mnemonic.BGEZ:
                 case Mnemonic.BGEZAL:

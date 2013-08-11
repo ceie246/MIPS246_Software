@@ -37,6 +37,7 @@ function SaveTargetCode() {
     var displayFormat = $("input[name=displayformat]:radio:checked").val();
     var outputFormat = $("input[name=OutputFormat]:radio:checked").val();
     var args = "{'sourceCode':'" + sourcecode + "', 'displayFormat': '" + displayFormat + "' , 'outputFormat':'" + outputFormat + "'}";
+    alert(args);
     $.ajax(
         {
             type: "Post",
@@ -94,32 +95,17 @@ function SaveSourceCode() {
 function GeneatorCode() {
     var num = $(codenum).val();
     var displayFormat = $("input[name=displayformat]:radio:checked").val();
-    var targetcode;
     var args = "{'num':'" + num + "'}";
     $.ajax(
-        {
-            type: "Post",
-            url: "TestCodeGeneatorRequest.aspx/GeneatorCode",
-            contentType: "application/json; charset=utf-8",
-            data: args,
-            dataType: "json",
-            success:
-                function (data) {
-                    if (displayFormat == "MNE") {
-                        $(test_code_area).val(data.d);
-                    }
-                    else {
-                        targetcode = data.d;
-                    }
-                }
-        })
-}
-
-function UpdateDefaultValue() {
-    
-    if ($(this).val() != null) {
-        alert("a");
-    }
-    var defaultval = $(this).arguments("placeholder");
-    alert(defaultval);
+    {
+        type: "Post",
+        url: "TestCodeGeneatorRequest.aspx/GeneatorCode",
+        contentType: "application/json; charset=utf-8",
+        data: args,
+        dataType: "json",
+        success:
+            function (data) {
+                $(test_code_area).val(data.d);
+            }
+    })
 }
