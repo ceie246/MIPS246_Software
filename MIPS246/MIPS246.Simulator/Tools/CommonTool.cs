@@ -9,6 +9,31 @@ namespace MipsSimulator.Tools
     class CommonTool
     {
 
+        public static bool JudgeValue(string value)
+        {
+            if (value.Length != 10)
+                return false;
+            else
+            {
+                if (value[0] != '0')
+                    return false;
+                if (value[1] == 'x' || value[1] == 'X')
+                {
+                    int j = 2;
+                    for (; j < 10; j++)
+                    {
+                        if (value[j] == '0' || value[j] == '1' || value[j] == '2' || value[j] == '3' || value[j] == '4' || value[j] == '5' || value[j] == '6' || value[j] == '7' || value[j] == '8' || value[j] == '9' || value[j] == 'a' || value[j] == 'b' || value[j] == 'c' || value[j] == 'd' || value[j] == 'e' || value[j] == 'f' || value[j] == 'A' || value[j] == 'B' || value[j] == 'C' || value[j] == 'D' || value[j] == 'E' || value[j] == 'F')
+                            continue;
+                        else
+                            return false;
+                    }
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
+
         public static string decToBin(int n,int L)//十进制转二进制字符串
         {
             string tmpStr = "";

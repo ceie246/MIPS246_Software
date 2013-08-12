@@ -91,6 +91,7 @@ namespace MipsSimulator.Cmd
                     }
                     Code code = new Assembler.Code(codeType, null, codeStr, machineCode);
                     code.index = i;
+                    code.address = codeList[i].Address;
                     RunTimeCode.codeList.Add(code);
                 }
                 
@@ -122,6 +123,7 @@ namespace MipsSimulator.Cmd
                     }
                     Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
                     code.index = i;
+                    code.address = codeList[j].Address;
                     RunTimeCode.Add(code);
                 }
 

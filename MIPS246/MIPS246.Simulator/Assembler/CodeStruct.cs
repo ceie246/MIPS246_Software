@@ -15,12 +15,14 @@ namespace MipsSimulator.Assembler
             this.codeStr = codeStr;
             this.machineCode = machineCode;
             this.index =0;
+            this.address = 0;
         }
         public CodeType codeType;
         public object[] args;
         public string codeStr;
         public string machineCode;
         public Int32 index;
+        public Int32 address;
 
         public Int32 Index
         {

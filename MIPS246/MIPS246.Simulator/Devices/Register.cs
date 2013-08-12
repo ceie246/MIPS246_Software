@@ -124,5 +124,6 @@ namespace MipsSimulator.Devices
                 return true;
             }
         }
+
     }
 }

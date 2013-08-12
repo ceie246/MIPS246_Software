@@ -396,6 +396,7 @@ namespace MipsSimulator
             dataGridView1.RowTemplate.Height = 23;
             dataGridView1.Size = new System.Drawing.Size(479, 227);
             dataGridView1.TabIndex = 0;
+            dataGridView1.ReadOnly = false;
             // 
             // BreakPoint
             // 
@@ -440,6 +441,7 @@ namespace MipsSimulator
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.Size = new System.Drawing.Size(230, 414);
             this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.registerEdit);
             // 
             // tabControl3
             // 
@@ -504,6 +506,7 @@ namespace MipsSimulator
             this.dataGridView3.RowTemplate.Height = 23;
             this.dataGridView3.Size = new System.Drawing.Size(477, 150);
             this.dataGridView3.TabIndex = 0;
+            this.dataGridView3.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.memoryEdit);
             // 
             // Form1
             // 

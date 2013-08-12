@@ -30,7 +30,7 @@ namespace MipsSimulator.Assembler
         {
             codeIndex = 0;
             CodeT = new DataTable();
-            CodeT.Columns.Add("Index");
+            CodeT.Columns.Add("Address");
             CodeT.Columns.Add("Code");
             CodeT.Columns.Add("Source");
         }
@@ -42,7 +42,8 @@ namespace MipsSimulator.Assembler
             //codeList.Add(code);
 
             DataRow dr = CodeT.NewRow();
-            dr["Index"] = code.Index;
+            string address = "0x" + code.address.ToString("X8");
+            dr["Address"] =address;
             dr["Code"] = code.machineCode;
             dr["Source"] = code.codeStr;
             CodeT.Rows.Add(dr);
@@ -55,7 +56,8 @@ namespace MipsSimulator.Assembler
             for (int i = 0; i < codes.Length; i++)
             {
                 DataRow dr = CodeT.NewRow();
-                dr["Index"] = codes[i].Index;
+                string address = "0x" + codes[i].address.ToString("X8");
+                dr["Address"] = address;
                 dr["Code"] = codes[i].machineCode;
                 dr["Source"] = codes[i].codeStr;
                 CodeT.Rows.Add(dr);

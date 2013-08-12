@@ -39,24 +39,31 @@ namespace MipsSimulator
             this.dataGridView2.DataSource = Register.Res;
             this.dataGridView2.Columns[0].FillWeight = 30;
             this.dataGridView2.Columns[1].FillWeight = 70;
-
+            this.dataGridView2.Font = new Font("宋体", 10, FontStyle.Bold);
+            this.dataGridView2.ReadOnly = false;
+            
+          
             //内存表格
             Memory.MemInitialize();
             this.dataGridView3.DataSource = Memory.Mem;
             //this.dataGridView3.Columns[0].FillWeight = 30;
             //this.dataGridView3.Columns[1].FillWeight = 70;
+            this.dataGridView3.Font = new Font("宋体", 10, FontStyle.Bold);
+            this.dataGridView3.ReadOnly = false;
 
             //Execute表格
             RunTimeCode.CodeTInitial();
             dataGridView1.DataSource = RunTimeCode.CodeT;
             dataGridView1.Columns[0].FillWeight = 20;
             dataGridView1.Columns[1].FillWeight = 20;
-            dataGridView1.Columns[2].FillWeight = 30;
-            dataGridView1.Columns[3].FillWeight = 30;
+            dataGridView1.Columns[2].FillWeight = 20;
+            dataGridView1.Columns[3].FillWeight = 40;
             dataGridView1.Columns[1].ReadOnly = true;
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Columns[3].ReadOnly = true;
-
+            dataGridView1.Font = new Font("宋体", 10, FontStyle.Bold);
+            dataGridView1.ReadOnly = false;
+            dataGridView1.CellEndEdit+=new DataGridViewCellEventHandler(dataGridView1_CellEndEdit);
         }
 
         private int pageLine = 0;
@@ -215,6 +222,38 @@ namespace MipsSimulator
         public static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
         #endregion
+
+        private void registerEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int i = e.RowIndex;
+            string value = (string)Register.Res.Rows[i]["Value"];
+            if (!CommonTool.JudgeValue(value))
+            {
+                MessageBox.Show("修改错误！");
+                Register.Res.Rows[i]["Value"] = "0x00000000";
+                return;
+            }
+        }
+
+        private void memoryEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int i = e.RowIndex;
+            int j = e.ColumnIndex;
+
+            string value = (string)Memory.Mem.Rows[i][j];
+            if (!CommonTool.JudgeValue(value))
+            {
+                MessageBox.Show("修改错误！");
+               Memory.Mem.Rows[i][j] = "0x00000000";
+                return;
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+        
         //File    Open
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -448,7 +487,10 @@ namespace MipsSimulator
 
                     if (check.Value != null)//先验证为null                    
                     {
-                        int id = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);
+                        string idStr = (string)dataGridView1.Rows[i].Cells[1].Value;
+                      //  int id = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);
+                        int id =(Int32) CommonTool.StrToNum(TypeCode.Int32, idStr, 16);
+                        id = id / 4;
                         if ((bool)check.Value)
                         {
                             breakpoints.Add(id);
