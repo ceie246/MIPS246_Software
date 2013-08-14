@@ -11,8 +11,7 @@ namespace MipsSimulator.Monocycle
     class mMasterSwitch
     {
         static private bool isTorun = false;
-        static private bool isAdd = false;
-        static private int indexBreak = 0;
+        static private int point = 0;
 
         static private void ThreadFun()
         {
@@ -23,6 +22,9 @@ namespace MipsSimulator.Monocycle
             {
                 if (!IFRun())
                 {
+                    point = 0;
+                    Form1.isBreak = false;
+                    Form1.isStep2 = false;
                     break;
                 }
                 else
@@ -38,11 +40,21 @@ namespace MipsSimulator.Monocycle
 
         static public void StepInto()
         {
-            mIFStage.Start();
-            mDEStage.Start();
-            mEXEStage.Start();
-            mMEMStage.Start();
-            mWBStage.Start();
+            if (!IFRun())
+            {
+                point = 0;
+                Form1.isBreak = false;
+                Form1.isStep2 = false;
+                return;
+            }
+            else
+            {
+                mIFStage.Start();
+                mDEStage.Start();
+                mEXEStage.Start();
+                mMEMStage.Start();
+                mWBStage.Start();
+            }
         }
 
         static public void BreakPoint()
@@ -51,26 +63,27 @@ namespace MipsSimulator.Monocycle
             {
                 if (!IFRun())
                 {
-
-                    break;
+                    point = 0;
+                    Form1.isBreak = false;
+                    Form1.isStep2 = false;
+                    return;
                 }
                 else
                 {
-                    if (isAdd)
-                    {
-                        Form1.breakpoints.Add(indexBreak);
-                        isAdd = false;
-                    }
                     string strArg1 = Register.GetRegisterValue("pc");
                     int PC = (Int32)CommonTool.StrToNum(TypeCode.Int32, strArg1, 16);
                     int index = (PC - RunTimeCode.CodeStartAddress) / 4;
-                    if (Form1.breakpoints.Count > 0)
+                    if (Form1.breakpoints.Count > 0 && point < Form1.breakpoints.Count)
                     {
-                        if (Form1.breakpoints.ElementAt(0) == index)
+                        if (Form1.breakpoints.Contains(index))
                         {
-                            Form1.breakpoints.Remove(index);
-                            isAdd = true;
-                            indexBreak = index;
+                            int indexKey = Form1.breakpoints.IndexOf(index);
+                            if (point < indexKey)
+                                point = indexKey;
+                        }
+                        if (Form1.breakpoints.ElementAt(point) == index)
+                        {
+                            point++;
                             Form1.codeColor(index, 1);
                             return;
                         }

@@ -22,13 +22,17 @@ namespace MipsSimulator
         static public bool isStep2 = false;
         static public List<Int32> breakpoints = new List<int>();
         static public bool isBreak = false;
-        //private ChildFrm myChildFrm;
+
+        static private int indexFinal = -1;
+        static private int colorFinal = -1;
 
         public Form1()
         {
             InitializeComponent();
             this.toolStripButton2.Enabled = false;
             this.toolStripButton3.Enabled = false;
+            this.toolStripButton2.Visible = false;
+            this.toolStripButton3.Visible = false;
 
             this.txtContent.MouseWheel += new MouseEventHandler(txtContect_MouseWheel);
 
@@ -39,31 +43,33 @@ namespace MipsSimulator
             this.dataGridView2.DataSource = Register.Res;
             this.dataGridView2.Columns[0].FillWeight = 30;
             this.dataGridView2.Columns[1].FillWeight = 70;
+            this.dataGridView2.Columns[0].ReadOnly = true;
+            
             this.dataGridView2.Font = new Font("宋体", 10, FontStyle.Bold);
-            this.dataGridView2.ReadOnly = false;
+           // this.dataGridView2.ReadOnly = false;
             
           
             //内存表格
             Memory.MemInitialize();
             this.dataGridView3.DataSource = Memory.Mem;
-            //this.dataGridView3.Columns[0].FillWeight = 30;
-            //this.dataGridView3.Columns[1].FillWeight = 70;
+            this.dataGridView3.Columns[0].ReadOnly = true;
+            //this.dataGridView3.ReadOnly= false;
             this.dataGridView3.Font = new Font("宋体", 10, FontStyle.Bold);
-            this.dataGridView3.ReadOnly = false;
+           
 
             //Execute表格
             RunTimeCode.CodeTInitial();
-            dataGridView1.DataSource = RunTimeCode.CodeT;
-            dataGridView1.Columns[0].FillWeight = 20;
-            dataGridView1.Columns[1].FillWeight = 20;
-            dataGridView1.Columns[2].FillWeight = 20;
-            dataGridView1.Columns[3].FillWeight = 40;
-            dataGridView1.Columns[1].ReadOnly = true;
-            dataGridView1.Columns[2].ReadOnly = true;
-            dataGridView1.Columns[3].ReadOnly = true;
-            dataGridView1.Font = new Font("宋体", 10, FontStyle.Bold);
-            dataGridView1.ReadOnly = false;
-            dataGridView1.CellEndEdit+=new DataGridViewCellEventHandler(dataGridView1_CellEndEdit);
+            this.dataGridView1.DataSource = RunTimeCode.CodeT;
+            this.dataGridView1.Columns[0].FillWeight = 20;
+            this.dataGridView1.Columns[1].FillWeight = 20;
+            this.dataGridView1.Columns[2].FillWeight = 20;
+            this.dataGridView1.Columns[3].FillWeight = 40;
+            this.dataGridView1.Columns[1].ReadOnly = true;
+            this.dataGridView1.Columns[2].ReadOnly = true;
+            this.dataGridView1.Columns[3].ReadOnly = false;
+            this.dataGridView1.Font = new Font("宋体", 10, FontStyle.Bold);
+           // this.dataGridView1.ReadOnly = false;
+            this.dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(dataGridView1_CellValueChanged);
         }
 
         private int pageLine = 0;
@@ -249,11 +255,88 @@ namespace MipsSimulator
             }
         }
 
-        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-           
+            int index = e.ColumnIndex;
+            if (index != 3)
+                return;
+            string inputPath = System.Environment.CurrentDirectory;
+            inputPath = inputPath + "\\source.txt";
+            string outputPath = System.Environment.CurrentDirectory;
+            outputPath = outputPath + "\\report.txt";
+            if (File.Exists(inputPath))
+            {
+                File.Delete(inputPath);
+            }
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
+            }
+
+            string source = "";
+            for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
+            {
+                source = this.dataGridView1.Rows[i].Cells[3].Value.ToString()+"\r\n";
+                MipsSimulator.Tools.FileControl.WriteFile(inputPath, source);
+            }
+            MipsSimulator.Cmd.cmdMode cmdMode = new Cmd.cmdMode();
+            if (!cmdMode.doAssembler(inputPath, outputPath,false))
+            {
+                string error = MipsSimulator.Tools.FileControl.ReadFile(outputPath);
+                RunTimeCode.Clear();
+                textBox2.Text += error;
+                this.tabControl3.SelectedTab = this.tabPage5;
+                return;
+            }
+            dataGridView1.Refresh();
+            codeColor(indexFinal, colorFinal);
+            for (int i = 0; i < breakpoints.Count; i++)
+            {
+                int point = breakpoints[i];
+                dataGridView1.Rows[point].Cells[0].Value = true;
+
+            }
+            this.tabControl1.SelectedTab = this.tabPage2;
+            return;
         }
-        
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+             switch (e.KeyCode) 
+             {
+                    case Keys.F1: 
+                        toolStripButton1_Click_1(this, EventArgs.Empty); //assembler
+                        break; 
+
+                      case Keys.F2: 
+                          toolStripButton4_Click(this, EventArgs.Empty); //running
+                          break; 
+                      case Keys.F3: 
+                          toolStripButton5_Click(this, EventArgs.Empty); //step
+                          break;
+                     case Keys.F4: 
+                        toolStripButton6_Click(this, EventArgs.Empty); //break
+                        break; 
+                     
+             }
+            if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)         //Ctrl+s
+            {
+                toolStripButton1_Click(this, EventArgs.Empty);
+            }
+            if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)         //Ctrl+o
+            {
+                openButton_Click(this, EventArgs.Empty);
+            }
+             if (e.KeyCode == Keys.R && e.Modifiers == Keys.Alt)         //alt+r
+            {
+                clearRegButton_Click(this, EventArgs.Empty);
+            }
+             if (e.KeyCode == Keys.M && e.Modifiers == Keys.Alt)         //alt+m
+            {
+                clearMemButton_Click(this, EventArgs.Empty);
+            }
+     
+        }
+
         //File    Open
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -320,88 +403,87 @@ namespace MipsSimulator
             MipsSimulator.Tools.FileControl.WriteFile(inputPath, this.txtContent.Text);
 
             MipsSimulator.Cmd.cmdMode cmdMode = new Cmd.cmdMode();
-            if (!cmdMode.doAssembler(inputPath, outputPath))
+            if (!cmdMode.doAssembler(inputPath, outputPath,true))
             {
                 string error = MipsSimulator.Tools.FileControl.ReadFile(outputPath);
                 RunTimeCode.Clear();
                 textBox2.Text += error;
+                this.tabControl3.SelectedTab = this.tabPage5;
                 return;
             }
-
-            int rows = RunTimeCode.CodeT.Rows.Count;
-
             dataGridView1.Refresh();
-            int rows2 = dataGridView1.RowCount;
-
             this.tabControl1.SelectedTab = this.tabPage2;
-
         }
 
         static public void codeColor(int index, int color)
         {
+            indexFinal = index;
+            colorFinal = color;
+            //this.colorChange(index, color);
             switch (color)
             {
                 case 1:
                     {
-                        dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Red;
+
+                        MipsSimulator.Program.form1.dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Red;
                         if (MipsSimulator.Program.mode == 1)
                         {
-                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
                             {
                                 if (i != index)
-                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                                    MipsSimulator.Program.form1.dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                             }
                         }
                         break;
                     }
                 case 2:
                     {
-                        dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Orange;
+                        MipsSimulator.Program.form1.dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Orange;
                         if (MipsSimulator.Program.mode == 1)
                         {
-                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
                             {
                                 if (i != index)
-                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                                    MipsSimulator.Program.form1.dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                             }
                         }
                         break;
                     }
                 case 3:
                     {
-                        dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Green;
+                        MipsSimulator.Program.form1.dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Green;
                         if (MipsSimulator.Program.mode == 1)
                         {
-                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
                             {
                                 if (i != index)
-                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                                    MipsSimulator.Program.form1.dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                             }
                         }
                         break;
                     }
                 case 4:
                     {
-                        dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Purple;
+                        MipsSimulator.Program.form1.dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Purple;
                         if (MipsSimulator.Program.mode == 1)
                         {
-                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
                             {
                                 if (i != index)
-                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                                    MipsSimulator.Program.form1.dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                             }
                         }
                         break;
                     }
                 case 5:
                     {
-                        dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Blue;
+                        MipsSimulator.Program.form1.dataGridView1.Rows[index].DefaultCellStyle.ForeColor = Color.Blue;
                         if (MipsSimulator.Program.mode == 1)
                         {
-                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
                             {
                                 if (i != index)
-                                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                                    MipsSimulator.Program.form1.dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                             }
                         }
                         break;
@@ -411,7 +493,7 @@ namespace MipsSimulator
 
         static public void Message(string message)
         {
-            textBox2.Text += message + "\r\n";
+            MipsSimulator.Program.form1.textBox2.Text += message + "\r\n";
         }
 
         //复位
@@ -478,16 +560,17 @@ namespace MipsSimulator
         //
         static private void breaksCompute()
         {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            breakpoints.Clear();
+            for (int i = 0; i < MipsSimulator.Program.form1.dataGridView1.Rows.Count; i++)
             {
                 try
                 {
                     //第0列是checkbox 
-                    DataGridViewCheckBoxCell check = dataGridView1.Rows[i].Cells[0] as DataGridViewCheckBoxCell;
+                    DataGridViewCheckBoxCell check = MipsSimulator.Program.form1.dataGridView1.Rows[i].Cells[0] as DataGridViewCheckBoxCell;
 
                     if (check.Value != null)//先验证为null                    
                     {
-                        string idStr = (string)dataGridView1.Rows[i].Cells[1].Value;
+                        string idStr = (string)MipsSimulator.Program.form1.dataGridView1.Rows[i].Cells[1].Value;
                       //  int id = Convert.ToInt32(dataGridView1.Rows[i].Cells[1].Value);
                         int id =(Int32) CommonTool.StrToNum(TypeCode.Int32, idStr, 16);
                         id = id / 4;
@@ -507,9 +590,9 @@ namespace MipsSimulator
         //单周期断点
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
+            breaksCompute();
             if (!isBreak)
             {
-                breaksCompute();
                 mMasterSwitch.Initialize();
             }
             isBreak = true;
@@ -544,6 +627,23 @@ namespace MipsSimulator
         private void tabControl3_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.dataGridView3.Refresh();
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            string stream = "";
+            FileControl.Open(ref stream);
+            this.txtContent.Text = stream;
+        }
+
+        private void clearRegButton_Click(object sender, EventArgs e)
+        {
+            Register.Clear();
+        }
+
+        private void clearMemButton_Click(object sender, EventArgs e)
+        {
+            Memory.clear();
         }
 
     }

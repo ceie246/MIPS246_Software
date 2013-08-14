@@ -121,5 +121,22 @@ namespace MipsSimulator.Devices
             }
         }
 
+        public static void clear()
+        {
+            for (int i = 0; i < size/32; i++)
+            {
+                DataRow dr = Mem.Rows[i];
+                string defaultValue = "0x00000000";
+                dr["Value(+00)"] = defaultValue;
+                dr["Value(+04)"] = defaultValue;
+                dr["Value(+08)"] = defaultValue;
+                dr["Value(+0c)"] = defaultValue;
+                dr["Value(+10)"] = defaultValue;
+                dr["Value(+14)"] = defaultValue;
+                dr["Value(+18)"] = defaultValue;
+                dr["Value(+1c)"] = defaultValue;
+            }
+        }
+
     }
 }

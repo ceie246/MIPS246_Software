@@ -24,7 +24,7 @@ namespace MipsSimulator.Cmd
             MipsSimulator.Devices.Register.ResInitialize();
             MipsSimulator.Devices.Memory.MemInitialize();
             RunTimeCode.CodeTInitial();
-            if (doAssembler(inputPath, outputPath))
+            if (doAssembler(inputPath, outputPath,true))
             {
                 if (File.Exists(outputPath))
                 {
@@ -59,10 +59,17 @@ namespace MipsSimulator.Cmd
         {
             MipsSimulator.Tools.FileControl.WriteFile(outPath, message);            
         }
-        public bool doAssembler(string inputPath, string outputPath)
+        public bool doAssembler(string inputPath, string outputPath,bool reset)
         {
             assembler = new MIPS246.Core.Assembler.Assembler(inputPath, outputPath);
-            Form1.Reset();
+            if (reset)
+            {
+                Form1.Reset();
+            }
+            else
+            {
+                RunTimeCode.Clear();
+            }
             if (assembler.DoAssemble() == true)
             {
                 List<String[]> sourceList = assembler.SourceList;

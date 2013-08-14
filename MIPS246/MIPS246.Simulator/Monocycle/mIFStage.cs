@@ -25,7 +25,7 @@ namespace MipsSimulator.Monocycle
         static public void Initialize()
         {
             mIFStage.enableRun = 0;
-            mIFStage.PC = RunTimeCode.CodeStartAddress;
+            //mIFStage.PC = RunTimeCode.CodeStartAddress;
         }
 
         static public void Start()
