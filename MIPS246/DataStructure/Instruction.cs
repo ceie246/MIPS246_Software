@@ -144,8 +144,8 @@ namespace MIPS246.Core.DataStructure
             }
             else
             {
-                
-                
+
+                ToAsmCode();
             }
         }
 
@@ -473,6 +473,11 @@ namespace MIPS246.Core.DataStructure
                 default:
                     return;
             }
+        }
+
+        private void ToAsmCode()
+        {
+
         }
 
         private bool ConvertBit(string i)
