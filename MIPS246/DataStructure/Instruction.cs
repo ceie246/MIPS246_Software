@@ -22,7 +22,7 @@ namespace MIPS246.Core.DataStructure
         #region Fields
         private Mnemonic mnemonic;
         private BitArray machine_code;
-        private string arg1, arg2, arg3;    // represent rs, rt, rd or shmat or imm respectively when assembling & disassembling
+        private string arg1, arg2, arg3;    
         private int address;                // Is it useless?
         private static Hashtable AssemblerTable;
         //private static Hashtable DisassemblerTable;
@@ -603,9 +603,9 @@ namespace MIPS246.Core.DataStructure
                  case Mnemonic.SLLV:
                  case Mnemonic.SRLV:
                  case Mnemonic.SRAV:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
-                     this.arg3 = getRd();                
+                     this.arg1 = getRd();
+                     this.arg2 = getRs();
+                     this.arg3 = getRt();                
                      break;
                  case Mnemonic.JR:
                  case Mnemonic.JALR:
@@ -613,8 +613,8 @@ namespace MIPS246.Core.DataStructure
                      break;
                  case Mnemonic.ADDI:
                  case Mnemonic.ADDIU:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
                      _imm = getImm();
                      if (_imm < 32768)
                      {
@@ -628,8 +628,8 @@ namespace MIPS246.Core.DataStructure
                  case Mnemonic.ANDI:
                  case Mnemonic.ORI:
                  case Mnemonic.XORI:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
                      this.arg3 =  Convert.ToString(getImm());
                      break;
                  case Mnemonic.LUI:                     
@@ -646,8 +646,8 @@ namespace MIPS246.Core.DataStructure
                      break;
                  case Mnemonic.SLTI:
                  case Mnemonic.SLTIU:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
                      _imm = getImm();
                      if (_imm < 32768)
                      {
@@ -666,8 +666,8 @@ namespace MIPS246.Core.DataStructure
                  case Mnemonic.LHU:
                  case Mnemonic.SB:
                  case Mnemonic.SH:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
                      _imm = getImm();
                      if (_imm < 32768)
                      {
@@ -680,8 +680,8 @@ namespace MIPS246.Core.DataStructure
                      break;
                  case Mnemonic.BEQ:
                  case Mnemonic.BNE:
-                     this.arg1 = getRs();
-                     this.arg2 = getRt();
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
                      _imm = getImm();
                      if (_imm < 32768)
                      {
@@ -721,25 +721,25 @@ namespace MIPS246.Core.DataStructure
        
         private int getImm()
         { 
-            int _imm = getDecValueFromBitarray(0, 16);
+            int _imm = getDecValueFromBitarray(31, 16);
             return _imm;
         }
 
         private int getShamt()
         {
-            int _shamt = getDecValueFromBitarray(6, 5);
+            int _shamt = getDecValueFromBitarray(21, 5);
             return _shamt;
         }
 
         private int getAdress()
         {
-            int _adress = getDecValueFromBitarray(0, 26);
+            int _adress = getDecValueFromBitarray(26, 26);
             return _adress;
         }
 
         private string getRs()
         {
-            int _reg = getDecValueFromBitarray(21, 5);
+            int _reg = getDecValueFromBitarray(6, 5);
             if (!isAlias)
             {
                 return Regs[_reg].ToString();
@@ -752,7 +752,7 @@ namespace MIPS246.Core.DataStructure
 
         private string getRt()
         {
-            int _reg = getDecValueFromBitarray(16, 5);
+            int _reg = getDecValueFromBitarray(11, 5);
             if (!isAlias)
             {
                 return Regs[_reg].ToString();
@@ -765,7 +765,7 @@ namespace MIPS246.Core.DataStructure
 
         private string getRd()
         {
-            int _reg = getDecValueFromBitarray(11,5);
+            int _reg = getDecValueFromBitarray(16,5);
             if (!isAlias)
             {
                 return Regs[_reg].ToString() ;
@@ -778,13 +778,13 @@ namespace MIPS246.Core.DataStructure
 
         private int getOP()
         {
-            int _op = getDecValueFromBitarray(26, 6);
+            int _op = getDecValueFromBitarray(0, 6);
             return _op;
         }
 
         private int getfunc()
         {
-            int _func = getDecValueFromBitarray(0, 6);
+            int _func = getDecValueFromBitarray(26, 6);
             return _func;
         }
 
@@ -809,9 +809,9 @@ namespace MIPS246.Core.DataStructure
             int _value = 0;
             for (int i = 0; i <length; i++)
             {
-                if (machine_code[i] == true)
+                if (machine_code[begin + i] == true)
                 {
-                    _value += (2 ^ i); 
+                    _value += (2 ^ (length -1 -i)); 
                 }
             }
             return _value;
