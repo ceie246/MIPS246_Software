@@ -169,7 +169,6 @@ namespace MIPS246.Core.DataStructure
             }
             else
             {
-
                 ToAsmCode();
             }
         }
@@ -692,8 +691,7 @@ namespace MIPS246.Core.DataStructure
                      {
                          this.arg3 = Convert.ToString(_imm-65536);
                      }
-                     break;
-                     break;
+                     break;                     
                 /* case Mnemonic.BGEZ:
                  case Mnemonic.BGEZAL:
                  case Mnemonic.BGTZ:
