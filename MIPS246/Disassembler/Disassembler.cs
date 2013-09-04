@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,27 +8,49 @@ using System.IO;
 
 namespace MIPS246.Core.Disassembler
 {
+    private struct tag
+    {
+        private int pos;                        //pos of the tag
+        private string name;
+        public int Pos
+        {
+            get
+            {
+                return pos;
+            }
+            set
+            {
+                pos = value;
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+    }
+
     public class Disassembler
     {
         #region Fields
         int counter;
         private List<string> sourceString;
-        private List<Instruction> codelist;
-       //private List<string[]> sourceList;
-        private List<int> taglist;
+        private List<Instruction> codelist;      
+        private List<tag> taglist;
+       
         
         //private AssemblerErrorInfo error;
         private string sourcepath;
         private string outputpath;
         private bool isHex;
-        
-       /* private struct tag
-        {
-            int counter;                        //the counter_th instruction
-            int offset;
-            string name;
-        }*/
 
+        //private bool isDisassembled;
 
         private static int startAddress = 0;    //add 0 line, for future use
         #endregion
@@ -43,9 +65,9 @@ namespace MIPS246.Core.Disassembler
             this.sourcepath = sorcepath;
             this.outputpath = outputpath;
             this.sourceString = new List<string>();
-            this.taglist = new List<int>();
+            this.taglist = new List<tag>();
             this.codelist = new List<Instruction>();
-            isHex = true;
+            isHex = true;            
         }
 
         public Disassembler(List<string> sourceString)
@@ -53,7 +75,7 @@ namespace MIPS246.Core.Disassembler
             this.sourcepath = null;
             this.outputpath = null;
             this.sourceString = sourceString;
-            this.taglist = new List<int>();
+            this.taglist = new List<tag>();
             this.codelist = new List<Instruction>();
             isHex = true;
         }
@@ -63,7 +85,7 @@ namespace MIPS246.Core.Disassembler
             this.sourcepath = null;
             this.outputpath = null;
             this.sourceString = new List<string>(sourceCode.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries));
-            this.taglist = new List<int>();
+            this.taglist = new List<tag>();
             this.codelist = new List<Instruction>();
             isHex = true;
         }
@@ -109,11 +131,50 @@ namespace MIPS246.Core.Disassembler
         #endregion
 
         #region Public Methods
-        public bool DoDisassemble
+        public bool DoDisassemble()
         {        
+            if(LoadFile() == false)
+            {
+                //erroe code
+                return false;
+            }
 
+            if(StringToMachinecode() == false)
+            {
+                return false;
+            }
 
+            if(SetTag() == false)
+            {
+                return false;
+            }
+
+            return true;
         }
+
+        public void display()
+        {
+            List<tag> _temp = new List<tag>(taglist);               // a copy of taglist
+            int _n = 0;
+            for (int i = 0; i < codelist.Count; i++)
+            {
+                if(_temp.Count>0)
+                {
+                    _n = _temp[0].Pos;
+                    for(;i<_n;i++)
+                    {
+                        Console.WriteLine(codelist[i].ToString());
+                    }
+                    Console.WriteLine(_temp[0].Name);
+                    _temp.RemoveAt(0);
+                }
+                else
+                {
+                    Console.WriteLine(codelist[i].ToString());
+                }
+            }
+        }
+
         #endregion
 
         #region Internal Methods
@@ -303,24 +364,41 @@ namespace MIPS246.Core.Disassembler
         }
 
         private bool SetTag()
-        {
-            int _tag = 0;
+        {            
             for(int i = 0; i<codelist.Count; i++)
-            {
+            {                
                 codelist[i].Validate();
                 if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.BEQ)
                 {
-                    _tag = Convert.ToInt32(codelist[i].Arg3)/4 + i;
-                    taglist.Add(i);
+                    tag _tag = new tag();
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3)/4 + i;
+                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
+                    codelist[i].Arg3 = _tag.Name;
+                    taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.BNE)
                 {
+                    tag _tag = new tag();
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3) / 4 + i;
+                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
+                    codelist[i].Arg3 = _tag.Name;
+                    taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.J)
                 {
+                    tag _tag = new tag();
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) / 4 + i;
+                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
+                    codelist[i].Arg1 = _tag.Name;
+                    taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.JAL)
                 {
+                    tag _tag = new tag();
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) / 4 + i;
+                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
+                    codelist[i].Arg1 = _tag.Name;
+                    taglist.Add(_tag);
                 }
                 else
                 {
