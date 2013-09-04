@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,13 @@ namespace MIPS246.Test
                 }
             }
 
-           TestCodeGeneator.ConfigGeneator(100, int.Parse(ConfigurationManager.AppSettings["maximm"]), int.Parse(ConfigurationManager.AppSettings["minimm"]), cmdList);
-           TestCodeGeneator.Generate();
+            TestCodeGeneator.ConfigGeneator(100,/* int.Parse(ConfigurationManager.AppSettings["maximm"]), int.Parse(ConfigurationManager.AppSettings["minimm"]),*/ cmdList);
+            TestCodeGeneator.Generate();
 
             Console.ReadLine();
+           // BitArray instr = new BitArray();
+           // Instruction fortest = new Instruction(instr);
+
         }
     }
 }
