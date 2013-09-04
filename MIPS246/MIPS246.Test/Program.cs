@@ -6,6 +6,7 @@ using System.Text;
 using MIPS246.Core.DataStructure;
 using MIPS246.Core.TestCodeGeneator;
 using System.Configuration;
+using MIPS246.Core.ResultComparer;
 
 namespace MIPS246.Test
 {
@@ -13,6 +14,7 @@ namespace MIPS246.Test
     {
         static void Main(string[] args)
         {
+<<<<<<< HEAD
             List<Mnemonic> cmdList = new List<Mnemonic>();
             foreach (Mnemonic m in Enum.GetValues(typeof(Mnemonic)))
             {
@@ -25,7 +27,12 @@ namespace MIPS246.Test
 
             TestCodeGeneator.ConfigGeneator(100,/* int.Parse(ConfigurationManager.AppSettings["maximm"]), int.Parse(ConfigurationManager.AppSettings["minimm"]),*/ cmdList);
             TestCodeGeneator.Generate();
+=======
+            string path1 = @"C:\Users\Alfred\Desktop\file_test.out";
+            string path2 = @"C:\Users\Alfred\Desktop\file_test2.out";
+>>>>>>> MIPS246_Software/master
 
+            Console.WriteLine(ResultComparer.Compare(path1, path2));
             Console.ReadLine();
            // BitArray instr = new BitArray();
            // Instruction fortest = new Instruction(instr);

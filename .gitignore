@@ -4,4 +4,5 @@ MIPS246/*/bin/*
 *.user
 MIPS246/MIPS246.Web/AssemblerOutput/*
 MIPS246/MIPS246.Web/file/*
-MIPS246/MIPS246.Web/Bin/*
+*.dll
+*.pdb

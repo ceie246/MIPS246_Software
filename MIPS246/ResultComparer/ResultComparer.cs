@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MIPS246.ResultComparer
+namespace MIPS246.Core.ResultComparer
 {
     public static class ResultComparer
     {
@@ -28,13 +28,16 @@ namespace MIPS246.ResultComparer
 
             try
             {
-                for (int i = 0; (i * 33 + j)<source1.Count; i++)
+                int i = 0;
+                int j = 0;
+                for (; (i * 33 + j) < source1.Count; i++)
                 {
-                    resultBuilder.AppendLine("Command #" + i+1);
-                    for (int j = 0; j < 33; j++)
+                    bool flag = true;
+                    resultBuilder.AppendLine("Command #" + (i + 1) + ":");
+                    for (; j < 33; j++)
                     {
 
-                        if (j != 32 && (source1[i * 33 + j].StartsWith("regfiles" + j + " = ") == false || source2[i * 33 + j].StartsWith("regfiles" + j + " = ")))
+                        if (j != 32 && (source1[i * 33 + j].StartsWith("regfiles" + j + " = ") == false || source2[i * 33 + j].StartsWith("regfiles" + j + " = ") == false))
                         {
                             resultBuilder.AppendLine("Error: .out file format error.");
                             return resultBuilder.ToString();
@@ -48,17 +51,25 @@ namespace MIPS246.ResultComparer
 
                         if (source1[i * 33 + j].Substring(source1[i * 33 + j].Length - 8) == source2[i * 33 + j].Substring(source1[i * 33 + j].Length - 8))
                         {
-                            resultBuilder.AppendLine("\tCorrect.");
+                           
                         }
                         else
                         {
-                            resultBuilder.AppendLine("\tWrong.");
-                            resultBuilder.AppendLine("\t\t" + source1[i * 32 + j].Substring(source1[i * 32 + j].Length - 8));
-                            resultBuilder.AppendLine("\t\t" + source1[i * 32 + j].Substring(source1[i * 32 + j].Length - 8));
+                            resultBuilder.AppendLine("\tsource 1:\t" + source1[i * 33 + j]);
+                            resultBuilder.AppendLine("\tsource 2:\t" + source2[i * 33 + j]);
+                            resultBuilder.AppendLine();
+                            flag = false;
                         }
+
+                        
                     }
 
-                
+                    if (flag == true)
+                    {
+                        resultBuilder.AppendLine("\tCorrect.");
+                    }
+
+                    j = 0;
                 }
             }
             catch
