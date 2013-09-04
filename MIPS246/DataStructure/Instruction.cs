@@ -70,14 +70,10 @@ namespace MIPS246.Core.DataStructure
 
         public Instruction(BitArray machine_code)
         {
-/*
-            this.machine_code = machine_code;            
-=======*/
             this.machine_code = machine_code;
             this.arg1 = string.Empty;
             this.arg2 = string.Empty;
             this.arg3 = string.Empty;
-//>>>>>>> MIPS246_Software/master
         }
         #endregion
 
