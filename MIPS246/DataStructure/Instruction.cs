@@ -68,9 +68,11 @@ namespace MIPS246.Core.DataStructure
             this.arg3 = arg3.ToString();
         }
 
-        public Instruction(BitArray machine_code)
+        public Instruction(BitArray machine_code ,bool isAlias = false)
         {
             this.machine_code = machine_code;
+            this.mnemonic = Mnemonic.NULL;
+            this.isAlias = isAlias;
             this.arg1 = string.Empty;
             this.arg2 = string.Empty;
             this.arg3 = string.Empty;
@@ -248,6 +250,7 @@ namespace MIPS246.Core.DataStructure
                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
                     mnemonicString = mnemonicString + this.arg1;
                     mnemonicString = mnemonicString + "," + this.arg2;
+                    mnemonicString = mnemonicString + "," + this.arg3;
                     break;
                 case Mnemonic.BGEZ:
                 case Mnemonic.BGEZAL:
@@ -707,7 +710,7 @@ namespace MIPS246.Core.DataStructure
                      break;*/
                  case Mnemonic.J:
                  case Mnemonic.JAL:
-                     address = getAdress();
+                     int _address = getAdress();
                      if (_imm < 33554432)
                      {
                          this.arg1 = Convert.ToString(address);
@@ -717,6 +720,8 @@ namespace MIPS246.Core.DataStructure
                          this.arg1 = Convert.ToString(address-67108864);
                      }
                      break;
+                 default:
+                     break;
              }
              //arg3 = getRd();
              //private int address;
@@ -724,7 +729,7 @@ namespace MIPS246.Core.DataStructure
        
         private int getImm()
         { 
-            int _imm = getDecValueFromBitarray(31, 16);
+            int _imm = getDecValueFromBitarray(16, 16);
             return _imm;
         }
 
@@ -736,7 +741,7 @@ namespace MIPS246.Core.DataStructure
 
         private int getAdress()
         {
-            int _adress = getDecValueFromBitarray(26, 26);
+            int _adress = getDecValueFromBitarray(6, 26);
             return _adress;
         }
 
@@ -812,10 +817,11 @@ namespace MIPS246.Core.DataStructure
             int _value = 0;
             for (int i = 0; i <length; i++)
             {
+                _value *= 2;
                 if (machine_code[begin + i] == true)
                 {
-                    _value += (2 ^ (length -1 -i)); 
-                }
+                    _value +=1; 
+                }               
             }
             return _value;
         }

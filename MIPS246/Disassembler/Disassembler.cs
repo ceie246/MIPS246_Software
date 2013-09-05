@@ -8,7 +8,7 @@ using System.IO;
 
 namespace MIPS246.Core.Disassembler
 {
-    private struct tag
+    public struct tag
     {
         private int pos;                        //pos of the tag
         private string name;
@@ -39,13 +39,11 @@ namespace MIPS246.Core.Disassembler
     public class Disassembler
     {
         #region Fields
-        int counter;
+        //int counter;
         private List<string> sourceString;
         private List<Instruction> codelist;      
         private List<tag> taglist;
-       
-        
-        //private AssemblerErrorInfo error;
+        private DisassemblerErrorInfo error;
         private string sourcepath;
         private string outputpath;
         private bool isHex;
@@ -109,11 +107,11 @@ namespace MIPS246.Core.Disassembler
             }
         }
 
-        public List<int> Jumptag
+        public List<tag> Taglist
         {
             get
             {
-                return jumptag;
+                return taglist;
             }
         }
 
@@ -128,24 +126,37 @@ namespace MIPS246.Core.Disassembler
                 this.isHex = value;
             }
         }
+
+        public DisassemblerErrorInfo Error
+        {
+            get
+            {
+                return this.error;
+            }
+        }
         #endregion
 
         #region Public Methods
-        public bool DoDisassemble()
+        public bool DoDisassemble(bool isAlias = false)
         {        
             if(LoadFile() == false)
             {
                 //erroe code
+                Console.Write("\r\nfile load failed");
                 return false;
             }
 
             if(StringToMachinecode() == false)
             {
+                //erroe code
+                Console.Write("\r\nto machinecode failed");
                 return false;
             }
 
-            if(SetTag() == false)
+            if(SetTag(isAlias) == false)
             {
+                //erroe code
+                Console.Write("\r\ntag set failed");
                 return false;
             }
 
@@ -165,7 +176,7 @@ namespace MIPS246.Core.Disassembler
                     {
                         Console.WriteLine(codelist[i].ToString());
                     }
-                    Console.WriteLine(_temp[0].Name);
+                    Console.WriteLine("tag" + _temp[0].Name + ":");
                     _temp.RemoveAt(0);
                 }
                 else
@@ -175,6 +186,38 @@ namespace MIPS246.Core.Disassembler
             }
         }
 
+        public void output(string outputpath)
+        {
+            StreamWriter sr = new StreamWriter(outputpath);
+            
+            List<tag> _temp = new List<tag>(taglist);               // a copy of taglist
+            int _n = 0;
+            for (int i = 0; i < codelist.Count; i++)
+            {
+                if (_temp.Count > 0)
+                {
+                    _n = _temp[0].Pos;
+                    for (; i < _n; i++)
+                    {
+                        sr.WriteLine(codelist[i].ToString());
+                    }
+                    sr.WriteLine("tag" + _temp[0].Name + ":");
+                    _temp.RemoveAt(0);
+                }
+                else
+                {
+                    sr.WriteLine(codelist[i].ToString());
+                }
+            }
+
+            sr.Close();
+        }
+
+        public void displayError()
+        {
+            Console.WriteLine("Disassenmbler failed:");
+            this.error.ConsoleDisplay();
+        }
         #endregion
 
         #region Internal Methods
@@ -185,6 +228,8 @@ namespace MIPS246.Core.Disassembler
                 if (File.Exists(sourcepath) == false)
                 {
                     //error code
+                    this.error = new DisassemblerErrorInfo(0, AssemblerError.NOFILE);
+                    //Console.Write("\r\nno file");
                     return false;
                 }
                 else
@@ -192,7 +237,7 @@ namespace MIPS246.Core.Disassembler
                     StreamReader sr = new StreamReader(sourcepath);
                     string _line;
                     while ((_line = sr.ReadLine()) != null)
-                    {
+                    {                       
                         this.sourceString.Add(_line);
                     }
                     sr.Close();
@@ -212,14 +257,16 @@ namespace MIPS246.Core.Disassembler
 
         private bool StringToMachinecode()
         {
-            BitArray _machinecode = new BitArray(32);
             for (int i = 0; i < sourceString.Count; i++)
             {
-                if(isHex == false)
+                BitArray _machinecode = new BitArray(32);
+                if(isHex == true)
                 {
                     if(sourceString[i].Length != 8)
                     {
                         /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGFORM, "please check the length of code");
+                        //Console.Write("\r\nhex length wrong");
                         return false;
                     }
                     else
@@ -230,107 +277,111 @@ namespace MIPS246.Core.Disassembler
                             switch(sourceString[i][j]) //get the char on j_th position
                             {
                                 case '0':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case '1':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case '2':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case '3':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case '4':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case '5':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case '6':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case '7':
-                                    _machinecode[31-j*4] = false;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = false;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case '8':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                  case '9':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case 'a':
                                 case 'A':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case 'b':
                                 case 'B':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = false;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = false;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case 'c':
                                 case 'C':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case 'd':
                                 case 'D':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = false;
-                                    _machinecode[31-j*4-3] = true;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = false;
+                                    _machinecode[j*4+3] = true;
                                     break;
                                 case 'e':
                                 case 'E':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = false;
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = false;
                                     break;
                                 case 'f':
                                 case 'F':
-                                    _machinecode[31-j*4] = true;
-                                    _machinecode[31-j*4-1] = true;
-                                    _machinecode[31-j*4-2] = true;
-                                    _machinecode[31-j*4-3] = true;
-                                    break;                                
+                                    _machinecode[j*4] = true;
+                                    _machinecode[j*4+1] = true;
+                                    _machinecode[j*4+2] = true;
+                                    _machinecode[j*4+3] = true;
+                                    break;  
+                                default:
+                                    /*error code*/
+                                    this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGFORM, "invalid character");
+                                    return false;
                             }
                             #endregion 
                         }                        
@@ -341,6 +392,8 @@ namespace MIPS246.Core.Disassembler
                     if(sourceString[i].Length != 32)
                     {
                         /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGFORM, "please check the length of code");
+                        //Console.Write("\r\nbinary length wrong");
                         return false;
                     }
                     else
@@ -351,9 +404,15 @@ namespace MIPS246.Core.Disassembler
                             {
                                 _machinecode[j] = true;
                             }
-                            else
+                            else if (sourceString[i][j] == '0')
                             {
                                 _machinecode[j] = false;
+                            }
+                            else
+                            {
+                                /*error code*/
+                                this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGFORM, "invalid character");
+                                return false;
                             }
                         }
                     }
@@ -363,41 +422,74 @@ namespace MIPS246.Core.Disassembler
             return  true;
         }
 
-        private bool SetTag()
+        private bool SetTag(bool isAlias = false)
         {            
             for(int i = 0; i<codelist.Count; i++)
-            {                
+            {
+                codelist[i].Alias = isAlias;               
                 codelist[i].Validate();
                 if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.BEQ)
                 {
                     tag _tag = new tag();
-                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3)/4 + i;
-                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
-                    codelist[i].Arg3 = _tag.Name;
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3)/*/4*/ + i;
+
+                    if (_tag.Pos < 0 || _tag.Pos > codelist.Count)
+                    {
+                        /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGTAG, "jump target OutOfBounds");
+                        return false;
+                    }
+
+                    _tag.Name = Convert.ToString(taglist.Count);                     //use counter as name
+                    codelist[i].Arg3 = "tag" + _tag.Name;
                     taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.BNE)
                 {
                     tag _tag = new tag();
-                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3) / 4 + i;
-                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
-                    codelist[i].Arg3 = _tag.Name;
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg3) /*/ 4*/ + i;
+
+                    if (_tag.Pos < 0 || _tag.Pos > codelist.Count)
+                    {
+                        /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGTAG, "jump target OutOfBounds");
+                        return false;
+                    }
+
+                    _tag.Name = Convert.ToString(taglist.Count);                     //use counter as name
+                    codelist[i].Arg3 = "tag" + _tag.Name;
                     taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.J)
                 {
                     tag _tag = new tag();
-                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) / 4 + i;
-                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
-                    codelist[i].Arg1 = _tag.Name;
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) /*/ 4*/ + i;
+
+                    if (_tag.Pos < 0 || _tag.Pos > codelist.Count)
+                    {
+                        /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGTAG, "jump target OutOfBounds");
+                        return false;
+                    }
+
+                    _tag.Name = Convert.ToString(taglist.Count);                     //use counter as name
+                    codelist[i].Arg1 = "tag" + _tag.Name;
                     taglist.Add(_tag); 
                 }
                 else if(codelist[i].Mnemonic == MIPS246.Core.DataStructure.Mnemonic.JAL)
                 {
                     tag _tag = new tag();
-                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) / 4 + i;
-                    _tag.Name = Convert.ToString(codelist.Count);                     //use counter as name
-                    codelist[i].Arg1 = _tag.Name;
+                    _tag.Pos = Convert.ToInt32(codelist[i].Arg1) /*/ 4*/ + i;
+
+                    if (_tag.Pos < 0 || _tag.Pos > codelist.Count)
+                    {
+                        /*error code*/
+                        this.error = new DisassemblerErrorInfo(i, AssemblerError.WRONGTAG, "jump target OutOfBounds");
+                        return false;
+                    }
+
+                    _tag.Name = Convert.ToString(taglist.Count);                     //use counter as name
+                    codelist[i].Arg1 = "tag" + _tag.Name;
                     taglist.Add(_tag);
                 }
                 else
