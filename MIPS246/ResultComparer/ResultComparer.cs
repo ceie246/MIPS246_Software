@@ -30,26 +30,32 @@ namespace MIPS246.Core.ResultComparer
             {
                 int i = 0;
                 int j = 0;
-                for (; (i * 33 + j) < source1.Count; i++)
+                for (; (i * 34 + j) < source1.Count; i++)
                 {
                     bool flag = true;
                     resultBuilder.AppendLine("Command #" + (i + 1) + ":");
-                    for (; j < 33; j++)
+                    for (; j < 34; j++)
                     {
 
-                        if (j != 32 && (source1[i * 33 + j].StartsWith("regfiles" + j + " = ") == false || source2[i * 33 + j].StartsWith("regfiles" + j + " = ") == false))
+                        if (j != 32 && j != 33 && (source1[i * 34 + j].StartsWith("regfiles" + j + " = ") == false || source2[i * 34 + j].StartsWith("regfiles" + j + " = ") == false))
                         {
                             resultBuilder.AppendLine("Error: .out file format error.");
                             return resultBuilder.ToString();
                         }
 
-                        if (j == 33 && (source1[i * 33 + j].StartsWith("instr = ") == false || source1[i * 33 + j].StartsWith("instr = ") == false))
+                        if (j == 32 && (source1[i * 34 + j].StartsWith("instr = ") == false || source1[i * 34 + j].StartsWith("instr = ") == false))
                         {
                             resultBuilder.AppendLine("Error: .out file format error.");
                             return resultBuilder.ToString();
                         }
 
-                        if (source1[i * 33 + j].Substring(source1[i * 33 + j].Length - 8) == source2[i * 33 + j].Substring(source1[i * 33 + j].Length - 8))
+                        if (j == 33 && (source1[i * 34 + j].StartsWith("pc = ") == false || source1[i * 34 + j].StartsWith("pc = ") == false))
+                        {
+                            resultBuilder.AppendLine("Error: .out file format error.");
+                            return resultBuilder.ToString();
+                        }
+
+                        if (source1[i * 34 + j].Substring(source1[i * 34 + j].Length - 8) == source2[i * 34 + j].Substring(source1[i * 34 + j].Length - 8))
                         {
                            
                         }
