@@ -42,8 +42,15 @@ namespace MipsSimulator.Assembler
             //codeList.Add(code);
 
             DataRow dr = CodeT.NewRow();
-            string address = "0x" + code.address.ToString("X8");
-            dr["Address"] =address;
+            if (code.address < 0)
+            {
+                dr["Address"] = "";
+            }
+            else
+            {
+                string address = "0x" + code.address.ToString("X8");
+                dr["Address"] = address;
+            }
             dr["Code"] = code.machineCode;
             dr["Source"] = code.codeStr;
             CodeT.Rows.Add(dr);

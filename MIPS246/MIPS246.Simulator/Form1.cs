@@ -417,6 +417,7 @@ namespace MipsSimulator
 
         static public void codeColor(int index, int color)
         {
+           
             indexFinal = index;
             colorFinal = color;
             //this.colorChange(index, color);
@@ -644,6 +645,11 @@ namespace MipsSimulator
         private void clearMemButton_Click(object sender, EventArgs e)
         {
             Memory.clear();
+        }
+
+        private void toolStripButton7_Click_1(object sender, EventArgs e)
+        {
+
         }
 
     }

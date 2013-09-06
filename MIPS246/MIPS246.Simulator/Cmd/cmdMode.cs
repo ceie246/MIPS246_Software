@@ -30,28 +30,49 @@ namespace MipsSimulator.Cmd
                 {
                     File.Delete(outputPath);
                 }
-                
-                for( int k = 0; k < RunTimeCode.codeList.Count; k++)
+
+                MipsSimulator.Monocycle.mMasterSwitch.Initialize();
+                //判断是否要继续
+                while (true)
                 {
-                    try
+                    if (!MipsSimulator.Monocycle.mMasterSwitch.IFRun())
                     {
-                        mMasterSwitch.StepInto();
+                        break;
                     }
-                    catch (Exception e)
+                    else
                     {
-                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, e.Message);
-                        return;
+                        string strArg1 = MipsSimulator.Devices.Register.GetRegisterValue("pc");
+                        string pcstr = "pc = " + strArg1.Substring(2)+ "\r\n";
+                        try
+                        {
+                            mIFStage.Start();
+                            mDEStage.Start();
+                            mEXEStage.Start();
+                            mMEMStage.Start();
+                            mWBStage.Start();
+                        }
+                        catch (Exception e)
+                        {
+                            MipsSimulator.Tools.FileControl.WriteFile(outputPath, e.Message);
+                            return;
+                        }
+                       
+                        int PC = (Int32)CommonTool.StrToNum(TypeCode.Int32, strArg1, 16);
+                        //获取指令
+                        Code code = RunTimeCode.GetCode(PC);
+                        string codeStr = code.machineCode;
+                        Int32 tmp = (Int32)CommonTool.StrToNum(TypeCode.Int32, codeStr, 2);
+                        codeStr = tmp.ToString("X8");
+                        for (int i = 0; i <= 31; i++)
+                        {
+                            string registerName = "$" + i;
+                            string value = "regfiles" + i + " = " + MipsSimulator.Devices.Register.GetRegisterValue(registerName) + "\r\n";
+                            MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
+                        }
+                        string instr = "instr = " + codeStr + "\r\n";
+                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, instr);
+                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, pcstr);
                     }
-                    string codeStr = RunTimeCode.codeList[k].codeStr;
-                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, codeStr + "\r\n");
-                    for (int i = 0; i <= 31; i++)
-                    {
-                        string registerName = "$" + i;
-                        string value =MipsSimulator.Devices.Register.GetRegisterValue(registerName) + " ";
-                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
-                    }
-                   
-                    MipsSimulator.Tools.FileControl.WriteFile(outputPath,"\r\n");
                 }
             }
         }
@@ -127,11 +148,19 @@ namespace MipsSimulator.Cmd
                         machineCode = RunTimeCode.codeList[j].machineCode;
                         Int32 tmp = (Int32)CommonTool.StrToNum(TypeCode.Int32, machineCode, 2);
                         machineCode = "0x" + tmp.ToString("X8");
+                        Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
+                        code.index = i;
+                        code.address = codeList[j].Address;
+                        RunTimeCode.Add(code);
                     }
-                    Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
-                    code.index = i;
-                    code.address = codeList[j].Address;
-                    RunTimeCode.Add(code);
+                    else
+                    {
+                        Code code = new Assembler.Code(CodeType.NOP, null, codeStr, machineCode);
+                        code.index = i;
+                        code.address =-1;
+                        RunTimeCode.Add(code);
+                    }
+                    
                 }
 
             }

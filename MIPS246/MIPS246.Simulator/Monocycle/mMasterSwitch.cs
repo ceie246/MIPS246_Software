@@ -5,6 +5,7 @@ using System.Text;
 using MipsSimulator.Assembler;
 using MipsSimulator.Devices;
 using MipsSimulator.Tools;
+using MipsSimulator.Cmd;
 
 namespace MipsSimulator.Monocycle
 {
@@ -77,14 +78,13 @@ namespace MipsSimulator.Monocycle
                     {
                         if (Form1.breakpoints.Contains(index))
                         {
-                            int indexKey = Form1.breakpoints.IndexOf(index);
-                            if (point < indexKey)
-                                point = indexKey;
-                        }
-                        if (Form1.breakpoints.ElementAt(point) == index)
-                        {
-                            point++;
-                            Form1.codeColor(index, 1);
+                            mIFStage.Start();
+                            mDEStage.Start();
+                            mEXEStage.Start();
+                            mMEMStage.Start();
+                            mWBStage.Start();
+                           
+                            Form1.codeColor((int)cmdMode.lineTable[index], 5);
                             return;
                         }
                     }
@@ -115,7 +115,7 @@ namespace MipsSimulator.Monocycle
         }
 
         // 判断流水线是否运行
-        static private bool IFRun()
+        static public bool IFRun()
         {
             return (mIFStage.enableRun >= 0 || mDEStage.enableRun >= 0 || mEXEStage.enableRun >= 0 || mMEMStage.enableRun >= 0 || mWBStage.enableRun >= 0);
         }

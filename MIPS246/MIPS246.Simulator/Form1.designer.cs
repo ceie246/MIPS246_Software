@@ -68,6 +68,7 @@ namespace MipsSimulator
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.clearMemButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -141,10 +142,10 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(-3, 58);
+            this.tabControl1.Location = new System.Drawing.Point(-3, 54);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(511, 287);
+            this.tabControl1.Size = new System.Drawing.Size(511, 265);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -156,7 +157,7 @@ namespace MipsSimulator
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(503, 261);
+            this.tabPage1.Size = new System.Drawing.Size(503, 239);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Edit";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -167,14 +168,14 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Left)));
             this._txtRow.BackColor = System.Drawing.Color.LightGray;
             this._txtRow.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._txtRow.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._txtRow.Location = new System.Drawing.Point(0, 11);
+            this._txtRow.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._txtRow.Location = new System.Drawing.Point(0, 10);
             this._txtRow.Margin = new System.Windows.Forms.Padding(0);
             this._txtRow.MaxLength = 65535;
             this._txtRow.Multiline = true;
             this._txtRow.Name = "_txtRow";
             this._txtRow.ReadOnly = true;
-            this._txtRow.Size = new System.Drawing.Size(26, 230);
+            this._txtRow.Size = new System.Drawing.Size(26, 212);
             this._txtRow.TabIndex = 8;
             this._txtRow.WordWrap = false;
             this._txtRow.SizeChanged += new System.EventHandler(this.txtRow_SizeChanged);
@@ -185,7 +186,7 @@ namespace MipsSimulator
             this._statusStrip1.GripMargin = new System.Windows.Forms.Padding(0);
             this._statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._toolStripStatusLabel1});
-            this._statusStrip1.Location = new System.Drawing.Point(3, 236);
+            this._statusStrip1.Location = new System.Drawing.Point(3, 214);
             this._statusStrip1.Name = "_statusStrip1";
             this._statusStrip1.Size = new System.Drawing.Size(497, 22);
             this._statusStrip1.TabIndex = 6;
@@ -194,7 +195,7 @@ namespace MipsSimulator
             // _toolStripStatusLabel1
             // 
             this._toolStripStatusLabel1.Name = "_toolStripStatusLabel1";
-            this._toolStripStatusLabel1.Size = new System.Drawing.Size(38, 17);
+            this._toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
             this._toolStripStatusLabel1.Text = "line: 0";
             // 
             // _vScrollBar1
@@ -202,10 +203,10 @@ namespace MipsSimulator
             this._vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this._vScrollBar1.LargeChange = 13;
-            this._vScrollBar1.Location = new System.Drawing.Point(482, 7);
+            this._vScrollBar1.Location = new System.Drawing.Point(482, 6);
             this._vScrollBar1.Maximum = 15;
             this._vScrollBar1.Name = "_vScrollBar1";
-            this._vScrollBar1.Size = new System.Drawing.Size(17, 230);
+            this._vScrollBar1.Size = new System.Drawing.Size(17, 212);
             this._vScrollBar1.TabIndex = 3;
             this._vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             // 
@@ -215,13 +216,13 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtContent.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtContent.Location = new System.Drawing.Point(3, 11);
+            this.txtContent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtContent.Location = new System.Drawing.Point(3, 10);
             this.txtContent.MaxLength = 65535;
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
             this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtContent.Size = new System.Drawing.Size(494, 229);
+            this.txtContent.Size = new System.Drawing.Size(494, 211);
             this.txtContent.TabIndex = 1;
             this.txtContent.WordWrap = false;
             this.txtContent.SizeChanged += new System.EventHandler(this.txtContent_SizeChanged);
@@ -236,7 +237,7 @@ namespace MipsSimulator
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(503, 261);
+            this.tabPage2.Size = new System.Drawing.Size(503, 239);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Execute";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -253,10 +254,10 @@ namespace MipsSimulator
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BreakPoint});
-            this.dataGridView1.Location = new System.Drawing.Point(6, 7);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(479, 246);
+            this.dataGridView1.Size = new System.Drawing.Size(479, 227);
             this.dataGridView1.TabIndex = 0;
             // 
             // BreakPoint
@@ -269,10 +270,10 @@ namespace MipsSimulator
             this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Location = new System.Drawing.Point(504, 58);
+            this.tabControl2.Location = new System.Drawing.Point(504, 54);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(275, 489);
+            this.tabControl2.Size = new System.Drawing.Size(275, 451);
             this.tabControl2.TabIndex = 3;
             // 
             // tabPage3
@@ -281,7 +282,7 @@ namespace MipsSimulator
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(267, 463);
+            this.tabPage3.Size = new System.Drawing.Size(267, 425);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Register";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -296,10 +297,10 @@ namespace MipsSimulator
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(6, 17);
+            this.dataGridView2.Location = new System.Drawing.Point(6, 16);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(259, 448);
+            this.dataGridView2.Size = new System.Drawing.Size(259, 414);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.registerEdit);
             // 
@@ -309,10 +310,10 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl3.Controls.Add(this.tabPage5);
             this.tabControl3.Controls.Add(this.tabPage6);
-            this.tabControl3.Location = new System.Drawing.Point(0, 341);
+            this.tabControl3.Location = new System.Drawing.Point(0, 315);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(508, 206);
+            this.tabControl3.Size = new System.Drawing.Size(508, 190);
             this.tabControl3.TabIndex = 4;
             this.tabControl3.SelectedIndexChanged += new System.EventHandler(this.tabControl3_SelectedIndexChanged);
             // 
@@ -322,7 +323,7 @@ namespace MipsSimulator
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(500, 180);
+            this.tabPage5.Size = new System.Drawing.Size(500, 164);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Message";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -333,11 +334,11 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(7, 8);
+            this.textBox2.Location = new System.Drawing.Point(7, 7);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(491, 164);
+            this.textBox2.Size = new System.Drawing.Size(491, 152);
             this.textBox2.TabIndex = 0;
             // 
             // tabPage6
@@ -346,7 +347,7 @@ namespace MipsSimulator
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(500, 180);
+            this.tabPage6.Size = new System.Drawing.Size(500, 164);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "Memory";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -360,10 +361,10 @@ namespace MipsSimulator
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView3.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(7, 8);
+            this.dataGridView3.Location = new System.Drawing.Point(7, 7);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowTemplate.Height = 23;
-            this.dataGridView3.Size = new System.Drawing.Size(477, 163);
+            this.dataGridView3.Size = new System.Drawing.Size(477, 150);
             this.dataGridView3.TabIndex = 0;
             this.dataGridView3.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.memoryEdit);
             // 
@@ -479,10 +480,11 @@ namespace MipsSimulator
             this.toolStripButton2,
             this.toolStripButton3,
             this.clearRegButton,
-            this.clearMemButton});
-            this.toolStrip1.Location = new System.Drawing.Point(-3, 26);
+            this.clearMemButton,
+            this.toolStripButton7});
+            this.toolStrip1.Location = new System.Drawing.Point(-3, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(333, 32);
+            this.toolStrip1.Size = new System.Drawing.Size(362, 32);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -496,12 +498,22 @@ namespace MipsSimulator
             this.clearMemButton.Text = "clear memory(alt+m)";
             this.clearMemButton.Click += new System.EventHandler(this.clearMemButton_Click);
             // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(29, 29);
+            this.toolStripButton7.Text = "toolStripButton7";
+            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click_1);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(779, 549);
+            this.ClientSize = new System.Drawing.Size(779, 507);
             this.Controls.Add(this.tabControl3);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.tabControl1);
@@ -580,6 +592,7 @@ namespace MipsSimulator
         private DataGridView dataGridView1;
         private TextBox textBox2;
         private ToolStripButton clearMemButton;
+        private ToolStripButton toolStripButton7;
     }
 }
 
