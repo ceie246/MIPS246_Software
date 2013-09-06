@@ -13,6 +13,7 @@ using MipsSimulator.Tools;
 using MipsSimulator.Monocycle;
 using MipsSimulator.Cmd;
 using System.Runtime.InteropServices;
+using MIPS246.Core.ResultComparer;
 
 namespace MipsSimulator
 {
@@ -662,6 +663,8 @@ namespace MipsSimulator
             outputPath = outputPath + "\\report.txt";
             cmd.start(source, outputPath);
             Program.mode = 1;
+            string result=ResultComparer.Compare(outputPath, output);
+            MessageBox.Show(result);
         }
 
     }
