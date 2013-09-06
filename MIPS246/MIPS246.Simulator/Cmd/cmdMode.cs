@@ -66,10 +66,14 @@ namespace MipsSimulator.Cmd
                         for (int i = 0; i <= 31; i++)
                         {
                             string registerName = "$" + i;
-                            string value = "regfiles" + i + " = " + MipsSimulator.Devices.Register.GetRegisterValue(registerName) + "\r\n";
+                            string value = MipsSimulator.Devices.Register.GetRegisterValue(registerName);
+                            value = "regfiles" + i + " = " + value.Substring(2)+ "\r\n";
+                            value = value.ToLower();
                             MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
                         }
                         string instr = "instr = " + codeStr + "\r\n";
+                        instr = instr.ToLower();
+                        pcstr = pcstr.ToLower();
                         MipsSimulator.Tools.FileControl.WriteFile(outputPath, instr);
                         MipsSimulator.Tools.FileControl.WriteFile(outputPath, pcstr);
                     }
