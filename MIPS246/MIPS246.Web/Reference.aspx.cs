@@ -7,14 +7,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class ide : System.Web.UI.Page
-
+public partial class Reference : System.Web.UI.Page
 {
-    public string ideTable;
-    private const string bookpath = "C:\\MIPS246_Software\\MIPS246\\MIPS246.Web\\file\\ide\\";
+    public string ReferenceTable;
+    private const string bookpath = "C:\\MIPS246_Software\\MIPS246\\MIPS246.Web\\file\\reference\\";
 
     protected void Page_Load(object sender, EventArgs e)
-    {  
+    {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<table class=\"table table-hover\">");
 
@@ -28,6 +27,6 @@ public partial class ide : System.Web.UI.Page
         }
 
         sb.AppendLine("</table>");
-        this.ideTable = sb.ToString();
+        this.ReferenceTable = sb.ToString();
     }
 }

@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageBody" Runat="Server">
     <div class="container">
-        <div id="subtitle"><h1 class="mips246cnfont">实验指导书</h1></div>
+        <div id="subtitle"><h1 class="mips246cnfont">开发工具</h1></div>
         <div>
             <%=ideTable %>
         </div>
