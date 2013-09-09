@@ -650,21 +650,20 @@ namespace MipsSimulator
         static Form2 from2;
         private void toolStripButton7_Click_1(object sender, EventArgs e)
         {
-           
             from2 = new Form2();
             from2.Visible = true;
         }
-        public static void react(ref string source,ref string output)
+        public static string react(ref string source,ref string output)
         {
             Program.mode = 3;
-            from2.Visible = false;
+          //  from2.Visible = false;
             cmdMode cmd = new cmdMode();
             string outputPath = System.Environment.CurrentDirectory;
             outputPath = outputPath + "\\report.txt";
             cmd.start(source, outputPath);
             Program.mode = 1;
             string result=ResultComparer.Compare(outputPath, output);
-            MessageBox.Show(result);
+            return result;
         }
 
     }

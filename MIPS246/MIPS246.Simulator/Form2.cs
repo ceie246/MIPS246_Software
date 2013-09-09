@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MipsSimulator.Tools;
 
 namespace MipsSimulator
 {
@@ -20,15 +21,18 @@ namespace MipsSimulator
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.richTextBox1.Text = "";
             if (textBox1.Text != "" && textBox2.Text != "")
             {
                 string source = getSource();
                 string output = getOutput();
-                Form1.react(ref source, ref output);
+                string result=Form1.react(ref source, ref output);
+                this.richTextBox1.Text = result;
             }
             else
             {
-                MessageBox.Show("请输入正确地址！");
+                this.richTextBox1.Text = "请输入正确地址！";
+                
             }
         }
         public string getSource()
@@ -39,6 +43,46 @@ namespace MipsSimulator
         {
             return textBox2.Text;
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.richTextBox1.Text = "";
+            OpenFileDialog openFD = new OpenFileDialog();
+            openFD.Filter = "文本文件(*.txt)|*.txt";
+            openFD.FilterIndex = 1;
+            openFD.AddExtension = true;
+            openFD.RestoreDirectory = true;
+
+            if (openFD.ShowDialog() == DialogResult.OK)
+            {
+                string fName = openFD.FileName;
+                this.textBox1.Text = fName;
+            }
+            else
+            {
+                this.textBox1.Text = "";
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.richTextBox1.Text = "";
+            OpenFileDialog openFD = new OpenFileDialog();
+            openFD.Filter = "文本文件(*.txt)|*.txt";
+            openFD.FilterIndex = 1;
+            openFD.AddExtension = true;
+            openFD.RestoreDirectory = true;
+
+            if (openFD.ShowDialog() == DialogResult.OK)
+            {
+                string fName = openFD.FileName;
+                this.textBox2.Text = fName;
+            }
+            else
+            {
+                this.textBox1.Text = "";
+            }
         }
 
     }
