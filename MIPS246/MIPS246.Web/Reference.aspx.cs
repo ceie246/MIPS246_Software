@@ -23,7 +23,7 @@ public partial class Reference : System.Web.UI.Page
 
         foreach (FileInfo fileinfo in directoryInfo.GetFiles())
         {
-            sb.AppendLine("<tr><td><a href=\"./file/ide/" + fileinfo.Name + "\">" + fileinfo.Name + "</a></td><td>" + fileinfo.Length / 1024 + " KB</td><td>" + fileinfo.LastAccessTime + "</td><td><a class=\"btn btn-primary\" href=\"./file/ide/" + fileinfo.Name + "\">下载</td></tr>");
+            sb.AppendLine("<tr><td><a href=\"./file/reference/" + fileinfo.Name + "\">" + fileinfo.Name + "</a></td><td>" + fileinfo.Length / 1024 + " KB</td><td>" + fileinfo.LastAccessTime + "</td><td><a class=\"btn btn-primary\" href=\"./file/reference/" + fileinfo.Name + "\">下载</td></tr>");
         }
 
         sb.AppendLine("</table>");
