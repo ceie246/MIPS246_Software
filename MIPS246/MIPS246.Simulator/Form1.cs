@@ -412,7 +412,7 @@ namespace MipsSimulator
                 this.tabControl3.SelectedTab = this.tabPage5;
                 return;
             }
-            dataGridView1.Refresh();
+            dataGridView1.DataSource = RunTimeCode.CodeT;
             this.tabControl1.SelectedTab = this.tabPage2;
         }
 
