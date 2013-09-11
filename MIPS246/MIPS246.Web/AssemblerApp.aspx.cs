@@ -16,6 +16,14 @@ public partial class AssemblerApp : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
         this.DownloadUrl = "./file/Assembler/" + System.Configuration.ConfigurationManager.AppSettings["AssemblerFileName"];
         this.ManualUrl = "./file/Assembler/" + System.Configuration.ConfigurationManager.AppSettings["AssemblerManualName"];
         this.Version = ConfigurationManager.AppSettings["AssemblerVersion"];

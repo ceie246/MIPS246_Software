@@ -26,44 +26,28 @@ public static class MIPS246UserManager
 		//
 	}
 
-    public static void Test()
-    {
-        /*MongoServer server = MongoServer.Create(connectionString);
-        MongoDatabase db = server.GetDatabase(dbString);
-        MongoCollection collection = db.GetCollection(collectionString);
-
-        User user=new User();
-        user.Name="mips246";
-        user.BoardID = "000000";
-        user.StudentID = 246246;
-        user.Password = HashMD5("lavielavie");
-
-        collection.Insert(user);*/
-        bool a = checkUser("mips246", "lavielavie2");
-    }
-
-    public static bool checkUser(string name, string password)
+    public static User checkUser(string id, string password)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
         MongoCollection collection = db.GetCollection(collectionString);
 
-        var query = new QueryDocument("Name", name);
+        var query = new QueryDocument("StudentID", id);
 
         if(collection.Count(query)==0)
         {
-            return false;
+            return null;
         }
         else
         {
-             var result = collection.FindOneAs<User>(query);
+             User result = collection.FindOneAs<User>(query);
              if(result.Password==HashMD5(password))
              {
-                 return true;
+                 return result;
              }
              else
              {
-                 return false;
+                 return null;
              }
         }
        

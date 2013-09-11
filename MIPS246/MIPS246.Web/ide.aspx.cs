@@ -14,7 +14,15 @@ public partial class ide : System.Web.UI.Page
     private const string bookpath = "C:\\MIPS246_Software\\MIPS246\\MIPS246.Web\\file\\ide\\";
 
     protected void Page_Load(object sender, EventArgs e)
-    {  
+    {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<table class=\"table table-hover\">");
 

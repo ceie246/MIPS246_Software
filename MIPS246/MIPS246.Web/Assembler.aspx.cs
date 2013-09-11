@@ -9,6 +9,12 @@ public partial class Assembler : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
     }
 }

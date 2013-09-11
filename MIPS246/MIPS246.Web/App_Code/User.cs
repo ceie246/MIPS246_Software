@@ -12,8 +12,7 @@ public sealed class User
 {
     public ObjectId _id;
 
-    public long StudentID { get; set; }
-    public string Name { get; set; }
+    public string StudentID { get; set; }
     public string BoardID { get; set; }
     public string Password { get; set; }
     public DateTime LastLoginTime { get; set; }

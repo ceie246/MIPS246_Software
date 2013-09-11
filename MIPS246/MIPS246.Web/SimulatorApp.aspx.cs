@@ -16,6 +16,14 @@ public partial class Simulator : System.Web.UI.Page
     
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+
+        }
         this.DownloadUrl = "./file/Simulator/" + System.Configuration.ConfigurationManager.AppSettings["SimulatorFileName"];
         this.ManualUrl = "./file/Simulator/" + System.Configuration.ConfigurationManager.AppSettings["SimulatorManualName"];
         this.Version = System.Configuration.ConfigurationManager.AppSettings["SimulatorVersion"];

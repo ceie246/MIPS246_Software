@@ -14,6 +14,14 @@ public partial class Reference : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<table class=\"table table-hover\">");
 

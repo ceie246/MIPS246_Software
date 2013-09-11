@@ -13,6 +13,14 @@ public partial class MIPS246Book : System.Web.UI.Page
     private const string bookpath="C:\\MIPS246_Software\\MIPS246\\MIPS246.Web\\file\\MIPS246Book\\";
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
         StringBuilder sb=new StringBuilder();
         sb.AppendLine("<table class=\"table table-hover\">");
 

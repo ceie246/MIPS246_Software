@@ -38,11 +38,9 @@
                     </li>
                 <li><a href="#">常见问题</a></li>
                 <li><a href="http://10.60.100.131:65276">论坛</a></li>
+                <%=LoginStatus %>
             </ul>
-            <form class="navbar-search pull-right">
-                <input type="text" class="search-query" placeholder="搜索" />
-            </form>
-            <%=LoginStatus %>
+            
         </div>
     </div>
     <asp:ContentPlaceHolder id="PageBody" runat="server">
