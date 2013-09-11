@@ -105,10 +105,17 @@ namespace MipsSimulator.Devices
                 return false;
             else
             {
-                string numStr = registerName.Trim('$');
-                int numInt = Convert.ToInt32(numStr, 10);
-                Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
-                return true;
+                if (registerName == "$0")
+                {
+                    return true;
+                }
+                else
+                {
+                    string numStr = registerName.Trim('$');
+                    int numInt = Convert.ToInt32(numStr, 10);
+                    Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
+                    return true;
+                }
             }
         }
         public static bool SetRegisterValue(string registerName, UInt32 value)
@@ -118,10 +125,17 @@ namespace MipsSimulator.Devices
                 return false;
             else
             {
-                string numStr = registerName.Trim('$');
-                int numInt = Convert.ToInt32(numStr, 10);
-                Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
-                return true;
+                if (registerName == "$0")
+                {
+                    return true;
+                }
+                else
+                {
+                    string numStr = registerName.Trim('$');
+                    int numInt = Convert.ToInt32(numStr, 10);
+                    Res.Rows[numInt]["Value"] = "0x" + value.ToString("X8");
+                    return true;
+                }
             }
         }
 

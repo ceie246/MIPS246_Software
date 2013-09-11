@@ -238,8 +238,10 @@ namespace MipsSimulator
             {
                 MessageBox.Show("修改错误！");
                 Register.Res.Rows[i]["Value"] = "0x00000000";
+                this.dataGridView2.DataSource = Register.Res;
                 return;
             }
+            this.dataGridView2.DataSource = Register.Res;
         }
 
         private void memoryEdit(object sender, DataGridViewCellEventArgs e)
@@ -252,8 +254,10 @@ namespace MipsSimulator
             {
                 MessageBox.Show("修改错误！");
                Memory.Mem.Rows[i][j] = "0x00000000";
+               this.dataGridView3.DataSource = Memory.Mem;
                 return;
             }
+            this.dataGridView3.DataSource = Memory.Mem;
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -316,8 +320,10 @@ namespace MipsSimulator
                           break;
                      case Keys.F4: 
                         toolStripButton6_Click(this, EventArgs.Empty); //break
+                        break;
+                     case Keys.F5:
+                        toolStripButton7_Click_1(this, EventArgs.Empty); //compare
                         break; 
-                     
              }
             if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)         //Ctrl+s
             {
