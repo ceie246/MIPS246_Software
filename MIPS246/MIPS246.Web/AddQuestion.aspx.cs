@@ -18,9 +18,23 @@ public partial class AddQuestion : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
+        if (Session["LoginId"].ToString() != "246246")
+        {
+            this.SubmitButton.Enabled = false;
+        }
+
         this.connectionString = System.Configuration.ConfigurationManager.AppSettings["connectionString"];
         this.dbString = System.Configuration.ConfigurationManager.AppSettings["dbString"];
         this.collectionString = "question";
+
     }
     protected void SubmitButton_Click(object sender, EventArgs e)
     {
