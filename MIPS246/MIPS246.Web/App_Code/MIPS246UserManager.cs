@@ -12,18 +12,17 @@ using System.Text;
 /// </summary>
 public static class MIPS246UserManager
 {
-    private const string connectionString = "mongodb://localhost";
+    private static string connectionString;
 
-    private const string dbString = "MIPS246";
+    private static string dbString;
 
-    private const string collectionString = "user";
+    private static string collectionString;
 
 	static MIPS246UserManager()
 	{
-        
-		//
-		// TODO: 在此处添加构造函数逻辑
-		//
+      connectionString = System.Configuration.ConfigurationManager.AppSettings["connectionString"];
+      dbString = System.Configuration.ConfigurationManager.AppSettings["dbString"];
+      collectionString = "user";
 	}
 
     public static User checkUser(string id, string password)
