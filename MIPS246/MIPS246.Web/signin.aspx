@@ -20,7 +20,7 @@
     <form id="form1" runat="server" class="form-signin">
     <div class="container">
         <div id="signin-container">
-            <h2 class="form-signin-heading">请登陆</h2>
+            <h2 class="form-signin-heading">请登陆(测试学号：246246，密码lavielavie)</h2>
              <asp:TextBox ID="studentIDBox" runat="server" placeholder="学号" OnTextChanged="studentIDBox_TextChanged"></asp:TextBox>
             <br />
              <asp:TextBox ID="passwordBox" runat="server" placeholder="密码" TextMode="Password" OnTextChanged="passwordBox_TextChanged"></asp:TextBox><br />

@@ -17,12 +17,11 @@ public sealed class User
     public string Password { get; set; }
     public DateTime LastLoginTime { get; set; }
 
-    public User()
+    public User(string studentID, string boardId, string password)
 	{
-		//
-		// TODO: 在此处添加构造函数逻辑
-		//
-        
+        this.StudentID = studentID;
+        this.BoardID=boardId;
+        this.Password = password;       
 
 	}
 }
