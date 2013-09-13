@@ -36,7 +36,7 @@
                           <li><a href="#">标准测试代码下载</a></li>
                       </ul>
                     </li>
-                <li><a href="#">常见问题</a></li>
+                <li><a href="Questions.aspx">常见问题</a></li>
                 <li><a href="http://10.60.100.131:65276">论坛</a></li>
                 <%=LoginStatus %>
             </ul>
