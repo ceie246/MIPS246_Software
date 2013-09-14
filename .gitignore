@@ -6,3 +6,4 @@ MIPS246/MIPS246.Web/AssemblerOutput/*
 MIPS246/MIPS246.Web/file/*
 *.dll
 *.pdb
+!MIPS246/MIPS246.Web/externaldlls/*.*
