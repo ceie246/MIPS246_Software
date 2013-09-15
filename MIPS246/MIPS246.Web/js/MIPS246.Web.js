@@ -37,7 +37,6 @@ function SaveTargetCode() {
     var displayFormat = $("input[name=displayformat]:radio:checked").val();
     var outputFormat = $("input[name=OutputFormat]:radio:checked").val();
     var args = "{'sourceCode':'" + sourcecode + "', 'displayFormat': '" + displayFormat + "' , 'outputFormat':'" + outputFormat + "'}";
-    alert(args);
     $.ajax(
         {
             type: "Post",
