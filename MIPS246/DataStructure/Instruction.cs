@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace MIPS246.Core.DataStructure
 {
@@ -21,16 +22,25 @@ namespace MIPS246.Core.DataStructure
         #region Fields
         private Mnemonic mnemonic;
         private BitArray machine_code;
-        private string arg1, arg2, arg3;
-        private int address;
+        private string arg1, arg2, arg3;    
+        private int address;                // Is it useless?
         private static Hashtable AssemblerTable;
-        private static Hashtable DisassemblerTable;
+        //private static Hashtable DisassemblerTable;
+
+        //add by wong
+        private static Dictionary<int, string> Regs;
+        private static Dictionary<int, Mnemonic> R_type;
+        private static Dictionary<int, Mnemonic> IJ_type;       
+        private bool isAlias;
         #endregion
 
         #region Constructors
         static Instruction()
         {
             InitAssemblerTable();
+            InitRegDic();
+            InitR_type();
+            InitIJ_type();
         }
 
         public Instruction(string mnemonic, string arg1, string arg2, string arg3, int address)
@@ -58,9 +68,11 @@ namespace MIPS246.Core.DataStructure
             this.arg3 = arg3.ToString();
         }
 
-        public Instruction(BitArray machine_code)
+        public Instruction(BitArray machine_code ,bool isAlias = false)
         {
             this.machine_code = machine_code;
+            this.mnemonic = Mnemonic.NULL;
+            this.isAlias = isAlias;
             this.arg1 = string.Empty;
             this.arg2 = string.Empty;
             this.arg3 = string.Empty;
@@ -135,6 +147,21 @@ namespace MIPS246.Core.DataStructure
                 this.mnemonic = value;
             }
         }
+
+       /// <summary>
+       /// add by wong
+       /// </summary>
+        public bool Alias
+        {
+            get
+            {
+                return this.isAlias;
+            }
+            set
+            {
+                this.isAlias = value;
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -147,7 +174,6 @@ namespace MIPS246.Core.DataStructure
             }
             else
             {
-
                 ToAsmCode();
             }
         }
@@ -224,6 +250,7 @@ namespace MIPS246.Core.DataStructure
                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
                     mnemonicString = mnemonicString + this.arg1;
                     mnemonicString = mnemonicString + "," + this.arg2;
+                    mnemonicString = mnemonicString + "," + this.arg3;
                     break;
                 case Mnemonic.BGEZ:
                 case Mnemonic.BGEZAL:
@@ -322,6 +349,84 @@ namespace MIPS246.Core.DataStructure
             //AssemblerTable.Add(Mnemonic.LI, InitBoolArray(""));
             //AssemblerTable.Add(Mnemonic.LA, InitBoolArray(""));
             //AssemblerTable.Add(Mnemonic.SYSCALL, InitBoolArray(""));
+        }
+
+        private static void InitRegDic()
+        {
+            Regs = new Dictionary<int,string>();
+            Regs.Add(0, "$0");          Regs.Add(32, "zero");
+            Regs.Add(1, "$1");          Regs.Add(33, "at");
+            Regs.Add(2, "$2");          Regs.Add(34, "v0");
+            Regs.Add(3, "$3");          Regs.Add(35, "v1"); 
+            Regs.Add(4, "$4");          Regs.Add(36, "a0");
+            Regs.Add(5, "$5");          Regs.Add(37, "a1");
+            Regs.Add(6, "$6");          Regs.Add(38, "a2");
+            Regs.Add(7, "$7");          Regs.Add(39, "a3");
+            Regs.Add(8, "$8");          Regs.Add(40, "t0");
+            Regs.Add(9, "$9");          Regs.Add(41, "t1");
+            Regs.Add(10, "$10");        Regs.Add(42, "t2");
+            Regs.Add(11, "$11");        Regs.Add(43, "t3");
+            Regs.Add(12, "$12");        Regs.Add(44, "t4");
+            Regs.Add(13, "$13");        Regs.Add(45, "t5");
+            Regs.Add(14, "$14");        Regs.Add(46, "t6");
+            Regs.Add(15, "$15");        Regs.Add(47, "t7");
+            Regs.Add(16, "$16");        Regs.Add(48, "s0");
+            Regs.Add(17, "$17");        Regs.Add(49, "s1");
+            Regs.Add(18, "$18");        Regs.Add(50, "s2");
+            Regs.Add(19, "$19");        Regs.Add(51, "s3");
+            Regs.Add(20, "$20");        Regs.Add(52, "s4");
+            Regs.Add(21, "$21");        Regs.Add(53, "s5");
+            Regs.Add(22, "$22");        Regs.Add(54, "s6");
+            Regs.Add(23, "$23");        Regs.Add(55, "t7");
+            Regs.Add(24, "$24");        Regs.Add(56, "t8");
+            Regs.Add(25, "$25");        Regs.Add(57, "t9");
+            Regs.Add(26, "$26");        Regs.Add(58, "k0");
+            Regs.Add(27, "$27");        Regs.Add(59, "k1");
+            Regs.Add(28, "$28");        Regs.Add(60, "gp");
+            Regs.Add(29, "$29");        Regs.Add(61, "sp");
+            Regs.Add(30, "$30");        Regs.Add(62, "fp");
+            Regs.Add(31, "$31");        Regs.Add(63, "ra");
+        }
+
+        private static void InitR_type()
+        {
+            R_type = new Dictionary<int, Mnemonic>();
+            R_type.Add(32, Mnemonic.ADD);
+            R_type.Add(33, Mnemonic.ADDU);
+            R_type.Add(34, Mnemonic.SUB);
+            R_type.Add(35, Mnemonic.SUBU);
+            R_type.Add(36, Mnemonic.AND);
+            R_type.Add(37, Mnemonic.OR);
+            R_type.Add(38, Mnemonic.XOR);
+            R_type.Add(39, Mnemonic.NOR);
+            R_type.Add(40, Mnemonic.SLT);
+            R_type.Add(41, Mnemonic.SLTU);
+            R_type.Add(0, Mnemonic.SLL);
+            R_type.Add(2, Mnemonic.SRL);
+            R_type.Add(3, Mnemonic.SRA);
+            R_type.Add(4, Mnemonic.SLLV);
+            R_type.Add(6, Mnemonic.SRLV);
+            R_type.Add(7, Mnemonic.SRAV);
+            R_type.Add(8, Mnemonic.JR);
+        }
+
+        private static void InitIJ_type()
+        {
+            IJ_type = new Dictionary<int, Mnemonic>();
+            IJ_type.Add(8, Mnemonic.ADDI);
+            IJ_type.Add(9, Mnemonic.ADDIU);
+            IJ_type.Add(12, Mnemonic.ANDI);
+            IJ_type.Add(13, Mnemonic.ORI);
+            IJ_type.Add(14, Mnemonic.XORI);
+            IJ_type.Add(35, Mnemonic.LW);
+            IJ_type.Add(43, Mnemonic.SW);
+            IJ_type.Add(4, Mnemonic.BEQ);
+            IJ_type.Add(5, Mnemonic.BNE);
+            IJ_type.Add(10, Mnemonic.SLTI);
+            IJ_type.Add(11, Mnemonic.SLTIU);
+            IJ_type.Add(15, Mnemonic.LUI);
+            IJ_type.Add(2, Mnemonic.J);
+            IJ_type.Add(3, Mnemonic.JAL);
         }
 
         private void ToMachineCode()
@@ -478,11 +583,252 @@ namespace MIPS246.Core.DataStructure
             }
         }
 
+        /// <summary>
+        /// begin wong's
+        /// </summary>
         private void ToAsmCode()
         {
+             int _imm = 0;
+             this.mnemonic = getMnemonic();    
 
+             switch (this.mnemonic)
+             {
+                 case Mnemonic.ADD:
+                 case Mnemonic.ADDU:
+                 case Mnemonic.SUB:
+                 case Mnemonic.SUBU:
+                 case Mnemonic.AND:
+                 case Mnemonic.OR:
+                 case Mnemonic.XOR:
+                 case Mnemonic.NOR:
+                 case Mnemonic.SLT:
+                 case Mnemonic.SLTU:
+                 case Mnemonic.SLL:
+                 case Mnemonic.SRL:
+                 case Mnemonic.SRA:
+                 case Mnemonic.SLLV:
+                 case Mnemonic.SRLV:
+                 case Mnemonic.SRAV:
+                     this.arg1 = getRd();
+                     this.arg2 = getRs();
+                     this.arg3 = getRt();                
+                     break;
+                 case Mnemonic.JR:
+                 case Mnemonic.JALR:
+                     this.arg1 = getRs();
+                     break;
+                 case Mnemonic.ADDI:
+                 case Mnemonic.ADDIU:
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
+                     _imm = getImm();
+                     if (_imm < 32768)
+                     {
+                         this.arg3 = Convert.ToString(_imm);
+                     }
+                     else
+                     {
+                         this.arg3 = Convert.ToString(_imm-65536);
+                     }
+                     break;
+                 case Mnemonic.ANDI:
+                 case Mnemonic.ORI:
+                 case Mnemonic.XORI:
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
+                     this.arg3 =  Convert.ToString(getImm());
+                     break;
+                 case Mnemonic.LUI:                     
+                     this.arg1 = getRt();
+                     _imm = getImm();
+                     if (_imm < 32768)
+                     {
+                         this.arg2 = Convert.ToString(_imm);
+                     }
+                     else
+                     {
+                         this.arg2 = Convert.ToString(_imm-65536);
+                     }
+                     break;
+                 case Mnemonic.SLTI:
+                 case Mnemonic.SLTIU:
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
+                     _imm = getImm();
+                     if (_imm < 32768)
+                     {
+                         this.arg3 = Convert.ToString(_imm);
+                     }
+                     else
+                     {
+                         this.arg3 = Convert.ToString(_imm-65536);
+                     }
+                     break;
+                 case Mnemonic.LW:
+                 case Mnemonic.SW:
+                 case Mnemonic.LB:
+                 case Mnemonic.LBU:
+                 case Mnemonic.LH:
+                 case Mnemonic.LHU:
+                 case Mnemonic.SB:
+                 case Mnemonic.SH:
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
+                     _imm = getImm();
+                     if (_imm < 32768)
+                     {
+                         this.arg3 = Convert.ToString(_imm);
+                     }
+                     else
+                     {
+                         this.arg3 = Convert.ToString(_imm-65536);
+                     }
+                     break;
+                 case Mnemonic.BEQ:
+                 case Mnemonic.BNE:
+                     this.arg1 = getRt();
+                     this.arg2 = getRs();
+                     _imm = getImm();
+                     if (_imm < 32768)
+                     {
+                         this.arg3 = Convert.ToString(_imm);
+                     }
+                     else
+                     {
+                         this.arg3 = Convert.ToString(_imm-65536);
+                     }
+                     break;                     
+                /* case Mnemonic.BGEZ:
+                 case Mnemonic.BGEZAL:
+                 case Mnemonic.BGTZ:
+                 case Mnemonic.BLEZ:
+                 case Mnemonic.BLTZ:
+                 case Mnemonic.BLTZAL:
+                     mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
+                     mnemonicString = mnemonicString + this.arg1;
+                     mnemonicString = mnemonicString + "," + this.arg2;
+                     break;*/
+                 case Mnemonic.J:
+                 case Mnemonic.JAL:
+                     int _address = getAdress();
+                     if (_imm < 33554432)
+                     {
+                         this.arg1 = Convert.ToString(address);
+                     }
+                     else
+                     {
+                         this.arg1 = Convert.ToString(address-67108864);
+                     }
+                     break;
+                 default:
+                     break;
+             }
+             //arg3 = getRd();
+             //private int address;
+        }
+       
+        private int getImm()
+        { 
+            int _imm = getDecValueFromBitarray(16, 16);
+            return _imm;
         }
 
+        private int getShamt()
+        {
+            int _shamt = getDecValueFromBitarray(21, 5);
+            return _shamt;
+        }
+
+        private int getAdress()
+        {
+            int _adress = getDecValueFromBitarray(6, 26);
+            return _adress;
+        }
+
+        private string getRs()
+        {
+            int _reg = getDecValueFromBitarray(6, 5);
+            if (!isAlias)
+            {
+                return Regs[_reg].ToString();
+            }
+            else
+            {
+                return Regs[_reg + 32].ToString();
+            }
+        }
+
+        private string getRt()
+        {
+            int _reg = getDecValueFromBitarray(11, 5);
+            if (!isAlias)
+            {
+                return Regs[_reg].ToString();
+            }
+            else
+            {
+                return Regs[_reg + 32].ToString();
+            }
+        }
+
+        private string getRd()
+        {
+            int _reg = getDecValueFromBitarray(16,5);
+            if (!isAlias)
+            {
+                return Regs[_reg].ToString() ;
+            }
+            else
+            {
+                return Regs[_reg + 32].ToString();
+            }
+        }
+
+        private int getOP()
+        {
+            int _op = getDecValueFromBitarray(0, 6);
+            return _op;
+        }
+
+        private int getfunc()
+        {
+            int _func = getDecValueFromBitarray(26, 6);
+            return _func;
+        }
+
+        private Mnemonic getMnemonic()
+        {
+            int _op = 0;
+            int _func = 0;
+            _op = getOP();
+            _func = getfunc();
+            if (_op == 0)
+            {
+                return R_type[_func];
+            }
+            else
+            {
+                return IJ_type[_op];
+            }
+        }
+
+        private int getDecValueFromBitarray(int begin, int length)
+        {
+            int _value = 0;
+            for (int i = 0; i <length; i++)
+            {
+                _value *= 2;
+                if (machine_code[begin + i] == true)
+                {
+                    _value +=1; 
+                }               
+            }
+            return _value;
+        }
+        /// <summary>
+        /// end
+        /// </summary>
+       
         private bool ConvertBit(string i)
         {
             if (i == "1")
