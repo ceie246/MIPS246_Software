@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1)" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:11:59" Bounds="33.8701643234877,100.05319742715,162,25" CodeSchemaProperty_StrongName="Assembler.CLI, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(5bd7d758-9877-4a39-afde-da4313e327e8.OutputPath)" Group="Collapsed" Label="Assembler.CLI.exe" UseManualLocation="True">
+      <Category Ref="Category5" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="(@2)" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:12:00" Bounds="40.5499735770506,45.0530974271503,156,25" CodeSchemaProperty_StrongName="Compiler.CLI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(4a051863-dc05-41d5-a499-33c922a39d3b.OutputPath)" Group="Collapsed" Label="Compiler.CLI.exe" UseManualLocation="True">
+      <Category Ref="Category5" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="(@3)" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:12:00" Bounds="31.6165975935588,155.05329742715,162,25" CodeSchemaProperty_StrongName="Assembler.GUI, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(b4a5c52e-d391-4866-96e9-fc6f5094e2b6.OutputPath)" Group="Collapsed" Label="Assembler.GUI.exe" UseManualLocation="True">
+      <Category Ref="Category5" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="(@4)" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:12:00" Bounds="34.3756369331695,210.05339742715,162,25" CodeSchemaProperty_StrongName="Assembler.GUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(fb530d7a-ea99-4a30-ad81-9634403cf67d.OutputPath)" Group="Collapsed" Label="Assembler.GUI.exe" UseManualLocation="True">
+      <Category Ref="Category5" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="(@5)" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:12:03" Bounds="91.398680070443,532.435014720536,162,25" CodeSchemaProperty_StrongName="MipsSimulator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(4f8c5241-f0a8-46fb-bc40-2ffadbdd5fb4.OutputPath)" Group="Collapsed" Label="MipsSimulator.exe" UseManualLocation="True">
+      <Category Ref="Category5" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="@11" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:11:57" Bounds="367.634964208829,104.422013806271,132,25" CodeSchemaProperty_StrongName="Compiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(db12d97e-2396-4378-b738-59df16c4b10d.OutputPath)" Group="Collapsed" Label="Compiler.dll" UseManualLocation="True">
+      <Category Ref="Category1" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@13" Category="CodeSchema_Assembly" AssemblyTimestamp="09/15/2013 14:11:57" Bounds="205.442716815954,334.73467373112,168,25" CodeSchemaProperty_StrongName="ResultComparer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(138f67fa-a380-4e99-b2d4-3b4725aa1c56.OutputPath)" Group="Collapsed" Label="ResultComparer.dll" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@15" Category="CodeSchema_Assembly" AssemblyTimestamp="09/14/2013 07:51:12" Bounds="512.881016568209,310.017208490549,180,25" CodeSchemaProperty_StrongName="TestCodeGeneator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(cc5276e4-9b49-4ed0-b3a7-b52c6755da6e.OutputPath)" Group="Collapsed" Label="TestCodeGeneator.dll" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@7" Category="CodeSchema_Assembly" AssemblyTimestamp="09/14/2013 07:51:11" Bounds="617.168301566017,108.284793475314,162,25" CodeSchemaProperty_StrongName="DataStructure, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(a3c81ffa-07eb-4239-afed-db93e161fe71.OutputPath)" Group="Collapsed" Label="DataStructure.dll" UseManualLocation="True">
+      <Category Ref="Category1" />
+      <Category Ref="Category2" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@9" Category="CodeSchema_Assembly" AssemblyTimestamp="09/14/2013 07:51:11" Bounds="368.119848316781,212.08919983043,138,25" CodeSchemaProperty_StrongName="Assembler, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(bfb0d791-9c6c-456a-8b89-2ed73c84fdd7.OutputPath)" Group="Collapsed" Label="Assembler.dll" UseManualLocation="True">
+      <Category Ref="Category1" />
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="MIPS246.Web" Category="Category5" Bounds="304.58617569234,537.03557318639,86,23.6866666666667" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="(@1)" Target="@9" Category="CodeSchema_Calls" Bounds="150.823973487588,125.05319742715,241.841178403618,84.080513312167" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5" />
+    <Link Source="(@2)" Target="@11" Category="CodeSchema_Calls" Bounds="184.890453126082,70.0530974271503,176.582529118053,33.2720177632162" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5" />
+    <Link Source="(@3)" Target="@9" Category="References" Bounds="183.734796186434,180.05329742715,177.839494133551,31.2577331914042" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="11">
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="(@4)" Target="@9" Category="CodeSchema_Calls" Bounds="196.37563693317,223.065916343828,162.74439153982,1.02974789194269" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8" />
+    <Link Source="(@5)" Target="@13" Bounds="179.799023701602,367.479216277174,97.6583673946396,164.955798443362" />
+    <Link Source="@11" Target="@7" Category="References" Bounds="499.634964208829,117.885761743313,108.534296718323,1.58484400849368" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="517">
+      <Category Ref="CodeSchema_Calls" />
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@15" Target="@7" Category="References" Bounds="608.785328289172,141.422645660223,79.6347882727771,168.594562830327" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="14">
+      <Category Ref="CodeSchema_Calls" />
+      <Category Ref="CodeSchema_ReturnTypeLink" />
+    </Link>
+    <Link Source="@9" Target="@7" Category="References" Bounds="468.554984648589,136.61031850656,189.815113967056,75.4788813238699" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="127">
+      <Category Ref="CodeSchema_Calls" />
+    </Link>
+    <Link Source="MIPS246.Web" Target="@13" Bounds="295.540580607927,368.382350352766,48.6306084264618,168.653222833624" />
+    <Link Source="MIPS246.Web" Target="@15" Bounds="360.943302472612,340.98812286214,221.105880855332,196.04745032425" />
+    <Link Source="MIPS246.Web" Target="@9" Bounds="350.856020857253,245.764622666174,80.4174705238883,291.270950520216" />
+  </Links>
+  <Categories>
+    <Category Id="Category1" Label="类别 1" Background="#FFFF7F7F" IsTag="True" />
+    <Category Id="Category2" Label="类别 2" Background="#FF7DC633" IsTag="True" />
+    <Category Id="Category5" Label="类别 5" Background="#FFA17FFF" IsTag="True" />
+    <Category Id="CodeSchema_Assembly" Label="程序集" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="程序集" />
+    <Category Id="CodeSchema_Calls" Label="调用" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="调用者" OutgoingActionLabel="调用" />
+    <Category Id="CodeSchema_ReturnTypeLink" Label="返回" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="返回类型" OutgoingActionLabel="返回类型" />
+    <Category Id="File" Label="文件" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="文件" />
+    <Category Id="FileSystem.Category.FileOfType.dll" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+    <Category Id="FileSystem.Category.FileOfType.exe" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+    <Category Id="References" Label="引用" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="引用者" OutgoingActionLabel="引用" />
+  </Categories>
+  <Properties>
+    <Property Id="AssemblyTimestamp" DataType="System.DateTime" />
+    <Property Id="Background" Label="背景" Description="背景色" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DataVirtualized" Label="已虚拟化数据" Description="如果为 true，则图中可以包含表示虚拟化节点/链接(即，不在图中实际创建)的数据的节点和链接。" DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="DelayedChildNodesState" Label="延迟的子节点状态" Description="如果未指定延迟的子节点状态，则为 Unspecified。如果尚未将组包含的子节点提取到关系图中，则为 NotFetched。如果已提取组内的所有延迟的子节点，则为 Fetched。" DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="DelayedCrossGroupLinksState" Label="延迟的跨组链接状态" Description="如果未指定延迟的跨组链接状态，则为 Unspecified。如果尚未将此节点上延迟的跨组链接提取到关系图中，则为 NotFetched。如果已提取所有延迟的跨组链接，则为 Fetched。" DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FilePath" Label="文件路径" Description="文件路径" DataType="System.String" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" Label="图标" Description="图标" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsSourceVirtualized" Label="已虚拟化链接源" Description="如果为 true，则链接源端包含虚拟化节点/链接(即，不在图中实际创建)的数据。" DataType="System.Boolean" />
+    <Property Id="IsTag" DataType="System.Boolean" />
+    <Property Id="IsTargetVirtualized" Label="已虚拟化链接目标" Description="如果为 true，则链接目标端包含虚拟化节点/链接(即，不在图中实际创建)的数据。" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="Weight" Label="粗细" Description="粗细" DataType="System.Double" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="程序集" ValueType="Uri" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(5bd7d758-9877-4a39-afde-da4313e327e8.OutputPathUri)" />
+    <Alias n="2" Uri="Assembly=$(4a051863-dc05-41d5-a499-33c922a39d3b.OutputPathUri)" />
+    <Alias n="3" Uri="Assembly=$(b4a5c52e-d391-4866-96e9-fc6f5094e2b6.OutputPathUri)" />
+    <Alias n="4" Uri="Assembly=$(fb530d7a-ea99-4a30-ad81-9634403cf67d.OutputPathUri)" />
+    <Alias n="5" Uri="Assembly=$(4f8c5241-f0a8-46fb-bc40-2ffadbdd5fb4.OutputPathUri)" />
+    <Alias n="6" Uri="Assembly=$(a3c81ffa-07eb-4239-afed-db93e161fe71.OutputPathUri)" />
+    <Alias n="7" Id="(@6)" />
+    <Alias n="8" Uri="Assembly=$(bfb0d791-9c6c-456a-8b89-2ed73c84fdd7.OutputPathUri)" />
+    <Alias n="9" Id="(@8)" />
+    <Alias n="10" Uri="Assembly=$(db12d97e-2396-4378-b738-59df16c4b10d.OutputPathUri)" />
+    <Alias n="11" Id="(@10)" />
+    <Alias n="12" Uri="Assembly=$(138f67fa-a380-4e99-b2d4-3b4725aa1c56.OutputPathUri)" />
+    <Alias n="13" Id="(@12)" />
+    <Alias n="14" Uri="Assembly=$(cc5276e4-9b49-4ed0-b3a7-b52c6755da6e.OutputPathUri)" />
+    <Alias n="15" Id="(@14)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="类别 5" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category5')" />
+      <Setter Property="Background" Value="#FFA17FFF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="类别 2" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category2')" />
+      <Setter Property="Background" Value="#FF7DC633" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="类别 1" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category1')" />
+      <Setter Property="Background" Value="#FFFF7F7F" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="程序集" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Assembly')" />
+      <Setter Property="Background" Value="#FF094167" />
+      <Setter Property="Stroke" Value="#FF094167" />
+      <Setter Property="Icon" Value="CodeSchema_Assembly" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="命名空间" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Namespace')" />
+      <Setter Property="Background" Value="#FF0E619A" />
+      <Setter Property="Stroke" Value="#FF0E619A" />
+      <Setter Property="Icon" Value="CodeSchema_Namespace" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="接口" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Interface')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Interface" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="结构" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Struct')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Struct" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="枚举" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Enum')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Enum" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="委托" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Delegate')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Delegate" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="类" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Type')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Class" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="属性" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Property')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Property" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="方法" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Method')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Method" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="事件" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Event')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Event" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="字段" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('CodeSchema_Field')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Field" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="外部" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Externals')" />
+      <Setter Property="Background" Value="#FF424242" />
+      <Setter Property="Stroke" Value="#FF424242" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="138f67fa-a380-4e99-b2d4-3b4725aa1c56.OutputPath" Value="C:\MIPS246_Software\MIPS246\ResultComparer\bin\Debug\ResultComparer.dll" />
+    <Path Id="138f67fa-a380-4e99-b2d4-3b4725aa1c56.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/ResultComparer/bin/Debug/ResultComparer.dll" />
+    <Path Id="4a051863-dc05-41d5-a499-33c922a39d3b.OutputPath" Value="C:\MIPS246_Software\MIPS246\Compiler.CLI\bin\Debug\Compiler.CLI.exe" />
+    <Path Id="4a051863-dc05-41d5-a499-33c922a39d3b.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Compiler.CLI/bin/Debug/Compiler.CLI.exe" />
+    <Path Id="4f8c5241-f0a8-46fb-bc40-2ffadbdd5fb4.OutputPath" Value="C:\MIPS246_Software\MIPS246\MIPS246.Simulator\bin\Debug\MipsSimulator.exe" />
+    <Path Id="4f8c5241-f0a8-46fb-bc40-2ffadbdd5fb4.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/MIPS246.Simulator/bin/Debug/MipsSimulator.exe" />
+    <Path Id="5bd7d758-9877-4a39-afde-da4313e327e8.OutputPath" Value="C:\MIPS246_Software\MIPS246\Assembler.CLI\bin\Debug\Assembler.CLI.exe" />
+    <Path Id="5bd7d758-9877-4a39-afde-da4313e327e8.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Assembler.CLI/bin/Debug/Assembler.CLI.exe" />
+    <Path Id="a3c81ffa-07eb-4239-afed-db93e161fe71.OutputPath" Value="C:\MIPS246_Software\MIPS246\DataStructure\bin\Debug\DataStructure.dll" />
+    <Path Id="a3c81ffa-07eb-4239-afed-db93e161fe71.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/DataStructure/bin/Debug/DataStructure.dll" />
+    <Path Id="b4a5c52e-d391-4866-96e9-fc6f5094e2b6.OutputPath" Value="C:\MIPS246_Software\MIPS246\Assembler.GUI\bin\Debug\Assembler.GUI.exe" />
+    <Path Id="b4a5c52e-d391-4866-96e9-fc6f5094e2b6.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Assembler.GUI/bin/Debug/Assembler.GUI.exe" />
+    <Path Id="bfb0d791-9c6c-456a-8b89-2ed73c84fdd7.OutputPath" Value="C:\MIPS246_Software\MIPS246\Assembler\bin\Debug\Assembler.dll" />
+    <Path Id="bfb0d791-9c6c-456a-8b89-2ed73c84fdd7.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Assembler/bin/Debug/Assembler.dll" />
+    <Path Id="cc5276e4-9b49-4ed0-b3a7-b52c6755da6e.OutputPath" Value="C:\MIPS246_Software\MIPS246\TestCodeGeneator\bin\Debug\TestCodeGeneator.dll" />
+    <Path Id="cc5276e4-9b49-4ed0-b3a7-b52c6755da6e.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/TestCodeGeneator/bin/Debug/TestCodeGeneator.dll" />
+    <Path Id="db12d97e-2396-4378-b738-59df16c4b10d.OutputPath" Value="C:\MIPS246_Software\MIPS246\Compiler\bin\Debug\Compiler.dll" />
+    <Path Id="db12d97e-2396-4378-b738-59df16c4b10d.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Compiler/bin/Debug/Compiler.dll" />
+    <Path Id="fb530d7a-ea99-4a30-ad81-9634403cf67d.OutputPath" Value="C:\MIPS246_Software\MIPS246\Compiler.GUI\bin\Debug\Assembler.GUI.exe" />
+    <Path Id="fb530d7a-ea99-4a30-ad81-9634403cf67d.OutputPathUri" Value="file:///C:/MIPS246_Software/MIPS246/Compiler.GUI/bin/Debug/Assembler.GUI.exe" />
+  </Paths>
+</DirectedGraph>
