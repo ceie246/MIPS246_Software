@@ -2,6 +2,10 @@
 
 namespace CEIE246.Core.Assembler.CLI
 {
+    /// <summary>
+    /// assembler console interface
+    /// </summary>
+   
     class Program
     {
         static void Main(string[] args)

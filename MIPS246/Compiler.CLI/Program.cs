@@ -8,6 +8,7 @@ using MIPS246.Core.Compiler;
 
 namespace CEIE246.Core.Compiler.CLI
 {
+    //compiler cli
     class Program
     {
         static void Main(string[] args)
@@ -17,6 +18,7 @@ namespace CEIE246.Core.Compiler.CLI
             bool isDisplayBinary = false;
             bool isOutputCOE = false;
 
+            //arg input
             if (args.Length == 0)
             {
                 ShowHelp();
@@ -61,6 +63,7 @@ namespace CEIE246.Core.Compiler.CLI
                 }
             }
 
+            //do compile
             MIPS246.Core.Compiler.Compiler compiler = new MIPS246.Core.Compiler.Compiler(sourcepath, outputpath);
             if (compiler.DoCompile() == true)
             {
