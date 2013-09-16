@@ -32,9 +32,8 @@
         </div>
         <div class="row-fluid" id="button _area">
             <button class="btn btn-info span1" type="button" onclick="SaveSourceCode()">保存</button>
-            <button class="btn btn-info span1" type="button">载入</button>
             <button class="btn btn-danger span1" type="button" onclick="ClearSourceBox()">清除</button>
-            <a href="#save_option_popup_window" class="btn btn-info span1 offset3" data-toggle="modal">保存</a>
+            <a href="#save_option_popup_window" class="btn btn-info span1 offset4" data-toggle="modal">保存</a>
             <button class="btn btn-primary span2 offset3 btn-large" type="button" onclick="Assemble()">编译</button>
         </div>
     </div>
