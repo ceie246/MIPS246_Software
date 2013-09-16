@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace MIPS246.Core.DataStructure
 {
+    //mips246 instruction c# model
+
     public enum Mnemonic
     {
         ADD,ADDU,SUB,SUBU,AND,OR,XOR,NOR,SLT,SLTU,SLL,SRL,SRA,SLLV,SRLV,SRAV,JR,JALR,
@@ -23,9 +25,8 @@ namespace MIPS246.Core.DataStructure
         private Mnemonic mnemonic;
         private BitArray machine_code;
         private string arg1, arg2, arg3;    
-        private int address;                // Is it useless?
+        private int address;                
         private static Hashtable AssemblerTable;
-        //private static Hashtable DisassemblerTable;
 
         //add by wong
         private static Dictionary<int, string> Regs;
@@ -178,6 +179,7 @@ namespace MIPS246.Core.DataStructure
             }
         }
 
+        //to raw stiring
         public override string ToString()
         {
             string mnemonicString="";

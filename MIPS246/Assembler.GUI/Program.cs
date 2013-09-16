@@ -10,6 +10,10 @@ namespace Assembler.GUI
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
+        /// 
+
+
+        //assembler windows interface main function
         [STAThread]
         static void Main()
         {

@@ -419,6 +419,8 @@ namespace MipsSimulator
                 return;
             }
             dataGridView1.DataSource = RunTimeCode.CodeT;
+            this.dataGridView2.DataSource = Register.Res;
+            this.dataGridView3.DataSource = Memory.Mem;
             this.tabControl1.SelectedTab = this.tabPage2;
         }
 
@@ -665,7 +667,7 @@ namespace MipsSimulator
           //  from2.Visible = false;
             cmdMode cmd = new cmdMode();
             string outputPath = System.Environment.CurrentDirectory;
-            outputPath = outputPath + "\\report.txt";
+            outputPath = outputPath + "\\report2.txt";
             cmd.start(source, outputPath);
             Program.mode = 1;
             string result=ResultComparer.Compare(outputPath, output);

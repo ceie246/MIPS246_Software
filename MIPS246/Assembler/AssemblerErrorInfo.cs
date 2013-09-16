@@ -1,7 +1,10 @@
 ﻿using System;
 
+
+//assembler error info model
 namespace MIPS246.Core.Assembler
 {
+    //error type
     public enum AssemblerError
     {
         NOFILE, INVALIDLABEL, UNKNOWNCMD, WRONGARGUNUM, ADDNOTFOUND, TWOADD0, WRONGREGNAME, WRONGSHAMT, UNKNOWNADDLABEL, INVALIDIMMEDIATE,
@@ -32,6 +35,7 @@ namespace MIPS246.Core.Assembler
         #endregion
 
         #region Public Methods
+        //error message in console
         public void ConsoleDisplay()
         {
             string printline = (line + 1).ToString();
@@ -72,6 +76,7 @@ namespace MIPS246.Core.Assembler
             }
         }
 
+        //error message rawdata
         public override string ToString()
         {
             string printline = (line + 1).ToString();
