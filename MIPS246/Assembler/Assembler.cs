@@ -138,7 +138,7 @@ namespace MIPS246.Core.Assembler
             }
         }
 
-        public string RawSource
+        public List<string> RawSource
         {
             set
             {
