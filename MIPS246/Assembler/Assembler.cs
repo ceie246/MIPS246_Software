@@ -41,7 +41,6 @@ namespace MIPS246.Core.Assembler
             this.outputpath = outputpath;
 
             this.rawSource = new List<string>();
-
             StringBuilder sb = new StringBuilder();
 
             StreamReader sr = new StreamReader(sourcepath);
@@ -52,6 +51,7 @@ namespace MIPS246.Core.Assembler
             {
                this.rawSource.Add(linetext);
             }
+
             sr.Close();
 
             this.sourceList = new List<string[]>();
@@ -81,13 +81,35 @@ namespace MIPS246.Core.Assembler
         {
             this.sourceList = null;
             this.outputpath = null;
-            this.sourceString = new List<string>(sourceCode.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries));
+            this.sourceString = new List<string>();
+            this.rawSource = new List<string>(sourceCode.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries));
             this.sourceList = new List<string[]>();
             this.codelist = new List<Instruction>();
             this.linetable = new Hashtable();
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
             this.codeindextable = new Hashtable();
+
+            for (int i = 0; i < this.rawSource.Count(); i++)
+            {
+                sourceString.Add(rawSource[i]);
+                rawSource[i] = RemoveComment(rawSource[i]);
+                if (rawSource[i] != "")
+                {
+                    if (rawSource[i].Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
+                    {
+                        if (rawSource[i].EndsWith(":") == false)
+                        {
+                            int temp = linetable.Count;
+                            linetable[temp] = i;
+                            codeindextable[i] = temp;
+                        }
+
+                        sourceList.Add(rawSource[i].Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                    }
+                }
+            }
+
         }
         #endregion
 
