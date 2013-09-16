@@ -22,12 +22,7 @@ public partial class TestCodeGeneatorRequest : System.Web.UI.Page
         List<Mnemonic> MnemonicList = new List<Mnemonic>();
         foreach(Mnemonic mnemonic in Enum.GetValues(typeof(Mnemonic)))
         {
-            if (mnemonic != Mnemonic.J && mnemonic != Mnemonic.JAL && mnemonic != Mnemonic.LW
-                && mnemonic != Mnemonic.SW && mnemonic != Mnemonic.LB && mnemonic != Mnemonic.LBU
-                && mnemonic != Mnemonic.LH && mnemonic != Mnemonic.LHU && mnemonic != Mnemonic.SB
-                && mnemonic != Mnemonic.SH && mnemonic != Mnemonic.BEQ && mnemonic != Mnemonic.BNE
-                && mnemonic != Mnemonic.BGEZ && mnemonic != Mnemonic.BGEZAL && mnemonic != Mnemonic.BGTZ
-                && mnemonic != Mnemonic.BLEZ && mnemonic != Mnemonic.BLTZ && mnemonic != Mnemonic.BLTZAL)
+            if (mnemonic ==mnemonic.ADD ||mnemonic ==mnemonic.ADDU ||mnemonic ==mnemonic.SUB || mnemonic ==mnemonic.SUBU ||mnemonic==mnemonic.AND ||mnemonic ==mnemonic.OR ||mnemonic ==mnemonic.XOR ||mnemonic ==mnemonic.NOR ||mnemonic ==mnemonic.SLT ||mnemonic ==mnemonic.SLTU ||mnemonic ==mnemonic.SLL ||mnemonic ==mnemonic.SRL ||mnemonic ==mnemonic.SRA ||mnemonic ==mnemonic.SLLV ||mnemonic ==mnemonic.SRLV ||mnemonic ==mnemonic.SRAV ||mnemonic ==mnemonic.ADDI ||mnemonic ==mnemonic.ADDIU ||mnemonic ==mnemonic.ANDI ||mnemonic ==mnemonic.ORI ||mnemonic ==mnemonic.XORI ||mnemonic ==mnemonic.LUI ||mnemonic ==mnemonic.LW ||mnemonic ==mnemonic.SW ||mnemonic ==mnemonic.SLTI ||mnemonic ==mnemonic.SLTIU)
             {
                 MnemonicList.Add(mnemonic);
             }
