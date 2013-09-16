@@ -189,7 +189,7 @@ namespace MIPS246.Core.TestCodeGeneator
         private static string GenerateReg()
         {
             Register register = (Register)(r.Next(0, 31));
-            return "$"+register.ToString();
+            return "$" + Convert.ToInt32(register);
         }
 
         private static string GenerateImmediate(bool isSign)
