@@ -50,6 +50,10 @@
       <Project>{a3c81ffa-07eb-4239-afed-db93e161fe71}</Project>
       <Name>DataStructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Disassembler\Disassembler.csproj">
+      <Project>{af50365c-3492-4d95-b806-22b411af1778}</Project>
+      <Name>Disassembler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ResultComparer\ResultComparer.csproj">
       <Project>{138f67fa-a380-4e99-b2d4-3b4725aa1c56}</Project>
       <Name>ResultComparer</Name>
