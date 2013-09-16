@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 
@@ -22,6 +23,7 @@ namespace MIPS246.Core.Assembler
         private Hashtable codeindextable;
         private Hashtable addresstable;
         private Hashtable labeltable;
+        private List<string> rawSource;
         
 
         //config
@@ -37,6 +39,19 @@ namespace MIPS246.Core.Assembler
         {
             this.sourcepath = sourcepath;
             this.outputpath = outputpath;
+
+            StringBuilder sb = new StringBuilder();
+
+            StreamReader sr = new StreamReader(sourcepath);
+
+            string linetext = "";
+
+            while ((linetext = sr.ReadLine()) != null)
+            {
+               this.rawSource.Add(linetext);
+            }
+            sr.Close();
+
             this.sourceList = new List<string[]>();
             this.codelist = new List<Instruction>();
             this.linetable = new Hashtable();
@@ -120,6 +135,18 @@ namespace MIPS246.Core.Assembler
             get
             {
                 return this.linetable;
+            }
+        }
+
+        public string RawSource
+        {
+            set
+            {
+                this.rawSource = value;
+            }
+            get
+            {
+                return this.rawSource;
             }
         }
         #endregion
