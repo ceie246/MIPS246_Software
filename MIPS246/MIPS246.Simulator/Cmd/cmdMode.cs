@@ -97,7 +97,7 @@ namespace MipsSimulator.Cmd
             }
             if (assembler.DoAssemble() == true)
             {
-                List<String[]> sourceList = assembler.SourceList;
+                List<String> sourceList = assembler.RawSource;
                 lineTable = assembler.Linetable;
                 List<Instruction> codeList = assembler.CodeList;
 
@@ -112,15 +112,8 @@ namespace MipsSimulator.Cmd
                     string machineCode = convertToMachineCode(codeList[i].Machine_Code);
                     
                     int p = (int)lineTable[i];
-                    string codeStr = sourceList[p][0] + " ";
-                    for (int s = 1; s < sourceList[p].Count(); s++)
-                    {
-                        codeStr += sourceList[p][s] + ",";
-                    }
-                    if (codeStr.Substring(codeStr.Length - 1, 1) == ",")
-                    {
-                        codeStr = codeStr.Substring(0, codeStr.Length - 1);
-                    }
+                    string codeStr = sourceList[p];
+                   
                     Code code = new Assembler.Code(codeType, null, codeStr, machineCode);
                     code.index = i;
                     code.address = codeList[i].Address;
@@ -129,15 +122,8 @@ namespace MipsSimulator.Cmd
                 
                 for (int i = 0; i < sourceList.Count; i++)
                 {
-                    string codeStr = sourceList[i][0] + " ";
-                    for (int s = 1; s < sourceList[i].Count(); s++)
-                    {
-                        codeStr += sourceList[i][s] + ",";
-                    }
-                    if (codeStr.Substring(codeStr.Length - 1, 1) == ",")
-                    {
-                        codeStr = codeStr.Substring(0, codeStr.Length - 1);
-                    }
+                    string codeStr = sourceList[i];
+                   
                     string machineCode = "";
                     int j = 0;
                     for (j = 0; j < lineTable.Count; j++)
