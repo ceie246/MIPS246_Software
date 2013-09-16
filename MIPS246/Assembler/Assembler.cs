@@ -40,6 +40,8 @@ namespace MIPS246.Core.Assembler
             this.sourcepath = sourcepath;
             this.outputpath = outputpath;
 
+            this.rawSource = new List<string>();
+
             StringBuilder sb = new StringBuilder();
 
             StreamReader sr = new StreamReader(sourcepath);
