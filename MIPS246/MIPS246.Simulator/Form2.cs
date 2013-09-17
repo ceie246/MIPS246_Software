@@ -28,6 +28,7 @@ namespace MipsSimulator
                 string output = getOutput();
                 string result=Form1.react(ref source, ref output);
                 this.richTextBox1.Text = result;
+                FileControl.Save(result);
             }
             else
             {
