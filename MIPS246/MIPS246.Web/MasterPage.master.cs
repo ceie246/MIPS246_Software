@@ -16,7 +16,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
             StringBuilder sb = new StringBuilder();
             if (Session["LoginStatus"]!=null && Session["LoginStatus"].ToString() == "true")
             {
-                sb.AppendLine("<li class=\"pull-right\"><a href=\"Signout.aspx\">登出" + Session["LoginId"] + "</a></li>");
+                sb.AppendLine("<li class=\"pull-right\"><a href=\"UserInfo.aspx\">" + Session["LoginId"] + "</a></li>");
+                sb.AppendLine("<li class=\"pull-right\"><a href=\"Signout.aspx\">登出</a></li>");
             }
             else
             {
