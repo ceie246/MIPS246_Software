@@ -54,6 +54,7 @@ namespace MipsSimulator.Devices
 
         static public bool getMemory(Int32 address, ref Int32 value)//address%4==0||address%2==0
         {
+            address=(address/4)*4;
             Int32 row = address / 32;//行数从0算起
 
             Int32 column = (address % 32) / 4;
@@ -69,48 +70,26 @@ namespace MipsSimulator.Devices
                 return false;
             }
             //string valueStr16=valueStr32.Substring(2,4);
-            if (address % 4 == 0)
-            {
-                value = (Int32)CommonTool.StrToNum(TypeCode.Int32, valueStr32, 16);
-                return true;
-            }
-            //else
-            //    if (address % 2 == 0)
-            //    {
-            //        value= (Int32)CommonTool.StrToNum(TypeCode.Int32, valueStr16, 16);
-            //        return true;
-            //    }
-            else
-                return false;
+           
+            value = (Int32)CommonTool.StrToNum(TypeCode.Int32, valueStr32, 16);
+            return true;
+            
         }
 
         static public bool setMemory(Int32 address, Int32 value)//address%4==0
         {
+            address=(address/4)*4;
             Int32 row = address / 32;//行数从0算起
 
             Int32 column = (address % 32) / 4;
             string ValueStr = "";
             try
             {
-                if (address % 4 == 0)
-                {
+               
                     ValueStr = ((Int32)value).ToString("X8");
                     Mem.Rows[row][column + 1] = "0x" + ValueStr;
                     return true;
-                }
-                //else
-                //if (address % 2 == 0)
-                //{
-                //    ValueStr = ((Int16)value).ToString("X4");
-                //    string valueStr32 = Mem.Rows[row][column + 1].ToString();
-                //    Mem.Rows[row][column + 1] = valueStr32.Substring(0, 6) + ValueStr;
-                //    return true;
-                //}
-                else
-                {
-                    //MessageBox.Show("内存地址未对齐");
-                    return false;
-                }
+               
 
             }
             catch (Exception ex)
