@@ -52,6 +52,16 @@ public static class MIPS246UserManager
        
     }
 
+    public static void AddUser(string num)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        User user = new User(num, "NA", num);
+        collection.Insert<User>(user);
+    }
+
     private static string HashMD5(string s)
     {
         MD5CryptoServiceProvider md5CryptoServiceProvider = new MD5CryptoServiceProvider();
