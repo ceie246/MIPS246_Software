@@ -69,7 +69,7 @@ public static class MIPS246UserManager
         MongoDatabase db = server.GetDatabase(dbString);
         MongoCollection collection = db.GetCollection(collectionString);
 
-        User user = new User(num, "NA", num);
+        User user = new User(num, "NA", HashMD5(num));
         collection.Insert<User>(user);
     }
 
@@ -99,8 +99,16 @@ public static class MIPS246UserManager
         collection.Update(query, update);
     }
 
-    public static void ChangePassword(string id)
+    public static void ChangePassword(string id,string password)
     {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        var query = new QueryDocument("StudentID", id);
+
+        var update = new UpdateDocument { { "$set", new QueryDocument { { "Password", HashMD5(password) } } } };
+        collection.Update(query, update);
     }
 
     private static string HashMD5(string s)

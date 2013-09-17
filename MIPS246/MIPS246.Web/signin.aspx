@@ -6,7 +6,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Sign in - MIPS246</title>
+    <title>登陆 - MIPS246</title>
     <link href="./css/bootstrap.css" rel="stylesheet" />
     <link href="./css/bootstrap-responsive.css" rel="stylesheet" />
     <link href="./css/mips246.css" rel="stylesheet" /> 

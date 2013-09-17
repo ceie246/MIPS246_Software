@@ -110,9 +110,4 @@ namespace MIPS246.Core.ResultComparer
             return sourceList;
         }
     }
-
-    public class MIPS246ResultComparerException : Exception
-    {
-
-    }
 }
