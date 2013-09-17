@@ -14,12 +14,16 @@
                     <td class="userinfoRight"><%=StudentId %></td>
                 </tr>
                 <tr>
-                    <td class="userinfoLeft">学号</td>
+                    <td class="userinfoLeft">开发板编号</td>
                     <td class="userinfoRight"><%=BoardId %></td>
                 </tr>
                 <tr>
                     <td class="userinfoLeft">最后登录时间</td>
                     <td class="userinfoRight"><%=LastLoginTime %></td>
+                </tr>
+                <tr>
+                    <td><a class="btn btn-warning" href="ChangePassword.aspx">修改密码</a><a class="btn btn-primary" href="Signout.aspx">登出</a></td>
+                    <td></td>
                 </tr>
             </table>
         </div>

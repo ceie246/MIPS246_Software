@@ -20,6 +20,9 @@ public partial class signin : System.Web.UI.Page
         {
             Session["LoginStatus"] = "true";
             Session["LoginId"] = user.StudentID;
+
+            MIPS246UserManager.UpdateLoginTime(user.StudentID);
+            MIPS246UserManager.UpdateLoginNum(user.StudentID);
             Response.Redirect("Default.aspx");
         }
         else

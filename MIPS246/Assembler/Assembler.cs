@@ -89,7 +89,7 @@ namespace MIPS246.Core.Assembler
             this.addresstable = new Hashtable();
             this.labeltable = new Hashtable();
             this.codeindextable = new Hashtable();
-
+            this.sourceList.Clear();
             for (int i = 0; i < this.rawSource.Count(); i++)
             {
                 sourceString.Add(rawSource[i]);
@@ -104,8 +104,6 @@ namespace MIPS246.Core.Assembler
                             linetable[temp] = i;
                             codeindextable[i] = temp;
                         }
-
-                        sourceList.Add(rawSource[i].Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries));
                     }
                 }
             }

@@ -73,6 +73,36 @@ public static class MIPS246UserManager
         collection.Insert<User>(user);
     }
 
+    public static void UpdateLoginTime(string id)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        var query = new QueryDocument("StudentID", id);
+
+        var update = new UpdateDocument { { "$set", new QueryDocument { { "LastLoginTime", BsonDateTime.Create(DateTime.Now + TimeSpan.FromHours(8)) } } } };
+        collection.Update(query, update);
+    }
+
+    public static void UpdateLoginNum(string id)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        User user = QueryUser(id);
+
+        var query = new QueryDocument("StudentID", id);
+
+        var update = new UpdateDocument { { "$set", new QueryDocument { { "LoginNum", BsonInt32.Create(user.LoginNum + 1) } } } };
+        collection.Update(query, update);
+    }
+
+    public static void ChangePassword(string id)
+    {
+    }
+
     private static string HashMD5(string s)
     {
         MD5CryptoServiceProvider md5CryptoServiceProvider = new MD5CryptoServiceProvider();

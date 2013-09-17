@@ -66,5 +66,8 @@ transition: all .2s linear;
 
 .sign-container {
     height: 300px;
+}
 
+.userinfoLeft {
+    width:39%;
 }
