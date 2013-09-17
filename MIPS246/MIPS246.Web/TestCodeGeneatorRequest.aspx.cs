@@ -22,7 +22,7 @@ public partial class TestCodeGeneatorRequest : System.Web.UI.Page
         List<Mnemonic> MnemonicList = new List<Mnemonic>();
         foreach(Mnemonic mnemonic in Enum.GetValues(typeof(Mnemonic)))
         {
-            if (mnemonic == Mnemonic.ADD || mnemonic == Mnemonic.ADDU || mnemonic == Mnemonic.SUB || mnemonic == Mnemonic.SUBU || mnemonic == Mnemonic.AND || mnemonic == Mnemonic.OR || mnemonic == Mnemonic.XOR || mnemonic == Mnemonic.NOR || mnemonic == Mnemonic.SLT || mnemonic == Mnemonic.SLTU || mnemonic == Mnemonic.SLL || mnemonic == Mnemonic.SRL || mnemonic == Mnemonic.SRA || mnemonic == Mnemonic.SLLV || mnemonic == Mnemonic.SRLV || mnemonic == Mnemonic.SRAV || mnemonic == Mnemonic.ADDI || mnemonic == Mnemonic.ADDIU || mnemonic == Mnemonic.ANDI || mnemonic == Mnemonic.ORI || mnemonic == Mnemonic.XORI || mnemonic == Mnemonic.LUI || mnemonic == Mnemonic.LW || mnemonic == Mnemonic.SW || mnemonic == Mnemonic.SLTI || mnemonic == Mnemonic.SLTIU)
+            if (mnemonic == Mnemonic.ADD || mnemonic == Mnemonic.ADDU || mnemonic == Mnemonic.SUB || mnemonic == Mnemonic.SUBU || mnemonic == Mnemonic.AND || mnemonic == Mnemonic.OR || mnemonic == Mnemonic.XOR || mnemonic == Mnemonic.NOR || mnemonic == Mnemonic.SLT || mnemonic == Mnemonic.SLTU || mnemonic == Mnemonic.SLL || mnemonic == Mnemonic.SRL || mnemonic == Mnemonic.SRA || mnemonic == Mnemonic.SLLV || mnemonic == Mnemonic.SRLV || mnemonic == Mnemonic.SRAV || mnemonic == Mnemonic.ADDI || mnemonic == Mnemonic.ADDIU || mnemonic == Mnemonic.ANDI || mnemonic == Mnemonic.ORI || mnemonic == Mnemonic.XORI || mnemonic == Mnemonic.LUI ||  mnemonic == Mnemonic.SLTI || mnemonic == Mnemonic.SLTIU)
             {
                 MnemonicList.Add(mnemonic);
             }
