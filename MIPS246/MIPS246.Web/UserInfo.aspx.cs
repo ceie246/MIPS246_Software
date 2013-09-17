@@ -7,8 +7,29 @@ using System.Web.UI.WebControls;
 
 public partial class UserInfo : System.Web.UI.Page
 {
+    public string StudentId;
+
+    public string BoardId;
+
+    public string LastLoginTime;
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            if (Session["LoginStatus"] == null)
+            {
+                Response.Redirect("Signin.aspx");
+            }
+        }
+
+        this.StudentId = Session["LoginId"].ToString();
+
+        User user = MIPS246UserManager.QueryUser(this.StudentId);
+
+        this.BoardId = user.BoardID;
+
+        this.LastLoginTime = user.LastLoginTime.ToString();
 
     }
 }

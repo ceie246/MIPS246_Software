@@ -16,6 +16,7 @@ public sealed class User
     public string BoardID { get; set; }
     public string Password { get; set; }
     public DateTime LastLoginTime { get; set; }
+    public Int32 LoginNum { get; set; }
 
     public User(string studentID, string boardId, string password)
 	{

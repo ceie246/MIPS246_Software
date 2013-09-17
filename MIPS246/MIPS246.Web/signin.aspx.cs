@@ -15,7 +15,7 @@ public partial class signin : System.Web.UI.Page
     {
         string studentid = this.studentIDBox.Text;
         string password = this.passwordBox.Text;
-        User user=MIPS246UserManager.checkUser(studentid, password);
+        User user=MIPS246UserManager.CheckUser(studentid, password);
         if (user!=null)
         {
             Session["LoginStatus"] = "true";
