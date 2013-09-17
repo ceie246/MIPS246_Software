@@ -25,7 +25,7 @@ public static class MIPS246UserManager
       collectionString = "user";
 	}
 
-    public static User checkUser(string id, string password)
+    public static User CheckUser(string id, string password)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
@@ -50,6 +50,17 @@ public static class MIPS246UserManager
              }
         }
        
+    }
+
+    public static User QueryUser(string id)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        var query = new QueryDocument("StudentID", id);
+
+        return collection.FindOneAs<User>(query);
     }
 
     public static void AddUser(string num)
