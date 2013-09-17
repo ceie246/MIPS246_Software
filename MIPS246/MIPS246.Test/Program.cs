@@ -9,7 +9,6 @@ using System.Configuration;
 using MIPS246.Core.ResultComparer;
 using MIPS246.Core.Disassembler;
 using System.IO;
-using MIPS246.
 
 namespace MIPS246.Test
 {
