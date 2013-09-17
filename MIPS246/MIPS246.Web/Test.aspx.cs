@@ -10,7 +10,7 @@ public partial class Test : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        StreamReader sr = new StreamReader("c:\\name.");
+        StreamReader sr = new StreamReader("c:\\name.txt");
         string temp="";
         while ((temp=sr.ReadLine()) != null)
         {
