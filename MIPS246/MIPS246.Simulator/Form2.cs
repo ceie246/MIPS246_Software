@@ -40,10 +40,12 @@ namespace MipsSimulator
                 }
                  FileStream fs = fInfo.OpenWrite();
                 StreamWriter w = new StreamWriter(fs);
-                    //w.BaseStream.Seek(0, SeekOrigin.Begin);
-                for (int i = 0; i < count1; i++)
+                if (count1 > 0)
                 {
-                    w.WriteLine(output2[i]);
+                    for (int i = 0; i < count1; i++)
+                    {
+                        w.WriteLine(output2[i]);
+                    }
                 }
                     
                 w.Flush();

@@ -20,6 +20,7 @@ namespace MipsSimulator.Monocycle
             //初始化
             Initialize();
             string outputPath = Form1.outputName;
+           
             if (File.Exists(outputPath))
             {
                 File.Delete(outputPath);

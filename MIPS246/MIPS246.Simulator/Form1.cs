@@ -556,20 +556,19 @@ namespace MipsSimulator
         //单周期running
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-           
-            OpenFileDialog openFD = new OpenFileDialog();
-            openFD.Filter = "文本文件(*.txt)|*.txt";
-            openFD.FilterIndex = 1;
-            openFD.AddExtension = true;
-            openFD.RestoreDirectory = true;
+            SaveFileDialog saveFD = new SaveFileDialog();
+            saveFD.Filter = "文本文件(*.txt)|*.txt";
+            saveFD.FilterIndex = 1;
+            saveFD.AddExtension = true;
+            saveFD.RestoreDirectory = true;
 
-            if (openFD.ShowDialog() == DialogResult.OK)
+            if (saveFD.ShowDialog() == DialogResult.OK)
             {
-                outputName = openFD.FileName;
+                outputName = saveFD.FileName;
             }
             else
             {
-                MessageBox.Show("结果将不被保存！");
+                outputName = System.Environment.CurrentDirectory + "output.txt";
             }
 
             mMasterSwitch.Start();
