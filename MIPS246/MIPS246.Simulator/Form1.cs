@@ -424,6 +424,7 @@ namespace MipsSimulator
             this.dataGridView2.DataSource = Register.Res;
             this.dataGridView3.DataSource = Memory.Mem;
             this.tabControl1.SelectedTab = this.tabPage2;
+
         }
 
         static public void codeColor(int index, int color)

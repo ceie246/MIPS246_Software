@@ -36,7 +36,6 @@ namespace MIPS246.Core.ResultComparer
                     resultBuilder.AppendLine("Command #" + (i + 1) + ":");
                     for (; j < 34; j++)
                     {
-
                         if (j != 32 && j != 33 && (source1[i * 34 + j].StartsWith("regfiles" + j + " = ") == false || source2[i * 34 + j].StartsWith("regfiles" + j + " = ") == false))
                         {
                             resultBuilder.AppendLine("Error: .out file format error.");
@@ -61,8 +60,8 @@ namespace MIPS246.Core.ResultComparer
                         }
                         else
                         {
-                            resultBuilder.AppendLine("\tsource 1:\t" + source1[i * 33 + j]);
-                            resultBuilder.AppendLine("\tsource 2:\t" + source2[i * 33 + j]);
+                            resultBuilder.AppendLine("\tsource 1:\t" + source1[i * 34 + j]);
+                            resultBuilder.AppendLine("\tsource 2:\t" + source2[i * 34 + j]);
                             resultBuilder.AppendLine();
                             flag = false;
                         }
@@ -78,7 +77,7 @@ namespace MIPS246.Core.ResultComparer
                     j = 0;
                 }
             }
-            catch
+            catch(Exception e)
             {
                 resultBuilder.AppendLine("Error: .out file format error.");
                 return "Error: .out file format error.";

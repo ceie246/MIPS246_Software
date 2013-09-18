@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MipsSimulator.Tools;
 using MIPS246.Core.ResultComparer;
+using System.IO;
 
 namespace MipsSimulator
 {
@@ -28,6 +29,26 @@ namespace MipsSimulator
             {
                 string source = getSource();
                 string output = getOutput();
+
+                int count1 = File.ReadAllLines(source).Length;
+                string[] output2 = File.ReadAllLines(output);
+               
+                FileInfo fInfo = new FileInfo(output);
+                if (fInfo.Exists)
+                {
+                   fInfo.Delete();
+                }
+                 FileStream fs = fInfo.OpenWrite();
+                StreamWriter w = new StreamWriter(fs);
+                    //w.BaseStream.Seek(0, SeekOrigin.Begin);
+                for (int i = 0; i < count1; i++)
+                {
+                    w.WriteLine(output2[i]);
+                }
+                    
+                w.Flush();
+                w.Close();
+                w.Dispose();
                 string result = ResultComparer.Compare(source, output);
                 this.richTextBox1.Text = result;
                 FileControl.Save(result);

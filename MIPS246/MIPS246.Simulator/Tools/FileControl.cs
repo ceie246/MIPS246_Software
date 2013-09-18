@@ -16,6 +16,7 @@ namespace MipsSimulator.Tools
                 StreamReader sr = new StreamReader(filepath, Encoding.Default); 
                 string result = sr.ReadToEnd(); 
                 sr.Close();
+                sr.Dispose();
                 return result;
             } 
             catch (Exception e) 
@@ -29,6 +30,7 @@ namespace MipsSimulator.Tools
             try 
             {
                 File.AppendAllText(filepath, str);
+                
                 return null;
             } 
             catch (Exception e) 
@@ -60,6 +62,7 @@ namespace MipsSimulator.Tools
                         w.Write(stream);
                         w.Flush();
                         w.Close();
+                        w.Dispose();
                     }
                     catch (Exception e)
                     {
