@@ -55,18 +55,13 @@ namespace MIPS246.Core.ResultComparer
                             return resultBuilder.ToString();
                         }
 
-                        if (source1[i * 34 + j].Substring(source1[i * 34 + j].Length - 8) == source2[i * 34 + j].Substring(source1[i * 34 + j].Length - 8))
+                        if (source1[i * 34 + j].Substring(source1[i * 34 + j].Length - 8) != source2[i * 34 + j].Substring(source1[i * 34 + j].Length - 8))
                         {
-                           
-                        }
-                        else
-                        {
-                            resultBuilder.AppendLine("\tsource 1:\t" + source1[i * 33 + j]);
-                            resultBuilder.AppendLine("\tsource 2:\t" + source2[i * 33 + j]);
+                            resultBuilder.AppendLine("\tsource 1:\t" + source1[i * 34 + j]);
+                            resultBuilder.AppendLine("\tsource 2:\t" + source2[i * 34 + j]);
                             resultBuilder.AppendLine();
                             flag = false;
                         }
-
                         
                     }
 
