@@ -13,7 +13,7 @@ using MipsSimulator.Tools;
 using MipsSimulator.Monocycle;
 using MipsSimulator.Cmd;
 using System.Runtime.InteropServices;
-using MIPS246.Core.ResultComparer;
+
 
 namespace MipsSimulator
 {
@@ -26,6 +26,8 @@ namespace MipsSimulator
 
         static private int indexFinal = -1;
         static private int colorFinal = -1;
+
+        static public string outputName = "";
 
         public Form1()
         {
@@ -553,6 +555,22 @@ namespace MipsSimulator
         //单周期running
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
+           
+            OpenFileDialog openFD = new OpenFileDialog();
+            openFD.Filter = "文本文件(*.txt)|*.txt";
+            openFD.FilterIndex = 1;
+            openFD.AddExtension = true;
+            openFD.RestoreDirectory = true;
+
+            if (openFD.ShowDialog() == DialogResult.OK)
+            {
+                outputName = openFD.FileName;
+            }
+            else
+            {
+                MessageBox.Show("结果将不被保存！");
+            }
+
             mMasterSwitch.Start();
         }
 
@@ -661,17 +679,11 @@ namespace MipsSimulator
             from2 = new Form2();
             from2.Visible = true;
         }
-        public static string react(ref string source,ref string output)
+        
+        public static string getOutput()
         {
-            Program.mode = 3;
-          //  from2.Visible = false;
-            cmdMode cmd = new cmdMode();
-            string outputPath = System.Environment.CurrentDirectory;
-            outputPath = outputPath + "\\report2.txt";
-            cmd.start(source, outputPath);
-            Program.mode = 1;
-            string result=ResultComparer.Compare(outputPath, output);
-            return result;
+            return outputName;
+
         }
 
     }

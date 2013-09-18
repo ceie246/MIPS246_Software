@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MipsSimulator.Tools;
+using MIPS246.Core.ResultComparer;
 
 namespace MipsSimulator
 {
@@ -17,6 +18,7 @@ namespace MipsSimulator
         {
             isOpen = false;
             InitializeComponent();
+            textBox1.Text = Form1.getOutput();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -26,7 +28,7 @@ namespace MipsSimulator
             {
                 string source = getSource();
                 string output = getOutput();
-                string result=Form1.react(ref source, ref output);
+                string result = ResultComparer.Compare(source, output);
                 this.richTextBox1.Text = result;
                 FileControl.Save(result);
             }

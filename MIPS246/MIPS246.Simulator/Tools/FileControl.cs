@@ -70,6 +70,7 @@ namespace MipsSimulator.Tools
             return null;
         }
 
+
         public static void Open(ref string stream)
         {
             OpenFileDialog openFD = new OpenFileDialog();

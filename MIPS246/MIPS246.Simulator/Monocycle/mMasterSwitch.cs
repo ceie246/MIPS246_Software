@@ -6,6 +6,7 @@ using MipsSimulator.Assembler;
 using MipsSimulator.Devices;
 using MipsSimulator.Tools;
 using MipsSimulator.Cmd;
+using System.IO;
 
 namespace MipsSimulator.Monocycle
 {
@@ -18,6 +19,11 @@ namespace MipsSimulator.Monocycle
         {
             //初始化
             Initialize();
+            string outputPath = Form1.outputName;
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath);
+            }
             //判断是否要继续
             while (isTorun)
             {
@@ -30,11 +36,41 @@ namespace MipsSimulator.Monocycle
                 }
                 else
                 {
-                    mIFStage.Start();
-                    mDEStage.Start();
-                    mEXEStage.Start();
-                    mMEMStage.Start();
-                    mWBStage.Start();
+                    string strArg1 = MipsSimulator.Devices.Register.GetRegisterValue("pc");
+                    string pcstr = "pc = " + strArg1.Substring(2) + "\r\n";
+                    try
+                    {
+                        mIFStage.Start();
+                        mDEStage.Start();
+                        mEXEStage.Start();
+                        mMEMStage.Start();
+                        mWBStage.Start();
+                    }
+                    catch (Exception e)
+                    {
+                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, e.Message);
+                        return;
+                    }
+
+                    int PC = (Int32)CommonTool.StrToNum(TypeCode.Int32, strArg1, 16);
+                    //获取指令
+                    Code code = RunTimeCode.GetCode(PC);
+                    string codeStr = code.machineCode;
+                    Int32 tmp = (Int32)CommonTool.StrToNum(TypeCode.Int32, codeStr, 2);
+                    codeStr = tmp.ToString("X8");
+                    for (int i = 0; i <= 31; i++)
+                    {
+                        string registerName = "$" + i;
+                        string value = MipsSimulator.Devices.Register.GetRegisterValue(registerName);
+                        value = "regfiles" + i + " = " + value.Substring(2) + "\r\n";
+                        value = value.ToLower();
+                        MipsSimulator.Tools.FileControl.WriteFile(outputPath, value);
+                    }
+                    string instr = "instr = " + codeStr + "\r\n";
+                    instr = instr.ToLower();
+                    pcstr = pcstr.ToLower();
+                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, instr);
+                    MipsSimulator.Tools.FileControl.WriteFile(outputPath, pcstr);
                 }
             }
         }
