@@ -31,26 +31,53 @@ namespace MipsSimulator
                 string output = getOutput();
 
                 int count1 = File.ReadAllLines(source).Length;
-                string[] output2 = File.ReadAllLines(output);
-               
-                FileInfo fInfo = new FileInfo(output);
-                if (fInfo.Exists)
+                int count2 = File.ReadAllLines(output).Length;
+                if (count2 > count1)
                 {
-                   fInfo.Delete();
-                }
-                 FileStream fs = fInfo.OpenWrite();
-                StreamWriter w = new StreamWriter(fs);
-                if (count1 > 0)
-                {
-                    for (int i = 0; i < count1; i++)
+                    string[] output2 = File.ReadAllLines(output);
+
+                    FileInfo fInfo = new FileInfo(output);
+                    if (fInfo.Exists)
                     {
-                        w.WriteLine(output2[i]);
+                        fInfo.Delete();
                     }
+                    FileStream fs = fInfo.OpenWrite();
+                    StreamWriter w = new StreamWriter(fs);
+                    if (count1 > 0)
+                    {
+                        for (int i = 0; i < count1; i++)
+                        {
+                            w.WriteLine(output2[i]);
+                        }
+                    }
+
+                    w.Flush();
+                    w.Close();
+                    w.Dispose();
                 }
-                    
-                w.Flush();
-                w.Close();
-                w.Dispose();
+                if (count1 > count2)
+                {
+                    string[] output1 = File.ReadAllLines(source);
+
+                    FileInfo fInfo = new FileInfo(source);
+                    if (fInfo.Exists)
+                    {
+                        fInfo.Delete();
+                    }
+                    FileStream fs = fInfo.OpenWrite();
+                    StreamWriter w = new StreamWriter(fs);
+                    if (count2 > 0)
+                    {
+                        for (int i = 0; i < count2; i++)
+                        {
+                            w.WriteLine(output1[i]);
+                        }
+                    }
+
+                    w.Flush();
+                    w.Close();
+                    w.Dispose();
+                }
                 string result = ResultComparer.Compare(source, output);
                 this.richTextBox1.Text = result;
                 FileControl.Save(result);
