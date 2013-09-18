@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MIPS246.Core.DataStructure;
 using System.Configuration;
+using System.Collections;
 
 namespace MIPS246.Core.TestCodeGeneator
 {
@@ -75,10 +76,11 @@ namespace MIPS246.Core.TestCodeGeneator
         public static void Generate()
         {
             codeList.Clear();
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count - 1; i++)
             {
                 codeList.Add(GenerateCMD(r.Next(0, cmdList.Count - 1)));
             }
+            codeList.Insert(0, new Instruction("SLL", "$0", "$0", "0"));
         }
         #endregion
 
