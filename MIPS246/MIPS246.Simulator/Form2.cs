@@ -105,7 +105,7 @@ namespace MipsSimulator
             }
             else
             {
-                this.textBox1.Text = "";
+                this.textBox2.Text = "";
             }
         }
 
