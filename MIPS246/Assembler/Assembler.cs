@@ -789,25 +789,7 @@ namespace MIPS246.Core.Assembler
                 minvalue = 0;
             }
 
-            if (str.ToUpper().StartsWith("0X") == false)
-            {
-                try
-                {
-                    intvalue = int.Parse(str);
-                    if (intvalue < minvalue || intvalue > maxvalue)
-                    {
-                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
-                        return false;
-                    }
-                }
-                catch
-                {
-                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
-                    intvalue = 0;
-                    return false;
-                }                
-            }
-            else
+            if (str.ToUpper().StartsWith("0X") == true)
             {
                 try
                 {
@@ -824,6 +806,56 @@ namespace MIPS246.Core.Assembler
                     intvalue = 0;
                     return false;
                 }
+            }
+            else if (str.ToUpper().StartsWith("0") == true)
+            {
+                try
+                {
+                    intvalue = 0;
+                    str = str.Substring(1);
+                    while (true)
+                    {
+                        intvalue = intvalue * 8 + Convert.ToInt32(str[0])%8;
+                        if (str.Length > 1)
+                        {
+                            str = str.Substring(1);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (intvalue < minvalue || intvalue > maxvalue)
+                    {
+                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                        return false;
+                    }
+                }
+                catch
+                {
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                    intvalue = 0;
+                    return false;
+                }   
+            }
+            else
+            {
+                try
+                {
+                    intvalue = int.Parse(str);
+                    if (intvalue < minvalue || intvalue > maxvalue)
+                    {
+                        this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                        return false;
+                    }
+                }
+                catch
+                {
+                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                    intvalue = 0;
+                    return false;
+                }    
             }
 
             return true;
