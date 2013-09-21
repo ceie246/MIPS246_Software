@@ -63,13 +63,13 @@ public static class MIPS246UserManager
         return collection.FindOneAs<User>(query);
     }
 
-    public static void AddUser(string num)
+    public static void AddUser(string num, string password)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
         MongoCollection collection = db.GetCollection(collectionString);
 
-        User user = new User(num, "NA", HashMD5(num));
+        User user = new User(num, "NA", HashMD5(password));
         collection.Insert<User>(user);
     }
 

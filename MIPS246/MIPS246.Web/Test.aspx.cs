@@ -10,11 +10,8 @@ public partial class Test : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        StreamReader sr = new StreamReader("c:\\name.txt");
-        string temp="";
-        while ((temp=sr.ReadLine()) != null)
-        {
-            MIPS246UserManager.AddUser(temp);
-        }
+        
+            MIPS246UserManager.AddUser("91225","13901753646");
+        
     }
 }
