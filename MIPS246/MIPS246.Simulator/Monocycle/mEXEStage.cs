@@ -24,6 +24,8 @@ namespace MipsSimulator.Monocycle
 
         static public object[] args = null;
 
+        static public bool overflow = false;
+
         static public void Initialize()
         {
             mEXEStage.enableRun = -1;
@@ -36,6 +38,7 @@ namespace MipsSimulator.Monocycle
         {
             isEnd = false;
             bzSuccess = false;
+            overflow = false;
             //开始
             ThreadFun();
             
@@ -54,12 +57,24 @@ namespace MipsSimulator.Monocycle
 
             object obj1 = null;
             object obj2 = null;
-
             switch (code.codeType)
             {
                 case CodeType.ADD:
                     {
+                        Int32 rsValue = (Int32)mEXEStage.args[0];
+                        Int32 rtValue = (Int32)mEXEStage.args[1];
                         obj1 = (Int32)mEXEStage.args[0] + (Int32)mEXEStage.args[1];
+                        Int32 rdValue=rsValue+rtValue;
+                        if (rsValue >= 0 && rtValue >= 0)
+                        {
+                            if (rdValue < 0)
+                                overflow = true;
+                        }
+                        if (rsValue < 0 && rtValue < 0)
+                        {
+                            if (rdValue > 0)
+                                overflow = true;
+                        }
                         break;
                     }
                 case CodeType.ADDU:
@@ -269,7 +284,7 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.JAL:
                     {
-                        int PC1 = (Int32)mEXEStage.args[1] ;//PC+8
+                        int PC1 = (Int32)mEXEStage.args[1]+4 ;//PC+8
                         obj1 = PC1;
                         // int PC2 = (Int32)EXEStage.args[1] - 4;//PC
                         string target = Convert.ToString(mEXEStage.args[0]);
@@ -312,6 +327,10 @@ namespace MipsSimulator.Monocycle
                 case CodeType.SLTIU:
                 case CodeType.JAL:
                     {
+                        if (overflow)
+                        {
+                            Form1.Message(code.codeStr + " overflow\r\n");
+                        }
                         mMEMStage.code = mEXEStage.code;
                         mMEMStage.args = new object[1] { obj1 };
                         mMEMStage.enableRun++;

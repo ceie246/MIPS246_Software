@@ -72,6 +72,10 @@ namespace MipsSimulator.Monocycle
                 case CodeType.SLTIU:
                 case CodeType.JAL:
                     {
+                        if (mEXEStage.overflow)
+                        {
+                            break;
+                        }
                         mWBStage.code = mMEMStage.code;
                         mWBStage.args = new object[1] { mMEMStage.args[0] };
                         mWBStage.enableRun++;
