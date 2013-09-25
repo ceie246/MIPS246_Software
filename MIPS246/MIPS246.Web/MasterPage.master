@@ -37,7 +37,7 @@
                       </ul>
                     </li>
                 <li><a href="Questions.aspx">常见问题</a></li>
-                <li><a href="http://202.120.163.44:32006">论坛</a></li>
+                <li><a href="http://mips246.tongji.edu.cn/bbs">论坛</a></li>
                 <%=LoginStatus %>
             </ul>
             

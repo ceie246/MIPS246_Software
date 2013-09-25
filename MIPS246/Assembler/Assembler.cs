@@ -793,7 +793,7 @@ namespace MIPS246.Core.Assembler
             {
                 try
                 {
-                    intvalue = Int32.Parse(str.Substring(2), System.Globalization.NumberStyles.HexNumber);
+                    intvalue = Int16.Parse(str.Substring(2), System.Globalization.NumberStyles.HexNumber);
                     if (intvalue < minvalue || intvalue > maxvalue)
                     {
                         this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
