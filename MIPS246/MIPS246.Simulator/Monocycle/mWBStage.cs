@@ -71,11 +71,7 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr+" error\r\n");
-                            }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
+                                Form1.Message("address 0x" + code.address.ToString("X8") + code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -90,11 +86,7 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr + " error\r\n");
-                            }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
+                                Form1.Message("address 0x" + code.address.ToString("X8") + code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -117,11 +109,7 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr + " error\r\n");
-                            }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
+                                Form1.Message("address 0x" + code.address.ToString("X8") + code.codeStr + " error\r\n");
                             }
                         }
                         break;
@@ -134,11 +122,7 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr + " error\r\n");
-                            }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
+                                Form1.Message("address 0x" + code.address.ToString("X8") + code.codeStr + " error\r\n");
                             }
                         }
                         break;

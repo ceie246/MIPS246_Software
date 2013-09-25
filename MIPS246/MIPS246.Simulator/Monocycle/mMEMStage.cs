@@ -93,17 +93,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr+" error\r\n");
+                                Form1.Message("address 0x"+code.address.ToString("X8")+code.codeStr+" error\r\n");
                                 RunTimeCode.codeList.Clear();
                                 break;
                             }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
-                               // cmdMode.addMessage(code.codeStr + " error\r\n");
-                                //RunTimeCode.codeList.Clear();
-                               // break;
-                            }
+                           
                         }
                        
                         mWBStage.code = mMEMStage.code;
@@ -119,14 +113,11 @@ namespace MipsSimulator.Monocycle
                         {
                             if (MipsSimulator.Program.mode == 1)
                             {
-                                Form1.Message(code.codeStr + "error\r\n");
+                                Form1.Message("address 0x" + code.address.ToString("X8") + code.codeStr + " error\r\n");
                                  RunTimeCode.codeList.Clear();
                                  break;
                             }
-                            if (MipsSimulator.Program.mode == 0)
-                            {
-                                throw new Exception(code.codeStr + " error\r\n");
-                            }
+                          
                         }
                         
                         mWBStage.code = mMEMStage.code;

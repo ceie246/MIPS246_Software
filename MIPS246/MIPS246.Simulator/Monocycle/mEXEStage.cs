@@ -327,9 +327,9 @@ namespace MipsSimulator.Monocycle
                 case CodeType.SLTIU:
                 case CodeType.JAL:
                     {
-                        if (overflow)
+                        if (overflow && MipsSimulator.Program.mode == 1)
                         {
-                            Form1.Message(code.codeStr + " overflow\r\n");
+                            Form1.Message("address 0X"+code.address.ToString("X8")+": "+code.codeStr + " overflow\r\n");
                         }
                         mMEMStage.code = mEXEStage.code;
                         mMEMStage.args = new object[1] { obj1 };
