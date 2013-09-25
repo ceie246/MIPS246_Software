@@ -79,12 +79,26 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ADDU:
                     {
+
                         obj1 = (UInt32)mEXEStage.args[0] + (UInt32)mEXEStage.args[1];
                         break;
                     }
                 case CodeType.SUB:
                     {
+                        Int32 rsValue = (Int32)mEXEStage.args[0];
+                        Int32 rtValue = (Int32)mEXEStage.args[1];
                         obj1 = (Int32)mEXEStage.args[0] - (Int32)mEXEStage.args[1];
+                        Int32 rdValue = rsValue - rtValue;
+                        if (rsValue >= 0 && rtValue < 0)
+                        {
+                            if (rdValue < 0)
+                                overflow = true;
+                        }
+                        if (rsValue < 0 && rtValue >0)
+                        {
+                            if (rdValue > 0)
+                                overflow = true;
+                        }
                         break;
                     }
                 case CodeType.SUBU:
@@ -174,8 +188,22 @@ namespace MipsSimulator.Monocycle
                     }
                 case CodeType.ADDI:
                     {
+                        Int32 rsValue = (Int32)mEXEStage.args[0];
+                        Int32 rtValue = (Int32)mEXEStage.args[1];
                         obj1 = (Int32)mEXEStage.args[0] + (Int32)mEXEStage.args[1];
+                        Int32 rdValue = rsValue + rtValue;
+                        if (rsValue >= 0 && rtValue >= 0)
+                        {
+                            if (rdValue < 0)
+                                overflow = true;
+                        }
+                        if (rsValue < 0 && rtValue < 0)
+                        {
+                            if (rdValue > 0)
+                                overflow = true;
+                        }
                         break;
+                       
                     }
                 case CodeType.ADDIU:
                     {
