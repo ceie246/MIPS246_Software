@@ -661,6 +661,8 @@ namespace MipsSimulator
         {
             string stream = "";
             FileControl.Open(ref stream);
+            if (stream == null)
+                return;
             this.txtContent.Text = stream;
         }
 
