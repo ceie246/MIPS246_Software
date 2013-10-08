@@ -24,6 +24,7 @@
             <ul class="nav nav-pills">
                 <li class="active"><a href="Default.aspx">首页</a></li>
                 <li><a href="MIPS246Book.aspx">实验指导书</a></li>
+                 <li><a href="ppt.aspx">PPT</a></li>
                 <li><a href="ide.aspx">开发工具</a></li>
                 <li><a href="reference.aspx">相关资料</a></li>
                 <li class="dropdown">
