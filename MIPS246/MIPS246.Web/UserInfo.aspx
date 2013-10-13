@@ -14,6 +14,18 @@
                     <td class="userinfoRight"><%=StudentId %></td>
                 </tr>
                 <tr>
+                    <td class="userinfoLeft">姓名</td>
+                    <td class="userinfoRight"><%=Name %></td>
+                </tr>
+                <tr>
+                    <td class="userinfoLeft">性别</td>
+                    <td class="userinfoRight"><%=Sex %></td>
+                </tr>
+                <tr>
+                    <td class="userinfoLeft">专业</td>
+                    <td class="userinfoRight"><%=Major %></td>
+                </tr>
+                <tr>
                     <td class="userinfoLeft">开发板编号</td>
                     <td class="userinfoRight"><%=BoardId %></td>
                 </tr>

@@ -13,6 +13,12 @@ public partial class UserInfo : System.Web.UI.Page
 
     public string LastLoginTime;
 
+    public string Name;
+
+    public string Sex;
+
+    public string Major;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -30,6 +36,14 @@ public partial class UserInfo : System.Web.UI.Page
         this.BoardId = user.BoardID;
 
         this.LastLoginTime = user.LastLoginTime.ToString();
+
+        this.Major = user.Major;
+        
+        this.Name = user.Name;
+
+        this.Sex = user.Sex;
+
+
 
     }
 }
