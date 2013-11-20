@@ -817,35 +817,43 @@ namespace MIPS246.Core.Assembler
             }
             else if (str.ToUpper().StartsWith("0") == true)
             {
-                try
+                if (str == "0")
                 {
                     intvalue = 0;
-                    str = str.Substring(1);
-                    while (true)
+                    return true;
+                }
+                else
+                {
+                    try
                     {
-                        intvalue = intvalue * 8 + Convert.ToInt32(str[0])%8;
-                        if (str.Length > 1)
+                        intvalue = 0;
+                        str = str.Substring(1);
+                        while (true)
                         {
-                            str = str.Substring(1);
+                            intvalue = intvalue * 8 + Convert.ToInt32(str[0]) % 8;
+                            if (str.Length > 1)
+                            {
+                                str = str.Substring(1);
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
+
+                        if (intvalue < minvalue || intvalue > maxvalue)
                         {
-                            break;
+                            this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                            return false;
                         }
                     }
-
-                    if (intvalue < minvalue || intvalue > maxvalue)
+                    catch
                     {
                         this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
+                        intvalue = 0;
                         return false;
-                    }
-                }
-                catch
-                {
-                    this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.INVALIDIMMEDIATE, str);
-                    intvalue = 0;
-                    return false;
-                }   
+                    }   
+                }                
             }
             else
             {
