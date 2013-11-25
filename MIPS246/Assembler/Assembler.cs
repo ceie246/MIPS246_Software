@@ -339,7 +339,7 @@ namespace MIPS246.Core.Assembler
                             {
                                 if (linetext.Split(new char[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries).Length != 0)
                                 {
-                                    if(linetext.EndsWith(":")==false)
+                                    if(Regex.IsMatch(linetext,":")==false)
                                     {
                                         int temp=linetable.Count;
                                         linetable[temp] = i;

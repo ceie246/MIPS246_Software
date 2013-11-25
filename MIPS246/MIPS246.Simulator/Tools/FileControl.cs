@@ -77,7 +77,7 @@ namespace MipsSimulator.Tools
         public static void Open(ref string stream)
         {
             OpenFileDialog openFD = new OpenFileDialog();
-            openFD.Filter = "文本文件(*.txt)|*.txt";
+            openFD.Filter = "文本文件(*.txt)|*.*";
             openFD.FilterIndex = 1;
             openFD.AddExtension = true;
             openFD.RestoreDirectory = true;
