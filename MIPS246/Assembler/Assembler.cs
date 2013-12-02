@@ -725,6 +725,7 @@ namespace MIPS246.Core.Assembler
                 case "$sp":
                 case "$30":
                 case "$fp":
+                case "$s8":
                 case "$31":
                 case "$ra":
                     return true;
