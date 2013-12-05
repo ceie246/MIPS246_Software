@@ -8,10 +8,17 @@ namespace MIPS246.Core.DataStructure
 
     public enum Mnemonic
     {
-        ADD,ADDI,ADDU,ADDIU,AND,ANDI,DIV,DIVU,MULT,MULTU,NOR,OR,
-        ORI,SLL,SRL,SRA,SRLV,SRAV,SLLV,SUB,SUBU,XOR,XORI,LUI,SLT,SLTI,
-        SLTU,SLTIU,BEQ,BGEZ,BGTZ,BLEZ,BLTZ,BNE,J,JAL,JR,JALR,LBU,LHU,
-        LB,LH,LW,SB,SH,SW,BREAK,SYSCALL,ERET,MFHI,MFLO,MTHI,MTLO,MFC0,MTC0,
+        ADD,ADDI,ADDU,ADDIU,AND,
+        ANDI,DIV,DIVU,MULT,MULTU,
+        NOR,OR,ORI,SLL,SRL,
+        SRA,SRLV,SRAV,SLLV,SUB,
+        SUBU,XOR,XORI,LUI,SLT,
+        SLTI,SLTU,SLTIU,BEQ,BGEZ,
+        BGTZ,BLEZ,BLTZ,BNE,J,
+        JAL,JR,JALR,LBU,LHU,
+        LB,LH,LW,SB,SH,
+        SW,BREAK,SYSCALL,ERET,MFHI,
+        MFLO,MTHI,MTLO,MFC0,MTC0,
 
         NULL,BGEZAL,BLTZAL
     }
@@ -1548,6 +1555,86 @@ namespace MIPS246.Core.DataStructure
 
         }
 
+        public void OP_DIV()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.DIV].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+        }
+
+        public void OP_DIVU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.DIVU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+        }
+
+        public void OP_MULT()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MULT].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+        }
+
+        public void OP_MULTU()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MULTU].ToString());
+            setRegMachineCode(6, arg1);
+            setRegMachineCode(11, arg2);
+        }
+
+        public void OP_BREAK()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.BREAK].ToString());
+        }
+
+        public void OP_SYSCALL()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SYSCALL].ToString());
+        }
+
+        public void OP_ERET()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.ERET].ToString());
+        }
+
+        public void OP_MFHI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MFHI].ToString());
+            setRegMachineCode(16, arg1);
+        }
+
+        public void OP_MFLO()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MFLO].ToString());
+            setRegMachineCode(16, arg1);
+        }
+
+        public void OP_MTHI()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MTHI].ToString());
+            setRegMachineCode(16, arg1);
+        }
+
+        public void OP_MTLO()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MTLO].ToString());
+            setRegMachineCode(16, arg1);
+        }
+
+        public void OP_MFC0()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MFC0].ToString());
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(16, arg2);
+        }
+
+        public void OP_MTC0()
+        {
+            this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.MTC0].ToString());
+            setRegMachineCode(11, arg1);
+            setRegMachineCode(16, arg2);
+        }
         /*private void OP_SUBI()
         {
             this.machine_code = InitBoolArray(AssemblerTable[Mnemonic.SUBI].ToString());
