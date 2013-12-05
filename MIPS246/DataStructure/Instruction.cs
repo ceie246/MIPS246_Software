@@ -600,6 +600,48 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.JAL:
                     OP_JAL();
                     break;
+                case Mnemonic.DIV:
+                    OP_DIV();
+                    break;
+                case Mnemonic.DIVU:
+                    OP_DIVU();
+                    break;
+                case Mnemonic.MULT:
+                    OP_MULT();
+                    break;
+                case Mnemonic.MULTU:
+                    OP_MULTU();
+                    break;
+                case Mnemonic.BLTZ:
+                    OP_BLTZ();
+                    break;
+                case Mnemonic.BREAK:
+                    OP_BREAK();
+                    break;
+                case Mnemonic.SYSCALL:
+                    OP_SYSCALL();
+                    break;
+                case Mnemonic.ERET:
+                    OP_ERET();
+                    break;
+                case Mnemonic.MFHI:
+                    OP_MFHI();
+                    break;
+                case Mnemonic.MFLO:
+                    OP_MFLO();
+                    break;
+                case Mnemonic.MTHI:
+                    OP_MTHI();
+                    break;
+                case Mnemonic.MTLO:
+                    OP_MTLO();
+                    break;
+                case Mnemonic.MFC0:
+                    OP_MFC0();
+                    break;
+                case Mnemonic.MTC0:
+                    OP_MTC0();
+                    break;
 
                 /*
                 case Mnemonic.SUBI:
