@@ -1967,6 +1967,212 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
+        private bool OP_DIV(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_DIVUL(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_MULTL(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_MULTU(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_BREAK(int i)
+        {
+            if (sourceList[i].Length != 1)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "1");
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], string.Empty, string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_SYSCALL(int i)
+        {
+            if (sourceList[i].Length != 1)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "1");
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], string.Empty, string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_ERET(int i)
+        {
+            if (sourceList[i].Length != 1)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "1");
+                return false;
+            }
+            this.codelist.Add(new Instruction(sourceList[i][0], string.Empty, string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_MFHI(int i)
+        {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
+
+            if (!CheckRegister(sourceList[i][1]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_MFLO(int i)
+        {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
+
+            if (!CheckRegister(sourceList[i][1]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_MTHI(int i)
+        {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
+
+            if (!CheckRegister(sourceList[i][1]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_MTLO(int i)
+        {
+            if (sourceList[i].Length != 2)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "2");
+                return false;
+            }
+
+            if (!CheckRegister(sourceList[i][1]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], string.Empty, string.Empty));
+            return true;
+        }
+
+        private bool OP_MFC0(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
+
+        private bool OP_MTC0(int i)
+        {
+            if (sourceList[i].Length != 3)
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGARGUNUM, "3");
+                return false;
+            }
+            if (!CheckRegister(sourceList[i][1]) || !CheckRegister(sourceList[i][2]))
+            {
+                this.error = new AssemblerErrorInfo((int)codeindextable[i], AssemblerError.WRONGREGNAME);
+                return false;
+            }
+
+            this.codelist.Add(new Instruction(sourceList[i][0], sourceList[i][1], sourceList[i][2], string.Empty));
+            return true;
+        }
         private bool OP_SUBI(int i)
         {
             return true;
@@ -1988,11 +2194,6 @@ namespace MIPS246.Core.Assembler
         }
 
         private bool OP_LA(int i)
-        {
-            return true;
-        }
-
-        private bool OP_SYSCALL(int i)
         {
             return true;
         }
