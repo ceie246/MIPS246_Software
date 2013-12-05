@@ -308,10 +308,10 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.AND, "00000000000000000000000000100100");
 
             AssemblerTable.Add(Mnemonic.ANDI, "00110000000000000000000000000000");
-            AssemblerTable.Add(Mnemonic.DIV, "");
-            AssemblerTable.Add(Mnemonic.DIVU, "");
-            AssemblerTable.Add(Mnemonic.MULT, "");
-            AssemblerTable.Add(Mnemonic.MULTU, "");
+            AssemblerTable.Add(Mnemonic.DIV, "00000000000000000000000000011010");
+            AssemblerTable.Add(Mnemonic.DIVU, "00000000000000000000000000011011");
+            AssemblerTable.Add(Mnemonic.MULT, "00000000000000000000000000011000");
+            AssemblerTable.Add(Mnemonic.MULTU, "00000000000000000000000000011001");
 
             AssemblerTable.Add(Mnemonic.NOR, "00000000000000000000000000100111");
             AssemblerTable.Add(Mnemonic.OR, "00000000000000000000000000100101");
@@ -339,7 +339,7 @@ namespace MIPS246.Core.DataStructure
 
             AssemblerTable.Add(Mnemonic.BGTZ, "00011100000000000000000000000000");
             AssemblerTable.Add(Mnemonic.BLEZ, "00011000000000000000000000000000");
-            AssemblerTable.Add(Mnemonic.BLTZ, "00000000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.BLTZ, "00000100000000000000000000000000");
             AssemblerTable.Add(Mnemonic.BNE, "00010100000000000000000000000000");
             AssemblerTable.Add(Mnemonic.J, "00001000000000000000000000000000");
 
@@ -356,16 +356,16 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.SH, "10100100000000000000000000000000"); 
            
             AssemblerTable.Add(Mnemonic.SW, "10101100000000000000000000000000");
-            AssemblerTable.Add(Mnemonic.BREAK, "");
-            AssemblerTable.Add(Mnemonic.SYSCALL, "");
-            AssemblerTable.Add(Mnemonic.ERET, "");
-            AssemblerTable.Add(Mnemonic.MFHI, "");
+            AssemblerTable.Add(Mnemonic.BREAK, "00000000000000000000000000001101");
+            AssemblerTable.Add(Mnemonic.SYSCALL, "00000000000000000000000000001100");
+            AssemblerTable.Add(Mnemonic.ERET, "01000010000000000000000000011000");
+            AssemblerTable.Add(Mnemonic.MFHI, "00000000000000000000000000010000");
 
-            AssemblerTable.Add(Mnemonic.MFLO, "");
-            AssemblerTable.Add(Mnemonic.MTHI, "");
-            AssemblerTable.Add(Mnemonic.MTLO, "");
-            AssemblerTable.Add(Mnemonic.MFC0, "");
-            AssemblerTable.Add(Mnemonic.MTC0, "");
+            AssemblerTable.Add(Mnemonic.MFLO, "00000000000000000000000000010010");
+            AssemblerTable.Add(Mnemonic.MTHI, "00000000000000000000000000010001");
+            AssemblerTable.Add(Mnemonic.MTLO, "00000000000000000000000000010011");
+            AssemblerTable.Add(Mnemonic.MFC0, "0100000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.MTC0, "0100000010000000000000000000000");
             
             
             AssemblerTable.Add(Mnemonic.BGEZAL, "00000100000100010000000000000000"); 
