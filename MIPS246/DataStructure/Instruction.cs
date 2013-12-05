@@ -355,8 +355,8 @@ namespace MIPS246.Core.DataStructure
             AssemblerTable.Add(Mnemonic.MFLO, "00000000000000000000000000010010");
             AssemblerTable.Add(Mnemonic.MTHI, "00000000000000000000000000010001");
             AssemblerTable.Add(Mnemonic.MTLO, "00000000000000000000000000010011");
-            AssemblerTable.Add(Mnemonic.MFC0, "0100000000000000000000000000000");
-            AssemblerTable.Add(Mnemonic.MTC0, "0100000010000000000000000000000");
+            AssemblerTable.Add(Mnemonic.MFC0, "01000000000000000000000000000000");
+            AssemblerTable.Add(Mnemonic.MTC0, "01000000100000000000000000000000");
             
             
             AssemblerTable.Add(Mnemonic.BGEZAL, "00000100000100010000000000000000"); 

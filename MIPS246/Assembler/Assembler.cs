@@ -582,7 +582,44 @@ namespace MIPS246.Core.Assembler
                         break;
                     case "SYSCALL":
                         if (OP_SYSCALL(i) == false) return false;
-                        break;         
+                        break;    
+                    case "DIV":
+                        if (OP_DIV(i) == false) return false;
+                        break;
+                    case "DIVU":
+                        if (OP_DIVU(i) == false) return false;
+                        break;
+                    case "MULT":
+                        if (OP_MULT(i) == false) return false;
+                        break;
+                    case "MULTU":
+                        if (OP_MULTU(i) == false) return false;
+                        break;
+                    case "BREAK":
+                        if (OP_BREAK(i) == false) return false;
+                        break;
+                    case "ERET":
+                        if (OP_ERET(i) == false) return false;
+                        break;
+                    case "MFHI":
+                        if (OP_MFHI(i) == false) return false;
+                        break;
+                    case "MFLO":
+                        if (OP_MFLO(i) == false) return false;
+                        break;
+                    case "MTHI":
+                        if (OP_MTHI(i) == false) return false;
+                        break;
+                    case "MTLO":
+                        if (OP_MTLO(i) == false) return false;
+                        break;
+                    case "MFC0":
+                        if (OP_MFC0(i) == false) return false;
+                        break;
+                    case "MTC0":
+                        if (OP_MTC0(i) == false) return false;
+                        break;
+
 
                     default:
                         if (sourceList[i].Length == 1 && sourceList[i][0] == string.Empty)
@@ -1984,7 +2021,7 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        private bool OP_DIVUL(int i)
+        private bool OP_DIVU(int i)
         {
             if (sourceList[i].Length != 3)
             {
@@ -2001,7 +2038,7 @@ namespace MIPS246.Core.Assembler
             return true;
         }
 
-        private bool OP_MULTL(int i)
+        private bool OP_MULT(int i)
         {
             if (sourceList[i].Length != 3)
             {
