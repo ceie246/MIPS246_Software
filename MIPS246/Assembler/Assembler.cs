@@ -582,7 +582,7 @@ namespace MIPS246.Core.Assembler
                         break;
                     case "SYSCALL":
                         if (OP_SYSCALL(i) == false) return false;
-                        break;
+                        break;         
 
                     default:
                         if (sourceList[i].Length == 1 && sourceList[i][0] == string.Empty)
@@ -602,7 +602,7 @@ namespace MIPS246.Core.Assembler
         {
             for (int i = 0; i < codelist.Count; i++)
             {
-                if (codelist[i].Mnemonic == Mnemonic.J || codelist[i].Mnemonic == Mnemonic.JAL)
+                if (codelist[i].Mnemonic == Mnemonic.J || codelist[i].Mnemonic == Mnemonic.JAL )
                 {
                     codelist[i].Arg1 = ((int)addresstable[codelist[i].Arg1] * 4).ToString();
                 }
@@ -616,7 +616,7 @@ namespace MIPS246.Core.Assembler
                 if (codelist[i].Mnemonic == Mnemonic.BEQ || codelist[i].Mnemonic == Mnemonic.BNE ||
                         codelist[i].Mnemonic == Mnemonic.BGEZ || codelist[i].Mnemonic == Mnemonic.BGEZAL ||
                         codelist[i].Mnemonic == Mnemonic.BGTZ || codelist[i].Mnemonic == Mnemonic.BLTZ ||
-                        codelist[i].Mnemonic == Mnemonic.BLTZAL)
+                        codelist[i].Mnemonic == Mnemonic.BLTZAL || codelist[i].Mnemonic == Mnemonic.BLEZ)
                 {
                     string addtemp=codelist[i].Arg3;
                     codelist[i].Arg3 = (((int)addresstable[addtemp] - i)).ToString();
