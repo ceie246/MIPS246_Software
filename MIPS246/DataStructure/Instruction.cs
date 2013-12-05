@@ -194,7 +194,42 @@ namespace MIPS246.Core.DataStructure
             string mnemonicString="";
 
             switch (this.mnemonic)
-            {
+            {                
+                case Mnemonic.JR:
+                case Mnemonic.JALR:
+                case Mnemonic.J:
+                case Mnemonic.JAL:
+                case Mnemonic.MFHI:
+                case Mnemonic.MFLO:
+                case Mnemonic.MTHI:
+                case Mnemonic.MTLO:
+                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " " + this.arg1;
+                    break;                
+                case Mnemonic.LUI:
+                case Mnemonic.BGEZ:
+                case Mnemonic.BGEZAL:
+                case Mnemonic.BGTZ:
+                case Mnemonic.BLEZ:
+                case Mnemonic.BLTZ:
+                case Mnemonic.BLTZAL:
+                case Mnemonic.DIV:
+                case Mnemonic.DIVU:
+                case Mnemonic.MULT:
+                case Mnemonic.MULTU:
+                case Mnemonic.MFC0:
+                case Mnemonic.MTC0:
+                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " " + this.arg1 + "," + this.arg2;
+                    break;             
+                case Mnemonic.LW:
+                case Mnemonic.SW:
+                case Mnemonic.LB:
+                case Mnemonic.LBU:
+                case Mnemonic.LH:
+                case Mnemonic.LHU:
+                case Mnemonic.SB:
+                case Mnemonic.SH:
+                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " " + this.arg1 + "," + this.arg3 + "(" + this.arg2 + ")";
+                    break;
                 case Mnemonic.ADD:
                 case Mnemonic.ADDU:
                 case Mnemonic.SUB:
@@ -207,76 +242,25 @@ namespace MIPS246.Core.DataStructure
                 case Mnemonic.SLTU:
                 case Mnemonic.SLL:
                 case Mnemonic.SRL:
-                case Mnemonic.SRA: 
+                case Mnemonic.SRA:
                 case Mnemonic.SLLV:
                 case Mnemonic.SRLV:
-                case Mnemonic.SRAV:                                       
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    mnemonicString = mnemonicString + "," + this.arg3;
-                    break;
-                case Mnemonic.JR:
-                case Mnemonic.JALR:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    break;
+                case Mnemonic.SRAV:
                 case Mnemonic.ADDI:
                 case Mnemonic.ADDIU:
                 case Mnemonic.ANDI:
                 case Mnemonic.ORI:
                 case Mnemonic.XORI:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    mnemonicString = mnemonicString + "," + this.arg3;
-                    break;
-                case Mnemonic.LUI:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    break;
                 case Mnemonic.SLTI:
                 case Mnemonic.SLTIU:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    mnemonicString = mnemonicString + "," + this.arg3;
-                    break;
-                case Mnemonic.LW:
-                case Mnemonic.SW:
-                case Mnemonic.LB:
-                case Mnemonic.LBU:
-                case Mnemonic.LH:
-                case Mnemonic.LHU:
-                case Mnemonic.SB:
-                case Mnemonic.SH:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg3 + "(";
-                    mnemonicString = mnemonicString + this.arg2 + ")";                    
-                    break;
                 case Mnemonic.BEQ:
                 case Mnemonic.BNE:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    mnemonicString = mnemonicString + "," + this.arg3;
-                    break;
-                case Mnemonic.BGEZ:
-                case Mnemonic.BGEZAL:
-                case Mnemonic.BGTZ:
-                case Mnemonic.BLEZ:
-                case Mnemonic.BLTZ:
-                case Mnemonic.BLTZAL:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
-                    mnemonicString = mnemonicString + "," + this.arg2;
-                    break;
-                case Mnemonic.J:
-                case Mnemonic.JAL:
-                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " ";
-                    mnemonicString = mnemonicString + this.arg1;
+                    mnemonicString = mnemonicString + this.mnemonic.ToString() + " " + this.arg1 + "," + this.arg2 + "," + this.arg3;
+                    break;      
+                case Mnemonic.BREAK:
+                case Mnemonic.SYSCALL:
+                case Mnemonic.ERET:
+                    mnemonicString = this.mnemonic.ToString();
                     break;
                 /*case Mnemonic.SUBI:
                 case Mnemonic.MOVE:
