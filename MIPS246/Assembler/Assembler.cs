@@ -776,11 +776,6 @@ namespace MIPS246.Core.Assembler
             return this.addresstable.Contains(addressname);
         }
 
-        private string ConvertAddress(string addressname)
-        {
-            return this.addresstable[addressname].ToString();
-        }
-
         private string RemoveComment(string str)
         {
            if (str.Contains('#'))
