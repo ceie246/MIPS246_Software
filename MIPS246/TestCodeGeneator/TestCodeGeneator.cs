@@ -236,9 +236,6 @@ namespace MIPS246.Core.TestCodeGeneator
             return address.ToString();
         }
         #endregion
-
-        #region Args Geneator
-        #endregion
     }
 }
 
