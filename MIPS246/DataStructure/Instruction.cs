@@ -53,29 +53,12 @@ namespace MIPS246.Core.DataStructure
             InitIJ_type();
         }
 
-        public Instruction(string mnemonic, string arg1, string arg2, string arg3, int address)
-        {
-            this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic),mnemonic);
-            this.arg1 = arg1;
-            this.arg2 = arg2;
-            this.arg3 = arg3;
-            this.address = address;
-        }
-
         public Instruction(string mnemonic, string arg1, string arg2, string arg3)
         {
             this.mnemonic = (Mnemonic)Enum.Parse(typeof(Mnemonic), mnemonic.ToUpper());
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.arg3 = arg3;
-        }
-
-        public Instruction(Mnemonic mnemonic, Register arg1, Register arg2, Register arg3)
-        {
-            this.mnemonic = mnemonic;
-            this.arg1 = arg1.ToString();
-            this.arg2 = arg2.ToString();
-            this.arg3 = arg3.ToString();
         }
 
         public Instruction(BitArray machine_code ,bool isAlias = false)
