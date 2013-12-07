@@ -6,5 +6,3 @@ MIPS246/MIPS246.Web/AssemblerOutput/*
 MIPS246/MIPS246.Web/file/*
 *.dll
 *.pdb
-!MIPS246/MIPS246.Web/externaldlls/*.*
-!MIPS246/MIPS246.Web/Bin/MongoDB.Driver.dll
