@@ -62,6 +62,20 @@ public static class MIPS246UserManager
 
         return collection.FindOneAs<User>(query);
     }
+    public static List<User> QueryAllUser()
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        List<User> userList = new List<User>();
+        foreach(User user in collection.FindAllAs<User>())
+        {
+            userList.Add(user);
+        }
+
+        return userList;
+    }
 
     public static void AddUser(string num, string password)
     {
