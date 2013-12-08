@@ -16,6 +16,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
             StringBuilder sb = new StringBuilder();
             if (Session["LoginStatus"]!=null && Session["LoginStatus"].ToString() == "true")
             {
+                if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
+                {
+                    sb.AppendLine("<li class=\"pull-right\"><a href=\"./studentList.aspx\">学生管理</a></li>");
+                }
+
                 sb.AppendLine("<li class=\"pull-right\"><a href=\"UserInfo.aspx\">" + Session["LoginId"] + "</a></li>");
                 sb.AppendLine("<li class=\"pull-right\"><a href=\"Signout.aspx\">登出</a></li>");
             }
@@ -23,6 +28,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 sb.AppendLine("<li class=\"pull-right\"><a href=\"./Signin.aspx\">登录</a></li>");
             }
+          
+
+            
+
             this.LoginStatus = sb.ToString();
         }
         else
