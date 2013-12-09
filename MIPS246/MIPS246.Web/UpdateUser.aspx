@@ -1,12 +1,13 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="AddUser.aspx.cs" Inherits="AddUser" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="UpdateUser.aspx.cs" Inherits="UpdateUser" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageBody" Runat="Server">
-      <form id="form1" runat="server">
+     <form id="form1" runat="server">
       <div class="container">
     <div id="subtitle">
-            <h1 class="mips246font">添加用户</h1>
+            <h1 class="mips246font">用户更新
+            </h1>
         </div>
           <div>
             <table class="table table-striped">
@@ -42,7 +43,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><asp:Button ID="AddButton" runat="server" Text="添加用户" class="btn btn-large btn-primary" type="submit" OnClick="AddButton_Click"/></td>
+                    <td class="userinfoLeft">密码</td>
+                    <td class="userinfoRight">
+                        <asp:TextBox ID="PasswordBox" runat="server" TextMode="Password" placeholder="留空不更改"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td><asp:Button ID="UpdateButton" runat="server" Text="更新" class="btn btn-large btn-primary" type="submit" OnClick="UpdateButton_Click" /></td>
                     <td></td>
                 </tr>
             </table>

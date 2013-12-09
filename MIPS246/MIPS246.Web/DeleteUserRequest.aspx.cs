@@ -22,6 +22,12 @@ public partial class AdduserRequest : System.Web.UI.Page
             {
                 Response.Redirect("default.aspx");
             }
+
+            MIPS246UserManager.DeleteUser(Request["studentID"].ToString());
+
+            Response.Redirect("studentList.aspx");
+
+
         }
     }
 

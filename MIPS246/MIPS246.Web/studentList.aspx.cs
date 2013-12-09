@@ -40,7 +40,7 @@ public partial class studentList : System.Web.UI.Page
             sb.Append("<td>" + user.Sex + "</td>");
             sb.Append("<td>" + user.Major + "</td>");
             sb.Append("<td>" + user.BoardID + "</td>");
-            sb.Append("<td><a class=\"btn btn-info\" href=\"\">更新</a> <a class=\"btn btn-danger\" href=\"\">删除</a></td>");
+            sb.Append("<td><a class=\"btn btn-info\" href=\"UpdateUser.aspx?studentID=" + user.StudentID + "\">更新</a> <a class=\"btn btn-danger\" href=\"DeleteUserRequest.aspx?studentID=" + user.StudentID + "\">删除</a></td>");
             sb.Append("</tr>");
         }
 

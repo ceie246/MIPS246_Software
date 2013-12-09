@@ -35,5 +35,6 @@ public sealed class User
         this.Name = name;
         this.Major = major;
         this.Sex = sex;
+        this.Password = MIPS246UserManager.HashMD5(studentID);
     }
 }

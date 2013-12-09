@@ -121,6 +121,17 @@ public static class MIPS246UserManager
         collection.Update(query, update);
     }
 
+    public static void DeleteUser(string StudentID)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+         var query = new QueryDocument("StudentID", StudentID);
+
+         collection.Remove(query);
+    }
+
     public static void ChangePassword(string id,string password)
     {
         MongoServer server = MongoServer.Create(connectionString);
@@ -133,7 +144,30 @@ public static class MIPS246UserManager
         collection.Update(query, update);
     }
 
-    private static string HashMD5(string s)
+    public static void UpdateUser(string StudentID, string Name, string Sex, string Major, string BoardID , string Password)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString);
+
+        var query = new QueryDocument("StudentID", StudentID);
+
+        var update = new UpdateDocument();
+
+        if (Password == string.Empty)
+        {
+            update = new UpdateDocument { { "$set", new QueryDocument { { "StudentID", StudentID }, { "Name", Name }, { "Major", Major }, { "Sex", Sex }, { "BoardID", BoardID } } } };
+        }
+        else
+        {
+            update = new UpdateDocument { { "$set", new QueryDocument { { "StudentID", StudentID }, { "Name", Name }, { "Major", Major }, { "Sex", Sex }, { "BoardID", BoardID }, { "Password", HashMD5(Password) } } } };
+
+        }
+        
+        collection.Update(query, update);
+    }
+
+    public static string HashMD5(string s)
     {
         MD5CryptoServiceProvider md5CryptoServiceProvider = new MD5CryptoServiceProvider();
 
