@@ -27,15 +27,15 @@ public sealed class StudentScore
 	public StudentScore(string studentID)
 	{
         this.StudentID = studentID;
-        this.Score1 = "null";
-        this.Score2 = "null";
-        this.Score3 = "null";
-        this.Score4 = "null";
-        this.Score5 = "null";
-        this.Score6 = "null";
-        this.Score7 = "null";
-        this.Score8 = "null";
-        this.Score9 = "null";
-        this.Score10 = "null";
+        this.Score1 = "未提交";
+        this.Score2 = "未提交";
+        this.Score3 = "未提交";
+        this.Score4 = "未提交";
+        this.Score5 = "未提交";
+        this.Score6 = "未提交";
+        this.Score7 = "未提交";
+        this.Score8 = "未提交";
+        this.Score9 = "未提交";
+        this.Score10 = "未提交";
 	}
 }
