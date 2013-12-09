@@ -77,6 +77,14 @@ public static class MIPS246UserManager
         return userList;
     }
 
+    public static void AddUser(User user)
+    {
+        MongoServer server = MongoServer.Create(connectionString);
+        MongoDatabase db = server.GetDatabase(dbString);
+        MongoCollection collection = db.GetCollection(collectionString); 
+        collection.Insert<User>(user);
+    }
+
     public static void AddUser(string num, string password)
     {
         MongoServer server = MongoServer.Create(connectionString);

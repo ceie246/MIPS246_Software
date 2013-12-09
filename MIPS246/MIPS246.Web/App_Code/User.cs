@@ -26,6 +26,14 @@ public sealed class User
         this.StudentID = studentID;
         this.BoardID=boardId;
         this.Password = password;       
-
 	}
+
+    public User(string studentID, string boardID, string name, string major, string sex)
+    {
+        this.StudentID = studentID;
+        this.BoardID = boardID;
+        this.Name = name;
+        this.Major = major;
+        this.Sex = sex;
+    }
 }

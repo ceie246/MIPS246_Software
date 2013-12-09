@@ -20,7 +20,7 @@
             </thead>
             <%=studentInfo %>
             <tr>
-                <td colspan="6"><a class="btn btn-primary" href="">添加用户</a></td>
+                <td colspan="6"><a class="btn btn-primary" href="AddUser.aspx">添加用户</a></td>
             </tr>
             
         </table>
