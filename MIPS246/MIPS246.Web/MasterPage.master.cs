@@ -19,6 +19,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
                 {
                     sb.AppendLine("<li class=\"pull-right\"><a href=\"./studentList.aspx\">学生管理</a></li>");
+                    sb.AppendLine("<li class=\"pull-right\"><a href=\"./scoreList.aspx\">成绩管理</a></li>");
                 }
 
                 sb.AppendLine("<li class=\"pull-right\"><a href=\"UserInfo.aspx\">" + Session["LoginId"] + "</a></li>");

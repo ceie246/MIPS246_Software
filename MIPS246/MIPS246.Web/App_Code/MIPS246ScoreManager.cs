@@ -35,7 +35,7 @@ public static class MIPS246ScoreManager
         return collection.FindOneAs<StudentScore>(query);
     }
 
-    public static List<StudentScore> QueryAllUser()
+    public static List<StudentScore> QueryAllScore()
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);

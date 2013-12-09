@@ -83,6 +83,7 @@ public static class MIPS246UserManager
         MongoDatabase db = server.GetDatabase(dbString);
         MongoCollection collection = db.GetCollection(collectionString); 
         collection.Insert<User>(user);
+        MIPS246ScoreManager.AddScore(user.StudentID);
     }
 
     public static void AddUser(string num, string password)
@@ -93,6 +94,7 @@ public static class MIPS246UserManager
 
         User user = new User(num, "NA", HashMD5(password));
         collection.Insert<User>(user);
+        MIPS246ScoreManager.AddScore(user.StudentID);
     }
 
     public static void UpdateLoginTime(string id)
@@ -130,6 +132,7 @@ public static class MIPS246UserManager
          var query = new QueryDocument("StudentID", StudentID);
 
          collection.Remove(query);
+         MIPS246ScoreManager.DeleteScore(StudentID);
     }
 
     public static void ChangePassword(string id,string password)
