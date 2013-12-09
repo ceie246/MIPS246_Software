@@ -11,7 +11,5 @@ public partial class Test : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         
-            MIPS246UserManager.AddUser("91225","13901753646");
-        
     }
 }
