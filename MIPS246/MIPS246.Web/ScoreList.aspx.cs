@@ -40,36 +40,31 @@ public partial class ScoreList : System.Web.UI.Page
             sb.Append("<tr>");
             sb.Append("<td>" + user.StudentID + "</td>");
             sb.Append("<td>" + user.Name + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score1) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score2) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score3) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score4) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score5) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score6) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score7) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score8) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score9) + "</td>");
-            sb.Append("<td>" + FormatScore(score.Score10) + "</td>");
-            sb.Append("<td><a class=\"btn btn-info\" href=\"UpdateScore.aspx?studentID=" + user.StudentID + "\">更新</a>");
+            sb.Append("<td>" + FormatScore(user, score.Score1) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score2) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score3) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score4) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score5) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score6) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score7) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score8) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score9) + "</td>");
+            sb.Append("<td>" + FormatScore(user, score.Score10) + "</td>");
             sb.Append("</tr>");
         }
 
         this.scoreInfo = sb.ToString();
     }
 
-    private string FormatScore(string score)
+    private string FormatScore(User user, string score)
     {
-        if (score == "未提交")
+        if (score == "0")
         {
-            return "<button class=\"btn-mini btn-info\">" + score + "</button>";
-        }
-        else if (score == "未评分")
-        {
-            return "<button class=\"btn-mini btn-warning\">" + score + "</button>";
+            return "<a class=\"btn\" href=\"UpdateScore.aspx?StudentID=" + user.StudentID + "\">N/A</a>";
         }
         else
         {
-            return "<button class=\"btn-mini btn-success\">" + score + "</button>";
+            return "<a class=\"btn btn-success\" href=\"UpdateScore.aspx?StudentID=" + user.StudentID + "\">" + score + "</a>";
         }
     }
 }

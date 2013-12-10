@@ -22,7 +22,6 @@
                     <th>作业8</th>
                     <th>作业9</th>
                     <th>作业10</th>
-                    <th>更新</th>
                 </tr>
             </thead>
             <%=scoreInfo %>
