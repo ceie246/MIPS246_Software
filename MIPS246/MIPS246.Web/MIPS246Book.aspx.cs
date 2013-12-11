@@ -33,11 +33,11 @@ public partial class MIPS246Book : System.Web.UI.Page
             sb.AppendLine("<tr><td ><a href=\"./file/MIPS246Book/" + fileinfo.Name + "\">" + fileinfo.Name + "</a></td><td>" + fileinfo.Length / 1024 + " KB</td><td>" + fileinfo.LastAccessTime + "</td><td><a class=\"btn btn-primary btn-small\" href=\"./file/MIPS246Book/" + fileinfo.Name + "\">下载</a>");
             if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
             {
-                sb.AppendLine("<a class=\"btn btn-danger btn-small\" href=\"#\">删除</a>");
+                sb.AppendLine("<a class=\"btn btn-danger btn-small\" href=\"DeleteFile.aspx?type=mips246book&filename="+fileinfo.Name+"\">删除</a>");
             }
             sb.AppendLine("</td></tr>");
         }
-        sb.AppendLine("<tr><td colspan=\"4\"><a class=\"btn btn-info btn-small\" href=\"#\">添加</a></td></tr>");
+        sb.AppendLine("<tr><td colspan=\"4\"><a class=\"btn btn-info btn-small\" href=\"AddFile.aspx?type=mips246book\">添加</a></td></tr>");
         sb.AppendLine("</table>");
         this.bookTable = sb.ToString();
     }

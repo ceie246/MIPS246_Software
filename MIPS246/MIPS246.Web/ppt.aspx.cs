@@ -31,9 +31,14 @@ public partial class ppt : System.Web.UI.Page
 
         foreach (FileInfo fileinfo in directoryInfo.GetFiles())
         {
-            sb.AppendLine("<tr><td><a href=\"./file/ppt/" + fileinfo.Name + "\">" + fileinfo.Name + "</a></td><td>" + fileinfo.Length / 1024 + " KB</td><td>" + fileinfo.LastAccessTime + "</td><td><a class=\"btn btn-primary\" href=\"./file/ppt/" + fileinfo.Name + "\">下载</td></tr>");
+            sb.AppendLine("<tr><td><a href=\"./file/ppt/" + fileinfo.Name + "\">" + fileinfo.Name + "</a></td><td>" + fileinfo.Length / 1024 + " KB</td><td>" + fileinfo.LastAccessTime + "</td><td><a class=\"btn btn-small btn-primary\" href=\"./file/ppt/" + fileinfo.Name + "\">下载</a>");
+            if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
+            {
+                sb.AppendLine("<a class=\"btn btn-danger btn-small\" href=\"DeleteFile.aspx?type=ppt&filename=" + fileinfo.Name + "\">删除</a>");
+            }
+            sb.AppendLine("</td></tr>");
         }
-
+        sb.AppendLine("<tr><td colspan=\"4\"><a class=\"btn btn-info btn-small\" href=\"AddFile.aspx?type=ppt\">添加</a></td></tr>");
         sb.AppendLine("</table>");
         this.pptTable = sb.ToString();
     }
