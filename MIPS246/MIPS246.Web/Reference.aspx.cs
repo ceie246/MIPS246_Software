@@ -37,7 +37,7 @@ public partial class Reference : System.Web.UI.Page
                 sb.AppendLine("<a class=\"btn btn-danger btn-small\" href=\"DeleteFile.aspx?type=reference&filename=" + fileinfo.Name + "\">删除</a>");
             }
         }
-        sb.AppendLine("<tr><td colspan=\"4\"><a class=\"btn btn-info btn-small\" href=\"AddFile.aspx?type=refetence\">添加</a></td></tr>");
+        sb.AppendLine("<tr><td colspan=\"4\"><a class=\"btn btn-info btn-small\" href=\"AddFile.aspx?type=reference\">添加</a></td></tr>");
         sb.AppendLine("</table>");
         this.ReferenceTable = sb.ToString();
     }
