@@ -35,7 +35,7 @@
                           <li><a href="#"><s>测试代码生成器 Web - 55 CMDs</s></a></li>
                           <li><a href="AssemblerApp.aspx">MIPS246 汇编器 App</a></li>    
                           <li><a href="SimulatorApp.aspx">MIPS246 模拟器 App</a></li>                          
-                          <li><a href="#"><s>标准测试代码下载</s></s></a></li>
+                          <li><a href="#"><s>标准测试代码下载</s></a></li>
                       </ul>
                     </li>
                 <li><a href="Questions.aspx">常见问题</a></li>
