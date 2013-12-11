@@ -13,6 +13,7 @@ public partial class Simulator : System.Web.UI.Page
     public string Version;
     public string UpdateTime;
     public string ManualUrl;
+    public string update;
     
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -23,6 +24,10 @@ public partial class Simulator : System.Web.UI.Page
                 Response.Redirect("Signin.aspx");
             }
 
+            if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
+            {
+                update = "<a class=\"btn btn-info\" href=\"updateSimulatorApp.aspx\">更新</a>";
+            }
         }
         this.DownloadUrl = "./file/Simulator/" + System.Configuration.ConfigurationManager.AppSettings["SimulatorFileName"];
         this.ManualUrl = "./file/Simulator/" + System.Configuration.ConfigurationManager.AppSettings["SimulatorManualName"];

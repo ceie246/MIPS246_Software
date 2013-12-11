@@ -13,6 +13,7 @@ public partial class AssemblerApp : System.Web.UI.Page
     public string Version;
     public string UpdateTime;
     public string ManualUrl;
+    public string update;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -21,6 +22,11 @@ public partial class AssemblerApp : System.Web.UI.Page
             if (Session["LoginStatus"] == null)
             {
                 Response.Redirect("Signin.aspx");
+            }
+
+            if (Session["LoginId"].ToString() == "246246" || Session["LoginId"].ToString() == "91225")
+            {
+                update = "<a class=\"btn btn-info\" href=\"updateAssemberApp.aspx\">更新</a>";
             }
         }
 

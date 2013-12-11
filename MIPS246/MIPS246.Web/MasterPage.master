@@ -31,10 +31,11 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">工具 <b class="caret"></b></a>
                       <ul class="dropdown-menu">
                           <li><a href="Assembler.aspx">MIPS246 汇编器 Web</a></li>
-                          <li><a href="TestCodeGeneator.aspx">测试代码生成器 Web</a></li>
+                          <li><a href="TestCodeGeneator.aspx">测试代码生成器 Web - 31 CMDs</a></li>
+                          <li><a href="#"><s>测试代码生成器 Web - 55 CMDs</s></a></li>
                           <li><a href="AssemblerApp.aspx">MIPS246 汇编器 App</a></li>    
                           <li><a href="SimulatorApp.aspx">MIPS246 模拟器 App</a></li>                          
-                          <li><a href="#">标准测试代码下载</a></li>
+                          <li><a href="#"><s>标准测试代码下载</s></s></a></li>
                       </ul>
                     </li>
                 <li><a href="Questions.aspx">常见问题</a></li>
