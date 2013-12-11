@@ -33,7 +33,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score1 == "0")
             {
-                this.ScoreBox1.Attributes["placeholder"] = "未提交";
+                this.ScoreBox1.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -42,7 +42,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score2 == "0")
             {
-                this.ScoreBox2.Attributes["placeholder"] = "未提交";
+                this.ScoreBox2.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -51,7 +51,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score3 == "0")
             {
-                this.ScoreBox3.Attributes["placeholder"] = "未提交";
+                this.ScoreBox3.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -60,7 +60,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score4 == "0")
             {
-                this.ScoreBox4.Attributes["placeholder"] = "未提交";
+                this.ScoreBox4.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -69,7 +69,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score5 == "0")
             {
-                this.ScoreBox5.Attributes["placeholder"] = "未提交";
+                this.ScoreBox5.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -78,7 +78,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score6 == "0")
             {
-                this.ScoreBox6.Attributes["placeholder"] = "未提交";
+                this.ScoreBox6.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -87,7 +87,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score7 == "0")
             {
-                this.ScoreBox7.Attributes["placeholder"] = "未提交";
+                this.ScoreBox7.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -96,7 +96,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score8 == "0")
             {
-                this.ScoreBox8.Attributes["placeholder"] = "未提交";
+                this.ScoreBox8.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -105,7 +105,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score9 == "0")
             {
-                this.ScoreBox9.Attributes["placeholder"] = "未提交";
+                this.ScoreBox9.Attributes["placeholder"] = "未评分";
             }
             else
             {
@@ -114,7 +114,7 @@ public partial class UpdateScore : System.Web.UI.Page
 
             if (score.Score10 == "0")
             {
-                this.ScoreBox10.Attributes["placeholder"] = "未提交";
+                this.ScoreBox10.Attributes["placeholder"] = "未评分";
             }
             else
             {
