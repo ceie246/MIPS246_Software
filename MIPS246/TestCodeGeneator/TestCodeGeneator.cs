@@ -175,6 +175,21 @@ namespace MIPS246.Core.TestCodeGeneator
                 case "JAL":
                     arg1 = GenerateAddress();
                     break;
+                case "DIV":
+                case "DIVU":
+                case "MULT":
+                case "MULTU":
+                case "MFC0":
+                case "MTC0":
+                    arg1 = GenerateReg();
+                    arg2 = GenerateReg();
+                    break;
+                case "MFHI":
+                case "MFLO":
+                case "MTHI":
+                case "MTLO":
+                    arg2 = GenerateReg();
+                    break;
                 case "SUBI":
                 case "MOVE":
                 case "NOP":
