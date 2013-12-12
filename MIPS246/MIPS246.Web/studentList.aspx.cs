@@ -34,7 +34,7 @@ public partial class studentList : System.Web.UI.Page
             {
                 continue;
             }
-
+            MIPS246HomerworkManager.AddHomework(user.StudentID);
             sb.Append("<tr>");
             sb.Append("<td>" + user.StudentID + "</td>");
             sb.Append("<td>" + user.Name + "</td>");
