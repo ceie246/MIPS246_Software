@@ -20,6 +20,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 {
                     sb.AppendLine("<li class=\"pull-right\"><a href=\"./studentList.aspx\">学生管理</a></li>");
                     sb.AppendLine("<li class=\"pull-right\"><a href=\"./scoreList.aspx\">成绩管理</a></li>");
+                    sb.AppendLine("<li class=\"pull-right\"><a href=\"./homeworkList.aspx\">作业管理</a></li>");
+                }
+                else
+                {
+                    sb.AppendLine("<li class=\"pull-right\"><a href=\"./submitHomework.aspx\">提交作业</a></li>");
                 }
 
                 sb.AppendLine("<li class=\"pull-right\"><a href=\"UserInfo.aspx\">" + Session["LoginId"] + "</a></li>");

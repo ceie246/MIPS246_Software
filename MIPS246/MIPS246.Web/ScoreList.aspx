@@ -12,16 +12,16 @@
                 <tr>
                     <th>学号</th>
                     <th>姓名</th>
-                    <th>作业1</th>
-                    <th>作业2</th>
-                    <th>作业3</th>
-                    <th>作业4</th>
-                    <th>作业5</th>
-                    <th>作业6</th>
-                    <th>作业7</th>
-                    <th>作业8</th>
-                    <th>作业9</th>
-                    <th>作业10</th>
+                    <th>成绩1</th>
+                    <th>成绩2</th>
+                    <th>成绩3</th>
+                    <th>成绩4</th>
+                    <th>成绩5</th>
+                    <th>成绩6</th>
+                    <th>成绩7</th>
+                    <th>成绩8</th>
+                    <th>成绩9</th>
+                    <th>成绩10</th>
                 </tr>
             </thead>
             <%=scoreInfo %>

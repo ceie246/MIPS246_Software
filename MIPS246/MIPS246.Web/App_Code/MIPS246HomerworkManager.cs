@@ -24,7 +24,7 @@ public class MIPS246HomerworkManager
       collectionString = "homework";
 	}
 
-    public static HomeworkRecord QueryUserHomework(string id)
+    public static HomeworkRecord QueryUserHomeworkRecord(string id)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
@@ -35,7 +35,7 @@ public class MIPS246HomerworkManager
         return collection.FindOneAs<HomeworkRecord>(query);
     }
 
-    public static List<HomeworkRecord> QueryAllScore()
+    public static List<HomeworkRecord> QueryAllHomeworkRecord()
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
@@ -50,7 +50,7 @@ public class MIPS246HomerworkManager
         return homeworkList;
     }
 
-    public static void AddHomework(string studentID)
+    public static void AddHomeworkRecord(string studentID)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
@@ -61,7 +61,7 @@ public class MIPS246HomerworkManager
         collection.Insert<HomeworkRecord>(homeworkRecord);
     }
 
-    public static void UpdateHomework(string studentID, int index)
+    public static void UpdateHomeworkRecord(string studentID, int index)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);
@@ -74,7 +74,7 @@ public class MIPS246HomerworkManager
         collection.Update(query, update);
     }
 
-    public static void DeleteScore(string StudentID)
+    public static void DeleteHomeworkRecord(string StudentID)
     {
         MongoServer server = MongoServer.Create(connectionString);
         MongoDatabase db = server.GetDatabase(dbString);

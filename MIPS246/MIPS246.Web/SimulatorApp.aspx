@@ -12,7 +12,6 @@
             <p><b>更新日期：</b><%=UpdateTime %></p> 
             <p><b>软件手册：</b><a class="btn btn-primary" href="<%=ManualUrl %>">下载</a></p> 
             <p><b>安装包：</b><a class="btn btn-primary" href="<%=DownloadUrl %>">下载</a></p> 
-            <p><%=update %></p>
         </div>
    </div>
         </form>
