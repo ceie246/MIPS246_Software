@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 
 public partial class AdduserRequest : System.Web.UI.Page
 {
-    public string addStatus;
 
     protected void Page_Load(object sender, EventArgs e)
     {
