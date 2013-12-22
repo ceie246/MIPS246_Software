@@ -10,6 +10,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>NO.</th>
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>

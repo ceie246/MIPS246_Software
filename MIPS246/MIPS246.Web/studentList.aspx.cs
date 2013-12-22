@@ -27,6 +27,8 @@ public partial class studentList : System.Web.UI.Page
 
         List<User> userList = MIPS246UserManager.QueryAllUser();
 
+        int index = 1;
+
         StringBuilder sb = new StringBuilder();
         foreach(User user in userList)
         {
@@ -36,6 +38,8 @@ public partial class studentList : System.Web.UI.Page
             }
 
             sb.Append("<tr>");
+            sb.Append("<td>" + index + "</td>");
+            index++;
             sb.Append("<td>" + user.StudentID + "</td>");
             sb.Append("<td>" + user.Name + "</td>");
             sb.Append("<td>" + user.Sex + "</td>");
