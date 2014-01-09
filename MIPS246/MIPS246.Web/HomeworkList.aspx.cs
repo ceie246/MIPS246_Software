@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -9,6 +10,8 @@ using System.Web.UI.WebControls;
 public partial class HomeworkList : System.Web.UI.Page
 {
     public string homeworkinfo;
+
+    private const string homeworkPath = "C:\\MIPS246_Software\\MIPS246\\MIPS246.Web\\file\\homework\\";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -63,7 +66,16 @@ public partial class HomeworkList : System.Web.UI.Page
         }
         else
         {
-            return "<a class=\"btn btn-success  btn-small\" href=\"#\">已提交</a>";
+            string homeworkUrl = "<a class=\"btn btn-success  btn-small\" href=\"./file/homework/" + studentID + "/";
+            DirectoryInfo di = new DirectoryInfo(homeworkPath);
+            string fileName = string.Empty;
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                fileName = fi.Name;
+            }
+
+            homeworkUrl = fileName+"\">已提交</a>";
+            return homeworkUrl;
         }
     }
 }
